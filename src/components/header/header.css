@@ -1,0 +1,5 @@
+.ac-header {
+    height: 75px;
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+}
