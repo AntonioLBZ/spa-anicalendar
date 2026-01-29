@@ -1,19 +1,34 @@
 :root {
-    /* Globals */
-    --bg-primary: #121212;
-    --bg-secondary: #152232;
-    --text-primary: #ffffff;
-    --text-secondary: #a0b1c5;
-    --border: red;
-    --accent: #667eea;
+    /* Sizes */
+    --size-border-focus: 2px;
+    --size-border-focus-offset: 2px;
+    --size-border-radius: 6px;
+
+    /** Dark Theme */
+    /* Colors */
+    /* Background */
+    --color-bg-primary: #121212;
+    --color-bg-secondary: #152232;
+    /* Content */
+    --color-content-primary: #ffffff;
+    --color-content-secondary: #a0b1c5;
+    --color-content-bg-primary: #3577ff;
+    /* Borders */
+    --color-border: #ffffff;
+    --color-border-focus: #3577ff;
+
+    /* Elevation */
+    --color-border-elevation: rgba(8, 150, 230, 0.6);
+    --color-border-elevation-2: rgba(0, 0, 0, 0.4);
 }
 
-.light {
+.alc-light {
     /* Globals */
-    --bg-primary: #ffffff;
-    --bg-secondary: #f9f9f9;
-    --text-primary: #213547;
-    --text-secondary: #666666;
-    --border: #dddddd;
-    --accent: #747bff;
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #f9f9f9;
+    --color-content-primary: #213547;
+    --color-content-secondary: #666666;
+    --color-border: #dddddd;
+    --color-border-focus: #747bff;
+    --color-content-bg-primary: #3577ff;
 }

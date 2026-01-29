@@ -3,10 +3,9 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
-.calendar-app {
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    font-family: 'Inter', sans-serif;
+.alc {
+    background: var(--color-bg-primary);
+    color: var(--color-content-primary);
     height: 100%;
     width: 100%;
 }
