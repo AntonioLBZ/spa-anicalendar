@@ -1,10 +1,11 @@
 import type { CardProps } from './card.types';
-import './card.css';
 import { CardTitle } from './card-title/card-title';
+
+import './card.css';
 
 const Card = (props: CardProps) => {
     const { children, ...rest } = props;
-    const cardClsx = 'ac-card';
+    const cardClsx = 'alc-card';
     return (
         <div {...rest} className={cardClsx}>
             <CardTitle />

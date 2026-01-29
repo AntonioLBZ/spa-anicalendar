@@ -1,6 +1,6 @@
-.ac-body {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
+.alc-body {
+    background-color: var(--color-bg-primary);
+    color: var(--color-content-primary);
     padding: 16px;
     display: flex;
     flex-direction: column;

@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
 import { Body, Button, Card, Header } from '@/components';
 import { useThemeContext } from './providers';
 
@@ -12,13 +11,15 @@ export default function Home() {
     };
 
     return (
-        <div className="calendar-app">
+        <>
             <Header />
-            <Body>
-                <Button onClick={handleChangeTheme}>Toggle Theme</Button>
-                {theme}
-                <Card />
-            </Body>
-        </div>
+            <main>
+                <Body>
+                    <Button onClick={handleChangeTheme}>Toggle Theme</Button>
+                    {theme}
+                    <Card />
+                </Body>
+            </main>
+        </>
     );
 }
