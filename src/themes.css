@@ -9,9 +9,11 @@
     /* Background */
     --color-bg-primary: #0a1625;
     --color-bg-secondary: #152232;
+    --color-bg-overlay: rgba(31, 38, 49, 0.7);
     /* Content */
     --color-content-primary: #ffffff;
     --color-content-secondary: #a0b1c5;
+    --color-content-bright: rgba(237, 241, 245, 0.9);
     --color-content-bg-primary: #3577ff;
     /* Borders */
     --color-border: #ffffff;

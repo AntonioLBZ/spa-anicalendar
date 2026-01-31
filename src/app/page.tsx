@@ -1,7 +1,8 @@
 'use client';
 
-import { Body, Button, Card, Header } from '@/components';
+import { Body, Button, Header } from '@/components';
 import { useThemeContext } from './providers';
+import { AlcCard } from '@/modules/alc-ard/alc-ard';
 
 export default function Home() {
     const { theme, setTheme } = useThemeContext();
@@ -17,7 +18,7 @@ export default function Home() {
                 <Body>
                     <Button onClick={handleChangeTheme}>Toggle Theme</Button>
                     {theme}
-                    <Card />
+                    <AlcCard />
                 </Body>
             </main>
         </>

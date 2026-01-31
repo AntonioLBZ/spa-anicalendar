@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import { createContext } from '@/shared/context';
+import { createContext } from '@/platform/lib/context';
 import { TTheme, TThemeContext } from './page.types';
-import { cn } from '../helpers';
+import clsx from 'clsx';
 
 const [ThemeContext, useThemeContext] = createContext<TThemeContext>({});
 
@@ -14,7 +14,7 @@ export interface ProvidersProps {
 export const Providers = ({ children }: ProvidersProps) => {
     const [theme, setTheme] = React.useState<TTheme>('dark');
 
-    const layoutClsx = cn('alc', {
+    const layoutClsx = clsx('alc', {
         'alc-light': theme === 'light',
     });
 
