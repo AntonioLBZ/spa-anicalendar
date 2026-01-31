@@ -1,4 +1,4 @@
-import { anilistQuery } from '../anilist-client';
+import { anilistQuery } from '../../anilist-client';
 import {
     IGetUserByNameResponse,
     IGetUserByNameVariables,
