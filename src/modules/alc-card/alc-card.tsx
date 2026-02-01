@@ -1,18 +1,12 @@
 import { Card } from '@/components/card';
 import React from 'react';
-import {
-    getMediaList,
-    IGetMediaListParams,
-    IMediaListEntry,
-} from '../../platform/services/api';
-import { link } from 'fs';
+import { getMediaList, IGetMediaListParams, IMediaListEntry } from '@/services/api';
+import type { TAlcCardProps } from './alc-card.types';
 
-const AlcCard = (props2: Object) => {
+const AlcCard = (props2: TAlcCardProps) => {
     const {} = props2;
     const userId = 153365;
-    const [cardData, setCardData] = React.useState<IMediaListEntry | null>(
-        null
-    );
+    const [cardData, setCardData] = React.useState<IMediaListEntry | null>(null);
 
     React.useEffect(() => {
         const d: IGetMediaListParams = {
@@ -33,12 +27,7 @@ const AlcCard = (props2: Object) => {
     };
 
     return (
-        <Card.Root
-            backgroundURL={props.imageURL}
-            href={props.linkURL}
-            rel="noopener noreferrer"
-            target="_blank"
-        >
+        <Card.Root backgroundURL={props.imageURL} href={props.linkURL} rel="noopener noreferrer" target="_blank">
             <Card.Title>{props.title}</Card.Title>
             <Card.Content>This is the content of the card.</Card.Content>
         </Card.Root>

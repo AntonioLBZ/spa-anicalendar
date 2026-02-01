@@ -1,3 +1,3 @@
-const TAlcCardProps = {};
+type TAlcCardProps = {};
 
 export type { TAlcCardProps };

@@ -1,26 +1,21 @@
-import type { Metadata } from 'next';
-import { Providers } from './providers';
+'use client';
 
-import '@/assets/fonts/fonts.css';
-import '@/themes.css';
-import '@/App.css';
+import React from 'react';
+import { AlcHeader, AlcBody } from '@/modules';
 
-export const metadata: Metadata = {
-    title: 'Anicalendar',
-    description: 'Calendar application',
+type TLayoutRootProps = {
+    children: React.ReactNode;
 };
 
-export default function RootLayout({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
+export default function LayoutRoot(props: TLayoutRootProps) {
+    const { children } = props;
     return (
         <html lang="en">
             <head />
-            <Providers>{children}</Providers>
+            <AlcBody>
+                <AlcHeader />
+                {children}
+            </AlcBody>
         </html>
     );
 }
-
-export { useThemeContext } from './providers';

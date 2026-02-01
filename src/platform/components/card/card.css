@@ -8,6 +8,9 @@
     position: relative;
     aspect-ratio: 16/9;
     cursor: pointer;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .alc-card__title {

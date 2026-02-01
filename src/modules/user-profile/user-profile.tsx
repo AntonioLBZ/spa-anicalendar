@@ -1,6 +1,5 @@
 'use client';
 
-import { Card } from '@/components';
 import { TUserProfileProps } from './user-profile.types';
 
 export const UserProfile = (props: TUserProfileProps) => {
@@ -36,11 +35,7 @@ export const UserProfile = (props: TUserProfileProps) => {
                 </p>
                 <p>
                     <strong>Profile:</strong>{' '}
-                    <a
-                        href={userData.siteUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
+                    <a href={userData.siteUrl} target="_blank" rel="noopener noreferrer">
                         {userData.siteUrl}
                     </a>
                 </p>

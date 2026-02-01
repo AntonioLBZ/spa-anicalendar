@@ -3,7 +3,8 @@
     color: var(--color-content-secondary);
     display: flex;
     height: 75px;
-    justify-content: center;
+    justify-content: space-between;
+    /* align-items: center; */
     left: 0;
     /* position: fixed; */
     top: 0;
@@ -11,6 +12,8 @@
         background 0.8s ease,
         color 0.2s; */
     width: 100%;
+    padding-inline: 50px;
+    padding-block: 5px;
 }
 
 @media (max-width: 920px) {

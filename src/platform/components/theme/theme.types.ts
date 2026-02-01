@@ -7,4 +7,4 @@ interface IThemeContext {
     setTheme?: (theme: TTheme) => void;
 }
 
-export type { TThemeProps, TTheme, IThemeContext as TThemeContext };
+export type { TThemeProps, TTheme, IThemeContext };

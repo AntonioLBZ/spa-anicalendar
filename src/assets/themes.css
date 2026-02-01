@@ -24,6 +24,10 @@
     --color-border-elevation-2: rgba(0, 0, 0, 0.4);
 }
 
+* {
+    box-sizing: border-box;
+}
+
 .alc-light {
     /* Globals */
     --color-bg-primary: #ffffff;
@@ -33,4 +37,14 @@
     --color-border: #dddddd;
     --color-border-focus: #747bff;
     --color-content-bg-primary: #3577ff;
+}
+
+body {
+    all: unset;
+    font-family: 'Inter', sans-serif;
+}
+
+.alc {
+    background: var(--color-bg-primary);
+    color: var(--color-content-primary);
 }

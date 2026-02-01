@@ -1,12 +1,10 @@
-'use client';
-
 import React from 'react';
 import { createContext } from '@/platform/lib/context';
-import { TTheme, TThemeContext } from './theme.types';
+import { TTheme, IThemeContext } from './theme.types';
 import clsx from 'clsx';
 import { TThemeProps } from './theme.types';
 
-const [ThemeContext, useThemeContext] = createContext<TThemeContext>({});
+const [ThemeContext, useThemeContext] = createContext<IThemeContext>({});
 
 const Theme = (props: TThemeProps) => {
     const { children, className, ...rest } = props;
@@ -22,9 +20,7 @@ const Theme = (props: TThemeProps) => {
 
     return (
         <div className={themeClsx} {...rest}>
-            <ThemeContext.Provider value={{ theme, setTheme }}>
-                {children}
-            </ThemeContext.Provider>
+            <ThemeContext.Provider value={{ theme, setTheme }}>{children}</ThemeContext.Provider>
         </div>
     );
 };

@@ -6,9 +6,6 @@ const Header = (props: HeaderProps) => {
     const { children, ...rest } = props;
     return (
         <header className="alc-header" {...rest}>
-            <div role="heading" aria-level={1}>
-                Anicalendar
-            </div>
             {children}
         </header>
     );

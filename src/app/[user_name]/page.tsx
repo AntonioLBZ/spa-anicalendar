@@ -1,38 +1,34 @@
 'use client';
 
-import { AlcCard } from '@/modules/alc-card/alc-card';
-import { UserProfile } from '@/modules/user-profile/user-profile';
-import { getUserByName, IUserData } from '@/services/api';
-import { useParams } from 'next/navigation';
-import { useThemeContext } from '../providers';
-import { Button } from '@/components';
 import React from 'react';
+import { AlcCard } from '@/modules';
+import { useUserContext } from '@/modules';
+import { UserProfile } from '@/modules/user-profile/user-profile';
+import { IUserData } from '@/services/api';
+import { fetchUser } from '@/services/fetchUser';
+import { useParams } from 'next/navigation';
+import { validateParam } from '@/lib/validateParam';
+import { useRouter } from 'next/navigation';
 
-export default function Home() {
-    const { theme, setTheme } = useThemeContext();
+export default function Calendar() {
     const [userData, setUserData] = React.useState<IUserData | null>(null);
+    const router = useRouter();
     const params = useParams();
-    const name = params.user_name as string;
-
-    const handleChangeTheme = () => {
-        setTheme?.(theme === 'dark' ? 'light' : 'dark');
-    };
+    const { setUser } = useUserContext();
+    const name = validateParam(params.user_name);
 
     React.useEffect(() => {
-        const fetchUser = async () => {
-            const userData = await getUserByName(name);
-            setUserData(userData);
+        const handleData = (data: IUserData) => {
+            setUserData(data);
+            setUser?.(data);
         };
 
-        fetchUser();
-    }, [name]);
+        if (!name) router.push('/');
+        else fetchUser(name, handleData);
+    }, [name, setUser]);
 
     return (
         <main>
-            <Button onClick={handleChangeTheme}>Toggle Theme</Button>
-            {theme}
-            <br />
-            <br />
             <UserProfile userData={userData} />
             <AlcCard />
         </main>
