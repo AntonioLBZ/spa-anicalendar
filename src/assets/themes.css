@@ -1,0 +1,50 @@
+:root {
+    /* Sizes */
+    --size-border-focus: 2px;
+    --size-border-focus-offset: 2px;
+    --size-border-radius: 6px;
+
+    /** Dark Theme */
+    /* Colors */
+    /* Background */
+    --color-bg-primary: #0a1625;
+    --color-bg-secondary: #152232;
+    --color-bg-overlay: rgba(31, 38, 49, 0.7);
+    /* Content */
+    --color-content-primary: #ffffff;
+    --color-content-secondary: #a0b1c5;
+    --color-content-bright: rgba(237, 241, 245, 0.9);
+    --color-content-bg-primary: #3577ff;
+    /* Borders */
+    --color-border: #ffffff;
+    --color-border-focus: #3577ff;
+
+    /* Elevation */
+    --color-border-elevation: rgba(8, 150, 230, 0.6);
+    --color-border-elevation-2: rgba(0, 0, 0, 0.4);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.alc-light {
+    /* Globals */
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #f9f9f9;
+    --color-content-primary: #213547;
+    --color-content-secondary: #666666;
+    --color-border: #dddddd;
+    --color-border-focus: #747bff;
+    --color-content-bg-primary: #3577ff;
+}
+
+body {
+    all: unset;
+    font-family: 'Inter', sans-serif;
+}
+
+.alc {
+    background: var(--color-bg-primary);
+    color: var(--color-content-primary);
+}

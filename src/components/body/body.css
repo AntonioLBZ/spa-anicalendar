@@ -1,7 +1,0 @@
-.ac-body {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-}
