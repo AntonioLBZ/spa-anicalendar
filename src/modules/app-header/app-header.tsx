@@ -31,6 +31,8 @@ const UserModule = (props: UserData) => {
                     <Image
                         src={props.avatar.medium}
                         alt={props.name}
+                        width={30}
+                        height={30}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
                 </a>

@@ -22,10 +22,10 @@ export const UserProfile = (props: UserProfileProps) => {
                     src={userData.avatar.medium}
                     alt={userData.name}
                     style={{
-                        width: 64,
-                        height: 64,
                         borderRadius: '50%',
                     }}
+                    width={64}
+                    height={64}
                 />
             )}
             <div>
