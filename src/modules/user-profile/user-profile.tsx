@@ -1,8 +1,8 @@
 'use client';
 
-import { TUserProfileProps } from './user-profile.types';
+import { UserProfileProps } from './user-profile.types';
 
-export const UserProfile = (props: TUserProfileProps) => {
+export const UserProfile = (props: UserProfileProps) => {
     const { userData } = props;
 
     if (!userData) return <p>Loading user data...</p>;

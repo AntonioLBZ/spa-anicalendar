@@ -1,2 +1,2 @@
-type TCardContentProps = React.ComponentPropsWithRef<'div'>;
-export type { TCardContentProps };
+type CardContentProps = React.ComponentPropsWithRef<'div'>;
+export type { CardContentProps };

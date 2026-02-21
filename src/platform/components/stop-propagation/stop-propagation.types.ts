@@ -1,3 +1,3 @@
-type TStopPropagationProps = React.ComponentPropsWithRef<'div'>;
+type StopPropagationProps = React.ComponentPropsWithRef<'div'>;
 
-export type { TStopPropagationProps };
+export type { StopPropagationProps };

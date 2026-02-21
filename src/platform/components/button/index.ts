@@ -1,2 +1,2 @@
 export { Button, ButtonContext } from './button';
-export type { TButtonProps } from './button.types';
+export type { ButtonProps } from './button.types';

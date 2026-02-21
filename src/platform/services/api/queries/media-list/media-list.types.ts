@@ -1,6 +1,6 @@
-type TMediaType = 'ANIME' | 'MANGA';
+type MediaType = 'ANIME' | 'MANGA';
 
-type TMediaListStatus =
+type MediaListStatus =
     | 'CURRENT'
     | 'PLANNING'
     | 'COMPLETED'
@@ -8,7 +8,7 @@ type TMediaListStatus =
     | 'PAUSED'
     | 'REPEATING';
 
-type TMediaListSort =
+type MediaListSort =
     | 'MEDIA_ID'
     | 'MEDIA_ID_DESC'
     | 'SCORE'
@@ -40,88 +40,88 @@ type TMediaListSort =
     | 'MEDIA_POPULARITY'
     | 'MEDIA_POPULARITY_DESC';
 
-type TMediaStatus =
+type MediaStatus =
     | 'FINISHED'
     | 'RELEASING'
     | 'NOT_YET_RELEASED'
     | 'CANCELLED'
     | 'HIATUS';
 
-type TMediaSeason = 'WINTER' | 'SPRING' | 'SUMMER' | 'FALL';
+type MediaSeason = 'WINTER' | 'SPRING' | 'SUMMER' | 'FALL';
 
-interface IFuzzyDate {
+interface FuzzyDate {
     day: number | null;
     month: number | null;
     year: number | null;
 }
 
-interface ICoverImage {
+interface CoverImage {
     medium: string;
 }
 
-interface INextAiringEpisode {
+interface NextAiringEpisode {
     airingAt: number;
     episode: number;
 }
 
-interface IMediaTitle {
+interface MediaTitle {
     userPreferred: string;
 }
 
-interface IMedia {
-    coverImage: ICoverImage;
+interface Media {
+    coverImage: CoverImage;
     chapters: number | null;
     episodes: number | null;
-    status: TMediaStatus;
-    nextAiringEpisode: INextAiringEpisode | null;
+    status: MediaStatus;
+    nextAiringEpisode: NextAiringEpisode | null;
     siteUrl: string;
-    title: IMediaTitle;
-    endDate: IFuzzyDate;
+    title: MediaTitle;
+    endDate: FuzzyDate;
     isAdult: boolean;
-    season: TMediaSeason | null;
+    season: MediaSeason | null;
 }
 
-interface IMediaListEntry {
+interface MediaListEntry {
     id: number;
-    media: IMedia;
+    media: Media;
     progress: number;
     mediaId: number;
     repeat: number;
 }
 
-interface IGetMediaListVariables {
+interface GetMediaListVariables {
     userId: number;
-    type?: TMediaType;
-    statusIn?: TMediaListStatus[];
-    sort?: TMediaListSort[];
+    type?: MediaType;
+    statusIn?: MediaListStatus[];
+    sort?: MediaListSort[];
 }
 
-interface IGetMediaListResponse {
+interface GetMediaListResponse {
     Page: {
-        mediaList: IMediaListEntry[];
+        mediaList: MediaListEntry[];
     };
 }
 
-interface IGetMediaListParams {
+interface GetMediaListParams {
     userId: number;
-    type?: TMediaType;
-    statusIn?: TMediaListStatus[];
-    sort?: TMediaListSort[];
+    type?: MediaType;
+    statusIn?: MediaListStatus[];
+    sort?: MediaListSort[];
 }
 
 export type {
-    TMediaType,
-    TMediaListStatus,
-    TMediaListSort,
-    TMediaStatus,
-    TMediaSeason,
-    IFuzzyDate,
-    ICoverImage,
-    INextAiringEpisode,
-    IMediaTitle,
-    IMedia,
-    IMediaListEntry,
-    IGetMediaListVariables,
-    IGetMediaListResponse,
-    IGetMediaListParams,
+    MediaType,
+    MediaListStatus,
+    MediaListSort,
+    MediaStatus,
+    MediaSeason,
+    FuzzyDate,
+    CoverImage,
+    NextAiringEpisode,
+    MediaTitle,
+    Media,
+    MediaListEntry,
+    GetMediaListVariables,
+    GetMediaListResponse,
+    GetMediaListParams,
 };

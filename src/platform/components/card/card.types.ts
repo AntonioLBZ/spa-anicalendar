@@ -1,6 +1,6 @@
 import { HoverProps } from 'react-aria';
 
-type TCardProps = React.ComponentPropsWithRef<'a'> &
+type CardProps = React.ComponentPropsWithRef<'a'> &
     HoverProps & {
         /**
          * URL of the background image for the card
@@ -8,4 +8,4 @@ type TCardProps = React.ComponentPropsWithRef<'a'> &
         backgroundURL?: string;
     };
 
-export type { TCardProps };
+export type { CardProps };

@@ -4,8 +4,9 @@ import './header.css';
 
 const Header = (props: HeaderProps) => {
     const { children, ...rest } = props;
+    const headerClsx = 'header';
     return (
-        <header className="alc-header" {...rest}>
+        <header className={headerClsx} {...rest}>
             {children}
         </header>
     );

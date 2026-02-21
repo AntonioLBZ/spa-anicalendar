@@ -1,15 +1,15 @@
-.alc-button {
+.button {
     border-radius: var(--size-border-radius);
     padding: 10px 15px;
 }
 
-.alc-button--primary {
+.button--primary {
     box-shadow: 0 0 0 var(--color-border-elevation);
     background-color: var(--color-content-bg-primary);
     color: var(--color-content-primary);
 }
 
-.alc-button:focus-visible {
+.button:focus-visible {
     outline: var(--size-border-focus) solid var(--color-border-focus);
     outline-offset: var(--size-border-focus-offset);
 }

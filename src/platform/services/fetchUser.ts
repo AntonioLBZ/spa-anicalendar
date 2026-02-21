@@ -1,9 +1,7 @@
-import { getUserByName, IUserData } from './api';
+import { getUserByName } from './api';
 
-const fetchUser = (name: string, handleData: (userData: IUserData) => void) => {
-    getUserByName(name).then((userData) => {
-        handleData(userData);
-    });
+const fetchUser = (name: string) => {
+    return getUserByName(name);
 };
 
 export { fetchUser };

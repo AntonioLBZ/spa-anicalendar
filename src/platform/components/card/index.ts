@@ -9,6 +9,6 @@ const Card = {
 };
 
 export { Card };
-export type { TCardProps } from './card.types';
-export type { TCardContentProps } from './card-content.types';
+export type { CardProps } from './card.types';
+export type { CardContentProps } from './card-content.types';
 export type { CardTitleProps } from './card-title.types';

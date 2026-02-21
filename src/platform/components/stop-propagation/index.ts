@@ -1,2 +1,2 @@
 export { StopPropagation } from './stop-propagation';
-export type { TStopPropagationProps } from './stop-propagation.types';
+export type { StopPropagationProps } from './stop-propagation.types';

@@ -1,10 +1,10 @@
 import clsx from 'clsx';
-import { TCardContentProps } from './card-content.types';
+import { CardContentProps } from './card-content.types';
 import { StopPropagation } from '../stop-propagation';
 
-const CardContent = (props: TCardContentProps) => {
+const CardContent = (props: CardContentProps) => {
     const { children, className, ...rest } = props;
-    const cardContentClsx = clsx('alc-card__content', className);
+    const cardContentClsx = clsx('card__content', className);
     return (
         <StopPropagation className={cardContentClsx} {...rest}>
             {children}

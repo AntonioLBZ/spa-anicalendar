@@ -1,2 +1,2 @@
 export { Theme, useThemeContext } from './theme';
-export type { TThemeProps, TTheme, IThemeContext } from './theme.types';
+export type { ThemeProps, ThemeMode, ThemeContextValue } from './theme.types';
