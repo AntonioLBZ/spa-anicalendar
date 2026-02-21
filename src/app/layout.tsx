@@ -1,7 +1,8 @@
-import type { ReactNode } from 'react';
 import { AppBody } from '@/modules/app-body';
 import { AppHeader } from '@/modules/app-header';
+
 import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
 
 export const metadata: Metadata = {
     title: 'Anicalendar',

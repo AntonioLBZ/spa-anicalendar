@@ -1,11 +1,14 @@
 'use client';
 
-import { useMemo } from 'react';
 import clsx from 'clsx';
-import type { WeeklyCalendarProps } from './weekly-calendar.types';
-import type { MediaListEntry } from '@/platform/services/api';
+import { useMemo } from 'react';
+
 import { AnimeCard } from '@/modules/anime-card';
 import { getAiringDay, getDayName, getTodayIndex } from '@/platform/lib/airing';
+
+import type { WeeklyCalendarProps } from './weekly-calendar.types';
+import type { MediaListEntry } from '@/platform/services/api';
+
 
 import './weekly-calendar.css';
 

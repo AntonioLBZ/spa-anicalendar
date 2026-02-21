@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import { createContext } from '@/platform/lib/context';
-import { ThemeMode, ThemeContextValue } from './theme.types';
 import clsx from 'clsx';
+import { useState } from 'react';
+
+import { createContext } from '@/platform/lib/context';
+
+import { ThemeMode, ThemeContextValue } from './theme.types';
 import { ThemeProps } from './theme.types';
 
 const [ThemeContext, useThemeContext] = createContext<ThemeContextValue>({});

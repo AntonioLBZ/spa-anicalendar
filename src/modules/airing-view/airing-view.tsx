@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+
 import { useUserContext } from '@/modules/user-context';
 import { UserProfile } from '@/modules/user-profile';
 import { WeeklyCalendar } from '@/modules/weekly-calendar';
@@ -12,6 +13,7 @@ import {
     GetMediaListParams,
 } from '@/platform/services/api';
 import { fetchUser } from '@/platform/services/fetchUser';
+
 import type { AiringViewProps } from './airing-view.types';
 
 const AiringView = (props: AiringViewProps) => {

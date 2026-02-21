@@ -1,9 +1,9 @@
-import { anilistQuery } from '../../anilist-client';
 import {
     GetUserByNameResponse,
     GetUserByNameVariables,
     UserData,
 } from './user-data.types';
+import { anilistQuery } from '../../anilist-client';
 
 const GET_USER_BY_NAME = `
 query GetUserByName($name: String) {

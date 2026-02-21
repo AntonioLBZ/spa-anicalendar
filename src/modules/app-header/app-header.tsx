@@ -1,8 +1,10 @@
 'use client';
 
-import { Header } from '@/platform/components';
+import Image from 'next/image';
+
 import { ThemeButton } from '@/modules/theme-button';
 import { useUserContext } from '@/modules/user-context';
+import { Header } from '@/platform/components';
 import { UserData } from '@/platform/services/api';
 
 const AppHeader = () => {
@@ -26,7 +28,7 @@ const UserModule = (props: UserData) => {
                 style={{ aspectRatio: '1', height: '80%', overflow: 'hidden', borderRadius: '3px' }}
             >
                 <a href={props.siteUrl} target="_blank" rel="noopener noreferrer">
-                    <img
+                    <Image
                         src={props.avatar.medium}
                         alt={props.name}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}

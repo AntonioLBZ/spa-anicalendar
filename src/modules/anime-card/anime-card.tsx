@@ -1,9 +1,12 @@
 'use client';
 
-import { Link } from 'react-aria-components';
 import clsx from 'clsx';
-import type { AnimeCardProps } from './anime-card.types';
+import Image from 'next/image';
+import { Link } from 'react-aria-components';
+
 import { getLocalAiringTime, getTimeUntilAiring } from '@/platform/lib/airing';
+
+import type { AnimeCardProps } from './anime-card.types';
 
 import './anime-card.css';
 
@@ -46,7 +49,7 @@ const AnimeCard = (props: AnimeCardProps) => {
             aria-labelledby={titleId}
         >
             <div className={coverClsx}>
-                <img
+                <Image
                     src={media.coverImage.medium}
                     alt={media.title.userPreferred}
                     className={imageClsx}

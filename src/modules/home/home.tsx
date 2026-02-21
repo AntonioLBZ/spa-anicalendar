@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import { useState, type FormEvent } from 'react';
+
 import { Button } from '@/platform/components';
 
 import './home.css';

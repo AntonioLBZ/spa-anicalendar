@@ -1,7 +1,10 @@
-import { ButtonProps } from './button.types';
-import { mergeProps } from 'react-aria';
-import { createContext } from '@/platform/lib/context';
 import clsx from 'clsx';
+import { mergeProps } from 'react-aria';
+
+import { createContext } from '@/platform/lib/context';
+
+import { ButtonProps } from './button.types';
+
 import './button.css';
 
 const [ButtonContext, useButtonContext] = createContext<ButtonProps>({});

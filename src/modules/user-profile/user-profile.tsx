@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 import { UserProfileProps } from './user-profile.types';
 
 export const UserProfile = (props: UserProfileProps) => {
@@ -16,7 +18,7 @@ export const UserProfile = (props: UserProfileProps) => {
             }}
         >
             {userData?.avatar.medium && (
-                <img
+                <Image
                     src={userData.avatar.medium}
                     alt={userData.name}
                     style={{

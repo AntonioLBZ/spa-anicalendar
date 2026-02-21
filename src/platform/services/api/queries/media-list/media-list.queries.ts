@@ -1,10 +1,10 @@
-import { anilistQuery } from '../../anilist-client';
 import {
     GetMediaListResponse,
     GetMediaListVariables,
     MediaListEntry,
     GetMediaListParams,
 } from './media-list.types';
+import { anilistQuery } from '../../anilist-client';
 
 const GET_MEDIA_LIST = `
 query MediaList($userId: Int, $type: MediaType, $statusIn: [MediaListStatus], $sort: [MediaListSort]) {

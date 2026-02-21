@@ -1,9 +1,11 @@
 'use client';
 
 import clsx from 'clsx';
-import type { AppBodyProps } from './app-body.types';
-import { Theme } from '@/platform/components';
+
 import { UserContextProvider } from '@/modules/user-context';
+import { Theme } from '@/platform/components';
+
+import type { AppBodyProps } from './app-body.types';
 
 import './app-body.css';
 import '@/assets/themes.css';

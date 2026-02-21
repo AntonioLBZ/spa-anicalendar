@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useMemo, type ReactNode } from 'react';
+
 import { createContext } from '@/platform/lib/context';
 import { UserData } from '@/platform/services/api';
+
 import type { UserContextValue } from './user-context.types';
 
 const [UserContext, useUserContext] = createContext<UserContextValue>({});
