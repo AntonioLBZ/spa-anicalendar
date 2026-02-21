@@ -2,11 +2,6 @@
 
 import React from 'react';
 
-/**
- *
- * @param defaultValue
- * @returns The context and a hook to use the context
- */
 const createContext = <T extends Object>(defaultValue?: T): [React.Context<T>, () => T] => {
     const context = React.createContext<T>(defaultValue ?? ({} as T));
     const useContext = () => {
