@@ -7,7 +7,7 @@ import { AiringView } from '@/modules/airing-view';
 
 export default function AiringPage() {
     return (
-        <Suspense>
+        <Suspense fallback={null}>
             <AiringContent />
         </Suspense>
     );

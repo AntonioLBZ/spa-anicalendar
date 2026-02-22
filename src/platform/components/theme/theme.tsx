@@ -5,10 +5,9 @@ import { useState } from 'react';
 
 import { createContext } from '@/platform/lib/context';
 
-import { ThemeMode, ThemeContextValue } from './theme.types';
-import { ThemeProps } from './theme.types';
+import { ThemeMode, ThemeContextValue, ThemeProps } from './theme.types';
 
-const [ThemeContext, useThemeContext] = createContext<ThemeContextValue>({});
+const [ThemeContext, useThemeContext] = createContext<ThemeContextValue>();
 
 const Theme = (props: ThemeProps) => {
     const { children, className, ...rest } = props;

@@ -42,7 +42,7 @@ const AnimeCard = (props: AnimeCardProps) => {
                         <span className="anime-card__airing-countdown">{getTimeUntilAiring(nextEp.airingAt)}</span>
                     </Card.Airing>
                 )}
-                <Card.Status variant={STATUS_VARIANT_MAP[media.status]} role="status">
+                <Card.Status variant={STATUS_VARIANT_MAP[media.status] ?? 'upcoming'} role="status">
                     {media.status.replace(/_/g, ' ')}
                 </Card.Status>
             </Card.Info>

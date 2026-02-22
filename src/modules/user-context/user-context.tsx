@@ -7,7 +7,7 @@ import { UserData } from '@/platform/services/api';
 
 import type { UserContextValue } from './user-context.types';
 
-const [UserContext, useUserContext] = createContext<UserContextValue>({});
+const [UserContext, useUserContext] = createContext<UserContextValue>();
 
 const UserContextProvider = (props: { children: ReactNode }) => {
     const { children } = props;

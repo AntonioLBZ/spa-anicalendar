@@ -7,7 +7,7 @@ import { ButtonProps } from './button.types';
 
 import './button.css';
 
-const [ButtonContext, useButtonContext] = createContext<ButtonProps>({});
+const [ButtonContext, useButtonContext] = createContext<ButtonProps>();
 
 const Button = (props: ButtonProps) => {
     props = mergeProps(props, useButtonContext());

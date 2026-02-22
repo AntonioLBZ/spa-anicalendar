@@ -17,7 +17,7 @@ export const UserProfile = (props: UserProfileProps) => {
                 gap: '1rem',
             }}
         >
-            {userData?.avatar.medium && (
+            {userData.avatar.medium && (
                 <Image
                     src={userData.avatar.medium}
                     alt={userData.name}
