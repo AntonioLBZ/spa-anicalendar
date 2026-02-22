@@ -4,20 +4,55 @@
     --size-border-focus-offset: 2px;
     --size-border-radius: 6px;
 
+    /* Spacing */
+    --size-25: 4px;
+    --size-50: 8px;
+    --size-100: 16px;
+    --size-150: 24px;
+    --size-200: 32px;
+    --size-300: 48px;
+    --size-400: 64px;
+
+    /* Header */
+    --header-height: 60px;
+
+    /* Avatar */
+    --avatar-size-sm: 28px;
+    --avatar-size-md: 40px;
+
+    /* Content */
+    --content-max-width: 1400px;
+    --content-padding-inline: var(--size-400);
+
+    /* Breakpoints: 520px (sm) | 768px (md) | 1024px (lg) | 1440px (xl) */
+    @media (max-width: 1440px) {
+        --content-max-width: 1200px;
+        --content-padding-inline: var(--size-200);
+    }
+
+    @media (max-width: 1024px) {
+        --content-max-width: none;
+        --content-padding-inline: 0px;
+    }
+
+    @media (max-width: 768px) {
+        --header-height: 52px;
+    }
+
     /** Dark Theme */
     /* Colors */
     /* Background */
-    --color-bg-primary: #0a1625;
-    --color-bg-secondary: #152232;
+    --color-bg-primary: rgb(10, 22, 37);
+    --color-bg-secondary: rgb(21, 34, 50);
     --color-bg-overlay: rgba(31, 38, 49, 0.7);
     /* Content */
-    --color-content-primary: #ffffff;
-    --color-content-secondary: #a0b1c5;
+    --color-content-primary: rgb(255, 255, 255);
+    --color-content-secondary: rgb(160, 177, 197);
     --color-content-bright: rgba(237, 241, 245, 0.9);
-    --color-content-bg-primary: #3577ff;
+    --color-content-bg-primary: rgb(53, 119, 255);
     /* Borders */
-    --color-border: #ffffff;
-    --color-border-focus: #3577ff;
+    --color-border: rgb(255, 255, 255);
+    --color-border-focus: rgb(53, 119, 255);
 
     /* Elevation */
     --color-border-elevation: rgba(8, 150, 230, 0.6);
@@ -29,14 +64,21 @@
 }
 
 .theme-root--light {
-    /* Globals */
-    --color-bg-primary: #ffffff;
-    --color-bg-secondary: #f9f9f9;
-    --color-content-primary: #213547;
-    --color-content-secondary: #666666;
-    --color-border: #dddddd;
-    --color-border-focus: #747bff;
+    /* Background */
+    --color-bg-primary: #edf1f5;
+    --color-bg-secondary: #fafafa;
+    --color-bg-overlay: rgba(49, 56, 64, 0.4);
+    /* Content */
+    --color-content-primary: #5c728a;
+    --color-content-secondary: #8ba0b2;
+    --color-content-bright: #3d3d3d;
     --color-content-bg-primary: #3577ff;
+    /* Borders */
+    --color-border: #d8e0e8;
+    --color-border-focus: #3577ff;
+    /* Elevation */
+    --color-border-elevation: rgba(0, 0, 0, 0.06);
+    --color-border-elevation-2: rgba(0, 0, 0, 0.1);
 }
 
 body {

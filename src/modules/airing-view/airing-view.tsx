@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 import { useUserContext } from '@/modules/user-context';
-import { UserProfile } from '@/modules/user-profile';
 import { WeeklyCalendar } from '@/modules/weekly-calendar';
 import {
     UserData,
@@ -88,7 +87,6 @@ const AiringView = (props: AiringViewProps) => {
 
     return (
         <main>
-            <UserProfile userData={userData} />
             <WeeklyCalendar entries={entries} />
         </main>
     );

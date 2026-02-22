@@ -7,7 +7,7 @@ const ThemeButton = () => {
         setTheme?.(theme === 'dark' ? 'light' : 'dark');
     };
 
-    return <Button onClick={handleChangeTheme}>Set {theme === 'dark' ? 'Light' : 'Dark'} Theme</Button>;
+    return <Button onPress={handleChangeTheme}>Set {theme === 'dark' ? 'Light' : 'Dark'} Theme</Button>;
 };
 
 export { ThemeButton };

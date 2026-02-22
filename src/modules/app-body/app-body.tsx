@@ -16,9 +16,11 @@ const AppBody = (props: AppBodyProps) => {
     const appBodyClsx = clsx('app-body', className);
     return (
         <div className={appBodyClsx} {...rest}>
-            <UserContextProvider>
-                <Theme>{children}</Theme>
-            </UserContextProvider>
+            <div className="app-body__content">
+                <UserContextProvider>
+                    <Theme>{children}</Theme>
+                </UserContextProvider>
+            </div>
         </div>
     );
 };
