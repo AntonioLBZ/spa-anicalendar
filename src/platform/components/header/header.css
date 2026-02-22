@@ -1,4 +1,4 @@
-.alc-header {
+.header {
     background-color: var(--color-bg-secondary);
     color: var(--color-content-secondary);
     display: flex;
@@ -17,7 +17,7 @@
 }
 
 @media (max-width: 920px) {
-    .alc-header {
+    .header {
         height: 68px;
     }
 }

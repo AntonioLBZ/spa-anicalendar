@@ -1,6 +1,6 @@
 const ANILIST_API_URL = 'https://graphql.anilist.co';
 
-interface IGraphQLResponse<T> {
+interface GraphQLResponse<T> {
     data: T;
     errors?: Array<{
         message: string;
@@ -12,7 +12,7 @@ interface IGraphQLResponse<T> {
 async function anilistQuery<T, V = Record<string, unknown>>(
     query: string,
     variables?: V
-): Promise<IGraphQLResponse<T>> {
+): Promise<GraphQLResponse<T>> {
     const response = await fetch(ANILIST_API_URL, {
         method: 'POST',
         headers: {
@@ -35,4 +35,4 @@ async function anilistQuery<T, V = Record<string, unknown>>(
 }
 
 export { anilistQuery };
-export type { IGraphQLResponse };
+export type { GraphQLResponse };

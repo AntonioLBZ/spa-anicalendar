@@ -1,10 +1,10 @@
-import { anilistQuery } from '../../anilist-client';
 import {
-    IGetMediaListResponse,
-    IGetMediaListVariables,
-    IMediaListEntry,
-    IGetMediaListParams,
+    GetMediaListResponse,
+    GetMediaListVariables,
+    MediaListEntry,
+    GetMediaListParams,
 } from './media-list.types';
+import { anilistQuery } from '../../anilist-client';
 
 const GET_MEDIA_LIST = `
 query MediaList($userId: Int, $type: MediaType, $statusIn: [MediaListStatus], $sort: [MediaListSort]) {
@@ -43,11 +43,11 @@ query MediaList($userId: Int, $type: MediaType, $statusIn: [MediaListStatus], $s
 `;
 
 async function getMediaList(
-    params: IGetMediaListParams
-): Promise<IMediaListEntry[]> {
+    params: GetMediaListParams
+): Promise<MediaListEntry[]> {
     const response = await anilistQuery<
-        IGetMediaListResponse,
-        IGetMediaListVariables
+        GetMediaListResponse,
+        GetMediaListVariables
     >(GET_MEDIA_LIST, params);
 
     if (response.errors) {
@@ -58,4 +58,4 @@ async function getMediaList(
 }
 
 export { getMediaList };
-export type { IGetMediaListParams };
+export type { GetMediaListParams };

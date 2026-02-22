@@ -1,9 +1,9 @@
-import { anilistQuery } from '../../anilist-client';
 import {
-    IGetUserByNameResponse,
-    IGetUserByNameVariables,
-    IUserData,
+    GetUserByNameResponse,
+    GetUserByNameVariables,
+    UserData,
 } from './user-data.types';
+import { anilistQuery } from '../../anilist-client';
 
 const GET_USER_BY_NAME = `
 query GetUserByName($name: String) {
@@ -18,10 +18,10 @@ query GetUserByName($name: String) {
 }
 `;
 
-async function getUserByName(name: string): Promise<IUserData> {
+async function getUserByName(name: string): Promise<UserData> {
     const response = await anilistQuery<
-        IGetUserByNameResponse,
-        IGetUserByNameVariables
+        GetUserByNameResponse,
+        GetUserByNameVariables
     >(GET_USER_BY_NAME, { name });
 
     if (response.errors) {

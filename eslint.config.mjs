@@ -1,45 +1,17 @@
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-import { FlatCompat } from '@eslint/eslintrc';
-import js from '@eslint/js';
-import tsParser from '@typescript-eslint/parser';
+import nextConfig from 'eslint-config-next';
+import prettierConfig from 'eslint-config-prettier/flat';
 import importPlugin from 'eslint-plugin-import';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-});
 
 const eslintConfig = [
     {
-        ignores: [
-            '.next/*',
-            'node_modules/*',
-            'dist/*',
-            'build/*',
-            'out/*',
-            'public/*',
-        ],
+        ignores: ['.next/*', 'node_modules/*', 'dist/*', 'build/*', 'out/*', 'public/*', '.stylelintrc.js'],
     },
-    ...compat.extends('next/core-web-vitals'),
-    ...compat.extends('prettier'),
+    ...nextConfig,
+    prettierConfig,
     {
         files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
         plugins: {
             import: importPlugin,
-        },
-        languageOptions: {
-            parser: tsParser,
-            parserOptions: {
-                ecmaVersion: 'latest',
-                sourceType: 'module',
-                ecmaFeatures: {
-                    jsx: true,
-                },
-            },
         },
         settings: {
             'import/resolver': {
@@ -54,15 +26,7 @@ const eslintConfig = [
             'import/order': [
                 'error',
                 {
-                    groups: [
-                        'builtin',
-                        'external',
-                        'internal',
-                        ['parent', 'sibling'],
-                        'index',
-                        'object',
-                        'type',
-                    ],
+                    groups: ['builtin', 'external', 'internal', ['parent', 'sibling'], 'index', 'object', 'type'],
                     'newlines-between': 'always',
                     alphabetize: { order: 'asc', caseInsensitive: true },
                 },

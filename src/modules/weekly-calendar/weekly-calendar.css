@@ -1,0 +1,95 @@
+.weekly-calendar {
+    padding: 1rem;
+    width: 100%;
+}
+
+.weekly-calendar__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+}
+
+.weekly-calendar__day {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+}
+
+.weekly-calendar__day--today {
+    border-radius: 8px;
+    background-color: var(--color-bg-highlight, rgba(59, 130, 246, 0.06));
+}
+
+.weekly-calendar__day-header {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 0.5rem 0.25rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-content-primary, #e5e7eb);
+}
+
+.weekly-calendar__today-badge {
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+    background-color: var(--color-accent, #3b82f6);
+    color: #fff;
+}
+
+.weekly-calendar__day-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0 0.25rem 0.5rem;
+}
+
+.weekly-calendar__day-empty {
+    font-size: 0.75rem;
+    color: var(--color-content-secondary, #6b7280);
+    padding: 0.5rem;
+    text-align: center;
+}
+
+.weekly-calendar__no-airing {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+}
+
+.weekly-calendar__no-airing-header {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-content-secondary, #9ca3af);
+    margin-bottom: 0.75rem;
+    padding: 0 0.5rem;
+}
+
+.weekly-calendar__no-airing-entries {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
+}
+
+.weekly-calendar__empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    font-size: 0.9rem;
+    color: var(--color-content-secondary, #9ca3af);
+}
+
+@media (max-width: 900px) {
+    .weekly-calendar__grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    .weekly-calendar__grid {
+        grid-template-columns: 1fr;
+    }
+}

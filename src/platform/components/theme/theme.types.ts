@@ -1,10 +1,10 @@
-type TThemeProps = React.ComponentPropsWithRef<'div'>;
+type ThemeProps = React.ComponentPropsWithRef<'div'>;
 
-type TTheme = 'light' | 'dark';
+type ThemeMode = 'light' | 'dark';
 
-interface IThemeContext {
-    theme?: TTheme;
-    setTheme?: (theme: TTheme) => void;
+interface ThemeContextValue {
+    theme?: ThemeMode;
+    setTheme?: (theme: ThemeMode) => void;
 }
 
-export type { TThemeProps, TTheme, IThemeContext };
+export type { ThemeProps, ThemeMode, ThemeContextValue };

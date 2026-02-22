@@ -1,19 +1,22 @@
-import React from 'react';
-import { createContext } from '@/platform/lib/context';
-import { TTheme, IThemeContext } from './theme.types';
+'use client';
+
 import clsx from 'clsx';
-import { TThemeProps } from './theme.types';
+import { useState } from 'react';
 
-const [ThemeContext, useThemeContext] = createContext<IThemeContext>({});
+import { createContext } from '@/platform/lib/context';
 
-const Theme = (props: TThemeProps) => {
+import { ThemeMode, ThemeContextValue, ThemeProps } from './theme.types';
+
+const [ThemeContext, useThemeContext] = createContext<ThemeContextValue>();
+
+const Theme = (props: ThemeProps) => {
     const { children, className, ...rest } = props;
-    const [theme, setTheme] = React.useState<TTheme>('dark');
+    const [theme, setTheme] = useState<ThemeMode>('dark');
 
     const themeClsx = clsx(
-        'alc',
+        'theme-root',
         {
-            'alc-light': theme === 'light',
+            'theme-root--light': theme === 'light',
         },
         className
     );

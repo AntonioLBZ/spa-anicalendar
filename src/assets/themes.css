@@ -28,7 +28,7 @@
     box-sizing: border-box;
 }
 
-.alc-light {
+.theme-root--light {
     /* Globals */
     --color-bg-primary: #ffffff;
     --color-bg-secondary: #f9f9f9;
@@ -44,7 +44,7 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
-.alc {
+.theme-root {
     background: var(--color-bg-primary);
     color: var(--color-content-primary);
 }

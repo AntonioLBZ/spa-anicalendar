@@ -1,25 +1,25 @@
-interface IUserAvatar {
+interface UserAvatar {
     medium: string;
 }
 
-interface IUserData {
+interface UserData {
     id: number;
     name: string;
-    avatar: IUserAvatar;
+    avatar: UserAvatar;
     siteUrl: string;
 }
 
-interface IGetUserByNameVariables {
+interface GetUserByNameVariables {
     name: string;
 }
 
-interface IGetUserByNameResponse {
-    User: IUserData;
+interface GetUserByNameResponse {
+    User: UserData;
 }
 
 export type {
-    IUserAvatar,
-    IUserData,
-    IGetUserByNameVariables,
-    IGetUserByNameResponse,
+    UserAvatar,
+    UserData,
+    GetUserByNameVariables,
+    GetUserByNameResponse,
 };

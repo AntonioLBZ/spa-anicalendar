@@ -1,8 +1,10 @@
 'use client';
 
-import { TUserProfileProps } from './user-profile.types';
+import Image from 'next/image';
 
-export const UserProfile = (props: TUserProfileProps) => {
+import { UserProfileProps } from './user-profile.types';
+
+export const UserProfile = (props: UserProfileProps) => {
     const { userData } = props;
 
     if (!userData) return <p>Loading user data...</p>;
@@ -15,15 +17,15 @@ export const UserProfile = (props: TUserProfileProps) => {
                 gap: '1rem',
             }}
         >
-            {userData?.avatar.medium && (
-                <img
+            {userData.avatar.medium && (
+                <Image
                     src={userData.avatar.medium}
                     alt={userData.name}
                     style={{
-                        width: 64,
-                        height: 64,
                         borderRadius: '50%',
                     }}
+                    width={64}
+                    height={64}
                 />
             )}
             <div>

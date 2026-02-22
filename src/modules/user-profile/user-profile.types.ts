@@ -1,7 +1,7 @@
-import { IUserData } from '@/services/api';
+import { UserData } from '@/platform/services/api';
 
-type TUserProfileProps = {
-    userData: IUserData | null;
+type UserProfileProps = {
+    userData: UserData | null;
 };
 
-export type { TUserProfileProps };
+export type { UserProfileProps };
