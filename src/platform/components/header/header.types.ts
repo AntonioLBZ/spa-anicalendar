@@ -1,21 +1,7 @@
-type HeaderRootProps = {
-    children?: React.ReactNode;
-    className?: string;
-};
+type HeaderRootProps = React.ComponentPropsWithRef<'header'>;
+type HeaderContentProps = React.ComponentPropsWithRef<'div'>;
+type HeaderBrandProps = React.ComponentPropsWithRef<'div'>;
+type HeaderNavProps = React.ComponentPropsWithRef<'nav'>;
+type HeaderActionsProps = React.ComponentPropsWithRef<'div'>;
 
-type HeaderBrandProps = {
-    children: React.ReactNode;
-    className?: string;
-};
-
-type HeaderNavProps = {
-    children?: React.ReactNode;
-    className?: string;
-};
-
-type HeaderActionsProps = {
-    children: React.ReactNode;
-    className?: string;
-};
-
-export type { HeaderRootProps, HeaderBrandProps, HeaderNavProps, HeaderActionsProps };
+export type { HeaderRootProps, HeaderContentProps, HeaderBrandProps, HeaderNavProps, HeaderActionsProps };
