@@ -1,10 +1,13 @@
-import type { HeaderProps } from './header.types';
+import clsx from 'clsx';
+
+import type { HeaderRootProps } from './header.types';
 
 import './header.css';
 
-const Header = (props: HeaderProps) => {
-    const { children, ...rest } = props;
-    const headerClsx = 'header';
+const HeaderRoot = (props: HeaderRootProps) => {
+    const { children, className, ...rest } = props;
+    const headerClsx = clsx('header', className);
+
     return (
         <header className={headerClsx} {...rest}>
             {children}
@@ -12,4 +15,4 @@ const Header = (props: HeaderProps) => {
     );
 };
 
-export { Header };
+export { HeaderRoot };

@@ -1,8 +1,8 @@
 .anime-card {
     display: flex;
-    gap: 0.5rem;
-    padding: 0.5rem;
-    border-radius: 6px;
+    gap: var(--size-50);
+    padding: var(--size-50);
+    border-radius: var(--size-37);
     background-color: var(--color-bg-secondary, #1f2937);
     color: var(--color-content-primary, #e5e7eb);
     text-decoration: none;
@@ -19,16 +19,16 @@
 }
 
 .anime-card:focus-visible {
-    outline: 2px solid var(--color-accent, #3b82f6);
-    outline-offset: 2px;
+    outline: var(--size-12) solid var(--color-accent, #3b82f6);
+    outline-offset: var(--size-12);
 }
 
 .anime-card__cover {
     position: relative;
     flex-shrink: 0;
-    width: 48px;
+    width: var(--size-300);
     height: 68px;
-    border-radius: 4px;
+    border-radius: var(--size-25);
     overflow: hidden;
 }
 
@@ -66,7 +66,7 @@
 
 .anime-card__airing {
     display: flex;
-    gap: 0.35rem;
+    gap: var(--size-37);
     font-size: 0.65rem;
     color: var(--color-content-secondary, #9ca3af);
 }
@@ -82,7 +82,7 @@
     text-transform: uppercase;
     letter-spacing: 0.03em;
     padding: 0.1rem 0.3rem;
-    border-radius: 3px;
+    border-radius: var(--size-17);
     width: fit-content;
 }
 

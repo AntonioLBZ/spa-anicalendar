@@ -5,5 +5,5 @@ export * from './app-body';
 export * from './anime-card';
 export * from './home';
 export * from './user-context';
-export * from './user-profile';
+export * from './settings';
 export * from './weekly-calendar';

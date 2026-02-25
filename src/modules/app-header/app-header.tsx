@@ -1,44 +1,44 @@
 'use client';
 
 import Image from 'next/image';
+import { Link } from 'react-aria-components';
 
-import { ThemeButton } from '@/modules/theme-button';
+import { Settings } from '@/modules/settings';
 import { useUserContext } from '@/modules/user-context';
 import { Header } from '@/platform/components';
-import { UserData } from '@/platform/services/api';
+
+import './app-header.css';
 
 const AppHeader = () => {
     const { user } = useUserContext();
 
     return (
-        <Header>
-            {user && <UserModule {...user} />}
-            <div>Welcome to Anicalendar!</div>
-            <ThemeButton />
-        </Header>
-    );
-};
-
-const UserModule = (props: UserData) => {
-    const userImageClsx = 'app-header__user-image';
-    return (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <div
-                className={userImageClsx}
-                style={{ aspectRatio: '1', height: '80%', overflow: 'hidden', borderRadius: '3px' }}
-            >
-                <a href={props.siteUrl} target="_blank" rel="noopener noreferrer">
-                    <Image
-                        src={props.avatar.medium}
-                        alt={props.name}
-                        width={30}
-                        height={30}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                </a>
-            </div>
-            {props.name}
-        </div>
+        <Header.Root>
+            <Header.Content>
+                <Header.Brand>Anicalendar</Header.Brand>
+                <Header.Nav />
+                <Header.Actions>
+                    {user && (
+                        <Link
+                            className="app-header__user-link"
+                            href={user.siteUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <Image
+                                src={user.avatar.medium}
+                                alt={user.name}
+                                width={28}
+                                height={28}
+                                className="app-header__avatar"
+                            />
+                            <span className="app-header__username">{user.name}</span>
+                        </Link>
+                    )}
+                    <Settings />
+                </Header.Actions>
+            </Header.Content>
+        </Header.Root>
     );
 };
 
