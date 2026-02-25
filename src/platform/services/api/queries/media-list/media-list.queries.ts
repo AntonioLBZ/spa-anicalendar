@@ -33,6 +33,7 @@ query MediaList($userId: Int, $type: MediaType, $statusIn: [MediaListStatus], $s
         }
         isAdult
         season
+        genres
       }
       progress
       mediaId

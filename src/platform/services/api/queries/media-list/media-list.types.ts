@@ -79,6 +79,7 @@ interface Media {
     endDate: FuzzyDate;
     isAdult: boolean;
     season: MediaSeason | null;
+    genres: string[];
 }
 
 interface MediaListEntry {

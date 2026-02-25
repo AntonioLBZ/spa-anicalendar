@@ -1,20 +1,28 @@
+import type { WeekStartDay, TimeFormat } from '@/modules/settings-context';
+
 /**
- * Returns the day of the week (0 = Monday, 6 = Sunday) for a Unix timestamp.
- * Uses Monday-first ordering for calendar display.
+ * Returns the day of the week for a Unix timestamp.
+ * Monday-first: 0 = Monday, 6 = Sunday
+ * Sunday-first: 0 = Sunday, 6 = Saturday
  */
-const getAiringDay = (airingAt: number): number => {
+const getAiringDay = (airingAt: number, weekStartDay: WeekStartDay = 'monday'): number => {
     const jsDay = new Date(airingAt * 1000).getDay();
+
+    if (weekStartDay === 'sunday') {
+        return jsDay;
+    }
+
     return jsDay === 0 ? 6 : jsDay - 1;
 };
 
 /**
  * Returns a formatted local time string for a Unix timestamp.
- * Example: "15:30" or "3:30 PM" depending on locale.
  */
-const getLocalAiringTime = (airingAt: number): string => {
+const getLocalAiringTime = (airingAt: number, timeFormat: TimeFormat = '24h'): string => {
     return new Date(airingAt * 1000).toLocaleTimeString(undefined, {
         hour: '2-digit',
         minute: '2-digit',
+        hour12: timeFormat === '12h',
     });
 };
 
@@ -39,26 +47,29 @@ const getTimeUntilAiring = (airingAt: number): string => {
 
 /**
  * Returns the day name for display in the calendar header.
- * dayIndex: 0 = Monday, 6 = Sunday
+ * Monday-first: dayIndex 0 = Monday, 6 = Sunday
+ * Sunday-first: dayIndex 0 = Sunday, 6 = Saturday
  */
-const getDayName = (dayIndex: number): string => {
-    const days = [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday',
-    ];
+const getDayName = (dayIndex: number, weekStartDay: WeekStartDay = 'monday'): string => {
+    const mondayFirst = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const sundayFirst = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    const days = weekStartDay === 'sunday' ? sundayFirst : mondayFirst;
     return days[dayIndex];
 };
 
 /**
- * Returns today's day index (0 = Monday, 6 = Sunday).
+ * Returns today's day index based on the week start day.
+ * Monday-first: 0 = Monday, 6 = Sunday
+ * Sunday-first: 0 = Sunday, 6 = Saturday
  */
-const getTodayIndex = (): number => {
+const getTodayIndex = (weekStartDay: WeekStartDay = 'monday'): number => {
     const jsDay = new Date().getDay();
+
+    if (weekStartDay === 'sunday') {
+        return jsDay;
+    }
+
     return jsDay === 0 ? 6 : jsDay - 1;
 };
 

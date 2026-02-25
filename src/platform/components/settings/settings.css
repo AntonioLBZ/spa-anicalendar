@@ -58,6 +58,11 @@
     border-top: var(--size-6) solid var(--color-border-elevation-2);
 }
 
+.settings__section--disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
 .settings__section-title {
     font-weight: 600;
     font-size: var(--size-75);
@@ -68,13 +73,50 @@
     margin-bottom: var(--size-25);
 }
 
-.settings__section--disabled {
-    opacity: 0.5;
-    pointer-events: none;
+.settings__option-group {
+    display: flex;
+    gap: var(--size-6);
+    background-color: var(--color-bg-primary);
+    border-radius: var(--size-border-radius);
+    padding: var(--size-9);
 }
 
-.settings__placeholder {
-    margin: 0;
-    font-size: 0.875rem;
+.settings__option-group > label {
+    flex: 1;
+    display: flex;
+}
+
+.settings__option {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--size-25) var(--size-50);
+    border-radius: var(--size-25);
+    font-size: var(--size-75);
+    font-weight: 500;
     color: var(--color-content-secondary);
+    cursor: pointer;
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease;
+    user-select: none;
+}
+
+.settings__option:hover {
+    color: var(--color-content-primary);
+}
+
+.settings__option--selected {
+    background-color: var(--color-content-bg-primary);
+    color: var(--color-content-on-accent);
+}
+
+.settings__option--selected:hover {
+    color: var(--color-content-on-accent);
+}
+
+.settings__option-group > label[data-focus-visible] > .settings__option {
+    outline: var(--size-border-focus) solid var(--color-border-focus);
+    outline-offset: var(--size-border-focus-offset);
 }

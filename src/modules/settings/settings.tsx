@@ -1,12 +1,12 @@
 'use client';
 
-import { Button, Dialog, DialogTrigger, Popover } from 'react-aria-components';
+import { DialogTrigger, Popover, Dialog, RadioGroup, Radio } from 'react-aria-components';
 
-import { ThemeButton } from '@/modules/theme-button';
+import { useSettingsContext } from '@/modules/settings-context';
+import { Settings as S, useThemeContext } from '@/platform/components';
 
-import './settings.css';
+import type { ContentFilter, EmptyDaysMode, WeekStartDay, TimeFormat } from '@/modules/settings-context';
 
-// TODO: Replace with an actual icon or use an icon library
 const GearIcon = () => (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -17,30 +17,141 @@ const GearIcon = () => (
     </svg>
 );
 
+const CONTENT_FILTER_OPTIONS: { value: ContentFilter; label: string }[] = [
+    { value: 'sfw', label: 'SFW' },
+    { value: 'plus16', label: '+16' },
+    { value: 'plus18', label: '+18' },
+];
+
+const EMPTY_DAYS_OPTIONS: { value: EmptyDaysMode; label: string }[] = [
+    { value: 'show', label: 'Show' },
+    { value: 'minimize', label: 'Min' },
+    { value: 'hide', label: 'Hide' },
+];
+
+const WEEK_START_OPTIONS: { value: WeekStartDay; label: string }[] = [
+    { value: 'monday', label: 'Mon' },
+    { value: 'sunday', label: 'Sun' },
+];
+
+const TIME_FORMAT_OPTIONS: { value: TimeFormat; label: string }[] = [
+    { value: '24h', label: '24h' },
+    { value: '12h', label: '12h' },
+];
+
 const Settings = () => {
+    const { theme, setTheme } = useThemeContext();
+    const {
+        contentFilter,
+        setContentFilter,
+        emptyDaysMode,
+        setEmptyDaysMode,
+        weekStartDay,
+        setWeekStartDay,
+        timeFormat,
+        setTimeFormat,
+    } = useSettingsContext();
+
     return (
         <DialogTrigger>
-            <Button className="settings__trigger" aria-label="Settings">
+            <S.Trigger aria-label="Settings">
                 <GearIcon />
-            </Button>
+            </S.Trigger>
             <Popover placement="bottom end" className="settings__panel">
                 <Dialog className="settings__dialog">
-                    <section className="settings__section">
-                        <h3 className="settings__section-title">Theme</h3>
-                        <ThemeButton />
-                    </section>
-                    <section className="settings__section settings__section--disabled">
-                        <h3 className="settings__section-title">Filters</h3>
-                        <p className="settings__placeholder">Coming soon</p>
-                    </section>
-                    <section className="settings__section settings__section--disabled">
-                        <h3 className="settings__section-title">Display</h3>
-                        <p className="settings__placeholder">Coming soon</p>
-                    </section>
-                    <section className="settings__section settings__section--disabled">
-                        <h3 className="settings__section-title">Language</h3>
-                        <p className="settings__placeholder">Coming soon</p>
-                    </section>
+                    <S.Section>
+                        <S.SectionTitle>Theme</S.SectionTitle>
+                        <RadioGroup
+                            aria-label="Theme"
+                            value={theme ?? 'dark'}
+                            onChange={(v) => setTheme?.(v as 'dark' | 'light')}
+                        >
+                            <S.OptionGroup>
+                                <Radio value="dark">
+                                    {({ isSelected }) => (
+                                        <S.Option isSelected={isSelected}>Dark</S.Option>
+                                    )}
+                                </Radio>
+                                <Radio value="light">
+                                    {({ isSelected }) => (
+                                        <S.Option isSelected={isSelected}>Light</S.Option>
+                                    )}
+                                </Radio>
+                            </S.OptionGroup>
+                        </RadioGroup>
+                    </S.Section>
+                    <S.Section>
+                        <S.SectionTitle>Content</S.SectionTitle>
+                        <RadioGroup
+                            aria-label="Content"
+                            value={contentFilter}
+                            onChange={(v) => setContentFilter(v as ContentFilter)}
+                        >
+                            <S.OptionGroup>
+                                {CONTENT_FILTER_OPTIONS.map(({ value, label }) => (
+                                    <Radio key={value} value={value}>
+                                        {({ isSelected }) => (
+                                            <S.Option isSelected={isSelected}>{label}</S.Option>
+                                        )}
+                                    </Radio>
+                                ))}
+                            </S.OptionGroup>
+                        </RadioGroup>
+                    </S.Section>
+                    <S.Section>
+                        <S.SectionTitle>Empty Days</S.SectionTitle>
+                        <RadioGroup
+                            aria-label="Empty Days"
+                            value={emptyDaysMode}
+                            onChange={(v) => setEmptyDaysMode(v as EmptyDaysMode)}
+                        >
+                            <S.OptionGroup>
+                                {EMPTY_DAYS_OPTIONS.map(({ value, label }) => (
+                                    <Radio key={value} value={value}>
+                                        {({ isSelected }) => (
+                                            <S.Option isSelected={isSelected}>{label}</S.Option>
+                                        )}
+                                    </Radio>
+                                ))}
+                            </S.OptionGroup>
+                        </RadioGroup>
+                    </S.Section>
+                    <S.Section>
+                        <S.SectionTitle>Week Start</S.SectionTitle>
+                        <RadioGroup
+                            aria-label="Week Start"
+                            value={weekStartDay}
+                            onChange={(v) => setWeekStartDay(v as WeekStartDay)}
+                        >
+                            <S.OptionGroup>
+                                {WEEK_START_OPTIONS.map(({ value, label }) => (
+                                    <Radio key={value} value={value}>
+                                        {({ isSelected }) => (
+                                            <S.Option isSelected={isSelected}>{label}</S.Option>
+                                        )}
+                                    </Radio>
+                                ))}
+                            </S.OptionGroup>
+                        </RadioGroup>
+                    </S.Section>
+                    <S.Section>
+                        <S.SectionTitle>Time Format</S.SectionTitle>
+                        <RadioGroup
+                            aria-label="Time Format"
+                            value={timeFormat}
+                            onChange={(v) => setTimeFormat(v as TimeFormat)}
+                        >
+                            <S.OptionGroup>
+                                {TIME_FORMAT_OPTIONS.map(({ value, label }) => (
+                                    <Radio key={value} value={value}>
+                                        {({ isSelected }) => (
+                                            <S.Option isSelected={isSelected}>{label}</S.Option>
+                                        )}
+                                    </Radio>
+                                ))}
+                            </S.OptionGroup>
+                        </RadioGroup>
+                    </S.Section>
                 </Dialog>
             </Popover>
         </DialogTrigger>

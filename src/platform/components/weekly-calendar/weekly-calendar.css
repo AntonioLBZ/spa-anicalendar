@@ -18,7 +18,7 @@
 
 .weekly-calendar__day--today {
     border-radius: var(--size-50);
-    background-color: var(--color-bg-highlight, rgba(59, 130, 246, 0.06));
+    background-color: var(--color-bg-highlight);
 }
 
 .weekly-calendar__day-header {
@@ -28,7 +28,7 @@
     padding: var(--size-50) var(--size-50) var(--size-25);
     font-size: 13px;
     font-weight: 600;
-    color: var(--color-content-primary, #e5e7eb);
+    color: var(--color-content-primary);
 }
 
 .weekly-calendar__today-badge {
@@ -55,13 +55,13 @@
     text-align: center;
 }
 
-.weekly-calendar__no-airing {
+.weekly-calendar__section {
     margin-top: var(--size-150);
     padding-top: var(--size-100);
     border-top: var(--size-6) solid var(--color-border, rgba(255, 255, 255, 0.1));
 }
 
-.weekly-calendar__no-airing-header {
+.weekly-calendar__section-header {
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--color-content-secondary, #9ca3af);
@@ -69,7 +69,7 @@
     padding: 0 var(--size-50);
 }
 
-.weekly-calendar__no-airing-entries {
+.weekly-calendar__section-entries {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: var(--size-50);

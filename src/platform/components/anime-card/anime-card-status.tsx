@@ -4,14 +4,10 @@ import type { AnimeCardStatusProps } from './anime-card.types';
 
 const AnimeCardStatus = (props: AnimeCardStatusProps) => {
     const { children, className, variant, ...rest } = props;
-    const statusClsx = clsx(
-        'anime-card__status',
-        variant && `anime-card__status--${variant}`,
-        className
-    );
+    const statusClsx = clsx('anime-card__status', variant && `anime-card__status--${variant}`, className);
 
     return (
-        <span className={statusClsx} {...rest}>
+        <span className={statusClsx} {...rest} role="status">
             {children}
         </span>
     );

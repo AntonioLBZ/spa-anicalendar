@@ -3,8 +3,8 @@
     gap: var(--size-50);
     padding: var(--size-50);
     border-radius: var(--size-37);
-    background-color: var(--color-bg-secondary, #1f2937);
-    color: var(--color-content-primary, #e5e7eb);
+    background-color: var(--color-bg-secondary);
+    color: var(--color-content-primary);
     text-decoration: none;
     transition:
         background-color 0.15s ease,
@@ -14,12 +14,12 @@
 }
 
 .anime-card:hover {
-    background-color: var(--color-bg-tertiary, #374151);
+    background-color: var(--color-bg-hover);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .anime-card:focus-visible {
-    outline: var(--size-12) solid var(--color-accent, #3b82f6);
+    outline: var(--size-12) solid var(--color-border-focus);
     outline-offset: var(--size-12);
 }
 
@@ -55,25 +55,25 @@
 
 .anime-card__progress {
     font-size: 0.7rem;
-    color: var(--color-content-secondary, #9ca3af);
+    color: var(--color-content-secondary);
 }
 
 .anime-card__pending {
     font-size: 0.65rem;
     font-weight: 500;
-    color: var(--color-warning, #f59e0b);
+    color: var(--color-warning);
 }
 
 .anime-card__airing {
     display: flex;
     gap: var(--size-37);
     font-size: 0.65rem;
-    color: var(--color-content-secondary, #9ca3af);
+    color: var(--color-content-secondary);
 }
 
 .anime-card__airing-countdown {
     font-weight: 500;
-    color: var(--color-accent, #3b82f6);
+    color: var(--color-accent);
 }
 
 .anime-card__status {
@@ -88,25 +88,25 @@
 
 .anime-card__status--releasing {
     background-color: rgba(34, 197, 94, 0.15);
-    color: var(--color-status-releasing, #22c55e);
+    color: var(--color-status-releasing);
 }
 
 .anime-card__status--finished {
     background-color: rgba(59, 130, 246, 0.15);
-    color: var(--color-status-finished, #3b82f6);
+    color: var(--color-status-finished);
 }
 
 .anime-card__status--hiatus {
     background-color: rgba(245, 158, 11, 0.15);
-    color: var(--color-status-hiatus, #f59e0b);
+    color: var(--color-status-hiatus);
 }
 
 .anime-card__status--cancelled {
     background-color: rgba(239, 68, 68, 0.15);
-    color: var(--color-status-cancelled, #ef4444);
+    color: var(--color-status-cancelled);
 }
 
 .anime-card__status--upcoming {
     background-color: rgba(168, 85, 247, 0.15);
-    color: var(--color-status-upcoming, #a855f7);
+    color: var(--color-status-upcoming);
 }
