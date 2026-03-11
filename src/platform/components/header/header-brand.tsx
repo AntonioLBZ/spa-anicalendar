@@ -4,7 +4,7 @@ import type { HeaderBrandProps } from './header.types';
 
 const HeaderBrand = (props: HeaderBrandProps) => {
     const { children, className, ...rest } = props;
-    const brandClsx = clsx('header__brand', className);
+    const brandClsx = clsx('header__brand', 'title-2', className);
 
     return (
         <div className={brandClsx} {...rest}>

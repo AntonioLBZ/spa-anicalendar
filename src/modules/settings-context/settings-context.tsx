@@ -27,7 +27,6 @@ const DEFAULTS: SettingsState = {
     weekStartDay: 'monday',
     timeFormat: '24h',
 };
-// TODO sacar los tipos
 
 const getInitialSettings = (): SettingsState => {
     if (typeof window === 'undefined') return DEFAULTS;

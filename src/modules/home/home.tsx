@@ -20,10 +20,10 @@ const Home = () => {
     };
 
     const homeClsx = 'home';
-    const titleClsx = 'home__title';
-    const subtitleClsx = 'home__subtitle';
+    const titleClsx = 'home__title title-1';
+    const subtitleClsx = 'home__subtitle body-1';
     const formClsx = 'home__form';
-    const inputClsx = 'home__input';
+    const inputClsx = 'home__input body-1';
 
     return (
         <main className={homeClsx}>

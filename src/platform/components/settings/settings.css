@@ -24,8 +24,8 @@
     border: var(--size-6) solid var(--color-border-elevation);
     border-radius: var(--size-border-radius);
     padding: var(--size-50);
-    min-width: 200px;
-    box-shadow: 0 4px 16px var(--color-border-elevation-2);
+    min-width: var(--size-1300);
+    box-shadow: 0 var(--size-25) var(--size-100) var(--color-border-elevation-2);
 }
 
 .settings__panel[data-entering] {
@@ -64,10 +64,8 @@
 }
 
 .settings__section-title {
-    font-weight: 600;
-    font-size: var(--size-75);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: var(--size-6);
     color: var(--color-content-secondary);
     margin: 0;
     margin-bottom: var(--size-25);
@@ -93,7 +91,6 @@
     justify-content: center;
     padding: var(--size-25) var(--size-50);
     border-radius: var(--size-25);
-    font-size: var(--size-75);
     font-weight: 500;
     color: var(--color-content-secondary);
     cursor: pointer;

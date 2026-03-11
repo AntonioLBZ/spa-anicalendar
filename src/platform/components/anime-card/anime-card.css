@@ -15,7 +15,7 @@
 
 .anime-card:hover {
     background-color: var(--color-bg-hover);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 var(--size-12) var(--size-50) rgba(0, 0, 0, 0.25);
 }
 
 .anime-card:focus-visible {
@@ -27,7 +27,7 @@
     position: relative;
     flex-shrink: 0;
     width: var(--size-300);
-    height: 68px;
+    height: var(--size-450);
     border-radius: var(--size-25);
     overflow: hidden;
 }
@@ -39,27 +39,22 @@
 .anime-card__info {
     display: flex;
     flex-direction: column;
-    gap: 0.15rem;
+    gap: var(--size-12);
     min-width: 0;
     flex: 1;
 }
 
 .anime-card__title {
-    font-size: 0.8rem;
-    font-weight: 600;
-    line-height: 1.2;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .anime-card__progress {
-    font-size: 0.7rem;
     color: var(--color-content-secondary);
 }
 
 .anime-card__pending {
-    font-size: 0.65rem;
     font-weight: 500;
     color: var(--color-warning);
 }
@@ -67,7 +62,6 @@
 .anime-card__airing {
     display: flex;
     gap: var(--size-37);
-    font-size: 0.65rem;
     color: var(--color-content-secondary);
 }
 
@@ -77,11 +71,8 @@
 }
 
 .anime-card__status {
-    font-size: 0.6rem;
-    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
-    padding: 0.1rem 0.3rem;
+    padding: var(--size-6) var(--size-25);
     border-radius: var(--size-17);
     width: fit-content;
 }

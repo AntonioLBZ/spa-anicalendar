@@ -23,9 +23,7 @@
 }
 
 .header__brand {
-    font-weight: 700;
     color: var(--color-content-bright);
-    font-size: 1.125rem;
 }
 
 .header__nav {

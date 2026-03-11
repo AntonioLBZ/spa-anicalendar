@@ -26,13 +26,11 @@
     align-items: center;
     gap: var(--size-25);
     padding: var(--size-50) var(--size-50) var(--size-25);
-    font-size: 13px;
-    font-weight: 600;
     color: var(--color-content-primary);
 }
 
 .weekly-calendar__today-badge {
-    font-size: 10px;
+    /* TODO revisar de quitar el font-weight aqui */
     font-weight: 700;
     text-transform: uppercase;
     padding: var(--size-9) var(--size-37);
@@ -49,7 +47,6 @@
 }
 
 .weekly-calendar__day-empty {
-    font-size: var(--size-75);
     color: var(--color-content-secondary, #6b7280);
     padding: var(--size-50);
     text-align: center;
@@ -62,8 +59,6 @@
 }
 
 .weekly-calendar__section-header {
-    font-size: 0.9rem;
-    font-weight: 600;
     color: var(--color-content-secondary, #9ca3af);
     margin-bottom: var(--size-75);
     padding: 0 var(--size-50);
@@ -71,14 +66,13 @@
 
 .weekly-calendar__section-entries {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(var(--size-1300), 1fr));
     gap: var(--size-50);
 }
 
 .weekly-calendar__empty {
     text-align: center;
     padding: var(--size-300) var(--size-100);
-    font-size: 0.9rem;
     color: var(--color-content-secondary, #9ca3af);
 }
 

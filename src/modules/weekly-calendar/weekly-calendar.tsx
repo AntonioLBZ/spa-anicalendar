@@ -60,7 +60,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
     );
 
     if (filtered.length === 0) {
-        return <div className="weekly-calendar__empty">No anime in your watching list.</div>;
+        return <div className="weekly-calendar__empty body-1">No anime in your watching list.</div>;
     }
 
     return (
@@ -84,7 +84,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
                                             <AnimeCard key={entry.id} entry={entry} />
                                         ))
                                     ) : (
-                                        <div className="weekly-calendar__day-empty">
+                                        <div className="weekly-calendar__day-empty body-2">
                                             No episodes
                                         </div>
                                     )}

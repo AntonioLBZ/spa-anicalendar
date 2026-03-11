@@ -60,11 +60,11 @@
 
     @media (max-width: 1024px) {
         --content-max-width: 100%;
-        --content-padding-inline: 0px;
+        --content-padding-inline: var(--size-0);
     }
 
     @media (max-width: 768px) {
-        --header-height: 52px;
+        --header-height: var(--size-350);
     }
 
     /** Dark Theme */
@@ -97,7 +97,7 @@
     --color-status-upcoming: rgb(168, 85, 247);
 
     /* Accent */
-    --color-content-on-accent: #ffffff;
+    --color-content-on-accent: rgb(255, 255, 255);
 }
 
 * {
