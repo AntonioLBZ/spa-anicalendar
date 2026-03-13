@@ -32,7 +32,7 @@ const AppHeader = () => {
                                 height={28}
                                 className="app-header__avatar"
                             />
-                            <span className="app-header__username body-1">{user.name}</span>
+                            <span className="app-header__username label-1">{user.name}</span>
                         </Link>
                     )}
                     <Settings />

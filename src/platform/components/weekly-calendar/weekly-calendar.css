@@ -5,8 +5,12 @@
 
 .weekly-calendar__grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(var(--columns), 1fr);
     gap: var(--size-50);
+}
+
+.weekly-calendar__grid--collapse-content {
+    grid-template-columns: repeat(var(--columns), minmax(0, auto));
 }
 
 .weekly-calendar__day {
@@ -30,8 +34,6 @@
 }
 
 .weekly-calendar__today-badge {
-    /* TODO revisar de quitar el font-weight aqui */
-    font-weight: 700;
     text-transform: uppercase;
     padding: var(--size-9) var(--size-37);
     border-radius: var(--size-25);

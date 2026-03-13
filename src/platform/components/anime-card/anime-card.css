@@ -55,7 +55,6 @@
 }
 
 .anime-card__pending {
-    font-weight: 500;
     color: var(--color-warning);
 }
 
@@ -66,7 +65,6 @@
 }
 
 .anime-card__airing-countdown {
-    font-weight: 500;
     color: var(--color-accent);
 }
 

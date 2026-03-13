@@ -54,45 +54,42 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
 
     const filtered = useMemo(() => filterByContent(entries, contentFilter), [entries, contentFilter]);
     const todayIndex = getTodayIndex(weekStartDay);
-    const { days, noAiring } = useMemo(
-        () => groupByAiringDay(filtered, weekStartDay),
-        [filtered, weekStartDay]
-    );
+    const { days, noAiring } = useMemo(() => groupByAiringDay(filtered, weekStartDay), [filtered, weekStartDay]);
 
     if (filtered.length === 0) {
-        return <div className="weekly-calendar__empty body-1">No anime in your watching list.</div>;
+        return <Calendar.Root>No anime in your watching list.</Calendar.Root>;
     }
+
+    const hideEmptyDays = emptyDaysMode === 'hide';
+    const collapseContent = emptyDaysMode === 'minimize';
 
     return (
         <Calendar.Root>
-            <Calendar.Grid aria-label="Weekly anime schedule">
-                {Array.from({ length: 7 }, (_, i) => {
-                    const dayId = `day-${i}`;
-                    const isEmpty = days[i].length === 0;
+            <Calendar.Grid aria-label="Weekly anime schedule" collapseContent={collapseContent}>
+                {Object.entries(days)
+                    .filter(([, entries]) => !(hideEmptyDays && entries.length === 0))
+                    .map(([dayIndex, entries]) => {
+                        const dayId = `day-${dayIndex}`;
+                        const isEmpty = entries.length === 0;
+                        const isToday = Number(dayIndex) === todayIndex;
 
-                    if (isEmpty && emptyDaysMode === 'hide') return null;
-
-                    return (
-                        <Calendar.Day key={i} isToday={i === todayIndex} aria-labelledby={dayId}>
-                            <Calendar.DayHeader isToday={i === todayIndex} id={dayId}>
-                                {getDayName(i, weekStartDay)}
-                            </Calendar.DayHeader>
-                            {!(isEmpty && emptyDaysMode === 'minimize') && (
-                                <Calendar.DayEntries>
-                                    {days[i].length > 0 ? (
-                                        days[i].map((entry) => (
-                                            <AnimeCard key={entry.id} entry={entry} />
-                                        ))
-                                    ) : (
-                                        <div className="weekly-calendar__day-empty body-2">
-                                            No episodes
-                                        </div>
-                                    )}
-                                </Calendar.DayEntries>
-                            )}
-                        </Calendar.Day>
-                    );
-                })}
+                        return (
+                            <Calendar.Day key={dayIndex} isToday={isToday} aria-labelledby={dayId}>
+                                <Calendar.DayHeader isToday={isToday} id={dayId}>
+                                    {getDayName(Number(dayIndex), weekStartDay)}
+                                </Calendar.DayHeader>
+                                {!(isEmpty && collapseContent) && (
+                                    <Calendar.DayEntries>
+                                        {entries.length > 0 ? (
+                                            entries.map((entry) => <AnimeCard key={entry.id} entry={entry} />)
+                                        ) : (
+                                            <Calendar.DayEmpty>No episodes</Calendar.DayEmpty>
+                                        )}
+                                    </Calendar.DayEntries>
+                                )}
+                            </Calendar.Day>
+                        );
+                    })}
             </Calendar.Grid>
             {noAiring.length > 0 && (
                 <Calendar.Section>

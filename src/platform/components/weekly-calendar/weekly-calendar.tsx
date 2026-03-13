@@ -6,7 +6,7 @@ import './weekly-calendar.css';
 
 const WeeklyCalendarRoot = (props: WeeklyCalendarRootProps) => {
     const { children, className, ...rest } = props;
-    const rootClsx = clsx('weekly-calendar', className);
+    const rootClsx = clsx('weekly-calendar', 'body-1', className);
 
     return (
         <div className={rootClsx} {...rest}>
