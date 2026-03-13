@@ -37,7 +37,7 @@
     text-transform: uppercase;
     padding: var(--size-9) var(--size-37);
     border-radius: var(--size-25);
-    background-color: var(--color-accent, #3b82f6);
+    background-color: var(--color-accent);
     color: #fff;
 }
 
@@ -49,7 +49,7 @@
 }
 
 .weekly-calendar__day-empty {
-    color: var(--color-content-secondary, #6b7280);
+    color: var(--color-content-secondary);
     padding: var(--size-50);
     text-align: center;
 }
@@ -57,11 +57,11 @@
 .weekly-calendar__section {
     margin-top: var(--size-150);
     padding-top: var(--size-100);
-    border-top: var(--size-6) solid var(--color-border, rgba(255, 255, 255, 0.1));
+    border-top: var(--size-6) solid var(--color-border);
 }
 
 .weekly-calendar__section-header {
-    color: var(--color-content-secondary, #9ca3af);
+    color: var(--color-content-secondary);
     margin-bottom: var(--size-75);
     padding: 0 var(--size-50);
 }
@@ -75,7 +75,7 @@
 .weekly-calendar__empty {
     text-align: center;
     padding: var(--size-300) var(--size-100);
-    color: var(--color-content-secondary, #9ca3af);
+    color: var(--color-content-secondary);
 }
 
 @media (max-width: 900px) {
