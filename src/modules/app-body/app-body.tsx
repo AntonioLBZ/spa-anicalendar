@@ -2,6 +2,7 @@
 
 import clsx from 'clsx';
 
+import { SettingsProvider } from '@/modules/settings-context';
 import { UserContextProvider } from '@/modules/user-context';
 import { Theme } from '@/platform/components';
 
@@ -10,6 +11,7 @@ import type { AppBodyProps } from './app-body.types';
 import './app-body.css';
 import '@/assets/themes.css';
 import '@/assets/fonts/fonts.css';
+import '@/assets/typography.css';
 
 const AppBody = (props: AppBodyProps) => {
     const { children, className, ...rest } = props;
@@ -18,7 +20,9 @@ const AppBody = (props: AppBodyProps) => {
         <div className={appBodyClsx} {...rest}>
             <div className="app-body__content">
                 <UserContextProvider>
-                    <Theme>{children}</Theme>
+                    <SettingsProvider>
+                        <Theme>{children}</Theme>
+                    </SettingsProvider>
                 </UserContextProvider>
             </div>
         </div>

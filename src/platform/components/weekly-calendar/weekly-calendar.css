@@ -5,8 +5,12 @@
 
 .weekly-calendar__grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(var(--columns), 1fr);
     gap: var(--size-50);
+}
+
+.weekly-calendar__grid--collapse-content {
+    grid-template-columns: repeat(var(--columns), minmax(0, auto));
 }
 
 .weekly-calendar__day {
@@ -18,7 +22,7 @@
 
 .weekly-calendar__day--today {
     border-radius: var(--size-50);
-    background-color: var(--color-bg-highlight, rgba(59, 130, 246, 0.06));
+    background-color: var(--color-bg-highlight);
 }
 
 .weekly-calendar__day-header {
@@ -26,18 +30,14 @@
     align-items: center;
     gap: var(--size-25);
     padding: var(--size-50) var(--size-50) var(--size-25);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--color-content-primary, #e5e7eb);
+    color: var(--color-content-primary);
 }
 
 .weekly-calendar__today-badge {
-    font-size: 10px;
-    font-weight: 700;
     text-transform: uppercase;
     padding: var(--size-9) var(--size-37);
     border-radius: var(--size-25);
-    background-color: var(--color-accent, #3b82f6);
+    background-color: var(--color-accent);
     color: #fff;
 }
 
@@ -49,37 +49,33 @@
 }
 
 .weekly-calendar__day-empty {
-    font-size: var(--size-75);
-    color: var(--color-content-secondary, #6b7280);
+    color: var(--color-content-secondary);
     padding: var(--size-50);
     text-align: center;
 }
 
-.weekly-calendar__no-airing {
+.weekly-calendar__section {
     margin-top: var(--size-150);
     padding-top: var(--size-100);
-    border-top: var(--size-6) solid var(--color-border, rgba(255, 255, 255, 0.1));
+    border-top: var(--size-6) solid var(--color-border);
 }
 
-.weekly-calendar__no-airing-header {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--color-content-secondary, #9ca3af);
+.weekly-calendar__section-header {
+    color: var(--color-content-secondary);
     margin-bottom: var(--size-75);
     padding: 0 var(--size-50);
 }
 
-.weekly-calendar__no-airing-entries {
+.weekly-calendar__section-entries {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(var(--size-1300), 1fr));
     gap: var(--size-50);
 }
 
 .weekly-calendar__empty {
     text-align: center;
     padding: var(--size-300) var(--size-100);
-    font-size: 0.9rem;
-    color: var(--color-content-secondary, #9ca3af);
+    color: var(--color-content-secondary);
 }
 
 @media (max-width: 900px) {

@@ -1,5 +1,6 @@
 'use client';
 
+import { useSettingsContext } from '@/modules/settings-context';
 import { AnimeCard as Card } from '@/platform/components';
 import { getLocalAiringTime, getTimeUntilAiring } from '@/platform/lib/airing';
 
@@ -16,6 +17,7 @@ const STATUS_VARIANT_MAP: Record<string, 'releasing' | 'finished' | 'hiatus' | '
 const AnimeCard = (props: AnimeCardProps) => {
     const { entry } = props;
     const { media, progress } = entry;
+    const { timeFormat } = useSettingsContext();
     const titleId = `anime-title-${entry.id}`;
     const progressId = `anime-progress-${entry.id}`;
 
@@ -38,11 +40,11 @@ const AnimeCard = (props: AnimeCardProps) => {
                 {pendingCount > 0 && <Card.Pending>{pendingCount} behind</Card.Pending>}
                 {nextEp && (
                     <Card.Airing>
-                        <span className="anime-card__airing-time">{getLocalAiringTime(nextEp.airingAt)}</span>
+                        <span className="anime-card__airing-time">{getLocalAiringTime(nextEp.airingAt, timeFormat)}</span>
                         <span className="anime-card__airing-countdown">{getTimeUntilAiring(nextEp.airingAt)}</span>
                     </Card.Airing>
                 )}
-                <Card.Status variant={STATUS_VARIANT_MAP[media.status] ?? 'upcoming'} role="status">
+                <Card.Status variant={STATUS_VARIANT_MAP[media.status] ?? 'upcoming'}>
                     {media.status.replace(/_/g, ' ')}
                 </Card.Status>
             </Card.Info>

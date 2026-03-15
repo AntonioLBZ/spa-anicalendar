@@ -4,7 +4,7 @@ import type { AnimeCardTitleProps } from './anime-card.types';
 
 const AnimeCardTitle = (props: AnimeCardTitleProps) => {
     const { children, className, ...rest } = props;
-    const titleClsx = clsx('anime-card__title', className);
+    const titleClsx = clsx('anime-card__title', 'label-2', className);
 
     return (
         <span className={titleClsx} {...rest}>

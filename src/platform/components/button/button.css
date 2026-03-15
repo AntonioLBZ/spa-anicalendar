@@ -1,6 +1,6 @@
 .button {
     border-radius: var(--size-border-radius);
-    padding: 10px 15px;
+    padding: var(--size-75) var(--size-100);
 }
 
 .button--primary {

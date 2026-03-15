@@ -18,7 +18,9 @@ type AnimeCardProgressProps = React.ComponentPropsWithRef<'span'>;
 
 type AnimeCardPendingProps = React.ComponentPropsWithRef<'span'>;
 
-type AnimeCardAiringProps = React.ComponentPropsWithRef<'span'>;
+type AnimeCardAiringProps = React.ComponentPropsWithRef<'span'> & {
+    variant?: 'airing' | 'notAiring';
+};
 
 type AnimeCardStatusProps = React.ComponentPropsWithRef<'span'> & {
     variant?: 'releasing' | 'finished' | 'hiatus' | 'cancelled' | 'upcoming';

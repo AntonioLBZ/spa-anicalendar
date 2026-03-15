@@ -6,12 +6,15 @@ const AnimeCardStatus = (props: AnimeCardStatusProps) => {
     const { children, className, variant, ...rest } = props;
     const statusClsx = clsx(
         'anime-card__status',
-        variant && `anime-card__status--${variant}`,
+        'label-3',
+        {
+            [`anime-card__status--${variant}`]: variant,
+        },
         className
     );
 
     return (
-        <span className={statusClsx} {...rest}>
+        <span className={statusClsx} {...rest} role="status">
             {children}
         </span>
     );
