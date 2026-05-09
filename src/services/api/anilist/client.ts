@@ -26,9 +26,7 @@ async function anilistQuery<T, V = Record<string, unknown>>(
     });
 
     if (!response.ok) {
-        throw new Error(
-            `AniList API error: ${response.status} ${response.statusText}`
-        );
+        throw new Error(`AniList API error: ${response.status} ${response.statusText}`);
     }
 
     return response.json();

@@ -1,2 +1,2 @@
-export * from './user-data';
 export * from './media-list';
+export * from './user-data';

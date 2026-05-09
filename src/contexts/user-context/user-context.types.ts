@@ -1,8 +1,8 @@
-import { UserData } from '@/services/api';
+import type { User } from '@/services';
 
 type UserContextValue = {
-    user?: UserData;
-    setUser?: (user: UserData) => void;
+    user?: User;
+    setUser?: (user: User) => void;
 };
 
 export type { UserContextValue };

@@ -1,2 +1,1 @@
-export * from './anilist-client';
-export * from './queries';
+export * from './anilist';

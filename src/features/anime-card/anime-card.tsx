@@ -16,25 +16,24 @@ const STATUS_VARIANT_MAP: Record<string, 'releasing' | 'finished' | 'hiatus' | '
 
 const AnimeCard = (props: AnimeCardProps) => {
     const { entry } = props;
-    const { media, progress } = entry;
     const { timeFormat } = useSettingsContext();
     const titleId = `anime-title-${entry.id}`;
     const progressId = `anime-progress-${entry.id}`;
 
-    const totalEpisodes = media.episodes;
-    const progressText = totalEpisodes ? `Ep ${progress}/${totalEpisodes}` : `Ep ${progress}/?`;
+    const totalEpisodes = entry.episodes;
+    const progressText = totalEpisodes ? `Ep ${entry.progress}/${totalEpisodes}` : `Ep ${entry.progress}/?`;
 
-    const nextEp = media.nextAiringEpisode;
-    const pendingCount = nextEp ? nextEp.episode - progress - 1 : 0;
+    const nextEp = entry.nextAiringEpisode;
+    const pendingCount = nextEp ? nextEp.episode - entry.progress - 1 : 0;
 
     return (
-        <Card.Root href={media.siteUrl} target="_blank" rel="noopener noreferrer" aria-labelledby={titleId}>
+        <Card.Root href={entry.siteUrl} target="_blank" rel="noopener noreferrer" aria-labelledby={titleId}>
             <Card.Cover>
-                <Card.Image src={media.coverImage.medium} alt={media.title.userPreferred} />
+                <Card.Image src={entry.coverImageUrl} alt={entry.title} />
             </Card.Cover>
             <Card.Info>
-                <Card.Title id={titleId}>{media.title.userPreferred}</Card.Title>
-                <Card.Progress id={progressId} aria-label={`Episode ${progress} of ${totalEpisodes ?? 'unknown'}`}>
+                <Card.Title id={titleId}>{entry.title}</Card.Title>
+                <Card.Progress id={progressId} aria-label={`Episode ${entry.progress} of ${totalEpisodes ?? 'unknown'}`}>
                     {progressText}
                 </Card.Progress>
                 {pendingCount > 0 && <Card.Pending>{pendingCount} behind</Card.Pending>}
@@ -44,8 +43,8 @@ const AnimeCard = (props: AnimeCardProps) => {
                         <span className="anime-card__airing-countdown">{getTimeUntilAiring(nextEp.airingAt)}</span>
                     </Card.Airing>
                 )}
-                <Card.Status variant={STATUS_VARIANT_MAP[media.status] ?? 'upcoming'}>
-                    {media.status.replace(/_/g, ' ')}
+                <Card.Status variant={STATUS_VARIANT_MAP[entry.status] ?? 'upcoming'}>
+                    {entry.status.replace(/_/g, ' ')}
                 </Card.Status>
             </Card.Info>
         </Card.Root>

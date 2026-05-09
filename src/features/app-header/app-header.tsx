@@ -26,7 +26,7 @@ const AppHeader = () => {
                             rel="noopener noreferrer"
                         >
                             <Image
-                                src={user.avatar.medium}
+                                src={user.avatarUrl}
                                 alt={user.name}
                                 width={28}
                                 height={28}

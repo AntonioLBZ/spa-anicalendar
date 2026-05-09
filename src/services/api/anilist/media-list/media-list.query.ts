@@ -1,10 +1,9 @@
-import {
-    GetMediaListResponse,
-    GetMediaListVariables,
-    MediaListEntry,
-    GetMediaListParams,
-} from './media-list.types';
-import { anilistQuery } from '../../anilist-client';
+
+import { anilistQuery } from '../client';
+import { selectAnimeEntries } from './media-list.selector';
+
+import type { AnilistMediaListResponse, AnilistMediaListVariables, GetMediaListParams } from './media-list.types';
+import type { AnimeEntry } from '@/services/models';
 
 const GET_MEDIA_LIST = `
 query MediaList($userId: Int, $type: MediaType, $statusIn: [MediaListStatus], $sort: [MediaListSort]) {
@@ -43,19 +42,14 @@ query MediaList($userId: Int, $type: MediaType, $statusIn: [MediaListStatus], $s
 }
 `;
 
-async function getMediaList(
-    params: GetMediaListParams
-): Promise<MediaListEntry[]> {
-    const response = await anilistQuery<
-        GetMediaListResponse,
-        GetMediaListVariables
-    >(GET_MEDIA_LIST, params);
+async function getMediaList(params: GetMediaListParams): Promise<AnimeEntry[]> {
+    const response = await anilistQuery<AnilistMediaListResponse, AnilistMediaListVariables>(GET_MEDIA_LIST, params);
 
     if (response.errors) {
         throw new Error(response.errors[0].message);
     }
 
-    return response.data.Page.mediaList;
+    return selectAnimeEntries(response.data.Page.mediaList);
 }
 
 export { getMediaList };

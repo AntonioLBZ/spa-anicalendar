@@ -1,7 +1,7 @@
-import { MediaListEntry } from '@/services/api';
+import type { AnimeEntry } from '@/services';
 
 type WeeklyCalendarProps = {
-    entries: MediaListEntry[];
+    entries: AnimeEntry[];
 };
 
 export type { WeeklyCalendarProps };

@@ -1,7 +1,7 @@
-import { MediaListEntry } from '@/services/api';
+import type { AnimeEntry } from '@/services';
 
 type AnimeCardProps = {
-    entry: MediaListEntry;
+    entry: AnimeEntry;
 };
 
 export type { AnimeCardProps };

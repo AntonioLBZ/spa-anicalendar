@@ -9,36 +9,36 @@ import { getAiringDay, getDayName, getTodayIndex } from '@/lib/airing';
 
 import type { WeeklyCalendarProps } from './weekly-calendar.types';
 import type { ContentFilter, WeekStartDay } from '@/contexts/settings-context';
-import type { MediaListEntry } from '@/services/api';
+import type { AnimeEntry } from '@/services';
 
 type DayEntries = {
-    [day: number]: MediaListEntry[];
+    [day: number]: AnimeEntry[];
 };
 
-const filterByContent = (entries: MediaListEntry[], contentFilter: ContentFilter): MediaListEntry[] => {
+const filterByContent = (entries: AnimeEntry[], contentFilter: ContentFilter): AnimeEntry[] => {
     if (contentFilter === 'plus18') return entries;
 
     return entries.filter((entry) => {
         if (contentFilter === 'sfw') {
-            return !entry.media.isAdult && !entry.media.genres.includes('Ecchi');
+            return !entry.isAdult && !entry.genres.includes('Ecchi');
         }
-        return !entry.media.isAdult;
+        return !entry.isAdult;
     });
 };
 
 const groupByAiringDay = (
-    entries: MediaListEntry[],
+    entries: AnimeEntry[],
     weekStartDay: WeekStartDay
 ): {
     days: DayEntries;
-    noAiring: MediaListEntry[];
+    noAiring: AnimeEntry[];
 } => {
     const days: DayEntries = { 0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] };
-    const noAiring: MediaListEntry[] = [];
+    const noAiring: AnimeEntry[] = [];
 
     for (const entry of entries) {
-        if (entry.media.nextAiringEpisode) {
-            const day = getAiringDay(entry.media.nextAiringEpisode.airingAt, weekStartDay);
+        if (entry.nextAiringEpisode) {
+            const day = getAiringDay(entry.nextAiringEpisode.airingAt, weekStartDay);
             days[day].push(entry);
         } else {
             noAiring.push(entry);

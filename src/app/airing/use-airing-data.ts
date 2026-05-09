@@ -1,37 +1,27 @@
-'use client';
-
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useUserContext } from '@/contexts/user-context';
-import { WeeklyCalendar } from '@/features/weekly-calendar';
-import {
-    UserData,
-    MediaListEntry,
-    getMediaList,
-    GetMediaListParams,
-} from '@/services/api';
-import { fetchUser } from '@/services/fetchUser';
+import { getMediaList, getUserByName } from '@/services';
 
-import type { AiringViewProps } from './airing-view.types';
+import type { AnimeEntry, GetMediaListParams, User } from '@/services';
 
-const AiringView = (props: AiringViewProps) => {
-    const { userName } = props;
-    const [userData, setUserData] = useState<UserData | null>(null);
-    const [entries, setEntries] = useState<MediaListEntry[]>([]);
-    const [error, setError] = useState<string | null>(null);
+const useAiringData = (userName: string | null) => {
     const router = useRouter();
+    const [userData, setUserData] = useState<User | null>(null);
+    const [entries, setEntries] = useState<AnimeEntry[]>([]);
+    const [error, setError] = useState<string | null>(null);
     const { setUser } = useUserContext();
 
     useEffect(() => {
-        if (!userName.trim()) {
+        if (!userName?.trim()) {
             router.push('/');
             return;
         }
 
         let cancelled = false;
 
-        fetchUser(userName)
+        getUserByName(userName)
             .then((data) => {
                 if (!cancelled) {
                     setUserData(data);
@@ -40,11 +30,7 @@ const AiringView = (props: AiringViewProps) => {
             })
             .catch((err) => {
                 if (!cancelled) {
-                    setError(
-                        err instanceof Error
-                            ? err.message
-                            : 'Failed to fetch user'
-                    );
+                    setError(err instanceof Error ? err.message : 'Failed to fetch user');
                 }
             });
 
@@ -77,19 +63,7 @@ const AiringView = (props: AiringViewProps) => {
         };
     }, [userData?.id]);
 
-    if (error) {
-        return (
-            <main>
-                <p>Error: {error}</p>
-            </main>
-        );
-    }
-
-    return (
-        <main>
-            <WeeklyCalendar entries={entries} />
-        </main>
-    );
+    return { entries, error };
 };
 
-export { AiringView };
+export { useAiringData };
