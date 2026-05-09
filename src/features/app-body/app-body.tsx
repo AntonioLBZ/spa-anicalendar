@@ -2,9 +2,9 @@
 
 import clsx from 'clsx';
 
-import { SettingsProvider } from '@/modules/settings-context';
-import { UserContextProvider } from '@/modules/user-context';
-import { Theme } from '@/platform/components';
+import { Theme } from '@/components';
+import { SettingsProvider } from '@/contexts/settings-context';
+import { UserContextProvider } from '@/contexts/user-context';
 
 import type { AppBodyProps } from './app-body.types';
 

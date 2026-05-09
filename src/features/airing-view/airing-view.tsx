@@ -3,15 +3,15 @@
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
-import { useUserContext } from '@/modules/user-context';
-import { WeeklyCalendar } from '@/modules/weekly-calendar';
+import { useUserContext } from '@/contexts/user-context';
+import { WeeklyCalendar } from '@/features/weekly-calendar';
 import {
     UserData,
     MediaListEntry,
     getMediaList,
     GetMediaListParams,
-} from '@/platform/services/api';
-import { fetchUser } from '@/platform/services/fetchUser';
+} from '@/services/api';
+import { fetchUser } from '@/services/fetchUser';
 
 import type { AiringViewProps } from './airing-view.types';
 

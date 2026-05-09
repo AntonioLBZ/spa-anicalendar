@@ -1,4 +1,4 @@
-import { MediaListEntry } from '@/platform/services/api';
+import { MediaListEntry } from '@/services/api';
 
 type AnimeCardProps = {
     entry: MediaListEntry;

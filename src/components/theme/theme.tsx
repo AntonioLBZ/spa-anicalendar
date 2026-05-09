@@ -3,7 +3,7 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 
-import { createContext } from '@/platform/lib/context';
+import { createContext } from '@/lib/context';
 
 import { ThemeMode, ThemeContextValue, ThemeProps } from './theme.types';
 

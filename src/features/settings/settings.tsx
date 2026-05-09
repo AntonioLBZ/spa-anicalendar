@@ -2,10 +2,10 @@
 
 import { DialogTrigger, Popover, Dialog, RadioGroup, Radio } from 'react-aria-components';
 
-import { useSettingsContext } from '@/modules/settings-context';
-import { Settings as S, useThemeContext } from '@/platform/components';
+import { Settings as S, useThemeContext } from '@/components';
+import { useSettingsContext } from '@/contexts/settings-context';
 
-import type { ContentFilter, EmptyDaysMode, WeekStartDay, TimeFormat } from '@/modules/settings-context';
+import type { ContentFilter, EmptyDaysMode, WeekStartDay, TimeFormat } from '@/contexts/settings-context';
 
 const GearIcon = () => (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

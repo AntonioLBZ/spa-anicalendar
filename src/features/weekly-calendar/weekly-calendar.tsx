@@ -2,14 +2,14 @@
 
 import { useMemo } from 'react';
 
-import { AnimeCard } from '@/modules/anime-card';
-import { useSettingsContext } from '@/modules/settings-context';
-import { WeeklyCalendar as Calendar } from '@/platform/components';
-import { getAiringDay, getDayName, getTodayIndex } from '@/platform/lib/airing';
+import { WeeklyCalendar as Calendar } from '@/components';
+import { useSettingsContext } from '@/contexts/settings-context';
+import { AnimeCard } from '@/features/anime-card';
+import { getAiringDay, getDayName, getTodayIndex } from '@/lib/airing';
 
 import type { WeeklyCalendarProps } from './weekly-calendar.types';
-import type { ContentFilter, WeekStartDay } from '@/modules/settings-context';
-import type { MediaListEntry } from '@/platform/services/api';
+import type { ContentFilter, WeekStartDay } from '@/contexts/settings-context';
+import type { MediaListEntry } from '@/services/api';
 
 type DayEntries = {
     [day: number]: MediaListEntry[];

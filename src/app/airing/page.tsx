@@ -3,7 +3,7 @@
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Suspense } from 'react';
 
-import { AiringView } from '@/modules/airing-view';
+import { AiringView } from '@/features/airing-view';
 
 export default function AiringPage() {
     return (

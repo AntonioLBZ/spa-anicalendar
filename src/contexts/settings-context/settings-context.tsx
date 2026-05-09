@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useCallback, type ReactNode } from 'react';
 
-import { createContext } from '@/platform/lib/context';
+import { createContext } from '@/lib/context';
 
 import type {
     ContentFilter,

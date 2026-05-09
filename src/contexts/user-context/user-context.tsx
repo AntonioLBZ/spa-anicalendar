@@ -2,8 +2,8 @@
 
 import { useState, useMemo, type ReactNode } from 'react';
 
-import { createContext } from '@/platform/lib/context';
-import { UserData } from '@/platform/services/api';
+import { createContext } from '@/lib/context';
+import { UserData } from '@/services/api';
 
 import type { UserContextValue } from './user-context.types';
 

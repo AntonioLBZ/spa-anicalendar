@@ -1,4 +1,4 @@
-import { UserData } from '@/platform/services/api';
+import { UserData } from '@/services/api';
 
 type UserContextValue = {
     user?: UserData;

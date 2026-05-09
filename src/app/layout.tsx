@@ -1,5 +1,5 @@
-import { AppBody } from '@/modules/app-body';
-import { AppHeader } from '@/modules/app-header';
+import { AppBody } from '@/features/app-body';
+import { AppHeader } from '@/features/app-header';
 
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';

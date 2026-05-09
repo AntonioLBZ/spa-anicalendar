@@ -3,9 +3,9 @@
 import Image from 'next/image';
 import { Link } from 'react-aria-components';
 
-import { Settings } from '@/modules/settings';
-import { useUserContext } from '@/modules/user-context';
-import { Header } from '@/platform/components';
+import { Header } from '@/components';
+import { useUserContext } from '@/contexts/user-context';
+import { Settings } from '@/features/settings';
 
 import './app-header.css';
 

@@ -1,4 +1,4 @@
-import type { WeekStartDay, TimeFormat } from '@/modules/settings-context';
+import type { WeekStartDay, TimeFormat } from '@/contexts/settings-context';
 
 /**
  * Returns the day of the week for a Unix timestamp.

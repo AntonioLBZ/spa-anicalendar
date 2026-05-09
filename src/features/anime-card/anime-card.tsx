@@ -1,8 +1,8 @@
 'use client';
 
-import { useSettingsContext } from '@/modules/settings-context';
-import { AnimeCard as Card } from '@/platform/components';
-import { getLocalAiringTime, getTimeUntilAiring } from '@/platform/lib/airing';
+import { AnimeCard as Card } from '@/components';
+import { useSettingsContext } from '@/contexts/settings-context';
+import { getLocalAiringTime, getTimeUntilAiring } from '@/lib/airing';
 
 import type { AnimeCardProps } from './anime-card.types';
 
