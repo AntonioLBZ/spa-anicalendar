@@ -1,10 +1,12 @@
 'use client';
 
+import { QueryClientProvider } from '@tanstack/react-query';
 import clsx from 'clsx';
 
 import { Theme } from '@/components';
 import { SettingsProvider } from '@/contexts/settings-context';
 import { UserContextProvider } from '@/contexts/user-context';
+import { queryClient } from '@/lib/query-client';
 
 import type { AppBodyProps } from './app-body.types';
 
@@ -18,11 +20,13 @@ const AppBody = (props: AppBodyProps) => {
     return (
         <div className={appBodyClsx} {...rest}>
             <div className="app-body__content">
-                <UserContextProvider>
-                    <SettingsProvider>
-                        <Theme>{children}</Theme>
-                    </SettingsProvider>
-                </UserContextProvider>
+                <QueryClientProvider client={queryClient}>
+                    <UserContextProvider>
+                        <SettingsProvider>
+                            <Theme>{children}</Theme>
+                        </SettingsProvider>
+                    </UserContextProvider>
+                </QueryClientProvider>
             </div>
         </div>
     );
