@@ -1,5 +1,6 @@
 # Dependencies
 node_modules
+package-lock.json
 .pnp
 .pnp.js
 .yarn/install-state.gz
@@ -44,6 +45,8 @@ next-env.d.ts
 .omc
 .claude
 AGENTS.md
+CLAUDE.md
 .mcp.json
 .agents
 skills-lock.json
+.rtk
