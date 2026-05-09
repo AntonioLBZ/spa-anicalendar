@@ -1,9 +1,14 @@
-import { AppBody } from '@/features/app-body';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { type ReactNode } from 'react';
+
+import { Body } from '@/features/app-body';
 import { AppHeader } from '@/features/app-header';
 import { inter } from '@/lib/fonts';
 
+import { SettingsProvider, UserContextProvider } from '../contexts';
+import { queryClient } from '../lib/query-client';
+
 import type { Metadata } from 'next';
-import type { ReactNode } from 'react';
 
 export const metadata: Metadata = {
     title: 'Anicalendar',
@@ -16,14 +21,13 @@ type LayoutRootProps = {
 
 export default function LayoutRoot(props: LayoutRootProps) {
     const { children } = props;
+
     return (
         <html lang="en" className={inter.variable}>
-            <body>
-                <AppBody>
-                    <AppHeader />
-                    {children}
-                </AppBody>
-            </body>
+            <Body>
+                <AppHeader />
+                {children}
+            </Body>
         </html>
     );
 }

@@ -4,6 +4,8 @@ import { useState, useEffect, useMemo, useCallback, type ReactNode } from 'react
 
 import { createContext } from '@/lib/context';
 
+import { useResolvedTheme } from '../../lib/use-theme';
+
 import type {
     ContentFilter,
     EmptyDaysMode,
@@ -19,6 +21,7 @@ const STORAGE_KEY = 'anicalendar-settings';
 type SettingsState = {
     provider: Provider;
     theme: ThemeMode;
+    resolvedTheme: Exclude<ThemeMode, 'system'>;
     contentFilter: ContentFilter;
     emptyDaysMode: EmptyDaysMode;
     weekStartDay: WeekStartDay;
@@ -28,6 +31,7 @@ type SettingsState = {
 const DEFAULTS: SettingsState = {
     provider: 'anilist',
     theme: 'system',
+    resolvedTheme: 'light',
     contentFilter: 'sfw',
     emptyDaysMode: 'show',
     weekStartDay: 'monday',
@@ -50,6 +54,8 @@ const SettingsProvider = (props: { children: ReactNode }) => {
     const { children } = props;
     const [settings, setSettings] = useState(getInitialSettings);
 
+    const resolvedTheme = useResolvedTheme();
+
     useEffect(() => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
     }, [settings]);
@@ -66,6 +72,7 @@ const SettingsProvider = (props: { children: ReactNode }) => {
             provider: settings.provider,
             setProvider,
             theme: settings.theme,
+            resolvedTheme: resolvedTheme(settings.theme),
             setTheme,
             contentFilter: settings.contentFilter,
             setContentFilter,
@@ -76,7 +83,16 @@ const SettingsProvider = (props: { children: ReactNode }) => {
             timeFormat: settings.timeFormat,
             setTimeFormat,
         }),
-        [settings, setProvider, setTheme, setContentFilter, setEmptyDaysMode, setWeekStartDay, setTimeFormat]
+        [
+            settings,
+            setProvider,
+            setTheme,
+            setContentFilter,
+            resolvedTheme,
+            setEmptyDaysMode,
+            setWeekStartDay,
+            setTimeFormat,
+        ]
     );
 
     return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>;

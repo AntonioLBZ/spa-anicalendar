@@ -1,3 +1,3 @@
-type AppBodyProps = React.ComponentPropsWithRef<'div'>;
+type AppBodyProps = React.ComponentPropsWithRef<'body'>;
 
 export type { AppBodyProps };

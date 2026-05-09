@@ -62,26 +62,16 @@ const Settings = () => {
                 <Dialog className="settings__dialog">
                     <S.Section>
                         <S.SectionTitle>Theme</S.SectionTitle>
-                        <RadioGroup
-                            aria-label="Theme"
-                            value={theme}
-                            onChange={(v) => setTheme(v as ThemeMode)}
-                        >
+                        <RadioGroup aria-label="Theme" value={theme} onChange={(v) => setTheme(v as ThemeMode)}>
                             <S.OptionGroup>
                                 <Radio value="system">
-                                    {({ isSelected }) => (
-                                        <S.Option isSelected={isSelected}>System</S.Option>
-                                    )}
+                                    {({ isSelected }) => <S.Option isSelected={isSelected}>System</S.Option>}
                                 </Radio>
                                 <Radio value="dark">
-                                    {({ isSelected }) => (
-                                        <S.Option isSelected={isSelected}>Dark</S.Option>
-                                    )}
+                                    {({ isSelected }) => <S.Option isSelected={isSelected}>Dark</S.Option>}
                                 </Radio>
                                 <Radio value="light">
-                                    {({ isSelected }) => (
-                                        <S.Option isSelected={isSelected}>Light</S.Option>
-                                    )}
+                                    {({ isSelected }) => <S.Option isSelected={isSelected}>Light</S.Option>}
                                 </Radio>
                             </S.OptionGroup>
                         </RadioGroup>
@@ -96,9 +86,7 @@ const Settings = () => {
                             <S.OptionGroup>
                                 {CONTENT_FILTER_OPTIONS.map(({ value, label }) => (
                                     <Radio key={value} value={value}>
-                                        {({ isSelected }) => (
-                                            <S.Option isSelected={isSelected}>{label}</S.Option>
-                                        )}
+                                        {({ isSelected }) => <S.Option isSelected={isSelected}>{label}</S.Option>}
                                     </Radio>
                                 ))}
                             </S.OptionGroup>
@@ -114,9 +102,7 @@ const Settings = () => {
                             <S.OptionGroup>
                                 {EMPTY_DAYS_OPTIONS.map(({ value, label }) => (
                                     <Radio key={value} value={value}>
-                                        {({ isSelected }) => (
-                                            <S.Option isSelected={isSelected}>{label}</S.Option>
-                                        )}
+                                        {({ isSelected }) => <S.Option isSelected={isSelected}>{label}</S.Option>}
                                     </Radio>
                                 ))}
                             </S.OptionGroup>
@@ -132,9 +118,7 @@ const Settings = () => {
                             <S.OptionGroup>
                                 {WEEK_START_OPTIONS.map(({ value, label }) => (
                                     <Radio key={value} value={value}>
-                                        {({ isSelected }) => (
-                                            <S.Option isSelected={isSelected}>{label}</S.Option>
-                                        )}
+                                        {({ isSelected }) => <S.Option isSelected={isSelected}>{label}</S.Option>}
                                     </Radio>
                                 ))}
                             </S.OptionGroup>
@@ -150,9 +134,7 @@ const Settings = () => {
                             <S.OptionGroup>
                                 {TIME_FORMAT_OPTIONS.map(({ value, label }) => (
                                     <Radio key={value} value={value}>
-                                        {({ isSelected }) => (
-                                            <S.Option isSelected={isSelected}>{label}</S.Option>
-                                        )}
+                                        {({ isSelected }) => <S.Option isSelected={isSelected}>{label}</S.Option>}
                                     </Radio>
                                 ))}
                             </S.OptionGroup>

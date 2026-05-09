@@ -1,1 +1,1 @@
-export { AppBody } from './app-body';
+export * from './app-body';
