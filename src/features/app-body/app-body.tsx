@@ -10,7 +10,6 @@ import type { AppBodyProps } from './app-body.types';
 
 import './app-body.css';
 import '@/assets/themes.css';
-import '@/assets/fonts/fonts.css';
 import '@/assets/typography.css';
 
 const AppBody = (props: AppBodyProps) => {

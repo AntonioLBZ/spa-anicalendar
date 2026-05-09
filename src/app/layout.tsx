@@ -1,5 +1,6 @@
 import { AppBody } from '@/features/app-body';
 import { AppHeader } from '@/features/app-header';
+import { inter } from '@/lib/fonts';
 
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
@@ -16,7 +17,7 @@ type LayoutRootProps = {
 export default function LayoutRoot(props: LayoutRootProps) {
     const { children } = props;
     return (
-        <html lang="en">
+        <html lang="en" className={inter.variable}>
             <body>
                 <AppBody>
                     <AppHeader />
