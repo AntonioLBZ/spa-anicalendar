@@ -1,12 +1,13 @@
+import type { Provider } from '@/services/api/api.types';
+
 type ContentFilter = 'sfw' | 'plus16' | 'plus18';
-
 type EmptyDaysMode = 'show' | 'minimize' | 'hide';
-
 type WeekStartDay = 'monday' | 'sunday';
-
 type TimeFormat = '12h' | '24h';
 
 interface SettingsContextValue {
+    provider: Provider;
+    setProvider: (provider: Provider) => void;
     contentFilter: ContentFilter;
     setContentFilter: (filter: ContentFilter) => void;
     emptyDaysMode: EmptyDaysMode;
@@ -17,10 +18,4 @@ interface SettingsContextValue {
     setTimeFormat: (format: TimeFormat) => void;
 }
 
-export type {
-    ContentFilter,
-    EmptyDaysMode,
-    WeekStartDay,
-    TimeFormat,
-    SettingsContextValue,
-};
+export type { ContentFilter, EmptyDaysMode, WeekStartDay, TimeFormat, SettingsContextValue };

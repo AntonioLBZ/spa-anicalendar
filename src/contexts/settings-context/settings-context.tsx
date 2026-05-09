@@ -11,10 +11,12 @@ import type {
     TimeFormat,
     SettingsContextValue,
 } from './settings-context.types';
+import type { Provider } from '@/services/api/api.types';
 
 const STORAGE_KEY = 'anicalendar-settings';
 
 type SettingsState = {
+    provider: Provider;
     contentFilter: ContentFilter;
     emptyDaysMode: EmptyDaysMode;
     weekStartDay: WeekStartDay;
@@ -22,7 +24,8 @@ type SettingsState = {
 };
 
 const DEFAULTS: SettingsState = {
-    contentFilter: 'plus18',
+    provider: 'anilist',
+    contentFilter: 'sfw',
     emptyDaysMode: 'show',
     weekStartDay: 'monday',
     timeFormat: '24h',
@@ -48,6 +51,7 @@ const SettingsProvider = (props: { children: ReactNode }) => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
     }, [settings]);
 
+    const setProvider = useCallback((v: Provider) => setSettings((s) => ({ ...s, provider: v })), []);
     const setContentFilter = useCallback((v: ContentFilter) => setSettings((s) => ({ ...s, contentFilter: v })), []);
     const setEmptyDaysMode = useCallback((v: EmptyDaysMode) => setSettings((s) => ({ ...s, emptyDaysMode: v })), []);
     const setWeekStartDay = useCallback((v: WeekStartDay) => setSettings((s) => ({ ...s, weekStartDay: v })), []);
@@ -55,6 +59,8 @@ const SettingsProvider = (props: { children: ReactNode }) => {
 
     const value = useMemo<SettingsContextValue>(
         () => ({
+            provider: settings.provider,
+            setProvider,
             contentFilter: settings.contentFilter,
             setContentFilter,
             emptyDaysMode: settings.emptyDaysMode,
@@ -64,7 +70,7 @@ const SettingsProvider = (props: { children: ReactNode }) => {
             timeFormat: settings.timeFormat,
             setTimeFormat,
         }),
-        [settings, setContentFilter, setEmptyDaysMode, setWeekStartDay, setTimeFormat]
+        [settings, setProvider, setContentFilter, setEmptyDaysMode, setWeekStartDay, setTimeFormat]
     );
 
     return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>;

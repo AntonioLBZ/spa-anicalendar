@@ -1,14 +1,13 @@
-import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
+import { useSettingsContext } from '@/contexts/settings-context';
 import { useUserContext } from '@/contexts/user-context';
-import { getMediaList, getUserByName } from '@/services';
-
-import type { GetMediaListParams } from '@/services';
+import { useMediaList, useUser } from '@/services';
 
 const useAiringData = (userName: string | null) => {
     const router = useRouter();
+    const { provider } = useSettingsContext();
     const { setUser } = useUserContext();
 
     useEffect(() => {
@@ -17,11 +16,7 @@ const useAiringData = (userName: string | null) => {
         }
     }, [userName, router]);
 
-    const userQuery = useQuery({
-        queryKey: ['user', userName],
-        queryFn: () => getUserByName(userName!),
-        enabled: !!userName?.trim(),
-    });
+    const userQuery = useUser(provider, userName);
 
     useEffect(() => {
         if (userQuery.data) {
@@ -29,18 +24,7 @@ const useAiringData = (userName: string | null) => {
         }
     }, [userQuery.data, setUser]);
 
-    const mediaListQuery = useQuery({
-        queryKey: ['mediaList', userQuery.data?.id],
-        queryFn: () => {
-            const params: GetMediaListParams = {
-                userId: userQuery.data!.id,
-                type: 'ANIME',
-                statusIn: ['CURRENT', 'REPEATING'],
-            };
-            return getMediaList(params);
-        },
-        enabled: !!userQuery.data?.id,
-    });
+    const mediaListQuery = useMediaList(provider, userQuery.data?.id);
 
     return {
         entries: mediaListQuery.data ?? [],
