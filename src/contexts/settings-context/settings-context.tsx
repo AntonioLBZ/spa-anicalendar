@@ -7,6 +7,7 @@ import { createContext } from '@/lib/context';
 import type {
     ContentFilter,
     EmptyDaysMode,
+    ThemeMode,
     WeekStartDay,
     TimeFormat,
     SettingsContextValue,
@@ -17,6 +18,7 @@ const STORAGE_KEY = 'anicalendar-settings';
 
 type SettingsState = {
     provider: Provider;
+    theme: ThemeMode;
     contentFilter: ContentFilter;
     emptyDaysMode: EmptyDaysMode;
     weekStartDay: WeekStartDay;
@@ -25,6 +27,7 @@ type SettingsState = {
 
 const DEFAULTS: SettingsState = {
     provider: 'anilist',
+    theme: 'system',
     contentFilter: 'sfw',
     emptyDaysMode: 'show',
     weekStartDay: 'monday',
@@ -52,6 +55,7 @@ const SettingsProvider = (props: { children: ReactNode }) => {
     }, [settings]);
 
     const setProvider = useCallback((v: Provider) => setSettings((s) => ({ ...s, provider: v })), []);
+    const setTheme = useCallback((v: ThemeMode) => setSettings((s) => ({ ...s, theme: v })), []);
     const setContentFilter = useCallback((v: ContentFilter) => setSettings((s) => ({ ...s, contentFilter: v })), []);
     const setEmptyDaysMode = useCallback((v: EmptyDaysMode) => setSettings((s) => ({ ...s, emptyDaysMode: v })), []);
     const setWeekStartDay = useCallback((v: WeekStartDay) => setSettings((s) => ({ ...s, weekStartDay: v })), []);
@@ -61,6 +65,8 @@ const SettingsProvider = (props: { children: ReactNode }) => {
         () => ({
             provider: settings.provider,
             setProvider,
+            theme: settings.theme,
+            setTheme,
             contentFilter: settings.contentFilter,
             setContentFilter,
             emptyDaysMode: settings.emptyDaysMode,
@@ -70,7 +76,7 @@ const SettingsProvider = (props: { children: ReactNode }) => {
             timeFormat: settings.timeFormat,
             setTimeFormat,
         }),
-        [settings, setProvider, setContentFilter, setEmptyDaysMode, setWeekStartDay, setTimeFormat]
+        [settings, setProvider, setTheme, setContentFilter, setEmptyDaysMode, setWeekStartDay, setTimeFormat]
     );
 
     return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>;

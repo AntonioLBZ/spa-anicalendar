@@ -2,10 +2,10 @@
 
 import { DialogTrigger, Popover, Dialog, RadioGroup, Radio } from 'react-aria-components';
 
-import { Settings as S, useThemeContext } from '@/components';
+import { Settings as S } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 
-import type { ContentFilter, EmptyDaysMode, WeekStartDay, TimeFormat } from '@/contexts/settings-context';
+import type { ContentFilter, EmptyDaysMode, ThemeMode, WeekStartDay, TimeFormat } from '@/contexts/settings-context';
 
 const GearIcon = () => (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -40,8 +40,9 @@ const TIME_FORMAT_OPTIONS: { value: TimeFormat; label: string }[] = [
 ];
 
 const Settings = () => {
-    const { theme, setTheme } = useThemeContext();
     const {
+        theme,
+        setTheme,
         contentFilter,
         setContentFilter,
         emptyDaysMode,
@@ -63,10 +64,15 @@ const Settings = () => {
                         <S.SectionTitle>Theme</S.SectionTitle>
                         <RadioGroup
                             aria-label="Theme"
-                            value={theme ?? 'dark'}
-                            onChange={(v) => setTheme?.(v as 'dark' | 'light')}
+                            value={theme}
+                            onChange={(v) => setTheme(v as ThemeMode)}
                         >
                             <S.OptionGroup>
+                                <Radio value="system">
+                                    {({ isSelected }) => (
+                                        <S.Option isSelected={isSelected}>System</S.Option>
+                                    )}
+                                </Radio>
                                 <Radio value="dark">
                                     {({ isSelected }) => (
                                         <S.Option isSelected={isSelected}>Dark</S.Option>

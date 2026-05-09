@@ -1,10 +1,5 @@
 type ThemeProps = React.ComponentPropsWithRef<'div'>;
 
-type ThemeMode = 'light' | 'dark';
+type ThemeMode = 'system' | 'light' | 'dark';
 
-interface ThemeContextValue {
-    theme?: ThemeMode;
-    setTheme?: (theme: ThemeMode) => void;
-}
-
-export type { ThemeProps, ThemeMode, ThemeContextValue };
+export type { ThemeProps, ThemeMode };
