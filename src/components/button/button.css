@@ -4,8 +4,8 @@
 }
 
 .button--primary {
-    box-shadow: 0 0 0 var(--color-border-elevation);
     background-color: var(--color-content-bg-primary);
+    box-shadow: 0 0 0 var(--color-border-elevation);
     color: var(--color-content-primary);
 }
 

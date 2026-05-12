@@ -6,31 +6,31 @@
 }
 
 .day--today {
-    border-radius: var(--size-50);
     background-color: var(--color-bg-highlight);
+    border-radius: var(--size-50);
 }
 
 .day__header {
+    align-items: start;
+    color: var(--color-content-primary);
     display: flex;
     flex-direction: column;
-    align-items: start;
     gap: var(--size-25);
     padding: var(--size-75) var(--size-50) var(--size-25);
-    color: var(--color-content-primary);
 }
 
 .day__name {
-    width: 100%;
     display: flex;
     justify-content: space-between;
+    width: 100%;
 }
 
 .day__today-badge {
-    text-transform: uppercase;
-    padding: var(--size-9) var(--size-37);
+    background-color: var(--color-bg-accent);
     border-radius: var(--size-25);
-    background-color: var(--color-accent);
     color: #fff;
+    padding: var(--size-9) var(--size-37);
+    text-transform: uppercase;
 }
 
 .day__entries {

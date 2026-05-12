@@ -1,4 +1,4 @@
-export default {
+const config = {
     extends: 'stylelint-config-standard',
     plugins: ['stylelint-order', 'stylelint-selector-bem-pattern'],
     rules: {
@@ -29,3 +29,5 @@ export default {
         },
     },
 };
+
+export default config;

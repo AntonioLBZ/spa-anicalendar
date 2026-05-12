@@ -1,8 +1,13 @@
 'use client';
 
-import { AnimeCard as Card } from '@/components';
+import clsx from 'clsx';
+import Image from 'next/image';
+import Link from 'next/link';
+
 import { useSettingsContext } from '@/contexts/settings-context';
 import { getLocalAiringTime, getTimeUntilAiring } from '@/lib/airing';
+
+import './anime-card.css';
 
 import type { AnimeCardProps } from './anime-card.types';
 
@@ -15,10 +20,9 @@ const STATUS_VARIANT_MAP: Record<string, 'releasing' | 'finished' | 'hiatus' | '
 };
 
 const AnimeCard = (props: AnimeCardProps) => {
-    const { entry } = props;
+    const { entry, hideStatus = false } = props;
     const { timeFormat } = useSettingsContext();
     const titleId = `anime-title-${entry.id}`;
-    const progressId = `anime-progress-${entry.id}`;
 
     const totalEpisodes = entry.episodes;
     const progressText = totalEpisodes ? `Ep ${entry.progress}/${totalEpisodes}` : `Ep ${entry.progress}/?`;
@@ -26,33 +30,41 @@ const AnimeCard = (props: AnimeCardProps) => {
     const nextEp = entry.nextAiringEpisode;
     const pendingCount = nextEp ? nextEp.episode - entry.progress - 1 : 0;
 
+    const statusVariant = STATUS_VARIANT_MAP[entry.status] ?? 'upcoming';
+
     return (
-        <Card.Root href={entry.siteUrl} target="_blank" rel="noopener noreferrer" aria-labelledby={titleId}>
-            <Card.Cover>
-                <Card.Image src={entry.coverImageUrl} alt={entry.title} />
-            </Card.Cover>
-            <Card.Info>
-                <Card.Title id={titleId}>{entry.title}</Card.Title>
-                <Card.Progress
-                    id={progressId}
-                    aria-label={`Episode ${entry.progress} of ${totalEpisodes ?? 'unknown'}`}
-                >
-                    {progressText}
-                </Card.Progress>
-                {pendingCount > 0 && <Card.Pending>{pendingCount} behind</Card.Pending>}
-                {nextEp && (
-                    <Card.Airing>
-                        <span className="anime-card__airing-time">
-                            {getLocalAiringTime(nextEp.airingAt, timeFormat)}
-                        </span>
-                        <span className="anime-card__airing-countdown">{getTimeUntilAiring(nextEp.airingAt)}</span>
-                    </Card.Airing>
+        <Link className="card" href={entry.siteUrl} target="_blank" rel="noopener noreferrer" aria-labelledby={titleId}>
+            <Image className="card__image" src={entry.coverImageUrl} alt={entry.title} fill />
+            <div className="card__overlay">
+                <span className="card__progress body-m">{progressText}</span>
+                {pendingCount > 0 ? (
+                    <span className="card__pending body-m">{pendingCount} behind</span>
+                ) : (
+                    <span className="card__on-date body-m">Caught up!</span>
                 )}
-                <Card.Status variant={STATUS_VARIANT_MAP[entry.status] ?? 'upcoming'}>
-                    {entry.status.replace(/_/g, ' ')}
-                </Card.Status>
-            </Card.Info>
-        </Card.Root>
+                <div className="card__hover-content">
+                    <div className="card__hover-inner">
+                        <span className="card__title label-m" id={titleId}>
+                            {entry.title}
+                        </span>
+                        {nextEp && (
+                            <span className="card__airing body-m">
+                                <span>{getLocalAiringTime(nextEp.airingAt, timeFormat)}</span>
+                                <span className="card__airing-countdown">{getTimeUntilAiring(nextEp.airingAt)}</span>
+                            </span>
+                        )}
+                        {!hideStatus && (
+                            <span
+                                className={clsx('card__status label-s', `card__status--${statusVariant}`)}
+                                role="status"
+                            >
+                                {entry.status.replace(/_/g, ' ')}
+                            </span>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </Link>
     );
 };
 

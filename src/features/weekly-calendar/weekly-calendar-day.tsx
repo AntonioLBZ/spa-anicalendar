@@ -23,7 +23,7 @@ const WeeklyCalendarDay = ({ dayIndex, entries, isToday, collapseContent, weekSt
             {!(isEmpty && collapseContent) && (
                 <div className="day__entries">
                     {entries.length > 0 ? (
-                        entries.map((entry) => <AnimeCard key={entry.id} entry={entry} />)
+                        entries.map((entry) => <AnimeCard key={entry.id} entry={entry} hideStatus />)
                     ) : (
                         <div className="day__empty body-m">No episodes</div>
                     )}

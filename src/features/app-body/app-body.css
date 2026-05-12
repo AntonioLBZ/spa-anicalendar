@@ -1,10 +1,10 @@
 .app-body {
     background-color: var(--color-bg-primary);
     color: var(--color-content-primary);
-    min-height: 100vh;
-    padding-top: var(--header-height);
     display: flex;
     justify-content: center;
+    min-height: 100vh;
+    padding-top: var(--header-height);
 }
 
 .app-body__content {
