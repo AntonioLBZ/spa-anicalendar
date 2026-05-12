@@ -5,9 +5,6 @@ import { Body } from '@/features/app-body';
 import { AppHeader } from '@/features/app-header';
 import { inter } from '@/lib/fonts';
 
-import { SettingsProvider, UserContextProvider } from '../contexts';
-import { queryClient } from '../lib/query-client';
-
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {

@@ -33,13 +33,18 @@ const AnimeCard = (props: AnimeCardProps) => {
             </Card.Cover>
             <Card.Info>
                 <Card.Title id={titleId}>{entry.title}</Card.Title>
-                <Card.Progress id={progressId} aria-label={`Episode ${entry.progress} of ${totalEpisodes ?? 'unknown'}`}>
+                <Card.Progress
+                    id={progressId}
+                    aria-label={`Episode ${entry.progress} of ${totalEpisodes ?? 'unknown'}`}
+                >
                     {progressText}
                 </Card.Progress>
                 {pendingCount > 0 && <Card.Pending>{pendingCount} behind</Card.Pending>}
                 {nextEp && (
                     <Card.Airing>
-                        <span className="anime-card__airing-time">{getLocalAiringTime(nextEp.airingAt, timeFormat)}</span>
+                        <span className="anime-card__airing-time">
+                            {getLocalAiringTime(nextEp.airingAt, timeFormat)}
+                        </span>
                         <span className="anime-card__airing-countdown">{getTimeUntilAiring(nextEp.airingAt)}</span>
                     </Card.Airing>
                 )}

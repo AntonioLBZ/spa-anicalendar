@@ -1,11 +1,15 @@
 'use client';
 
-import { useMemo } from 'react';
+import clsx from 'clsx';
+import React, { useMemo } from 'react';
 
-import { WeeklyCalendar as Calendar } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { AnimeCard } from '@/features/anime-card';
-import { getAiringDay, getDayName, getTodayIndex } from '@/lib/airing';
+import { getAiringDay, getTodayIndex } from '@/lib/airing';
+
+import { WeeklyCalendarDay } from './weekly-calendar-day';
+
+import './weekly-calendar.css';
 
 import type { WeeklyCalendarProps } from './weekly-calendar.types';
 import type { ContentFilter, WeekStartDay } from '@/contexts/settings-context';
@@ -57,51 +61,44 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
     const { days, noAiring } = useMemo(() => groupByAiringDay(filtered, weekStartDay), [filtered, weekStartDay]);
 
     if (filtered.length === 0) {
-        return <Calendar.Root>No anime in your watching list.</Calendar.Root>;
+        return <div className="weekly-calendar body-l">No anime in your watching list.</div>;
     }
 
     const hideEmptyDays = emptyDaysMode === 'hide';
     const collapseContent = emptyDaysMode === 'minimize';
 
-    return (
-        <Calendar.Root>
-            <Calendar.Grid aria-label="Weekly anime schedule" collapseContent={collapseContent}>
-                {Object.entries(days)
-                    .filter(([, entries]) => !(hideEmptyDays && entries.length === 0))
-                    .map(([dayIndex, entries]) => {
-                        const dayId = `day-${dayIndex}`;
-                        const isEmpty = entries.length === 0;
-                        const isToday = Number(dayIndex) === todayIndex;
+    const visibleDays = Object.entries(days).filter(([, entries]) => !(hideEmptyDays && entries.length === 0));
 
-                        return (
-                            <Calendar.Day key={dayIndex} isToday={isToday} aria-labelledby={dayId}>
-                                <Calendar.DayHeader isToday={isToday} id={dayId}>
-                                    {getDayName(Number(dayIndex), weekStartDay)}
-                                </Calendar.DayHeader>
-                                {!(isEmpty && collapseContent) && (
-                                    <Calendar.DayEntries>
-                                        {entries.length > 0 ? (
-                                            entries.map((entry) => <AnimeCard key={entry.id} entry={entry} />)
-                                        ) : (
-                                            <Calendar.DayEmpty>No episodes</Calendar.DayEmpty>
-                                        )}
-                                    </Calendar.DayEntries>
-                                )}
-                            </Calendar.Day>
-                        );
-                    })}
-            </Calendar.Grid>
+    return (
+        <div className="weekly-calendar body-l">
+            <div
+                className={clsx('weekly-calendar__grid', collapseContent && 'weekly-calendar__grid--collapse-content')}
+                style={{ '--columns': visibleDays.length } as React.CSSProperties}
+                role="list"
+                aria-label="Weekly anime schedule"
+            >
+                {visibleDays.map(([dayIndex, entries]) => (
+                    <WeeklyCalendarDay
+                        key={dayIndex}
+                        dayIndex={Number(dayIndex)}
+                        entries={entries}
+                        isToday={Number(dayIndex) === todayIndex}
+                        collapseContent={collapseContent}
+                        weekStartDay={weekStartDay}
+                    />
+                ))}
+            </div>
             {noAiring.length > 0 && (
-                <Calendar.Section>
-                    <Calendar.SectionHeader>No upcoming episodes</Calendar.SectionHeader>
-                    <Calendar.SectionEntries>
+                <div className="weekly-calendar__section">
+                    <div className="weekly-calendar__section-header label-l">No upcoming episodes</div>
+                    <div className="weekly-calendar__section-entries">
                         {noAiring.map((entry) => (
                             <AnimeCard key={entry.id} entry={entry} />
                         ))}
-                    </Calendar.SectionEntries>
-                </Calendar.Section>
+                    </div>
+                </div>
             )}
-        </Calendar.Root>
+        </div>
     );
 };
 

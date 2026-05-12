@@ -20,8 +20,8 @@ export default function HomePage() {
 
     return (
         <main className="home">
-            <h1 className="home__title title-1">Anicalendar</h1>
-            <p className="home__subtitle body-1">Enter your AniList username to see your weekly airing schedule.</p>
+            <h1 className="home__title title-l">Anicalendar</h1>
+            <p className="home__subtitle body-l">Enter your AniList username to see your weekly airing schedule.</p>
             <form
                 className="home__form"
                 onSubmit={(e) => {
@@ -30,7 +30,7 @@ export default function HomePage() {
                 }}
             >
                 <input
-                    className="home__input body-1"
+                    className="home__input body-l"
                     type="text"
                     placeholder="AniList username"
                     value={userName}

@@ -6,7 +6,7 @@ const AnimeCardStatus = (props: AnimeCardStatusProps) => {
     const { children, className, variant, ...rest } = props;
     const statusClsx = clsx(
         'anime-card__status',
-        'label-3',
+        'label-s',
         {
             [`anime-card__status--${variant}`]: variant,
         },
