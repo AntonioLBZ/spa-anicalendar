@@ -6,6 +6,7 @@ import { Settings as S } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 
 import type { ContentFilter, EmptyDaysMode, ThemeMode, WeekStartDay, TimeFormat } from '@/contexts/settings-context';
+import type { Provider } from '@/services/api/api.types';
 
 const GearIcon = () => (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -39,8 +40,15 @@ const TIME_FORMAT_OPTIONS: { value: TimeFormat; label: string }[] = [
     { value: '12h', label: '12h' },
 ];
 
+const SOURCE_OPTIONS: { value: Provider; label: string }[] = [
+    { value: 'anilist', label: 'AniList' },
+    { value: 'mock', label: 'Mock' },
+];
+
 const Settings = () => {
     const {
+        provider,
+        setProvider,
         theme,
         setTheme,
         contentFilter,
@@ -133,6 +141,22 @@ const Settings = () => {
                         >
                             <S.OptionGroup>
                                 {TIME_FORMAT_OPTIONS.map(({ value, label }) => (
+                                    <Radio key={value} value={value}>
+                                        {({ isSelected }) => <S.Option isSelected={isSelected}>{label}</S.Option>}
+                                    </Radio>
+                                ))}
+                            </S.OptionGroup>
+                        </RadioGroup>
+                    </S.Section>
+                    <S.Section>
+                        <S.SectionTitle>Source</S.SectionTitle>
+                        <RadioGroup
+                            aria-label="Source"
+                            value={provider}
+                            onChange={(v) => setProvider(v as Provider)}
+                        >
+                            <S.OptionGroup>
+                                {SOURCE_OPTIONS.map(({ value, label }) => (
                                     <Radio key={value} value={value}>
                                         {({ isSelected }) => <S.Option isSelected={isSelected}>{label}</S.Option>}
                                     </Radio>
