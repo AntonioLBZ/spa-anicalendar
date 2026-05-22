@@ -1,4 +1,4 @@
-.app-body {
+.airing-page {
     background-color: var(--color-bg-primary);
     color: var(--color-content-primary);
     display: flex;
@@ -7,7 +7,7 @@
     padding-top: var(--header-height);
 }
 
-.app-body__content {
+.airing-page__content {
     max-width: var(--content-max-width);
     padding-inline: var(--content-padding-inline);
 }

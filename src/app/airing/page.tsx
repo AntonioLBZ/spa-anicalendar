@@ -7,6 +7,8 @@ import { WeeklyCalendar } from '@/features/weekly-calendar';
 
 import { useAiringData } from './use-airing-data';
 
+import './page.css';
+
 export default function AiringPage() {
     return (
         <Suspense fallback={null}>
@@ -29,8 +31,10 @@ function AiringContent() {
     }
 
     return (
-        <main>
-            <WeeklyCalendar entries={entries} />
+        <main className="airing-page">
+            <div className="airing-page__content">
+                <WeeklyCalendar entries={entries} />
+            </div>
         </main>
     );
 }

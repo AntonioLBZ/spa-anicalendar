@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { Link } from 'react-aria-components';
 
-import { Header } from '@/components';
 import { useUserContext } from '@/contexts/user-context';
 import { Settings } from '@/features/settings';
 
@@ -13,32 +12,20 @@ const AppHeader = () => {
     const { user } = useUserContext();
 
     return (
-        <Header.Root>
-            <Header.Content>
-                <Header.Brand>Anicalendar</Header.Brand>
-                <Header.Nav />
-                <Header.Actions>
-                    {user && (
-                        <Link
-                            className="app-header__user-link"
-                            href={user.siteUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <Image
-                                src={user.avatarUrl}
-                                alt={user.name}
-                                width={28}
-                                height={28}
-                                className="app-header__avatar"
-                            />
-                            <span className="app-header__username label-l">{user.name}</span>
-                        </Link>
-                    )}
+        <header className="header">
+            <div className="header__content">
+                {user && (
+                    <Link className="header__user-link" href={user.siteUrl} target="_blank" rel="noopener noreferrer">
+                        <Image src={user.avatarUrl} alt={user.name} width={28} height={28} className="header__avatar" />
+                        <span className="header__username label-l">{user.name}</span>
+                    </Link>
+                )}
+                <Link className="header__nav title-m">Anicalendar</Link>
+                <div className="header__actions">
                     <Settings />
-                </Header.Actions>
-            </Header.Content>
-        </Header.Root>
+                </div>
+            </div>
+        </header>
     );
 };
 

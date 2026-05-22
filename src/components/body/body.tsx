@@ -1,17 +1,12 @@
 'use client';
-
 import { QueryClientProvider } from '@tanstack/react-query';
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { ReactNode } from 'react';
 
-import { SettingsProvider, UserContextProvider, useSettingsContext } from '../../contexts';
-import { queryClient } from '../../lib/query-client';
+import { SettingsProvider, UserContextProvider, useSettingsContext } from '@/contexts';
+import { queryClient } from '@/lib/query-client';
 
-import type { AppBodyProps } from './app-body.types';
-
-import './app-body.css';
-import '@/assets/themes.css';
-import '@/assets/typography.css';
+import { BodyProps } from './body.types';
 
 const AppProvider = (props: { children: ReactNode }) => {
     const { children } = props;
@@ -20,22 +15,22 @@ const AppProvider = (props: { children: ReactNode }) => {
         <QueryClientProvider client={queryClient}>
             <UserContextProvider>
                 <SettingsProvider>
-                    <AppBody>{children}</AppBody>
+                    <Body>{children}</Body>
                 </SettingsProvider>
             </UserContextProvider>
         </QueryClientProvider>
     );
 };
 
-const AppBody = (props: AppBodyProps) => {
+const Body = (props: BodyProps) => {
     const { children, className, ...rest } = props;
-    const appBodyClsx = clsx('app-body', className);
+    const bodyClsx = clsx('app-body', className);
 
     const { resolvedTheme: theme } = useSettingsContext();
 
     return (
-        <body className={appBodyClsx} {...rest} data-theme={theme}>
-            <div className="app-body__content">{children}</div>
+        <body className={bodyClsx} {...rest} data-theme={theme}>
+            {children}
         </body>
     );
 };
