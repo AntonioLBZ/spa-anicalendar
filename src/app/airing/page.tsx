@@ -1,9 +1,13 @@
 'use client';
 
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 
-import { AiringView } from '@/modules/airing-view';
+import { WeeklyCalendar } from '@/features/weekly-calendar';
+
+import { useAiringData } from './use-airing-data';
+
+import './page.css';
 
 export default function AiringPage() {
     return (
@@ -15,13 +19,22 @@ export default function AiringPage() {
 
 function AiringContent() {
     const searchParams = useSearchParams();
-    const router = useRouter();
     const userName = searchParams.get('user');
+    const { entries, error } = useAiringData(userName);
 
-    if (!userName) {
-        router.push('/');
-        return null;
+    if (error) {
+        return (
+            <main>
+                <p>Error: {error}</p>
+            </main>
+        );
     }
 
-    return <AiringView userName={userName} />;
+    return (
+        <main className="airing-page">
+            <div className="airing-page__content">
+                <WeeklyCalendar entries={entries} />
+            </div>
+        </main>
+    );
 }

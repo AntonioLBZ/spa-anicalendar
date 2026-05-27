@@ -6,17 +6,21 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "eslint .",
-		"lint:fix": "eslint . --fix",
+		"lint": "eslint . && stylelint \"src/**/*.css\"",
+		"lint:css": "stylelint \"src/**/*.css\"",
+		"lint:css:fix": "stylelint \"src/**/*.css\" --fix",
+		"lint:fix": "eslint . --fix && stylelint \"src/**/*.css\" --fix",
 		"format": "prettier --write .",
+		"types:check": "tsc --noEmit",
 		"prepare": "husky"
 	},
 	"dependencies": {
+		"@tanstack/react-query": "5.100.9",
 		"clsx": "2.1.1",
 		"next": "16.1.6",
 		"react": "19.2.0",
 		"react-aria": "3.44.0",
-		"react-aria-components": "^1.15.1",
+		"react-aria-components": "1.17.0",
 		"react-dom": "19.2.0"
 	},
 	"lint-staged": {
@@ -30,11 +34,16 @@
 		"eslint": "9.39.1",
 		"eslint-config-next": "16.1.6",
 		"eslint-config-prettier": "10.1.8",
+		"eslint-import-resolver-typescript": "4.4.4",
 		"eslint-plugin-import": "2.32.0",
 		"eslint-plugin-prettier": "5.5.4",
-		"husky": "^9.1.7",
-		"lint-staged": "^16.2.7",
+		"husky": "9.1.7",
+		"lint-staged": "16.4.0",
 		"prettier": "3.8.1",
+		"stylelint": "^16.26.1",
+		"stylelint-config-standard": "^36.0.1",
+		"stylelint-order": "8.1.1",
+		"stylelint-selector-bem-pattern": "4.0.1",
 		"typescript": "5.9.3"
 	}
 }

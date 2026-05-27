@@ -1,0 +1,10 @@
+:root {
+    height: 100%;
+}
+
+body {
+    background: var(--color-bg-primary);
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+}

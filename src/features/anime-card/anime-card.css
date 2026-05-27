@@ -1,0 +1,108 @@
+.card {
+    aspect-ratio: 5 / 7;
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--size-37);
+    color: var(--color-content-primary);
+    cursor: pointer;
+    display: block;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+}
+
+.card:focus-visible {
+    outline: var(--size-12) solid var(--color-border-focus);
+    outline-offset: var(--size-12);
+}
+
+.card__overlay {
+    background: linear-gradient(to top, rgb(0 0 0 / 85%) 0%, rgb(0 0 0 / 60%) 85%, transparent 100%);
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-25);
+    left: 0;
+    padding: var(--size-100) var(--size-50) var(--size-50);
+    position: absolute;
+    right: 0;
+}
+
+.card__hover-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.25s ease;
+}
+
+.card:hover .card__hover-content {
+    grid-template-rows: 1fr;
+}
+
+.card__hover-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-25);
+    overflow: hidden;
+}
+
+.card__title {
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card__progress {
+    color: var(--color-content-secondary);
+}
+
+.card__pending {
+    color: var(--color-warning);
+}
+
+.card__on-date {
+    color: var(--color-accent);
+}
+
+.card__airing {
+    color: var(--color-content-secondary);
+    display: flex;
+    gap: var(--size-37);
+}
+
+.card__airing-countdown {
+    color: var(--color-accent);
+}
+
+.card__status {
+    border-radius: var(--size-17);
+    padding: var(--size-6) var(--size-25);
+    text-transform: uppercase;
+    width: fit-content;
+}
+
+.card__status--releasing {
+    background-color: rgb(34 197 94 / 15%);
+    color: var(--color-status-releasing);
+}
+
+.card__status--finished {
+    background-color: rgb(59 130 246 / 15%);
+    color: var(--color-status-finished);
+}
+
+.card__status--hiatus {
+    background-color: rgb(245 158 11 / 15%);
+    color: var(--color-status-hiatus);
+}
+
+.card__status--cancelled {
+    background-color: rgb(239 68 68 / 15%);
+    color: var(--color-status-cancelled);
+}
+
+.card__status--upcoming {
+    background-color: rgb(168 85 247 / 15%);
+    color: var(--color-status-upcoming);
+}

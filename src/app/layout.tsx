@@ -1,28 +1,30 @@
-import { AppBody } from '@/modules/app-body';
-import { AppHeader } from '@/modules/app-header';
+import { type ReactNode } from 'react';
+
+import { Header } from '@/features/header';
+import { inter } from '@/lib/fonts';
+
+import { Providers } from './providers';
 
 import type { Metadata } from 'next';
-import type { ReactNode } from 'react';
+
+import '@/assets/themes.css';
+import '@/assets/typography.css';
+import './layout.css';
 
 export const metadata: Metadata = {
     title: 'Anicalendar',
     description: 'Weekly anime calendar powered by AniList',
 };
 
-type LayoutRootProps = {
-    children: ReactNode;
-};
-
-export default function LayoutRoot(props: LayoutRootProps) {
+export default function LayoutRoot(props: { children: ReactNode }) {
     const { children } = props;
+
     return (
-        <html lang="en">
-            <body>
-                <AppBody>
-                    <AppHeader />
-                    {children}
-                </AppBody>
-            </body>
+        <html lang="en" className={inter.variable}>
+            <Providers>
+                <Header />
+                {children}
+            </Providers>
         </html>
     );
 }

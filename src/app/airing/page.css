@@ -1,0 +1,13 @@
+.airing-page {
+    background-color: var(--color-bg-primary);
+    color: var(--color-content-primary);
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding-top: var(--header-height);
+}
+
+.airing-page__content {
+    max-width: var(--content-max-width);
+    padding-inline: var(--content-padding-inline);
+}
