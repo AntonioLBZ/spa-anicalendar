@@ -7,7 +7,7 @@ import { Button, Field, Radio } from '@/components';
 import { useSettingsContext } from '@/contexts';
 import { SOURCE_OPTIONS } from '@/contexts/settings-context/options';
 
-import './home.css';
+import './page.css';
 
 export default function HomePage() {
     const [userName, setUserName] = useState('');

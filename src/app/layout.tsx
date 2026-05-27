@@ -1,9 +1,9 @@
-import { QueryClientProvider } from '@tanstack/react-query';
 import { type ReactNode } from 'react';
 
-import { Body } from '@/components/body/body';
 import { Header } from '@/features/header';
 import { inter } from '@/lib/fonts';
+
+import { Providers } from './providers';
 
 import type { Metadata } from 'next';
 
@@ -21,10 +21,12 @@ export default function LayoutRoot(props: { children: ReactNode }) {
 
     return (
         <html lang="en" className={inter.variable}>
-            <Body>
-                <Header />
-                {children}
-            </Body>
+            <body>
+                <Providers>
+                    <Header />
+                    {children}
+                </Providers>
+            </body>
         </html>
     );
 }
