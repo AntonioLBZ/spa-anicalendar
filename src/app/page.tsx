@@ -40,7 +40,7 @@ export default function HomePage() {
                     </Field.Root>
                     <Button type="submit">Go</Button>
                 </div>
-                <Radio.Group aria-label="API Provider" defaultValue={provider} onChange={setProvider}>
+                <Radio.Group aria-label="API Provider" value={provider} onChange={setProvider}>
                     {SOURCE_OPTIONS.map((option) => (
                         <Radio.Option key={option.value} value={option.value} className="home__radio-option">
                             {option.label}

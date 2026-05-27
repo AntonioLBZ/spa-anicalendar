@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, useCallback, type ReactNode } from 'react';
+import { useSyncExternalStore, useEffect, useMemo, useCallback, type ReactNode } from 'react';
 
 import { createContext } from '@/lib/context';
 
@@ -38,34 +38,52 @@ const DEFAULTS: SettingsState = {
     timeFormat: '24h',
 };
 
-const getInitialSettings = (): SettingsState => {
-    if (typeof window === 'undefined') return DEFAULTS;
-    try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        return saved ? { ...DEFAULTS, ...JSON.parse(saved) } : DEFAULTS;
-    } catch {
-        return DEFAULTS;
-    }
+let listeners: Array<() => void> = [];
+let currentSettings: SettingsState = DEFAULTS;
+
+const settingsStore = {
+    getSnapshot: () => currentSettings,
+    getServerSnapshot: () => DEFAULTS,
+    subscribe: (listener: () => void) => {
+        listeners = [...listeners, listener];
+        return () => {
+            listeners = listeners.filter((l) => l !== listener);
+        };
+    },
+    set: (updater: (prev: SettingsState) => SettingsState) => {
+        currentSettings = updater(currentSettings);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(currentSettings));
+        listeners.forEach((l) => l());
+    },
+    hydrate: () => {
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                currentSettings = { ...DEFAULTS, ...JSON.parse(saved) };
+                listeners.forEach((l) => l());
+            }
+        } catch {}
+    },
 };
 
 const [SettingsContext, useSettingsContext] = createContext<SettingsContextValue>();
 
 const SettingsProvider = (props: { children: ReactNode }) => {
     const { children } = props;
-    const [settings, setSettings] = useState(getInitialSettings);
+    const settings = useSyncExternalStore(settingsStore.subscribe, settingsStore.getSnapshot, settingsStore.getServerSnapshot);
 
     const resolvedTheme = useResolvedTheme();
 
     useEffect(() => {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
-    }, [settings]);
+        settingsStore.hydrate();
+    }, []);
 
-    const setProvider = useCallback((v: Provider) => setSettings((s) => ({ ...s, provider: v })), []);
-    const setTheme = useCallback((v: ThemeMode) => setSettings((s) => ({ ...s, theme: v })), []);
-    const setContentFilter = useCallback((v: ContentFilter) => setSettings((s) => ({ ...s, contentFilter: v })), []);
-    const setEmptyDaysMode = useCallback((v: EmptyDaysMode) => setSettings((s) => ({ ...s, emptyDaysMode: v })), []);
-    const setWeekStartDay = useCallback((v: WeekStartDay) => setSettings((s) => ({ ...s, weekStartDay: v })), []);
-    const setTimeFormat = useCallback((v: TimeFormat) => setSettings((s) => ({ ...s, timeFormat: v })), []);
+    const setProvider = useCallback((v: Provider) => settingsStore.set((s) => ({ ...s, provider: v })), []);
+    const setTheme = useCallback((v: ThemeMode) => settingsStore.set((s) => ({ ...s, theme: v })), []);
+    const setContentFilter = useCallback((v: ContentFilter) => settingsStore.set((s) => ({ ...s, contentFilter: v })), []);
+    const setEmptyDaysMode = useCallback((v: EmptyDaysMode) => settingsStore.set((s) => ({ ...s, emptyDaysMode: v })), []);
+    const setWeekStartDay = useCallback((v: WeekStartDay) => settingsStore.set((s) => ({ ...s, weekStartDay: v })), []);
+    const setTimeFormat = useCallback((v: TimeFormat) => settingsStore.set((s) => ({ ...s, timeFormat: v })), []);
 
     const value = useMemo<SettingsContextValue>(
         () => ({

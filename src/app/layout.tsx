@@ -21,12 +21,10 @@ export default function LayoutRoot(props: { children: ReactNode }) {
 
     return (
         <html lang="en" className={inter.variable}>
-            <body>
-                <Providers>
-                    <Header />
-                    {children}
-                </Providers>
-            </body>
+            <Providers>
+                <Header />
+                {children}
+            </Providers>
         </html>
     );
 }

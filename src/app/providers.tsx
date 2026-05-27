@@ -10,7 +10,11 @@ const ThemeWrapper = (props: { children: ReactNode }) => {
     const { children } = props;
     const { resolvedTheme: theme } = useSettingsContext();
 
-    return <div data-theme={theme}>{children}</div>;
+    return (
+        <body data-theme={theme} suppressHydrationWarning>
+            {children}
+        </body>
+    );
 };
 
 const Providers = (props: { children: ReactNode }) => {
