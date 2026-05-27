@@ -1,0 +1,41 @@
+.field {
+    position: relative;
+    width: 100%;
+}
+
+.field__input {
+    background-color: var(--color-bg-primary);
+    border: var(--size-6) solid var(--color-border);
+    border-radius: var(--size-border-radius);
+    color: var(--color-content-primary);
+    outline: none;
+    padding: var(--size-75) var(--size-75);
+    transition: border-color 0.15s;
+    width: 100%;
+}
+
+.field__input:focus {
+    border-color: var(--color-accent);
+}
+
+.field__label {
+    background-color: var(--color-bg-primary);
+    color: var(--color-content-secondary);
+    left: var(--size-50);
+    padding-inline: var(--size-25);
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition:
+        top 0.15s,
+        font-size 0.15s,
+        color 0.15s;
+}
+
+.field__input[data-focused] + .field__label,
+.field__input:not(:placeholder-shown) + .field__label {
+    color: var(--color-accent);
+    font-size: 12px;
+    top: 0;
+}

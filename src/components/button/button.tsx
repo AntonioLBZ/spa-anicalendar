@@ -7,10 +7,10 @@ import './button.css';
 
 const Button = (props: ButtonProps) => {
     const { className, variant = 'primary', ...rest } = props;
+
     const buttonClsx = clsx('button', `button--${variant}`, className);
 
-    return <AriaButton className={buttonClsx} {...rest} />;
+    return <AriaButton {...rest} className={buttonClsx} />;
 };
 
-Button.displayName = 'Button';
 export { Button };

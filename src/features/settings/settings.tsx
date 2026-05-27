@@ -1,49 +1,30 @@
 'use client';
 
-import { DialogTrigger, Popover, Dialog, RadioGroup, Radio } from 'react-aria-components';
+import { DialogTrigger, Popover, Dialog, Button } from 'react-aria-components';
 
-import { Settings as S } from '@/components';
+import { Radio } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
+import {
+    CONTENT_FILTER_OPTIONS,
+    EMPTY_DAYS_OPTIONS,
+    SOURCE_OPTIONS,
+    TIME_FORMAT_OPTIONS,
+    WEEK_START_OPTIONS,
+} from '@/contexts/settings-context/options';
+
+import { GearIcon } from './gear-icon';
 
 import type { ContentFilter, EmptyDaysMode, ThemeMode, WeekStartDay, TimeFormat } from '@/contexts/settings-context';
-import type { Provider } from '@/services/api/api.types';
+import type { Provider } from '@/services';
 
-const GearIcon = () => (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-        />
-    </svg>
+import './settings.css';
+
+const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
+    <section className="settings__section">
+        <h3 className="settings__section-title label-m">{title}</h3>
+        {children}
+    </section>
 );
-
-const CONTENT_FILTER_OPTIONS: { value: ContentFilter; label: string }[] = [
-    { value: 'sfw', label: 'SFW' },
-    { value: 'plus16', label: '+16' },
-    { value: 'plus18', label: '+18' },
-];
-
-const EMPTY_DAYS_OPTIONS: { value: EmptyDaysMode; label: string }[] = [
-    { value: 'show', label: 'Show' },
-    { value: 'minimize', label: 'Min' },
-    { value: 'hide', label: 'Hide' },
-];
-
-const WEEK_START_OPTIONS: { value: WeekStartDay; label: string }[] = [
-    { value: 'monday', label: 'Mon' },
-    { value: 'sunday', label: 'Sun' },
-];
-
-const TIME_FORMAT_OPTIONS: { value: TimeFormat; label: string }[] = [
-    { value: '24h', label: '24h' },
-    { value: '12h', label: '12h' },
-];
-
-const SOURCE_OPTIONS: { value: Provider; label: string }[] = [
-    { value: 'anilist', label: 'AniList' },
-    { value: 'mock', label: 'Mock' },
-];
 
 const Settings = () => {
     const {
@@ -63,107 +44,70 @@ const Settings = () => {
 
     return (
         <DialogTrigger>
-            <S.Trigger aria-label="Settings">
+            <Button className="settings__trigger" aria-label="Settings">
                 <GearIcon />
-            </S.Trigger>
+            </Button>
             <Popover placement="bottom end" className="settings__panel">
                 <Dialog className="settings__dialog">
-                    <S.Section>
-                        <S.SectionTitle>Theme</S.SectionTitle>
-                        <RadioGroup aria-label="Theme" value={theme} onChange={(v) => setTheme(v as ThemeMode)}>
-                            <S.OptionGroup>
-                                <Radio value="system">
-                                    {({ isSelected }) => <S.Option isSelected={isSelected}>System</S.Option>}
-                                </Radio>
-                                <Radio value="dark">
-                                    {({ isSelected }) => <S.Option isSelected={isSelected}>Dark</S.Option>}
-                                </Radio>
-                                <Radio value="light">
-                                    {({ isSelected }) => <S.Option isSelected={isSelected}>Light</S.Option>}
-                                </Radio>
-                            </S.OptionGroup>
-                        </RadioGroup>
-                    </S.Section>
-                    <S.Section>
-                        <S.SectionTitle>Content</S.SectionTitle>
-                        <RadioGroup
+                    <Section title="Theme">
+                        <Radio.Group aria-label="Theme" value={theme} onChange={(v) => setTheme(v as ThemeMode)}>
+                            <Radio.Option value="system">System</Radio.Option>
+                            <Radio.Option value="dark">Dark</Radio.Option>
+                            <Radio.Option value="light">Light</Radio.Option>
+                        </Radio.Group>
+                    </Section>
+                    <Section title="Content">
+                        <Radio.Group
                             aria-label="Content"
                             value={contentFilter}
                             onChange={(v) => setContentFilter(v as ContentFilter)}
                         >
-                            <S.OptionGroup>
-                                {CONTENT_FILTER_OPTIONS.map(({ value, label }) => (
-                                    <Radio key={value} value={value}>
-                                        {({ isSelected }) => <S.Option isSelected={isSelected}>{label}</S.Option>}
-                                    </Radio>
-                                ))}
-                            </S.OptionGroup>
-                        </RadioGroup>
-                    </S.Section>
-                    <S.Section>
-                        <S.SectionTitle>Empty Days</S.SectionTitle>
-                        <RadioGroup
+                            {CONTENT_FILTER_OPTIONS.map(({ value, label }) => (
+                                <Radio.Option key={value} value={value}>
+                                    {label}
+                                </Radio.Option>
+                            ))}
+                        </Radio.Group>
+                    </Section>
+                    <Section title="Empty Days">
+                        <Radio.Group
                             aria-label="Empty Days"
                             value={emptyDaysMode}
                             onChange={(v) => setEmptyDaysMode(v as EmptyDaysMode)}
                         >
-                            <S.OptionGroup>
-                                {EMPTY_DAYS_OPTIONS.map(({ value, label }) => (
-                                    <Radio key={value} value={value}>
-                                        {({ isSelected }) => <S.Option isSelected={isSelected}>{label}</S.Option>}
-                                    </Radio>
-                                ))}
-                            </S.OptionGroup>
-                        </RadioGroup>
-                    </S.Section>
-                    <S.Section>
-                        <S.SectionTitle>Week Start</S.SectionTitle>
-                        <RadioGroup
+                            {EMPTY_DAYS_OPTIONS.map(({ value, label }) => (
+                                <Radio.Option key={value} value={value}>
+                                    {label}
+                                </Radio.Option>
+                            ))}
+                        </Radio.Group>
+                    </Section>
+                    <Section title="Week Start">
+                        <Radio.Group
                             aria-label="Week Start"
                             value={weekStartDay}
                             onChange={(v) => setWeekStartDay(v as WeekStartDay)}
                         >
-                            <S.OptionGroup>
-                                {WEEK_START_OPTIONS.map(({ value, label }) => (
-                                    <Radio key={value} value={value}>
-                                        {({ isSelected }) => <S.Option isSelected={isSelected}>{label}</S.Option>}
-                                    </Radio>
-                                ))}
-                            </S.OptionGroup>
-                        </RadioGroup>
-                    </S.Section>
-                    <S.Section>
-                        <S.SectionTitle>Time Format</S.SectionTitle>
-                        <RadioGroup
+                            {WEEK_START_OPTIONS.map(({ value, label }) => (
+                                <Radio.Option key={value} value={value}>
+                                    {label}
+                                </Radio.Option>
+                            ))}
+                        </Radio.Group>
+                    </Section>
+                    <Section title="Time Format">
+                        <Radio.Group
                             aria-label="Time Format"
                             value={timeFormat}
                             onChange={(v) => setTimeFormat(v as TimeFormat)}
                         >
-                            <S.OptionGroup>
-                                {TIME_FORMAT_OPTIONS.map(({ value, label }) => (
-                                    <Radio key={value} value={value}>
-                                        {({ isSelected }) => <S.Option isSelected={isSelected}>{label}</S.Option>}
-                                    </Radio>
-                                ))}
-                            </S.OptionGroup>
-                        </RadioGroup>
-                    </S.Section>
-                    <S.Section>
-                        <S.SectionTitle>Source</S.SectionTitle>
-                        <RadioGroup
-                            aria-label="Source"
-                            value={provider}
-                            onChange={(v) => setProvider(v as Provider)}
-                        >
-                            <S.OptionGroup>
-                                {SOURCE_OPTIONS.map(({ value, label }) => (
-                                    <Radio key={value} value={value}>
-                                        {({ isSelected }) => <S.Option isSelected={isSelected}>{label}</S.Option>}
-                                    </Radio>
-                                ))}
-                            </S.OptionGroup>
-                        </RadioGroup>
-                    </S.Section>
+                            {TIME_FORMAT_OPTIONS.map(({ value, label }) => (
+                                <Radio.Option key={value} value={value}>
+                                    {label}
+                                </Radio.Option>
+                            ))}
+                        </Radio.Group>
+                    </Section>
                 </Dialog>
             </Popover>
         </DialogTrigger>

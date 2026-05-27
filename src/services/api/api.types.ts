@@ -1,6 +1,6 @@
 import type { AnimeEntry, User } from '@/services/models';
 
-type Provider = 'anilist' | 'mal' | 'mock';
+type Provider = 'anilist' | 'kitsu' | 'myanimelist' | 'mock';
 
 interface ApiProvider {
     getUserByName(name: string): Promise<User>;

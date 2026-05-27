@@ -6,9 +6,9 @@ import { Link } from 'react-aria-components';
 import { useUserContext } from '@/contexts/user-context';
 import { Settings } from '@/features/settings';
 
-import './app-header.css';
+import './header.css';
 
-const AppHeader = () => {
+const Header = () => {
     const { user } = useUserContext();
 
     return (
@@ -20,7 +20,9 @@ const AppHeader = () => {
                         <span className="header__username label-l">{user.name}</span>
                     </Link>
                 )}
-                <Link className="header__nav title-m">Anicalendar</Link>
+                <Link className="header__nav title-m" href="/">
+                    Anicalendar
+                </Link>
                 <div className="header__actions">
                     <Settings />
                 </div>
@@ -29,4 +31,4 @@ const AppHeader = () => {
     );
 };
 
-export { AppHeader };
+export { Header };

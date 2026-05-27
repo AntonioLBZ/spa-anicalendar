@@ -8,6 +8,8 @@ import { queryClient } from '@/lib/query-client';
 
 import { BodyProps } from './body.types';
 
+import './body.css';
+
 const AppProvider = (props: { children: ReactNode }) => {
     const { children } = props;
 
@@ -24,7 +26,7 @@ const AppProvider = (props: { children: ReactNode }) => {
 
 const Body = (props: BodyProps) => {
     const { children, className, ...rest } = props;
-    const bodyClsx = clsx('app-body', className);
+    const bodyClsx = clsx('body', className);
 
     const { resolvedTheme: theme } = useSettingsContext();
 

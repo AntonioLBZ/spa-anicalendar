@@ -5,39 +5,29 @@
     display: flex;
     height: var(--header-height);
     justify-content: center;
-
-    /* left: 0; */
     padding-block: 0;
-
-    /* position: fixed;
-    top: 0; */
     transition: background 0.3s ease;
     width: 100%;
-
-    /* z-index: 100; */
 }
 
 .header__content {
     align-items: center;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     height: 100%;
     max-width: var(--content-max-width);
     padding: var(--size-25) calc(var(--size-100) + var(--content-padding-inline));
     width: 100%;
 }
 
-.header__brand {
-    color: var(--color-content-bright);
-}
-
 .header__nav {
-    /* align-items: center; */
     color: var(--color-content-bright);
     display: flex;
     flex: 1;
     gap: var(--size-100);
+    grid-column: 2;
     justify-content: center;
+    text-decoration: none;
 }
 
 .header__actions {
