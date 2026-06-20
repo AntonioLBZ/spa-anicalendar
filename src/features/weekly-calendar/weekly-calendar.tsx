@@ -69,14 +69,12 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
 
     const visibleDays = Object.entries(days).filter(([, entries]) => !(hideEmptyDays && entries.length === 0));
 
+    const style = { '--columns': visibleDays.length } as React.CSSProperties;
+    const gridClsx = clsx('weekly-calendar__grid', { 'weekly-calendar__grid--collapse-content': collapseContent });
+
     return (
-        <div className="weekly-calendar body-l">
-            <div
-                className={clsx('weekly-calendar__grid', collapseContent && 'weekly-calendar__grid--collapse-content')}
-                style={{ '--columns': visibleDays.length } as React.CSSProperties}
-                role="list"
-                aria-label="Weekly anime schedule"
-            >
+        <div className="weekly-calendar body-l" style={style}>
+            <div className={gridClsx} role="list" aria-label="Weekly anime schedule">
                 {visibleDays.map(([dayIndex, entries]) => (
                     <WeeklyCalendarDay
                         key={dayIndex}

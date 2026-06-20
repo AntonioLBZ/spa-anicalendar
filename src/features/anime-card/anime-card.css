@@ -15,6 +15,15 @@
     outline-offset: var(--size-12);
 }
 
+.card__title {
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .card__overlay {
     background: linear-gradient(to top, rgb(0 0 0 / 85%) 0%, rgb(0 0 0 / 60%) 85%, transparent 100%);
     bottom: 0;
@@ -28,29 +37,18 @@
 }
 
 .card__hover-content {
+    animation: card-slide-down 0.25s ease forwards;
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows 0.25s ease;
-}
-
-.card:hover .card__hover-content {
-    grid-template-rows: 1fr;
 }
 
 .card__hover-inner {
     display: flex;
     flex-direction: column;
     gap: var(--size-25);
+    height: fit-content;
     overflow: hidden;
-}
-
-.card__title {
-    -webkit-box-orient: vertical;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    transform: translateY(20%);
 }
 
 .card__progress {
@@ -105,4 +103,36 @@
 .card__status--upcoming {
     background-color: rgb(168 85 247 / 15%);
     color: var(--color-status-upcoming);
+}
+
+.card:hover .card__hover-content {
+    animation: card-slide-up 0.25s ease forwards;
+}
+
+.card:hover .card__hover-inner {
+    transform: translateY(0%);
+}
+
+@keyframes card-slide-up {
+    from {
+        grid-template-rows: 0fr;
+        opacity: 0;
+    }
+
+    to {
+        grid-template-rows: 1fr;
+        opacity: 1;
+    }
+}
+
+@keyframes card-slide-down {
+    from {
+        grid-template-rows: 1fr;
+        opacity: 1;
+    }
+
+    to {
+        grid-template-rows: 0fr;
+        opacity: 0;
+    }
 }

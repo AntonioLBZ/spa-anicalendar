@@ -1,6 +1,5 @@
 'use client';
 
-import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -54,10 +53,7 @@ const AnimeCard = (props: AnimeCardProps) => {
                             </span>
                         )}
                         {!hideStatus && (
-                            <span
-                                className={clsx('card__status label-s', `card__status--${statusVariant}`)}
-                                role="status"
-                            >
+                            <span className={`card__status label-s card__status--${statusVariant}`} role="status">
                                 {entry.status.replace(/_/g, ' ')}
                             </span>
                         )}

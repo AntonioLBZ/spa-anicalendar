@@ -1,4 +1,3 @@
-
 import { anilistQuery } from '../client';
 import { selectUser } from './user-data.selector';
 

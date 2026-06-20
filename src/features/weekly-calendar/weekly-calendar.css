@@ -27,8 +27,8 @@
 
 .weekly-calendar__section-entries {
     display: grid;
-    gap: var(--size-50);
-    grid-template-columns: repeat(auto-fill, minmax(var(--size-1300), 1fr));
+    gap: var(--size-100);
+    grid-template-columns: repeat(var(--columns), 1fr);
 }
 
 .weekly-calendar__empty {
@@ -39,12 +39,12 @@
 
 @media (width <= 900px) {
     .weekly-calendar__grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
 @media (width <= 500px) {
     .weekly-calendar__grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
 }

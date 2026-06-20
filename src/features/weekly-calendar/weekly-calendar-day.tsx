@@ -10,9 +10,10 @@ import './weekly-calendar-day.css';
 const WeeklyCalendarDay = ({ dayIndex, entries, isToday, collapseContent, weekStartDay }: WeeklyCalendarDayProps) => {
     const dayId = `day-${dayIndex}`;
     const isEmpty = entries.length === 0;
+    const dayClsx = clsx('day', { 'day--today': isToday });
 
     return (
-        <div className={clsx('day', isToday && 'day--today')} role="listitem" aria-labelledby={dayId}>
+        <div className={dayClsx} role="listitem" aria-labelledby={dayId}>
             <div className="day__header label-m" id={dayId}>
                 <div className="day__name">
                     {getDayName(dayIndex, weekStartDay)}

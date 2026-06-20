@@ -1,4 +1,3 @@
-
 import { anilistQuery } from '../client';
 import { selectAnimeEntries } from './media-list.selector';
 
@@ -13,6 +12,7 @@ query MediaList($userId: Int, $type: MediaType, $statusIn: [MediaListStatus], $s
       media {
         coverImage {
           medium
+		  large
         }
         chapters
         episodes
