@@ -74,6 +74,7 @@
 }
 
 .card__status {
+    align-self: flex-end;
     border-radius: var(--size-17);
     padding: var(--size-6) var(--size-25);
     text-transform: uppercase;

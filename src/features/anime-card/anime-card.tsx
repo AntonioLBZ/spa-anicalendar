@@ -18,6 +18,11 @@ const STATUS_VARIANT_MAP: Record<string, 'releasing' | 'finished' | 'hiatus' | '
     NOT_YET_RELEASED: 'upcoming',
 };
 
+const texts = {
+    caughtUp: 'Caught up!',
+    behind: 'behind',
+};
+
 const AnimeCard = (props: AnimeCardProps) => {
     const { entry, hideStatus = false } = props;
     const { timeFormat } = useSettingsContext();
@@ -27,7 +32,7 @@ const AnimeCard = (props: AnimeCardProps) => {
     const progressText = totalEpisodes ? `Ep ${entry.progress}/${totalEpisodes}` : `Ep ${entry.progress}/?`;
 
     const nextEp = entry.nextAiringEpisode;
-    const pendingCount = nextEp ? nextEp.episode - entry.progress - 1 : 0;
+    const pendingCount = nextEp ? nextEp.episode - entry.progress - 1 : -1;
 
     const statusVariant = STATUS_VARIANT_MAP[entry.status] ?? 'upcoming';
 
@@ -36,11 +41,12 @@ const AnimeCard = (props: AnimeCardProps) => {
             <Image className="card__image" src={entry.coverImageUrl} alt={entry.title} fill />
             <div className="card__overlay">
                 <span className="card__progress body-m">{progressText}</span>
-                {pendingCount > 0 ? (
-                    <span className="card__pending body-m">{pendingCount} behind</span>
-                ) : (
-                    <span className="card__on-date body-m">Caught up!</span>
+                {pendingCount > 0 && (
+                    <span className="card__pending body-m">
+                        {pendingCount} {texts.behind}
+                    </span>
                 )}
+                {pendingCount === 0 && <span className="card__on-date body-m">{texts.caughtUp}</span>}
                 <div className="card__hover-content">
                     <div className="card__hover-inner">
                         <span className="card__title label-m" id={titleId}>
