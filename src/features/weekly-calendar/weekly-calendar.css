@@ -41,17 +41,3 @@
     padding: var(--size-300) var(--size-100);
     text-align: center;
 }
-
-@media (width <= 900px) {
-    .weekly-calendar__section-entries,
-    .weekly-calendar__grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-@media (width <= 500px) {
-    .weekly-calendar__section-entries,
-    .weekly-calendar__grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}

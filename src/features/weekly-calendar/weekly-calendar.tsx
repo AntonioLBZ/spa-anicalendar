@@ -7,8 +7,10 @@ import { Divider } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { AnimeCard } from '@/features/anime-card';
 import { getAiringDay, getTodayIndex } from '@/lib/airing';
+import { useLayoutMode } from '@/lib/use-layout-mode';
 
 import { WeeklyCalendarDay } from './weekly-calendar-day';
+import { getGridConfigForLayout, getMinSizeColumnsTemplate } from './weekly-calendar-layout';
 
 import './weekly-calendar.css';
 
@@ -56,6 +58,7 @@ const groupByAiringDay = (
 const WeeklyCalendar = (props: WeeklyCalendarProps) => {
     const { entries } = props;
     const { contentFilter, emptyDaysMode, weekStartDay } = useSettingsContext();
+    const layoutMode = useLayoutMode();
 
     const filtered = useMemo(() => filterByContent(entries, contentFilter), [entries, contentFilter]);
     const todayIndex = getTodayIndex(weekStartDay);
@@ -69,17 +72,11 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
     const collapseContent = emptyDaysMode === 'minimize';
 
     const visibleDays = Object.entries(days).filter(([, entries]) => !(hideEmptyDays && entries.length === 0));
-    const minSizeColums = Object.entries(days).reduce(
-        (acc, [, entries]) => acc + (entries.length ? '1fr ' : 'min-content '),
-        ''
-    );
 
-    console.log('minSizeColums', minSizeColums);
+    const minSizeColumnsTemplate = getMinSizeColumnsTemplate(Object.entries(days));
+    const gridConfig = getGridConfigForLayout(layoutMode, visibleDays.length, minSizeColumnsTemplate);
 
-    const style = {
-        '--columns': visibleDays.length,
-        '--min-size-columns': minSizeColums,
-    } as React.CSSProperties;
+    const style = gridConfig.cssVariables as React.CSSProperties;
     const gridClsx = clsx('weekly-calendar__grid', { 'weekly-calendar__grid--collapse-content': collapseContent });
 
     return (
