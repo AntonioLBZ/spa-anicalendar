@@ -9,10 +9,7 @@ interface GraphQLResponse<T> {
     }>;
 }
 
-async function anilistQuery<T, V = Record<string, unknown>>(
-    query: string,
-    variables?: V
-): Promise<GraphQLResponse<T>> {
+async function anilistQuery<T, V = Record<string, unknown>>(query: string, variables?: V): Promise<GraphQLResponse<T>> {
     const response = await fetch(ANILIST_API_URL, {
         method: 'POST',
         headers: {
@@ -26,7 +23,7 @@ async function anilistQuery<T, V = Record<string, unknown>>(
     });
 
     if (!response.ok) {
-        throw new Error(`AniList API error: ${response.status} ${response.statusText}`);
+        throw new Error(`AniList API error: ${response.status} ${response.statusText}.`);
     }
 
     return response.json();
