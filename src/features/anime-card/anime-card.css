@@ -10,6 +10,12 @@
     text-decoration: none;
 }
 
+.card__next-airing {
+    position: absolute;
+    right: var(--size-37);
+    top: var(--size-37);
+}
+
 .card:focus-visible {
     outline: var(--size-12) solid var(--color-border-focus);
     outline-offset: var(--size-12);
@@ -18,8 +24,8 @@
 .card__title {
     -webkit-box-orient: vertical;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -51,11 +57,16 @@
     transform: translateY(20%);
 }
 
+.card__pending {
+    display: flex;
+    justify-content: space-between;
+}
+
 .card__progress {
     color: var(--color-content-secondary);
 }
 
-.card__pending {
+.card__behind {
     color: var(--color-warning);
 }
 

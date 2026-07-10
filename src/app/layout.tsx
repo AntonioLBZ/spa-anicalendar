@@ -13,7 +13,7 @@ import './layout.css';
 
 export const metadata: Metadata = {
     title: 'Anicalendar',
-    description: 'Weekly anime calendar powered by AniList',
+    description: 'Weekly anime calendar powered by AniList', // TODO cabmbiar esto
 };
 
 export default function LayoutRoot(props: { children: ReactNode }) {

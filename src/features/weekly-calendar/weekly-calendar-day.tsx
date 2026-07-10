@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 
+import { Pill } from '@/components';
 import { AnimeCard } from '@/features/anime-card';
 import { getDayName } from '@/lib/airing';
 
@@ -22,7 +23,7 @@ const WeeklyCalendarDay = ({ dayIndex, entries, isToday, weekStartDay }: WeeklyC
             <div className="day__header label-m" id={dayId}>
                 <div className="day__name">
                     {getDayName(dayIndex, weekStartDay)}
-                    {isToday && <span className="day__today-badge">{texts.todayBadge}</span>}
+                    {isToday && <Pill className="day__today-badge">{texts.todayBadge}</Pill>}
                 </div>
                 <div className="day__count body-s">{`Entries: ${entries.length}`}</div>
             </div>
