@@ -1,12 +1,11 @@
 import type { AnilistMediaListEntry } from './media-list.types';
 import type { AnimeEntry, MediaSeason, MediaStatus } from '@/services/models';
 
-
 const selectAnimeEntry = (raw: AnilistMediaListEntry): AnimeEntry => ({
     id: raw.id,
     mediaId: raw.mediaId,
     title: raw.media.title.userPreferred,
-    coverImageUrl: raw.media.coverImage.medium,
+    coverImageUrl: raw.media.coverImage.large,
     chapters: raw.media.chapters ?? undefined,
     episodes: raw.media.episodes ?? undefined,
     status: raw.media.status as MediaStatus,
@@ -18,7 +17,7 @@ const selectAnimeEntry = (raw: AnilistMediaListEntry): AnimeEntry => ({
         year: raw.media.endDate.year ?? undefined,
     },
     isAdult: raw.media.isAdult,
-    season: (raw.media.season as MediaSeason) ?? undefined,
+    season: (raw.media.season as MediaSeason | null) ?? undefined,
     genres: raw.media.genres,
     progress: raw.progress,
     repeat: raw.repeat,

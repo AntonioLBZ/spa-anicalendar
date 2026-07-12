@@ -1,0 +1,11 @@
+.pill {
+    background-color: var(--color-bg-accent);
+    border-radius: var(--size-25);
+    color: var(--color-content-on-accent);
+    min-width: 0;
+    overflow: hidden;
+    padding: var(--size-9) var(--size-37);
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+}

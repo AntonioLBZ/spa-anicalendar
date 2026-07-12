@@ -9,7 +9,6 @@ type WeeklyCalendarDayProps = {
     dayIndex: number;
     entries: AnimeEntry[];
     isToday: boolean;
-    collapseContent: boolean;
     weekStartDay: WeekStartDay;
 };
 

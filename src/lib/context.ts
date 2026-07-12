@@ -7,7 +7,7 @@ const createContext = <T extends Object>(): [React.Context<T | null>, () => T] =
     const useContext = () => {
         const ctx = React.useContext(context);
         if (ctx === null) {
-            throw new Error('useContext must be used within a Provider with a value');
+            throw new Error('useContext must be used within a Provider with a value.');
         }
         return ctx;
     };

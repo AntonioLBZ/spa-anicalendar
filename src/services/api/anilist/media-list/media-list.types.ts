@@ -1,12 +1,6 @@
 type AnilistMediaType = 'ANIME' | 'MANGA';
 
-type AnilistMediaListStatus =
-    | 'CURRENT'
-    | 'PLANNING'
-    | 'COMPLETED'
-    | 'DROPPED'
-    | 'PAUSED'
-    | 'REPEATING';
+type AnilistMediaListStatus = 'CURRENT' | 'PLANNING' | 'COMPLETED' | 'DROPPED' | 'PAUSED' | 'REPEATING';
 
 type AnilistMediaListSort =
     | 'MEDIA_ID'
@@ -43,7 +37,7 @@ type AnilistMediaListSort =
 interface AnilistMediaListEntry {
     id: number;
     media: {
-        coverImage: { medium: string };
+        coverImage: { medium: string; large: string };
         chapters: number | null;
         episodes: number | null;
         status: string;

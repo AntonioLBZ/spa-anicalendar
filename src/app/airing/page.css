@@ -10,4 +10,5 @@
 .airing-page__content {
     max-width: var(--content-max-width);
     padding-inline: var(--content-padding-inline);
+    width: 100%;
 }

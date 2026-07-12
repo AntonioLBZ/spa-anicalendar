@@ -10,9 +10,24 @@
     text-decoration: none;
 }
 
+.card__next-airing {
+    position: absolute;
+    right: var(--size-37);
+    top: var(--size-37);
+}
+
 .card:focus-visible {
     outline: var(--size-12) solid var(--color-border-focus);
     outline-offset: var(--size-12);
+}
+
+.card__title {
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .card__overlay {
@@ -28,36 +43,30 @@
 }
 
 .card__hover-content {
+    animation: card-slide-down 0.25s ease forwards;
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows 0.25s ease;
-}
-
-.card:hover .card__hover-content {
-    grid-template-rows: 1fr;
 }
 
 .card__hover-inner {
     display: flex;
     flex-direction: column;
     gap: var(--size-25);
+    height: fit-content;
     overflow: hidden;
+    transform: translateY(20%);
 }
 
-.card__title {
-    -webkit-box-orient: vertical;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.card__pending {
+    display: flex;
+    justify-content: space-between;
 }
 
 .card__progress {
     color: var(--color-content-secondary);
 }
 
-.card__pending {
+.card__behind {
     color: var(--color-warning);
 }
 
@@ -76,6 +85,7 @@
 }
 
 .card__status {
+    align-self: flex-end;
     border-radius: var(--size-17);
     padding: var(--size-6) var(--size-25);
     text-transform: uppercase;
@@ -105,4 +115,36 @@
 .card__status--upcoming {
     background-color: rgb(168 85 247 / 15%);
     color: var(--color-status-upcoming);
+}
+
+.card:hover .card__hover-content {
+    animation: card-slide-up 0.25s ease forwards;
+}
+
+.card:hover .card__hover-inner {
+    transform: translateY(0%);
+}
+
+@keyframes card-slide-up {
+    from {
+        grid-template-rows: 0fr;
+        opacity: 0;
+    }
+
+    to {
+        grid-template-rows: 1fr;
+        opacity: 1;
+    }
+}
+
+@keyframes card-slide-down {
+    from {
+        grid-template-rows: 1fr;
+        opacity: 1;
+    }
+
+    to {
+        grid-template-rows: 0fr;
+        opacity: 0;
+    }
 }

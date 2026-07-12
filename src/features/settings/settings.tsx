@@ -1,13 +1,12 @@
 'use client';
 
-import { DialogTrigger, Popover, Dialog, Button } from 'react-aria-components';
+import { DialogTrigger, Popover, Dialog, Button, Link } from 'react-aria-components';
 
 import { Radio } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import {
     CONTENT_FILTER_OPTIONS,
     EMPTY_DAYS_OPTIONS,
-    SOURCE_OPTIONS,
     TIME_FORMAT_OPTIONS,
     WEEK_START_OPTIONS,
 } from '@/contexts/settings-context/options';
@@ -15,7 +14,6 @@ import {
 import { GearIcon } from './gear-icon';
 
 import type { ContentFilter, EmptyDaysMode, ThemeMode, WeekStartDay, TimeFormat } from '@/contexts/settings-context';
-import type { Provider } from '@/services';
 
 import './settings.css';
 
@@ -28,8 +26,6 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
 
 const Settings = () => {
     const {
-        provider,
-        setProvider,
         theme,
         setTheme,
         contentFilter,
@@ -108,6 +104,17 @@ const Settings = () => {
                             ))}
                         </Radio.Group>
                     </Section>
+                    <span className="issue-text boddy-m">
+                        Any issue? Click{' '}
+                        <Link
+                            className="issue-text__link"
+                            href="https://github.com/AntonioLBZ/spa-anicalendar/issues/new/choose"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            here
+                        </Link>
+                    </span>
                 </Dialog>
             </Popover>
         </DialogTrigger>

@@ -1,6 +1,13 @@
 .weekly-calendar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-50);
     padding: var(--size-100);
     width: 100%;
+}
+
+.weekly-calendar > .divider {
+    margin-block-start: var(--size-150);
 }
 
 .weekly-calendar__grid {
@@ -10,41 +17,27 @@
 }
 
 .weekly-calendar__grid--collapse-content {
-    grid-template-columns: repeat(var(--columns), minmax(0, auto));
+    grid-template-columns: var(--min-size-columns);
 }
 
 .weekly-calendar__section {
-    border-top: var(--size-6) solid var(--color-border);
-    margin-top: var(--size-150);
-    padding-top: var(--size-100);
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-100);
 }
 
 .weekly-calendar__section-header {
     color: var(--color-content-secondary);
-    margin-bottom: var(--size-75);
-    padding: 0 var(--size-50);
 }
 
 .weekly-calendar__section-entries {
     display: grid;
-    gap: var(--size-50);
-    grid-template-columns: repeat(auto-fill, minmax(var(--size-1300), 1fr));
+    gap: var(--size-100);
+    grid-template-columns: repeat(var(--columns), 1fr);
 }
 
 .weekly-calendar__empty {
     color: var(--color-content-secondary);
     padding: var(--size-300) var(--size-100);
     text-align: center;
-}
-
-@media (width <= 900px) {
-    .weekly-calendar__grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (width <= 500px) {
-    .weekly-calendar__grid {
-        grid-template-columns: 1fr;
-    }
 }

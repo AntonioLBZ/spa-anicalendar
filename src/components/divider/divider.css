@@ -1,0 +1,13 @@
+.divider {
+    background-color: var(--color-border);
+    border-radius: var(--size-6);
+    border-style: none;
+    height: var(--size-12);
+    width: 100%;
+}
+
+.divider[aria-orientation='vertical'] {
+    height: 100%;
+    min-height: var(--size-200);
+    width: var(--size-12);
+}

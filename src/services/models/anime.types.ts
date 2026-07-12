@@ -29,6 +29,7 @@ interface AnimeEntry {
     genres: string[];
     progress: number;
     repeat: number;
+    isNextAiring?: boolean; // TODO AÑAIR ESTA PROP
 }
 
 export type { MediaStatus, MediaSeason, PartialDate, AiringInfo, AnimeEntry };

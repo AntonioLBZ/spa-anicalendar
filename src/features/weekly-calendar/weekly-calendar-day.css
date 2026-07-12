@@ -1,43 +1,49 @@
 .day {
     display: flex;
     flex-direction: column;
-    gap: var(--size-50);
+    gap: var(--size-25);
     min-width: 0;
 }
 
-.day--today {
+.day > * {
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--size-37);
+}
+
+.day__header > * {
+    white-space: nowrap;
+}
+
+.day--today.day > * {
     background-color: var(--color-bg-highlight);
-    border-radius: var(--size-50);
 }
 
 .day__header {
     align-items: start;
     color: var(--color-content-primary);
     display: flex;
-    flex-direction: column;
+    flex-flow: column nowrap;
     gap: var(--size-25);
     padding: var(--size-75) var(--size-50) var(--size-25);
 }
 
 .day__name {
     display: flex;
+    gap: var(--size-25);
     justify-content: space-between;
     width: 100%;
 }
 
 .day__today-badge {
-    background-color: var(--color-bg-accent);
-    border-radius: var(--size-25);
-    color: #fff;
-    padding: var(--size-9) var(--size-37);
-    text-transform: uppercase;
+    margin-block-start: calc(-1 * var(--size-12));
 }
 
 .day__entries {
     display: flex;
     flex-direction: column;
-    gap: var(--size-37);
-    padding: 0 var(--size-25) var(--size-50);
+    gap: var(--size-50);
+    height: 100%;
+    padding: var(--size-37) var(--size-50) var(--size-150);
 }
 
 .day__empty {

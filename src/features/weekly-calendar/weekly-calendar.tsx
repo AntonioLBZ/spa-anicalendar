@@ -3,11 +3,14 @@
 import clsx from 'clsx';
 import React, { useMemo } from 'react';
 
+import { Divider } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { AnimeCard } from '@/features/anime-card';
 import { getAiringDay, getTodayIndex } from '@/lib/airing';
+import { useLayoutMode } from '@/lib/use-layout-mode';
 
 import { WeeklyCalendarDay } from './weekly-calendar-day';
+import { getGridConfigForLayout, getMinSizeColumnsTemplate } from './weekly-calendar-layout';
 
 import './weekly-calendar.css';
 
@@ -55,6 +58,7 @@ const groupByAiringDay = (
 const WeeklyCalendar = (props: WeeklyCalendarProps) => {
     const { entries } = props;
     const { contentFilter, emptyDaysMode, weekStartDay } = useSettingsContext();
+    const layoutMode = useLayoutMode();
 
     const filtered = useMemo(() => filterByContent(entries, contentFilter), [entries, contentFilter]);
     const todayIndex = getTodayIndex(weekStartDay);
@@ -69,34 +73,40 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
 
     const visibleDays = Object.entries(days).filter(([, entries]) => !(hideEmptyDays && entries.length === 0));
 
+    const minSizeColumnsTemplate = getMinSizeColumnsTemplate(Object.entries(days));
+    const gridConfig = getGridConfigForLayout(layoutMode, visibleDays.length, minSizeColumnsTemplate);
+
+    const style = gridConfig.cssVariables as React.CSSProperties;
+    const gridClsx = clsx('weekly-calendar__grid', { 'weekly-calendar__grid--collapse-content': collapseContent });
+
     return (
-        <div className="weekly-calendar body-l">
-            <div
-                className={clsx('weekly-calendar__grid', collapseContent && 'weekly-calendar__grid--collapse-content')}
-                style={{ '--columns': visibleDays.length } as React.CSSProperties}
-                role="list"
-                aria-label="Weekly anime schedule"
-            >
-                {visibleDays.map(([dayIndex, entries]) => (
-                    <WeeklyCalendarDay
-                        key={dayIndex}
-                        dayIndex={Number(dayIndex)}
-                        entries={entries}
-                        isToday={Number(dayIndex) === todayIndex}
-                        collapseContent={collapseContent}
-                        weekStartDay={weekStartDay}
-                    />
-                ))}
+        <div className="weekly-calendar body-l" style={style}>
+            <div className="weekly-calendar__section">
+                <div className="weekly-calendar__section-header label-l">Weekly anime schedule</div>
+                <div className={gridClsx} role="list" aria-label="Weekly anime schedule">
+                    {visibleDays.map(([dayIndex, entries]) => (
+                        <WeeklyCalendarDay
+                            key={dayIndex}
+                            dayIndex={Number(dayIndex)}
+                            entries={entries}
+                            isToday={Number(dayIndex) === todayIndex}
+                            weekStartDay={weekStartDay}
+                        />
+                    ))}
+                </div>
             </div>
             {noAiring.length > 0 && (
-                <div className="weekly-calendar__section">
-                    <div className="weekly-calendar__section-header label-l">No upcoming episodes</div>
-                    <div className="weekly-calendar__section-entries">
-                        {noAiring.map((entry) => (
-                            <AnimeCard key={entry.id} entry={entry} />
-                        ))}
+                <>
+                    <Divider />
+                    <div className="weekly-calendar__section">
+                        <div className="weekly-calendar__section-header label-l">No upcoming episodes</div>
+                        <div className="weekly-calendar__section-entries">
+                            {noAiring.map((entry) => (
+                                <AnimeCard key={entry.id} entry={entry} />
+                            ))}
+                        </div>
                     </div>
-                </div>
+                </>
             )}
         </div>
     );
