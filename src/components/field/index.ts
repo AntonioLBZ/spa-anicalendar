@@ -1,12 +1,25 @@
+import { FieldControl } from './field-control';
+import { FieldError } from './field-error';
+import { FieldHelper } from './field-helper';
 import { FieldInput } from './field-input';
 import { FieldLabel } from './field-label';
 import { FieldRoot } from './field-root';
 
 const Field = {
     Root: FieldRoot,
+    Control: FieldControl,
     Input: FieldInput,
     Label: FieldLabel,
+    Error: FieldError,
+    Helper: FieldHelper,
 };
 
 export { Field };
-export type { FieldRootProps, FieldInputProps, FieldLabelProps } from './field.types';
+export type {
+    FieldRootProps,
+    FieldControlProps,
+    FieldInputProps,
+    FieldLabelProps,
+    FieldErrorProps,
+    FieldHelperProps,
+} from './field.types';

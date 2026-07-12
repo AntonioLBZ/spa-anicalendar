@@ -1,4 +1,8 @@
 .field {
+    width: 100%;
+}
+
+.field__control {
     position: relative;
     width: 100%;
 }
@@ -8,6 +12,7 @@
     border: var(--size-6) solid var(--color-border);
     border-radius: var(--size-border-radius);
     color: var(--color-content-primary);
+    height: var(--size-300);
     outline: none;
     padding: var(--size-75) var(--size-75);
     transition: border-color 0.15s;
@@ -38,4 +43,20 @@
     color: var(--color-accent);
     font-size: 12px;
     top: 0;
+}
+
+.field__input[data-invalid] {
+    border-color: var(--color-danger);
+}
+
+.field__error {
+    color: var(--color-danger);
+    display: block;
+    margin-top: var(--size-50);
+}
+
+.field__helper {
+    color: var(--color-content-secondary);
+    display: block;
+    margin-top: var(--size-50);
 }

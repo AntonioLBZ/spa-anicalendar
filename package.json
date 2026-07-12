@@ -2,6 +2,7 @@
 	"name": "spa-anicalendar",
 	"private": true,
 	"version": "0.0.1",
+	"packageManager": "pnpm@11.12.0",
 	"scripts": {
 		"predev": "vercel env pull .env.local --environment=development --yes || true",
 		"dev": "next dev",
@@ -13,6 +14,8 @@
 		"lint:fix": "eslint . --fix && stylelint \"src/**/*.css\" --fix",
 		"format": "prettier --write .",
 		"types:check": "tsc --noEmit",
+		"test": "vitest run",
+		"test:watch": "vitest",
 		"prepare": "husky"
 	},
 	"dependencies": {
@@ -30,10 +33,14 @@
 		"*.{ts,tsx,js,jsx}": "eslint"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "6.9.1",
+		"@testing-library/react": "16.3.2",
+		"@testing-library/user-event": "14.6.1",
 		"@types/node": "24.10.9",
 		"@types/react": "19.2.10",
 		"@types/react-dom": "19.2.3",
 		"@typescript-eslint/parser": "8.54.0",
+		"@vitejs/plugin-react": "6.0.3",
 		"eslint": "9.39.1",
 		"eslint-config-next": "16.1.6",
 		"eslint-config-prettier": "10.1.8",
@@ -41,15 +48,14 @@
 		"eslint-plugin-import": "2.32.0",
 		"eslint-plugin-prettier": "5.5.4",
 		"husky": "9.1.7",
+		"jsdom": "29.1.1",
 		"lint-staged": "16.4.0",
 		"prettier": "3.8.1",
 		"stylelint": "16.26.1",
 		"stylelint-config-standard": "36.0.1",
 		"stylelint-order": "8.1.1",
 		"stylelint-selector-bem-pattern": "4.0.1",
-		"typescript": "5.9.3"
-	},
-	"pnpm": {
-		"ignoredBuiltDependencies": ["sharp", "unrs-resolver"]
+		"typescript": "5.9.3",
+		"vitest": "4.1.10"
 	}
 }

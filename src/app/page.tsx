@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useState } from 'react';
 
-import { Button, ErrorText, Field, Radio } from '@/components';
+import { Button, Field, Radio } from '@/components';
 import { useSettingsContext } from '@/contexts';
 import { SOURCE_OPTIONS } from '@/contexts/settings-context/options';
 import { analytics } from '@/lib/analytics';
@@ -46,15 +46,15 @@ function HomeContent() {
                     navigateToAiring();
                 }}
             >
-                <div>
-                    <div className="home__input-group">
-                        <Field.Root value={userName} onChange={setUserName}>
+                <div className="home__input-group">
+                    <Field.Root value={userName} onChange={setUserName} isInvalid={!!errorMessage}>
+                        <Field.Control>
                             <Field.Input />
                             <Field.Label>AniList username</Field.Label>
-                        </Field.Root>
-                        <Button type="submit">Go</Button>
-                    </div>
-                    {errorMessage && <ErrorText className="home__error body-m">{errorMessage}</ErrorText>}
+                        </Field.Control>
+                        <Field.Error>{errorMessage}</Field.Error>
+                    </Field.Root>
+                    <Button type="submit">Go</Button>
                 </div>
                 <Radio.Group aria-label="API Provider" value={provider} onChange={setProvider}>
                     {SOURCE_OPTIONS.map((option) => (
