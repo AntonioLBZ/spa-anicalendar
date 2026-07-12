@@ -24,8 +24,15 @@ function HomeContent() {
     const searchParams = useSearchParams();
     const { provider, setProvider } = useSettingsContext();
 
-    const error = searchParams.get('error');
-    const errorMessage = error === 'UserNotFound' ? 'User not found. Please check your user is public.' : null;
+    const [errorMessage, setErrorMessage] = useState(() => {
+        const error = searchParams.get('error');
+        return error === 'UserNotFound' ? 'User not found. Please check your user is public.' : null;
+    });
+
+    const handleUserNameChange = (value: string) => {
+        setUserName(value);
+        if (errorMessage) setErrorMessage(null);
+    };
 
     const navigateToAiring = () => {
         const trimmed = userName.trim();
@@ -47,7 +54,7 @@ function HomeContent() {
                 }}
             >
                 <div className="home__input-group">
-                    <Field.Root value={userName} onChange={setUserName} isInvalid={!!errorMessage}>
+                    <Field.Root value={userName} onChange={handleUserNameChange} isInvalid={!!errorMessage}>
                         <Field.Control>
                             <Field.Input />
                             <Field.Label>AniList username</Field.Label>
