@@ -6,21 +6,22 @@ import { useState } from 'react';
 import { Button, Field, Radio } from '@/components';
 import { useSettingsContext } from '@/contexts';
 import { SOURCE_OPTIONS } from '@/contexts/settings-context/options';
+import { analytics } from '@/lib/analytics';
 
 import './page.css';
 
 export default function HomePage() {
     const [userName, setUserName] = useState('');
     const router = useRouter();
+    const { provider, setProvider } = useSettingsContext();
 
     const navigateToAiring = () => {
         const trimmed = userName.trim();
         if (trimmed) {
+            analytics.search(provider);
             router.push(`/airing?user=${encodeURIComponent(trimmed)}`);
         }
     };
-
-    const { provider, setProvider } = useSettingsContext();
 
     return (
         <main className="home">

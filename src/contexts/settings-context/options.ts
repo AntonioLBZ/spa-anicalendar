@@ -31,8 +31,12 @@ const ALL_SOURCE_OPTIONS: { value: Provider; label: string }[] = [
     { value: 'mock', label: 'Mock' },
 ];
 
-const SOURCE_OPTIONS = ALL_SOURCE_OPTIONS.filter(
-    (o) => process.env.NODE_ENV !== 'production' || o.value !== 'mock'
-);
+// Complete list: anilist,kitsu,myanimelist,mock
+const DEFAULT_ENABLED: Provider[] = ['anilist'];
+const enabledFromEnv = process.env.NEXT_PUBLIC_ENABLED_PROVIDERS?.split(',')
+    .map((s) => s.trim())
+    .filter(Boolean) as Provider[] | undefined;
+const enabledProviders = new Set<Provider>(enabledFromEnv ?? DEFAULT_ENABLED);
+const SOURCE_OPTIONS = ALL_SOURCE_OPTIONS.filter((o) => enabledProviders.has(o.value));
 
 export { CONTENT_FILTER_OPTIONS, EMPTY_DAYS_OPTIONS, WEEK_START_OPTIONS, TIME_FORMAT_OPTIONS, SOURCE_OPTIONS };

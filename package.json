@@ -3,6 +3,7 @@
 	"private": true,
 	"version": "0.0.1",
 	"scripts": {
+		"predev": "vercel env pull .env.local --environment=development --yes || true",
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
@@ -16,6 +17,8 @@
 	},
 	"dependencies": {
 		"@tanstack/react-query": "5.100.9",
+		"@vercel/analytics": "2.0.1",
+		"@vercel/speed-insights": "2.0.0",
 		"clsx": "2.1.1",
 		"next": "16.1.6",
 		"react": "19.2.0",
@@ -40,8 +43,8 @@
 		"husky": "9.1.7",
 		"lint-staged": "16.4.0",
 		"prettier": "3.8.1",
-		"stylelint": "^16.26.1",
-		"stylelint-config-standard": "^36.0.1",
+		"stylelint": "16.26.1",
+		"stylelint-config-standard": "36.0.1",
 		"stylelint-order": "8.1.1",
 		"stylelint-selector-bem-pattern": "4.0.1",
 		"typescript": "5.9.3"
