@@ -1,9 +1,9 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useState } from 'react';
 
-import { Button, Field, Radio } from '@/components';
+import { Button, ErrorText, Field, Radio } from '@/components';
 import { useSettingsContext } from '@/contexts';
 import { SOURCE_OPTIONS } from '@/contexts/settings-context/options';
 import { analytics } from '@/lib/analytics';
@@ -11,9 +11,21 @@ import { analytics } from '@/lib/analytics';
 import './page.css';
 
 export default function HomePage() {
+    return (
+        <Suspense fallback={null}>
+            <HomeContent />
+        </Suspense>
+    );
+}
+
+function HomeContent() {
     const [userName, setUserName] = useState('');
     const router = useRouter();
+    const searchParams = useSearchParams();
     const { provider, setProvider } = useSettingsContext();
+
+    const error = searchParams.get('error');
+    const errorMessage = error === 'UserNotFound' ? 'User not found. Please check your user is public.' : null;
 
     const navigateToAiring = () => {
         const trimmed = userName.trim();
@@ -34,12 +46,15 @@ export default function HomePage() {
                     navigateToAiring();
                 }}
             >
-                <div className="home__input-group">
-                    <Field.Root value={userName} onChange={setUserName}>
-                        <Field.Input />
-                        <Field.Label>AniList username</Field.Label>
-                    </Field.Root>
-                    <Button type="submit">Go</Button>
+                <div>
+                    <div className="home__input-group">
+                        <Field.Root value={userName} onChange={setUserName}>
+                            <Field.Input />
+                            <Field.Label>AniList username</Field.Label>
+                        </Field.Root>
+                        <Button type="submit">Go</Button>
+                    </div>
+                    {errorMessage && <ErrorText className="home__error body-m">{errorMessage}</ErrorText>}
                 </div>
                 <Radio.Group aria-label="API Provider" value={provider} onChange={setProvider}>
                     {SOURCE_OPTIONS.map((option) => (

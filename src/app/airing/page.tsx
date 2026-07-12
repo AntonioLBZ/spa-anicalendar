@@ -23,11 +23,7 @@ function AiringContent() {
     const { entries, error } = useAiringData(userName);
 
     if (error) {
-        return (
-            <main>
-                <p>Error: {error}</p>
-            </main>
-        );
+        return null;
     }
 
     return (

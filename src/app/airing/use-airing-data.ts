@@ -38,8 +38,9 @@ const useAiringData = (userName: string | null) => {
     useEffect(() => {
         if (queryError) {
             analytics.airingError(provider);
+            router.push(`/?error=UserNotFound`);
         }
-    }, [queryError, provider]);
+    }, [queryError, provider, router]);
 
     return {
         entries: mediaListQuery.data ?? [],
