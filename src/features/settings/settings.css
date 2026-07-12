@@ -36,6 +36,11 @@
     animation: settings-fade-out 0.1s ease-in;
 }
 
+.issue-text,
+.issue-text__link {
+    color: var(--color-content-primary);
+}
+
 @keyframes settings-fade-in {
     from {
         opacity: 0;
