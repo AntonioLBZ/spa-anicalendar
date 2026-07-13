@@ -36,7 +36,7 @@ function HomeContent() {
     const navigateToAiring = () => {
         const trimmed = userName.trim();
         if (trimmed) {
-            router.push(`/airing?user=${encodeURIComponent(trimmed)}`);
+            router.push(`/airing/${encodeURIComponent(trimmed)}`);
         }
     };
 
