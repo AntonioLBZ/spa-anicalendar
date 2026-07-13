@@ -24,7 +24,7 @@ const useAiringData = (userName: string | null) => {
         }
     }, [userQuery.data, setUser]);
 
-    const mediaListQuery = useMediaList(provider, userQuery.data?.id);
+    const mediaListQuery = useMediaList(provider, userQuery.data);
 
     const queryError = userQuery.error ?? mediaListQuery.error ?? null;
 

@@ -6,7 +6,7 @@ import type { ApiProvider, Provider } from './api.types';
 
 const providers: Record<Provider, ApiProvider> = {
     anilist: anilistProvider,
-    myanimelist: malProvider, // TODO: implement mal provider
+    myanimelist: malProvider,
     mock: mockProvider, // TODO: remove mock provider
     kitsu: anilistProvider, // TODO: implement kitsu provider
 };

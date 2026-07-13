@@ -5,7 +5,7 @@ import type { ApiProvider } from '../api.types';
 
 const anilistProvider: ApiProvider = {
     getUserByName,
-    getMediaList: (userId) => getMediaList({ userId, type: 'ANIME', statusIn: ['CURRENT', 'REPEATING'] }),
+    getMediaList: (user) => getMediaList({ userId: user.id, type: 'ANIME', statusIn: ['CURRENT', 'REPEATING'] }),
 };
 
 export { anilistProvider };
