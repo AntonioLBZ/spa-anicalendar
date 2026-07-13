@@ -1,7 +1,6 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
+import { useParams } from 'next/navigation';
 
 import { WeeklyCalendar } from '@/features/weekly-calendar';
 
@@ -10,24 +9,14 @@ import { useAiringData } from './use-airing-data';
 import './page.css';
 
 export default function AiringPage() {
-    return (
-        <Suspense fallback={null}>
-            <AiringContent />
-        </Suspense>
-    );
-}
+    const params = useParams<{ user: string }>();
+    const rawUser = Array.isArray(params.user) ? params.user[0] : params.user;
+    const userName = rawUser ? decodeURIComponent(rawUser) : null;
 
-function AiringContent() {
-    const searchParams = useSearchParams();
-    const userName = searchParams.get('user');
     const { entries, error } = useAiringData(userName);
 
     if (error) {
-        return (
-            <main>
-                <p>Error: {error}</p>
-            </main>
-        );
+        return null;
     }
 
     return (

@@ -26,9 +26,17 @@ const useAiringData = (userName: string | null) => {
 
     const mediaListQuery = useMediaList(provider, userQuery.data?.id);
 
+    const queryError = userQuery.error ?? mediaListQuery.error ?? null;
+
+    useEffect(() => {
+        if (queryError) {
+            router.push(`/?error=UserNotFound`);
+        }
+    }, [queryError, router]);
+
     return {
         entries: mediaListQuery.data ?? [],
-        error: userQuery.error?.message ?? mediaListQuery.error?.message ?? null,
+        error: queryError?.message ?? null,
         isLoading: userQuery.isLoading || mediaListQuery.isLoading,
     };
 };

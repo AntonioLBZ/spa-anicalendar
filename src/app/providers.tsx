@@ -6,7 +6,7 @@ import { type ReactNode } from 'react';
 import { SettingsProvider, UserContextProvider, useSettingsContext } from '@/contexts';
 import { queryClient } from '@/lib/query-client';
 
-const ThemeWrapper = (props: { children: ReactNode }) => {
+const ThemedBody = (props: { children: ReactNode }) => {
     const { children } = props;
     const { resolvedTheme: theme } = useSettingsContext();
 
@@ -24,7 +24,7 @@ const Providers = (props: { children: ReactNode }) => {
         <QueryClientProvider client={queryClient}>
             <UserContextProvider>
                 <SettingsProvider>
-                    <ThemeWrapper>{children}</ThemeWrapper>
+                    <ThemedBody>{children}</ThemedBody>
                 </SettingsProvider>
             </UserContextProvider>
         </QueryClientProvider>

@@ -50,3 +50,4 @@ CLAUDE.md
 .agents
 skills-lock.json
 .rtk
+.env*

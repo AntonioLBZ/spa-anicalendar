@@ -1,7 +1,7 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useState } from 'react';
 
 import { Button, Field, Radio } from '@/components';
 import { useSettingsContext } from '@/contexts';
@@ -10,17 +10,35 @@ import { SOURCE_OPTIONS } from '@/contexts/settings-context/options';
 import './page.css';
 
 export default function HomePage() {
+    return (
+        <Suspense fallback={null}>
+            <HomeContent />
+        </Suspense>
+    );
+}
+
+function HomeContent() {
     const [userName, setUserName] = useState('');
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const { provider, setProvider } = useSettingsContext();
+
+    const [errorMessage, setErrorMessage] = useState(() => {
+        const error = searchParams.get('error');
+        return error === 'UserNotFound' ? 'User not found. Please check your user is public.' : null;
+    });
+
+    const handleUserNameChange = (value: string) => {
+        setUserName(value);
+        if (errorMessage) setErrorMessage(null);
+    };
 
     const navigateToAiring = () => {
         const trimmed = userName.trim();
         if (trimmed) {
-            router.push(`/airing?user=${encodeURIComponent(trimmed)}`);
+            router.push(`/airing/${encodeURIComponent(trimmed)}`);
         }
     };
-
-    const { provider, setProvider } = useSettingsContext();
 
     return (
         <main className="home">
@@ -34,9 +52,12 @@ export default function HomePage() {
                 }}
             >
                 <div className="home__input-group">
-                    <Field.Root value={userName} onChange={setUserName}>
-                        <Field.Input />
-                        <Field.Label>AniList username</Field.Label>
+                    <Field.Root value={userName} onChange={handleUserNameChange} isInvalid={!!errorMessage}>
+                        <Field.Control>
+                            <Field.Input />
+                            <Field.Label>AniList username</Field.Label>
+                        </Field.Control>
+                        <Field.Error>{errorMessage}</Field.Error>
                     </Field.Root>
                     <Button type="submit">Go</Button>
                 </div>

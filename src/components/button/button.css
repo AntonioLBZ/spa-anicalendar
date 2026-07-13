@@ -1,13 +1,25 @@
 .button {
+    align-items: center;
     border: none;
     border-radius: var(--size-border-radius);
-    padding: var(--size-75) var(--size-100);
+    display: inline-flex;
+    justify-content: center;
 }
 
 .button--primary {
     background-color: var(--color-content-bg-primary);
     box-shadow: 0 0 0 var(--color-border-elevation);
     color: var(--color-content-primary);
+}
+
+.button--size-s {
+    height: var(--size-250);
+    padding-inline: var(--size-75);
+}
+
+.button--size-m {
+    height: var(--size-300);
+    padding-inline: var(--size-100);
 }
 
 .button:focus-visible {
