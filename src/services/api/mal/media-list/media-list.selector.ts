@@ -1,5 +1,4 @@
-import { computeAiringAt } from './compute-airing-at';
-
+import type { NextAiringEpisode } from './anilist-airing-lookup';
 import type { MalAnimeListEntry } from './media-list.types';
 import type { AnimeEntry, MediaSeason, MediaStatus, PartialDate } from '@/services/models';
 
@@ -30,17 +29,11 @@ function parseEndDate(endDate: string | undefined): PartialDate {
     };
 }
 
-const selectAnimeEntry = (raw: MalAnimeListEntry, now: Date): AnimeEntry => {
+const selectAnimeEntry = (raw: MalAnimeListEntry, nextAiringByMalId: Record<number, NextAiringEpisode>): AnimeEntry => {
     const { node, list_status: listStatus } = raw;
     const progress = listStatus.num_episodes_watched;
 
-    const nextAiringEpisode =
-        node.status === 'currently_airing' && node.broadcast
-            ? {
-                  airingAt: computeAiringAt(node.broadcast.day_of_the_week, node.broadcast.start_time, now),
-                  episode: progress + 1,
-              }
-            : undefined;
+    const nextAiringEpisode = node.status === 'currently_airing' ? nextAiringByMalId[node.id] : undefined;
 
     return {
         id: node.id,
@@ -60,7 +53,9 @@ const selectAnimeEntry = (raw: MalAnimeListEntry, now: Date): AnimeEntry => {
     };
 };
 
-const selectAnimeEntries = (raw: MalAnimeListEntry[], now: Date = new Date()): AnimeEntry[] =>
-    raw.map((entry) => selectAnimeEntry(entry, now));
+const selectAnimeEntries = (
+    raw: MalAnimeListEntry[],
+    nextAiringByMalId: Record<number, NextAiringEpisode> = {},
+): AnimeEntry[] => raw.map((entry) => selectAnimeEntry(entry, nextAiringByMalId));
 
 export { selectAnimeEntries, selectAnimeEntry };

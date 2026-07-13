@@ -3,11 +3,6 @@ interface MalGenre {
     name: string;
 }
 
-interface MalBroadcast {
-    day_of_the_week: string;
-    start_time: string;
-}
-
 interface MalStartSeason {
     year: number;
     season: string;
@@ -21,7 +16,6 @@ interface MalAnimeNode {
     status: 'finished_airing' | 'currently_airing' | 'not_yet_aired';
     start_season?: MalStartSeason;
     genres?: MalGenre[];
-    broadcast?: MalBroadcast;
     media_type: string;
     nsfw?: 'white' | 'gray' | 'black';
     end_date?: string;
@@ -47,4 +41,4 @@ interface MalAnimeListResponse {
     paging?: { next?: string };
 }
 
-export type { MalGenre, MalBroadcast, MalStartSeason, MalAnimeNode, MalListStatus, MalAnimeListEntry, MalAnimeListResponse };
+export type { MalGenre, MalStartSeason, MalAnimeNode, MalListStatus, MalAnimeListEntry, MalAnimeListResponse };

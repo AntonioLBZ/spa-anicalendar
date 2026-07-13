@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { Divider } from './divider';
+import { Divider } from '../divider';
 
 describe('Divider', () => {
     it('merges a custom className with the base divider class', () => {

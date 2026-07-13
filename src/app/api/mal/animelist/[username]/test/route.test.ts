@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { GET } from './route';
+import { GET } from '../route';
 
 function params(username: string): { params: Promise<{ username: string }> } {
     return { params: Promise.resolve({ username }) };

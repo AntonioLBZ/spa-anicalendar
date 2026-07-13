@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { selectUser } from './user-data.selector';
+import { selectUser } from '../user-data.selector';
 
 describe('selectUser', () => {
     it('maps name and derives siteUrl/avatarUrl deterministically', () => {
