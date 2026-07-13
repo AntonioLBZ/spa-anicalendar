@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { Field } from './index';
 
-import type { FormEvent } from 'react';
+import type { SubmitEvent } from 'react';
 
 describe('Field', () => {
     it('associates the label with the input despite the Field.Control wrapper', () => {
@@ -51,7 +51,7 @@ describe('Field', () => {
     });
 
     it('does not block native form submission while isInvalid is true', async () => {
-        const onSubmit = vi.fn((e: FormEvent) => e.preventDefault());
+        const onSubmit = vi.fn((e: SubmitEvent) => e.preventDefault());
         const user = userEvent.setup();
 
         render(

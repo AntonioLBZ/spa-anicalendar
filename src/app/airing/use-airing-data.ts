@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 
 import { useSettingsContext } from '@/contexts/settings-context';
 import { useUserContext } from '@/contexts/user-context';
-import { analytics } from '@/lib/analytics';
 import { useMediaList, useUser } from '@/services';
 
 const useAiringData = (userName: string | null) => {
@@ -27,20 +26,13 @@ const useAiringData = (userName: string | null) => {
 
     const mediaListQuery = useMediaList(provider, userQuery.data?.id);
 
-    useEffect(() => {
-        if (mediaListQuery.data) {
-            analytics.airingLoaded(provider, mediaListQuery.data.length);
-        }
-    }, [mediaListQuery.data, provider]);
-
     const queryError = userQuery.error ?? mediaListQuery.error ?? null;
 
     useEffect(() => {
         if (queryError) {
-            analytics.airingError(provider);
             router.push(`/?error=UserNotFound`);
         }
-    }, [queryError, provider, router]);
+    }, [queryError, router]);
 
     return {
         entries: mediaListQuery.data ?? [],
