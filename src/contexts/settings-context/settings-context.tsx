@@ -21,7 +21,6 @@ const STORAGE_KEY = 'anicalendar-settings';
 type SettingsState = {
     provider: Provider;
     theme: ThemeMode;
-    resolvedTheme: Exclude<ThemeMode, 'system'>;
     contentFilter: ContentFilter;
     emptyDaysMode: EmptyDaysMode;
     weekStartDay: WeekStartDay;
@@ -31,7 +30,6 @@ type SettingsState = {
 const DEFAULTS: SettingsState = {
     provider: 'anilist',
     theme: 'system',
-    resolvedTheme: 'light',
     contentFilter: 'sfw',
     emptyDaysMode: 'show',
     weekStartDay: 'monday',

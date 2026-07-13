@@ -22,6 +22,7 @@ export default function LayoutRoot(props: { children: ReactNode }) {
     const { children } = props;
 
     return (
+        // <body> is rendered inside <Providers> (see ThemedBody in providers.tsx)
         <html lang="en" className={inter.variable}>
             <Providers>
                 <Header />
