@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getProvider } from './registry';
 
 import type { Provider } from './api.types';
+import type { User } from '@/services/models';
 
 const useUser = (provider: Provider, userName: string | null) => {
     const api = getProvider(provider);
@@ -14,13 +15,14 @@ const useUser = (provider: Provider, userName: string | null) => {
     });
 };
 
-const useMediaList = (provider: Provider, userId: number | undefined) => {
+const useMediaList = (provider: Provider, user: User | undefined) => {
     const api = getProvider(provider);
+    const userName = user?.name;
 
     return useQuery({
-        queryKey: ['mediaList', provider, userId],
-        queryFn: () => api.getMediaList(userId!),
-        enabled: !!userId,
+        queryKey: ['mediaList', provider, userName],
+        queryFn: () => api.getMediaList(user!),
+        enabled: !!user,
     });
 };
 

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { Radio } from './index';
+import { Radio } from '../index';
 
 describe('Radio', () => {
     it('defaults orientation to horizontal (react-aria itself defaults to vertical)', () => {
