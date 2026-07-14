@@ -1,5 +1,5 @@
+import { getNextAiringByMalIds } from '../../shared';
 import { malFetch } from '../client';
-import { getNextAiringByMalIds } from './anilist-airing-lookup';
 import { selectAnimeEntries } from './media-list.selector';
 
 import type { MalAnimeListResponse } from './media-list.types';

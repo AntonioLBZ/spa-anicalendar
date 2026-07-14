@@ -1,5 +1,6 @@
 export * from './anilist';
 export * from './hooks';
+export * from './kitsu';
 export * from './mal';
 export * from './mock';
 export { getProvider } from './registry';
