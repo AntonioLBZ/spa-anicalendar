@@ -1,4 +1,5 @@
 export * from './anilist';
+export * from './errors';
 export * from './hooks';
 export * from './kitsu';
 export * from './mal';

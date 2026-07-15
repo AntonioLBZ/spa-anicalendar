@@ -5,11 +5,13 @@ import { getProvider } from './registry';
 import type { Provider } from './api.types';
 import type { User } from '@/services/models';
 
+const userQueryKey = (provider: Provider, userName: string | null) => ['user', provider, userName] as const;
+
 const useUser = (provider: Provider, userName: string | null) => {
     const api = getProvider(provider);
 
     return useQuery({
-        queryKey: ['user', provider, userName],
+        queryKey: userQueryKey(provider, userName),
         queryFn: () => api.getUserByName(userName!),
         enabled: !!userName?.trim(),
     });
@@ -26,4 +28,4 @@ const useMediaList = (provider: Provider, user: User | undefined) => {
     });
 };
 
-export { useUser, useMediaList };
+export { useUser, useMediaList, userQueryKey };

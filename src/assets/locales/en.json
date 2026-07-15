@@ -11,6 +11,7 @@
 		"subtitle": "Enter your username to see your weekly airing schedule.",
 		"usernameLabel": "Username",
 		"errorUserNotFound": "User not found. Please check your user is public.",
+		"errorGeneric": "Something went wrong. Please try again.",
 		"go": "Go",
 		"apiProviderLabel": "API Provider"
 	},
@@ -20,6 +21,17 @@
 			"en": "English",
 			"es": "Español"
 		}
+	},
+	"notFound": {
+		"title": "Page not found",
+		"subtitle": "The page you're looking for doesn't exist or was moved.",
+		"backHome": "Back home"
+	},
+	"airing": {
+		"errorTitle": "Something went wrong",
+		"errorSubtitle": "We couldn't load this schedule. The provider might be having issues.",
+		"retry": "Retry",
+		"backHome": "Back home"
 	},
 	"animeCard": {
 		"next": "Next",

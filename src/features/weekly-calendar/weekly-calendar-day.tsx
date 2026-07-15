@@ -20,10 +20,7 @@ const WeeklyCalendarDay = ({ dayIndex, entries, isToday, weekStartDay }: WeeklyC
         <div className={dayClsx} role="listitem" aria-labelledby={dayId}>
             <div className="day__header label-m" id={dayId}>
                 <div className="day__name" title={t(`days.long.${dayKey}`)}>
-                    <span className="day__name-long">{t(`days.long.${dayKey}`)}</span>
-                    <span className="day__name-short" aria-hidden="true">
-                        {t(`days.short.${dayKey}`)}
-                    </span>
+                    <span>{t(`days.long.${dayKey}`)}</span>
                     {isToday && <Pill className="day__today-badge">{t('today')}</Pill>}
                 </div>
                 <div className="day__count body-s">{t('entriesCount', { count: entries.length })}</div>

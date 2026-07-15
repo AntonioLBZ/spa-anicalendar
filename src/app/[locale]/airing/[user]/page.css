@@ -12,3 +12,7 @@
     padding-inline: var(--content-padding-inline);
     width: 100%;
 }
+
+.airing-page__error-back {
+    text-decoration: none;
+}

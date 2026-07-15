@@ -11,6 +11,7 @@
 		"subtitle": "Introduce tu nombre de usuario para ver tu calendario semanal de emisiones.",
 		"usernameLabel": "Nombre de usuario",
 		"errorUserNotFound": "Usuario no encontrado. Comprueba que tu perfil sea público.",
+		"errorGeneric": "Algo salió mal. Inténtalo de nuevo.",
 		"go": "Buscar",
 		"apiProviderLabel": "Proveedor de API"
 	},
@@ -21,9 +22,20 @@
 			"es": "Español"
 		}
 	},
+	"notFound": {
+		"title": "Página no encontrada",
+		"subtitle": "La página que buscas no existe o ha sido movida.",
+		"backHome": "Volver al inicio"
+	},
+	"airing": {
+		"errorTitle": "Algo salió mal",
+		"errorSubtitle": "No hemos podido cargar este calendario. Puede que el proveedor esté teniendo problemas.",
+		"retry": "Reintentar",
+		"backHome": "Volver al inicio"
+	},
 	"animeCard": {
 		"next": "Siguiente",
-		"behind": "{count} por detrás",
+		"behind": "{count} pendientes",
 		"caughtUp": "¡Al día!",
 		"unknown": "desconocido",
 		"episodeProgress": "Ep {progress}/{total}",
