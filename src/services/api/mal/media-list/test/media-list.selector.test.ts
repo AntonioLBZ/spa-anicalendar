@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest';
 
 import { selectAnimeEntry } from '../media-list.selector';
 
-import type { NextAiringEpisode } from '../anilist-airing-lookup';
 import type { MalAnimeListEntry } from '../media-list.types';
+import type { AiringInfo } from '@/services/models';
 
 function baseNode(overrides: Partial<MalAnimeListEntry['node']> = {}): MalAnimeListEntry['node'] {
     return {
@@ -26,7 +26,7 @@ function baseListStatus(overrides: Partial<MalAnimeListEntry['list_status']> = {
     };
 }
 
-const NO_AIRING: Record<number, NextAiringEpisode> = {};
+const NO_AIRING: Record<number, AiringInfo> = {};
 
 describe('selectAnimeEntry', () => {
     it('maps finished_airing to FINISHED', () => {

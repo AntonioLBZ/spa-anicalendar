@@ -2,7 +2,7 @@ interface AnilistUserResponse {
     User: {
         id: number;
         name: string;
-        avatar: { medium: string };
+        avatar: { medium: string | null } | null;
         siteUrl: string;
     };
 }

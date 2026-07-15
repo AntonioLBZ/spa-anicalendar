@@ -1,15 +1,12 @@
-import { anilistQuery } from '../../anilist/client';
+import { anilistQuery } from '../anilist/client';
 
-interface NextAiringEpisode {
-    airingAt: number;
-    episode: number;
-}
+import type { AiringInfo } from '@/services/models';
 
 interface AnilistAiringLookupResponse {
     Page: {
         media: Array<{
             idMal: number | null;
-            nextAiringEpisode: NextAiringEpisode | null;
+            nextAiringEpisode: AiringInfo | null;
         }>;
     };
 }
@@ -28,7 +25,7 @@ query NextAiringByMalId($idMalIn: [Int], $perPage: Int) {
 }
 `;
 
-async function getNextAiringByMalIds(malIds: number[]): Promise<Record<number, NextAiringEpisode>> {
+async function getNextAiringByMalIds(malIds: number[]): Promise<Record<number, AiringInfo>> {
     if (malIds.length === 0) {
         return {};
     }
@@ -44,7 +41,7 @@ async function getNextAiringByMalIds(malIds: number[]): Promise<Record<number, N
             return {};
         }
 
-        const result: Record<number, NextAiringEpisode> = {};
+        const result: Record<number, AiringInfo> = {};
 
         for (const media of response.data.Page.media) {
             if (media.idMal !== null && media.nextAiringEpisode) {
@@ -60,4 +57,3 @@ async function getNextAiringByMalIds(malIds: number[]): Promise<Record<number, N
 }
 
 export { getNextAiringByMalIds };
-export type { NextAiringEpisode };

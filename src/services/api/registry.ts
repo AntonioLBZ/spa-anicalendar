@@ -1,4 +1,5 @@
 import { anilistProvider } from './anilist';
+import { kitsuProvider } from './kitsu';
 import { malProvider } from './mal';
 import { mockProvider } from './mock';
 
@@ -8,7 +9,7 @@ const providers: Record<Provider, ApiProvider> = {
     anilist: anilistProvider,
     myanimelist: malProvider,
     mock: mockProvider, // TODO: remove mock provider
-    kitsu: anilistProvider, // TODO: implement kitsu provider
+    kitsu: kitsuProvider,
 };
 
 const getProvider = (provider: Provider): ApiProvider => providers[provider];

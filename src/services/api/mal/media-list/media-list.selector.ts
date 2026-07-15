@@ -1,6 +1,7 @@
-import type { NextAiringEpisode } from './anilist-airing-lookup';
+import { parseEndDate } from '../../shared';
+
 import type { MalAnimeListEntry } from './media-list.types';
-import type { AnimeEntry, MediaSeason, MediaStatus, PartialDate } from '@/services/models';
+import type { AiringInfo, AnimeEntry, MediaSeason, MediaStatus } from '@/services/models';
 
 const STATUS_MAP: Record<string, MediaStatus> = {
     finished_airing: 'FINISHED',
@@ -15,21 +16,7 @@ const SEASON_MAP: Record<string, MediaSeason> = {
     fall: 'FALL',
 };
 
-function parseEndDate(endDate: string | undefined): PartialDate {
-    if (!endDate) {
-        return {};
-    }
-
-    const [year, month, day] = endDate.split('-').map(Number);
-
-    return {
-        year,
-        month: month ?? undefined,
-        day: day ?? undefined,
-    };
-}
-
-const selectAnimeEntry = (raw: MalAnimeListEntry, nextAiringByMalId: Record<number, NextAiringEpisode>): AnimeEntry => {
+const selectAnimeEntry = (raw: MalAnimeListEntry, nextAiringByMalId: Record<number, AiringInfo>): AnimeEntry => {
     const { node, list_status: listStatus } = raw;
     const progress = listStatus.num_episodes_watched;
 
@@ -55,7 +42,7 @@ const selectAnimeEntry = (raw: MalAnimeListEntry, nextAiringByMalId: Record<numb
 
 const selectAnimeEntries = (
     raw: MalAnimeListEntry[],
-    nextAiringByMalId: Record<number, NextAiringEpisode> = {},
+    nextAiringByMalId: Record<number, AiringInfo> = {},
 ): AnimeEntry[] => raw.map((entry) => selectAnimeEntry(entry, nextAiringByMalId));
 
 export { selectAnimeEntries, selectAnimeEntry };

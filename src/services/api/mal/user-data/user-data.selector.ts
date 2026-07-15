@@ -1,3 +1,5 @@
+import { DEFAULT_AVATAR_URL } from '../../shared';
+
 import type { MalUserResponse } from './user-data.types';
 import type { User } from '@/services/models';
 
@@ -14,7 +16,7 @@ function hashUsername(name: string): number {
 const selectUser = (raw: MalUserResponse): User => ({
     id: hashUsername(raw.name),
     name: raw.name,
-    avatarUrl: 'https://cdn.myanimelist.net/images/questionmark_50.gif',
+    avatarUrl: DEFAULT_AVATAR_URL,
     siteUrl: `https://myanimelist.net/profile/${raw.name}`,
 });
 
