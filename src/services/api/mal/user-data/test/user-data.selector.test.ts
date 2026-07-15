@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
+import { DEFAULT_AVATAR_URL } from '../../../shared';
 import { selectUser } from '../user-data.selector';
 
 describe('selectUser', () => {
@@ -8,7 +9,7 @@ describe('selectUser', () => {
 
         expect(user.name).toBe('lanzorzx');
         expect(user.siteUrl).toBe('https://myanimelist.net/profile/lanzorzx');
-        expect(user.avatarUrl).toBe('https://cdn.myanimelist.net/images/questionmark_50.gif');
+        expect(user.avatarUrl).toBe(DEFAULT_AVATAR_URL);
     });
 
     it('derives a stable, non-negative integer id from the name', () => {

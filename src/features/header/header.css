@@ -47,11 +47,33 @@
     color: var(--color-content-primary);
 }
 
+.header__avatar-wrapper {
+    display: inline-flex;
+    position: relative;
+}
+
 .header__avatar {
     border-radius: 50%;
     height: var(--avatar-size-s);
     object-fit: cover;
     width: var(--avatar-size-s);
+}
+
+.provider-badge {
+    align-items: center;
+    border: 1.5px solid var(--color-bg-secondary);
+    border-radius: 50%;
+    bottom: -2px;
+    color: white;
+    display: flex;
+    font-size: 8px;
+    font-weight: 700;
+    height: 13px;
+    justify-content: center;
+    line-height: 1;
+    position: absolute;
+    right: -2px;
+    width: 13px;
 }
 
 @media (width <= 520px) {

@@ -1,3 +1,3 @@
-const DEFAULT_AVATAR_URL = 'https://cdn.myanimelist.net/images/questionmark_50.gif';
+const DEFAULT_AVATAR_URL = '/placeholder-avatar.svg';
 
 export { DEFAULT_AVATAR_URL };
