@@ -1,37 +1,38 @@
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 
 import { Pill } from '@/components';
 import { AnimeCard } from '@/features/anime-card';
-import { getDayName } from '@/lib/airing';
+import { getDayKey } from '@/lib/airing';
 
 import { WeeklyCalendarDayProps } from './weekly-calendar.types';
 
 import './weekly-calendar-day.css';
 
-const texts = {
-    todayBadge: 'Today',
-    noEpisodes: 'No episodes',
-};
-
 const WeeklyCalendarDay = ({ dayIndex, entries, isToday, weekStartDay }: WeeklyCalendarDayProps) => {
+    const t = useTranslations('weeklyCalendar');
     const dayId = `day-${dayIndex}`;
     const isEmpty = entries.length === 0;
     const dayClsx = clsx('day', { 'day--today': isToday });
+    const dayKey = getDayKey(dayIndex, weekStartDay);
 
     return (
         <div className={dayClsx} role="listitem" aria-labelledby={dayId}>
             <div className="day__header label-m" id={dayId}>
-                <div className="day__name">
-                    {getDayName(dayIndex, weekStartDay)}
-                    {isToday && <Pill className="day__today-badge">{texts.todayBadge}</Pill>}
+                <div className="day__name" title={t(`days.long.${dayKey}`)}>
+                    <span className="day__name-long">{t(`days.long.${dayKey}`)}</span>
+                    <span className="day__name-short" aria-hidden="true">
+                        {t(`days.short.${dayKey}`)}
+                    </span>
+                    {isToday && <Pill className="day__today-badge">{t('today')}</Pill>}
                 </div>
-                <div className="day__count body-s">{`Entries: ${entries.length}`}</div>
+                <div className="day__count body-s">{t('entriesCount', { count: entries.length })}</div>
             </div>
             <div className="day__entries">
                 {!isEmpty ? (
                     entries.map((entry) => <AnimeCard key={entry.id} entry={entry} hideStatus />)
                 ) : (
-                    <div className="day__empty body-m">{texts.noEpisodes}</div>
+                    <div className="day__empty body-m">{t('noEpisodes')}</div>
                 )}
             </div>
         </div>

@@ -1,0 +1,72 @@
+{
+	"metadata": {
+		"title": "Anicalendar",
+		"description": "Weekly anime calendar powered by AniList, MyAnimeList and Kitsu."
+	},
+	"header": {
+		"brand": "Anicalendar"
+	},
+	"home": {
+		"title": "Anicalendar",
+		"subtitle": "Enter your username to see your weekly airing schedule.",
+		"usernameLabel": "Username",
+		"errorUserNotFound": "User not found. Please check your user is public.",
+		"go": "Go",
+		"apiProviderLabel": "API Provider"
+	},
+	"footer": {
+		"languageSwitcherLabel": "Language",
+		"locale": {
+			"en": "English",
+			"es": "Español"
+		}
+	},
+	"animeCard": {
+		"next": "Next",
+		"behind": "{count} behind",
+		"caughtUp": "Caught up!",
+		"unknown": "unknown",
+		"episodeProgress": "Ep {progress}/{total}",
+		"episodeProgressUnknown": "Ep {progress}/?",
+		"episodeProgressAria": "Episode {progress} of {total}",
+		"aired": "Aired",
+		"countdownDays": "{days}d {hours}h",
+		"countdownHours": "{hours}h {minutes}m",
+		"countdownMinutes": "{minutes}m",
+		"status": {
+			"releasing": "Releasing",
+			"finished": "Finished",
+			"hiatus": "Hiatus",
+			"cancelled": "Cancelled",
+			"notYetReleased": "Not yet released"
+		}
+	},
+	"weeklyCalendar": {
+		"emptyList": "No anime in your watching list.",
+		"sectionHeader": "Weekly anime schedule",
+		"noUpcoming": "No upcoming episodes",
+		"today": "Today",
+		"noEpisodes": "No episodes",
+		"entriesCount": "Entries: {count}",
+		"days": {
+			"long": {
+				"monday": "Monday",
+				"tuesday": "Tuesday",
+				"wednesday": "Wednesday",
+				"thursday": "Thursday",
+				"friday": "Friday",
+				"saturday": "Saturday",
+				"sunday": "Sunday"
+			},
+			"short": {
+				"monday": "M",
+				"tuesday": "T",
+				"wednesday": "W",
+				"thursday": "T",
+				"friday": "F",
+				"saturday": "S",
+				"sunday": "S"
+			}
+		}
+	}
+}

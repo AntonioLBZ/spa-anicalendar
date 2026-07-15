@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 import { Pill } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
@@ -10,35 +11,54 @@ import { getLocalAiringTime, getTimeUntilAiring } from '@/lib/airing';
 import './anime-card.css';
 
 import type { AnimeCardProps } from './anime-card.types';
+import type { CountdownBreakdown } from '@/lib/airing';
 
-const STATUS_VARIANT_MAP: Record<string, 'releasing' | 'finished' | 'hiatus' | 'cancelled' | 'upcoming'> = {
-    RELEASING: 'releasing',
-    FINISHED: 'finished',
-    HIATUS: 'hiatus',
-    CANCELLED: 'cancelled',
-    NOT_YET_RELEASED: 'upcoming',
+const STATUS_META_MAP: Record<string, { variant: 'releasing' | 'finished' | 'hiatus' | 'cancelled' | 'upcoming'; key: string }> = {
+    RELEASING: { variant: 'releasing', key: 'releasing' },
+    FINISHED: { variant: 'finished', key: 'finished' },
+    HIATUS: { variant: 'hiatus', key: 'hiatus' },
+    CANCELLED: { variant: 'cancelled', key: 'cancelled' },
+    NOT_YET_RELEASED: { variant: 'upcoming', key: 'notYetReleased' },
 };
+const DEFAULT_STATUS_META = STATUS_META_MAP.NOT_YET_RELEASED;
 
-const texts = {
-    caughtUp: 'Caught up!',
-    behind: 'behind',
-    next: 'Next',
+type CountdownTranslator = (key: string, values?: Record<string, number>) => string;
+
+const formatCountdown = (t: CountdownTranslator, countdown: CountdownBreakdown): string => {
+    switch (countdown.unit) {
+        case 'aired':
+            return t('aired');
+        case 'days':
+            return t('countdownDays', { days: countdown.days, hours: countdown.hours });
+        case 'hours':
+            return t('countdownHours', { hours: countdown.hours, minutes: countdown.minutes });
+        case 'minutes':
+            return t('countdownMinutes', { minutes: countdown.minutes });
+    }
 };
 
 const AnimeCard = (props: AnimeCardProps) => {
     const { entry, hideStatus = false } = props;
     const { timeFormat } = useSettingsContext();
+    const t = useTranslations('animeCard');
     const titleId = `anime-title-${entry.id}`;
 
     const totalEpisodes = entry.episodes;
-    // TODO mover estos textos tambien y revisar el arbol de accesibiliad
-    const progressText = totalEpisodes ? `Ep ${entry.progress}/${totalEpisodes}` : `Ep ${entry.progress}/?`;
-    const progressAriaText = `Episode ${entry.progress} of ${totalEpisodes ?? 'unkown'}`;
+    const progressText = totalEpisodes
+        ? t('episodeProgress', { progress: entry.progress, total: totalEpisodes })
+        : t('episodeProgressUnknown', { progress: entry.progress });
+    const progressAriaText = t('episodeProgressAria', {
+        progress: entry.progress,
+        total: totalEpisodes ?? t('unknown'),
+    });
 
     const nextEp = entry.nextAiringEpisode;
     const pendingCount = nextEp ? nextEp.episode - entry.progress - 1 : -1;
 
-    const statusVariant = STATUS_VARIANT_MAP[entry.status] ?? 'upcoming';
+    const statusMeta = STATUS_META_MAP[entry.status] ?? DEFAULT_STATUS_META;
+
+    const countdown = nextEp ? getTimeUntilAiring(nextEp.airingAt) : null;
+    const countdownText = countdown && formatCountdown(t, countdown);
 
     return (
         <Link
@@ -49,20 +69,16 @@ const AnimeCard = (props: AnimeCardProps) => {
             aria-labelledby={titleId}
         >
             <Image className="card__image" src={entry.coverImageUrl} alt={entry.title} fill />
-            {entry.isNextAiring && <Pill className="card__next-airing">{texts.next}</Pill>}
+            {entry.isNextAiring && <Pill className="card__next-airing">{t('next')}</Pill>}
             <div className="card__overlay">
                 <span className="card__progress" title={progressAriaText}>
                     {progressText}
                 </span>
                 <span className="card__pending">
-                    {pendingCount > 0 && (
-                        <span className="card__behind">
-                            {pendingCount} {texts.behind}
-                        </span>
-                    )}
+                    {pendingCount > 0 && <span className="card__behind">{t('behind', { count: pendingCount })}</span>}
+                    {pendingCount === 0 && <span className="card__on-date">{t('caughtUp')}</span>}
                     {nextEp && <span>{getLocalAiringTime(nextEp.airingAt, timeFormat)}</span>}
                 </span>
-                {pendingCount === 0 && <span className="card__on-date">{texts.caughtUp}</span>}
                 <div className="card__hover-content">
                     <div className="card__hover-inner">
                         <span className="card__title label-m" id={titleId}>
@@ -70,12 +86,12 @@ const AnimeCard = (props: AnimeCardProps) => {
                         </span>
                         {nextEp && (
                             <span className="card__airing">
-                                <span className="card__airing-countdown">{getTimeUntilAiring(nextEp.airingAt)}</span>
+                                <span className="card__airing-countdown">{countdownText}</span>
                             </span>
                         )}
                         {!hideStatus && (
-                            <span className={`card__status label-s card__status--${statusVariant}`} role="status">
-                                {entry.status.replace(/_/g, ' ')}
+                            <span className={`card__status label-s card__status--${statusMeta.variant}`} role="status">
+                                {t(`status.${statusMeta.key}`)}
                             </span>
                         )}
                     </div>

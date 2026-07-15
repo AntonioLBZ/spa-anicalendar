@@ -1,11 +1,13 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { Suspense, useState } from 'react';
 
 import { Button, Field, Radio } from '@/components';
 import { useSettingsContext } from '@/contexts';
 import { SOURCE_OPTIONS } from '@/contexts/settings-context/options';
+import { useRouter } from '@/lib/i18n/navigation';
 
 import './page.css';
 
@@ -18,6 +20,7 @@ export default function HomePage() {
 }
 
 function HomeContent() {
+    const t = useTranslations('home');
     const [userName, setUserName] = useState('');
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -25,7 +28,7 @@ function HomeContent() {
 
     const [errorMessage, setErrorMessage] = useState(() => {
         const error = searchParams.get('error');
-        return error === 'UserNotFound' ? 'User not found. Please check your user is public.' : null;
+        return error === 'UserNotFound' ? t('errorUserNotFound') : null;
     });
 
     const handleUserNameChange = (value: string) => {
@@ -42,8 +45,8 @@ function HomeContent() {
 
     return (
         <main className="home">
-            <h1 className="home__title title-l">Anicalendar</h1>
-            <p className="home__subtitle body-l">Enter your AniList username to see your weekly airing schedule.</p>
+            <h1 className="home__title title-l">{t('title')}</h1>
+            <p className="home__subtitle body-l">{t('subtitle')}</p>
             <form
                 className="home__form"
                 onSubmit={(e) => {
@@ -55,13 +58,13 @@ function HomeContent() {
                     <Field.Root value={userName} onChange={handleUserNameChange} isInvalid={!!errorMessage}>
                         <Field.Control>
                             <Field.Input />
-                            <Field.Label>AniList username</Field.Label>
+                            <Field.Label>{t('usernameLabel')}</Field.Label>
                         </Field.Control>
                         <Field.Error>{errorMessage}</Field.Error>
                     </Field.Root>
-                    <Button type="submit">Go</Button>
+                    <Button type="submit">{t('go')}</Button>
                 </div>
-                <Radio.Group aria-label="API Provider" value={provider} onChange={setProvider}>
+                <Radio.Group aria-label={t('apiProviderLabel')} value={provider} onChange={setProvider}>
                     {SOURCE_OPTIONS.map((option) => (
                         <Radio.Option key={option.value} value={option.value} className="home__radio-option">
                             {option.label}
