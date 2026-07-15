@@ -11,21 +11,30 @@ import { getLocalAiringTime, getTimeUntilAiring } from '@/lib/airing';
 import './anime-card.css';
 
 import type { AnimeCardProps } from './anime-card.types';
+import type { CountdownBreakdown } from '@/lib/airing';
 
-const STATUS_VARIANT_MAP: Record<string, 'releasing' | 'finished' | 'hiatus' | 'cancelled' | 'upcoming'> = {
-    RELEASING: 'releasing',
-    FINISHED: 'finished',
-    HIATUS: 'hiatus',
-    CANCELLED: 'cancelled',
-    NOT_YET_RELEASED: 'upcoming',
+const STATUS_META_MAP: Record<string, { variant: 'releasing' | 'finished' | 'hiatus' | 'cancelled' | 'upcoming'; key: string }> = {
+    RELEASING: { variant: 'releasing', key: 'releasing' },
+    FINISHED: { variant: 'finished', key: 'finished' },
+    HIATUS: { variant: 'hiatus', key: 'hiatus' },
+    CANCELLED: { variant: 'cancelled', key: 'cancelled' },
+    NOT_YET_RELEASED: { variant: 'upcoming', key: 'notYetReleased' },
 };
+const DEFAULT_STATUS_META = STATUS_META_MAP.NOT_YET_RELEASED;
 
-const STATUS_KEY_MAP: Record<string, string> = {
-    RELEASING: 'releasing',
-    FINISHED: 'finished',
-    HIATUS: 'hiatus',
-    CANCELLED: 'cancelled',
-    NOT_YET_RELEASED: 'notYetReleased',
+type CountdownTranslator = (key: string, values?: Record<string, number>) => string;
+
+const formatCountdown = (t: CountdownTranslator, countdown: CountdownBreakdown): string => {
+    switch (countdown.unit) {
+        case 'aired':
+            return t('aired');
+        case 'days':
+            return t('countdownDays', { days: countdown.days, hours: countdown.hours });
+        case 'hours':
+            return t('countdownHours', { hours: countdown.hours, minutes: countdown.minutes });
+        case 'minutes':
+            return t('countdownMinutes', { minutes: countdown.minutes });
+    }
 };
 
 const AnimeCard = (props: AnimeCardProps) => {
@@ -46,19 +55,10 @@ const AnimeCard = (props: AnimeCardProps) => {
     const nextEp = entry.nextAiringEpisode;
     const pendingCount = nextEp ? nextEp.episode - entry.progress - 1 : -1;
 
-    const statusVariant = STATUS_VARIANT_MAP[entry.status] ?? 'upcoming';
-    const statusKey = STATUS_KEY_MAP[entry.status] ?? 'notYetReleased';
+    const statusMeta = STATUS_META_MAP[entry.status] ?? DEFAULT_STATUS_META;
 
     const countdown = nextEp ? getTimeUntilAiring(nextEp.airingAt) : null;
-    const countdownText =
-        countdown &&
-        (countdown.unit === 'aired'
-            ? t('aired')
-            : countdown.unit === 'days'
-              ? t('countdownDays', { days: countdown.days, hours: countdown.hours })
-              : countdown.unit === 'hours'
-                ? t('countdownHours', { hours: countdown.hours, minutes: countdown.minutes })
-                : t('countdownMinutes', { minutes: countdown.minutes }));
+    const countdownText = countdown && formatCountdown(t, countdown);
 
     return (
         <Link
@@ -75,12 +75,8 @@ const AnimeCard = (props: AnimeCardProps) => {
                     {progressText}
                 </span>
                 <span className="card__pending">
-                    {pendingCount > 0 ? (
-                        <span className="card__behind">{t('behind', { count: pendingCount })}</span>
-                    ) : (
-                        <span className="card__on-date">{t('caughtUp')}</span>
-                    )}
-                    est
+                    {pendingCount > 0 && <span className="card__behind">{t('behind', { count: pendingCount })}</span>}
+                    {pendingCount === 0 && <span className="card__on-date">{t('caughtUp')}</span>}
                     {nextEp && <span>{getLocalAiringTime(nextEp.airingAt, timeFormat)}</span>}
                 </span>
                 <div className="card__hover-content">
@@ -94,8 +90,8 @@ const AnimeCard = (props: AnimeCardProps) => {
                             </span>
                         )}
                         {!hideStatus && (
-                            <span className={`card__status label-s card__status--${statusVariant}`} role="status">
-                                {t(`status.${statusKey}`)}
+                            <span className={`card__status label-s card__status--${statusMeta.variant}`} role="status">
+                                {t(`status.${statusMeta.key}`)}
                             </span>
                         )}
                     </div>

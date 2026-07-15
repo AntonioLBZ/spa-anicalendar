@@ -66,18 +66,14 @@ async function getMediaList(user: User): Promise<AnimeEntry[]> {
 
     const entries = selectAnimeEntries(denormalized, nextAiringByMalId);
 
-    for (const item of entries) {
-        if (item.nextAiringEpisode) continue;
+    return entries.map((item, index) => {
+        if (item.nextAiringEpisode) return item;
 
-        const anilistId = anilistIdByAnimeId.get(String(item.mediaId));
+        const anilistId = anilistIdByAnimeId.get(denormalized[index].anime.id);
         const fallbackAiring = anilistId !== undefined ? nextAiringByAnilistId[anilistId] : undefined;
 
-        if (fallbackAiring) {
-            item.nextAiringEpisode = fallbackAiring;
-        }
-    }
-
-    return entries;
+        return fallbackAiring ? { ...item, nextAiringEpisode: fallbackAiring } : item;
+    });
 }
 
 export { getMediaList };
