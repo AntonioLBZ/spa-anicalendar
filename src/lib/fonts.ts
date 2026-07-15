@@ -1,5 +1,6 @@
 import localFont from 'next/font/local';
 
+// TODO(i18n-ja): CJK font family (next/font, loaded per-locale) needed here when 'ja' is added to locales
 const inter = localFont({
     src: [
         { path: '../assets/fonts/Inter_18pt-Regular.ttf', weight: '400', style: 'normal' },

@@ -1,0 +1,24 @@
+{
+	"metadata": {
+		"title": "Anicalendar",
+		"description": "Calendario semanal de anime impulsado por AniList, MyAnimeList y Kitsu."
+	},
+	"header": {
+		"brand": "Anicalendar"
+	},
+	"home": {
+		"title": "Anicalendar",
+		"subtitle": "Introduce tu nombre de usuario para ver tu calendario semanal de emisiones.",
+		"usernameLabel": "Usuario",
+		"errorUserNotFound": "Usuario no encontrado. Comprueba que tu perfil sea público.",
+		"go": "Buscar",
+		"apiProviderLabel": "Proveedor de API"
+	},
+	"footer": {
+		"languageSwitcherLabel": "Idioma",
+		"locale": {
+			"en": "English",
+			"es": "Español"
+		}
+	}
+}

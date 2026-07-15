@@ -1,0 +1,24 @@
+{
+	"metadata": {
+		"title": "Anicalendar",
+		"description": "Weekly anime calendar powered by AniList, MyAnimeList and Kitsu."
+	},
+	"header": {
+		"brand": "Anicalendar"
+	},
+	"home": {
+		"title": "Anicalendar",
+		"subtitle": "Enter your username to see your weekly airing schedule.",
+		"usernameLabel": "Username",
+		"errorUserNotFound": "User not found. Please check your user is public.",
+		"go": "Go",
+		"apiProviderLabel": "API Provider"
+	},
+	"footer": {
+		"languageSwitcherLabel": "Language",
+		"locale": {
+			"en": "English",
+			"es": "Español"
+		}
+	}
+}

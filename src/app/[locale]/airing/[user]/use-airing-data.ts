@@ -1,8 +1,8 @@
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 import { useSettingsContext } from '@/contexts/settings-context';
 import { useUserContext } from '@/contexts/user-context';
+import { useRouter } from '@/lib/i18n/navigation';
 import { useMediaList, useUser } from '@/services';
 
 const useAiringData = (userName: string | null) => {

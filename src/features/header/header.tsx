@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useLocale, useTranslations } from 'next-intl';
 import { Link } from 'react-aria-components';
 
 import { useSettingsContext } from '@/contexts/settings-context';
@@ -14,6 +15,8 @@ import './header.css';
 const Header = () => {
     const { user } = useUserContext();
     const { provider } = useSettingsContext();
+    const t = useTranslations('header');
+    const locale = useLocale();
 
     return (
         <header className="header">
@@ -27,8 +30,9 @@ const Header = () => {
                         <span className="header__username label-l">{user.name}</span>
                     </Link>
                 )}
-                <Link className="header__nav title-m" href="/">
-                    Anicalendar
+                {/* react-aria-components' Link is not next-intl-aware; compose the locale into the href */}
+                <Link className="header__nav title-m" href={`/${locale}`}>
+                    {t('brand')}
                 </Link>
                 <div className="header__actions">
                     <Settings />
