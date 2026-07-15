@@ -1,4 +1,4 @@
-import { getNextAiringByMalIds } from '../../shared';
+import { getNextAiringByAnilistIds, getNextAiringByMalIds } from '../../shared';
 import { kitsuFetch } from '../client';
 import { selectAnimeEntries } from './media-list.selector';
 
@@ -6,13 +6,18 @@ import type { DenormalizedEntry } from './media-list.selector';
 import type { KitsuAnimeResource, KitsuCategory, KitsuLibraryEntriesResponse, KitsuMapping } from './media-list.types';
 import type { AnimeEntry, User } from '@/services/models';
 
-function getMalIdsForAnime(anime: KitsuAnimeResource, mappingById: Map<string, KitsuMapping>): number[] {
+function getExternalIdForAnime(
+    anime: KitsuAnimeResource,
+    mappingById: Map<string, KitsuMapping>,
+    externalSite: string,
+): number | undefined {
     const refs = anime.relationships?.mappings?.data ?? [];
 
-    return refs
+    const mapping = refs
         .map((ref) => mappingById.get(ref.id))
-        .filter((mapping): mapping is KitsuMapping => mapping?.attributes.externalSite === 'myanimelist/anime')
-        .map((mapping) => Number(mapping.attributes.externalId));
+        .find((mapping): mapping is KitsuMapping => mapping?.attributes.externalSite === externalSite);
+
+    return mapping ? Number(mapping.attributes.externalId) : undefined;
 }
 
 async function getMediaList(user: User): Promise<AnimeEntry[]> {
@@ -35,19 +40,44 @@ async function getMediaList(user: User): Promise<AnimeEntry[]> {
             .map((ref) => categoryById.get(ref.id))
             .filter((category): category is KitsuCategory => category !== undefined);
 
-        const malId = getMalIdsForAnime(anime, mappingById)[0];
+        const malId = getExternalIdForAnime(anime, mappingById, 'myanimelist/anime');
 
         return [{ entry, anime, categories, malId }];
     });
 
-    const malIds = denormalized
-        .filter(({ anime }) => anime.attributes.status === 'current')
-        .map(({ malId }) => malId)
-        .filter((malId): malId is number => malId !== undefined);
+    const currentlyAiring = denormalized.filter(({ anime }) => anime.attributes.status === 'current');
 
-    const nextAiringByMalId = await getNextAiringByMalIds(malIds);
+    const malIds = currentlyAiring.map(({ malId }) => malId).filter((malId): malId is number => malId !== undefined);
 
-    return selectAnimeEntries(denormalized, nextAiringByMalId);
+    // Kitsu's crowdsourced MAL crossreference is frequently missing for newer/niche titles even
+    // though the show is actively airing and Kitsu already has an AniList crossreference for it —
+    // fall back to looking the airing schedule up by AniList id instead of dropping the show.
+    const anilistIdByAnimeId = new Map(
+        currentlyAiring
+            .filter(({ malId }) => malId === undefined)
+            .map(({ anime }) => [anime.id, getExternalIdForAnime(anime, mappingById, 'anilist/anime')] as const)
+            .filter((pair): pair is [string, number] => pair[1] !== undefined),
+    );
+
+    const [nextAiringByMalId, nextAiringByAnilistId] = await Promise.all([
+        getNextAiringByMalIds(malIds),
+        getNextAiringByAnilistIds([...anilistIdByAnimeId.values()]),
+    ]);
+
+    const entries = selectAnimeEntries(denormalized, nextAiringByMalId);
+
+    for (const item of entries) {
+        if (item.nextAiringEpisode) continue;
+
+        const anilistId = anilistIdByAnimeId.get(String(item.mediaId));
+        const fallbackAiring = anilistId !== undefined ? nextAiringByAnilistId[anilistId] : undefined;
+
+        if (fallbackAiring) {
+            item.nextAiringEpisode = fallbackAiring;
+        }
+    }
+
+    return entries;
 }
 
 export { getMediaList };

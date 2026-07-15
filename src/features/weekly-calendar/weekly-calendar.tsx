@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import React, { useMemo } from 'react';
 
 import { Divider } from '@/components';
@@ -59,13 +60,14 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
     const { entries } = props;
     const { contentFilter, emptyDaysMode, weekStartDay } = useSettingsContext();
     const layoutMode = useLayoutMode();
+    const t = useTranslations('weeklyCalendar');
 
     const filtered = useMemo(() => filterByContent(entries, contentFilter), [entries, contentFilter]);
     const todayIndex = getTodayIndex(weekStartDay);
     const { days, noAiring } = useMemo(() => groupByAiringDay(filtered, weekStartDay), [filtered, weekStartDay]);
 
     if (filtered.length === 0) {
-        return <div className="weekly-calendar body-l">No anime in your watching list.</div>;
+        return <div className="weekly-calendar body-l">{t('emptyList')}</div>;
     }
 
     const hideEmptyDays = emptyDaysMode === 'hide';
@@ -82,8 +84,8 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
     return (
         <div className="weekly-calendar body-l" style={style}>
             <div className="weekly-calendar__section">
-                <div className="weekly-calendar__section-header label-l">Weekly anime schedule</div>
-                <div className={gridClsx} role="list" aria-label="Weekly anime schedule">
+                <div className="weekly-calendar__section-header label-l">{t('sectionHeader')}</div>
+                <div className={gridClsx} role="list" aria-label={t('sectionHeader')}>
                     {visibleDays.map(([dayIndex, entries]) => (
                         <WeeklyCalendarDay
                             key={dayIndex}
@@ -99,7 +101,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
                 <>
                     <Divider />
                     <div className="weekly-calendar__section">
-                        <div className="weekly-calendar__section-header label-l">No upcoming episodes</div>
+                        <div className="weekly-calendar__section-header label-l">{t('noUpcoming')}</div>
                         <div className="weekly-calendar__section-entries">
                             {noAiring.map((entry) => (
                                 <AnimeCard key={entry.id} entry={entry} />

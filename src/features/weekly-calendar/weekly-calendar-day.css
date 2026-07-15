@@ -34,6 +34,20 @@
     width: 100%;
 }
 
+.day__name-short {
+    display: none;
+}
+
+@media (width <= 1024px) {
+    .day__name-long {
+        display: none;
+    }
+
+    .day__name-short {
+        display: inline;
+    }
+}
+
 .day__today-badge {
     margin-block-start: calc(-1 * var(--size-12));
 }
