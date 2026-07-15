@@ -34,6 +34,7 @@
 		"backHome": "Back home"
 	},
 	"animeCard": {
+		"toggleDetails": "Show details",
 		"next": "Next",
 		"behind": "{count} behind",
 		"caughtUp": "Caught up!",

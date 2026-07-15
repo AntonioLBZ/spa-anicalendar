@@ -1,19 +1,27 @@
 'use client';
 
+import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+import { useHover } from 'react-aria';
 
 import { Pill } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { getLocalAiringTime, getTimeUntilAiring } from '@/lib/airing';
+
+import { InfoIcon } from './info-icon';
 
 import './anime-card.css';
 
 import type { AnimeCardProps } from './anime-card.types';
 import type { CountdownBreakdown } from '@/lib/airing';
 
-const STATUS_META_MAP: Record<string, { variant: 'releasing' | 'finished' | 'hiatus' | 'cancelled' | 'upcoming'; key: string }> = {
+const STATUS_META_MAP: Record<
+    string,
+    { variant: 'releasing' | 'finished' | 'hiatus' | 'cancelled' | 'upcoming'; key: string }
+> = {
     RELEASING: { variant: 'releasing', key: 'releasing' },
     FINISHED: { variant: 'finished', key: 'finished' },
     HIATUS: { variant: 'hiatus', key: 'hiatus' },
@@ -42,6 +50,9 @@ const AnimeCard = (props: AnimeCardProps) => {
     const { timeFormat } = useSettingsContext();
     const t = useTranslations('animeCard');
     const titleId = `anime-title-${entry.id}`;
+    const detailsId = `anime-details-${entry.id}`;
+    const [isExpanded, setIsExpanded] = useState(false);
+    const { hoverProps, isHovered } = useHover({});
 
     const totalEpisodes = entry.episodes;
     const progressText = totalEpisodes
@@ -60,14 +71,10 @@ const AnimeCard = (props: AnimeCardProps) => {
     const countdown = nextEp ? getTimeUntilAiring(nextEp.airingAt) : null;
     const countdownText = countdown && formatCountdown(t, countdown);
 
+    const cardClsx = clsx('card body-m', isExpanded && 'card--expanded', isHovered && 'card--hovered');
+
     return (
-        <Link
-            className="card body-m"
-            href={entry.siteUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-labelledby={titleId}
-        >
+        <div className={cardClsx} {...hoverProps}>
             <Image className="card__image" src={entry.coverImageUrl} alt={entry.title} fill />
             {entry.isNextAiring && <Pill className="card__next-airing">{t('next')}</Pill>}
             <div className="card__overlay">
@@ -79,7 +86,7 @@ const AnimeCard = (props: AnimeCardProps) => {
                     {pendingCount === 0 && <span className="card__on-date">{t('caughtUp')}</span>}
                     {nextEp && <span>{getLocalAiringTime(nextEp.airingAt, timeFormat)}</span>}
                 </span>
-                <div className="card__hover-content">
+                <div className="card__hover-content" id={detailsId}>
                     <div className="card__hover-inner">
                         <span className="card__title label-m" id={titleId}>
                             {entry.title}
@@ -97,7 +104,27 @@ const AnimeCard = (props: AnimeCardProps) => {
                     </div>
                 </div>
             </div>
-        </Link>
+            <Link
+                className="card__link"
+                href={entry.siteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-labelledby={titleId}
+            />
+            <button
+                type="button"
+                className="card__info-btn"
+                aria-expanded={isExpanded}
+                aria-controls={detailsId}
+                aria-label={t('toggleDetails')}
+                onClick={(e) => {
+                    setIsExpanded((value) => !value);
+                    e.currentTarget.blur();
+                }}
+            >
+                <InfoIcon />
+            </button>
+        </div>
     );
 };
 

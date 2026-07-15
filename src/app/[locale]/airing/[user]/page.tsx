@@ -28,7 +28,7 @@ export default function AiringPage() {
                     <ErrorState.Subtitle>{t('errorSubtitle')}</ErrorState.Subtitle>
                     <ErrorState.Actions>
                         <Button onPress={retry}>{t('retry')}</Button>
-                        <Link className="airing-page__error-back button button--primary button--size-m" href="/">
+                        <Link className="airing-page__error-back button button--primary button--size-m body-m" href="/">
                             {t('backHome')}
                         </Link>
                     </ErrorState.Actions>

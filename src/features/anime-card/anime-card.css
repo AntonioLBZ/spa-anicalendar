@@ -3,11 +3,19 @@
     background-color: var(--color-bg-secondary);
     border-radius: var(--size-37);
     color: var(--color-content-primary);
-    cursor: pointer;
     display: block;
     overflow: hidden;
     position: relative;
-    text-decoration: none;
+}
+
+.card__link {
+    inset: 0;
+    position: absolute;
+}
+
+.card__link:focus-visible {
+    outline: var(--size-12) solid var(--color-border-focus);
+    outline-offset: calc(-1 * var(--size-12));
 }
 
 .card__next-airing {
@@ -16,9 +24,43 @@
     top: var(--size-37);
 }
 
-.card:focus-visible {
+.card__info-btn {
+    align-items: center;
+    background: rgb(0 0 0 / 50%);
+    border: none;
+    border-radius: 50%;
+    color: var(--color-content-bright);
+    cursor: pointer;
+    display: flex;
+    height: var(--size-175);
+    justify-content: center;
+    left: var(--size-12);
+    position: absolute;
+    top: var(--size-12);
+    width: var(--size-175);
+    z-index: 1;
+}
+
+.card__info-btn::after {
+    /* invisible hit area, expanded to the WCAG 2.5.5 / platform-recommended minimum touch target size (--size-275, 44px) without growing the visible button */
+    content: '';
+    height: var(--size-275);
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--size-275);
+}
+
+.card__info-btn:focus-visible {
     outline: var(--size-12) solid var(--color-border-focus);
     outline-offset: var(--size-12);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .card__info-btn {
+        display: none;
+    }
 }
 
 .card__title {
@@ -117,11 +159,15 @@
     color: var(--color-status-upcoming);
 }
 
-.card:hover .card__hover-content {
+.card--expanded .card__hover-content,
+.card--hovered .card__hover-content,
+.card:focus-within .card__hover-content {
     animation: card-slide-up 0.25s ease forwards;
 }
 
-.card:hover .card__hover-inner {
+.card--expanded .card__hover-inner,
+.card--hovered .card__hover-inner,
+.card:focus-within .card__hover-inner {
     transform: translateY(0%);
 }
 

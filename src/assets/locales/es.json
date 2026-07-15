@@ -34,6 +34,7 @@
 		"backHome": "Volver al inicio"
 	},
 	"animeCard": {
+		"toggleDetails": "Mostrar detalles",
 		"next": "Siguiente",
 		"behind": "{count} pendientes",
 		"caughtUp": "¡Al día!",

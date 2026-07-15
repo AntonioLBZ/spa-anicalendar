@@ -20,6 +20,6 @@
 .error-state__actions {
     align-items: center;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: var(--size-100);
 }
