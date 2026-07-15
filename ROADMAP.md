@@ -25,10 +25,6 @@ Replace hover-only information on anime cards with a touch-compatible mechanism.
 - Slide gesture to reveal hidden content
 - Persistent info bar at bottom of mobile screens
 
-### Multilenguaje
-
-Add i18n support for Spanish, English, French, and German. Configure via settings and persist language preference to localStorage.
-
 ### Keyboard Accessibility Review
 
 Audit and test keyboard navigation across all features. Ensure tab order is logical, all interactive elements are reachable, and keyboard shortcuts are intuitive.

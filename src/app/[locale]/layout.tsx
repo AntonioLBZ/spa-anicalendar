@@ -47,7 +47,9 @@ export default async function LocaleLayout(props: { children: ReactNode; params:
                 <Providers>
                     <Header />
                     {children}
-                    <Footer />
+                    <Suspense fallback={null}>
+                        <Footer />
+                    </Suspense>
                     <Analytics />
                     <SpeedInsights />
                 </Providers>
