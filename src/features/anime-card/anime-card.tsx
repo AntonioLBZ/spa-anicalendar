@@ -119,6 +119,8 @@ const AnimeCard = (props: AnimeCardProps) => {
                 aria-label={t('toggleDetails')}
                 onClick={(e) => {
                     setIsExpanded((value) => !value);
+                    // .card:focus-within also reveals the hover content (for keyboard nav on .card__link);
+                    // without blurring, a lingering focused button would keep it revealed after collapsing
                     e.currentTarget.blur();
                 }}
             >

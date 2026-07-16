@@ -36,7 +36,7 @@
 	"animeCard": {
 		"toggleDetails": "Mostrar detalles",
 		"next": "Siguiente",
-		"behind": "{count} pendientes",
+		"behind": "{count} pdte.",
 		"caughtUp": "¡Al día!",
 		"unknown": "desconocido",
 		"episodeProgress": "Ep {progress}/{total}",

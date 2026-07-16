@@ -2,7 +2,7 @@
 
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Form } from 'react-aria-components';
 
 import { Button, Field, Radio } from '@/components';
@@ -21,6 +21,8 @@ export default function HomePage() {
     const router = useRouter();
     const queryClient = useQueryClient();
     const { provider, setProvider } = useSettingsContext();
+
+    const validationErrors = useMemo(() => (errorMessage ? { username: errorMessage } : undefined), [errorMessage]);
 
     const handleUserNameChange = (value: string) => {
         setUserName(value);
@@ -50,11 +52,7 @@ export default function HomePage() {
         <main className="home">
             <h1 className="home__title title-l">{t('title')}</h1>
             <p className="home__subtitle body-l">{t('subtitle')}</p>
-            <Form
-                className="home__form"
-                validationErrors={errorMessage ? { username: errorMessage } : {}}
-                onSubmit={handleSubmit}
-            >
+            <Form className="home__form" validationErrors={validationErrors} onSubmit={handleSubmit}>
                 <div className="home__input-group">
                     <Field.Root name="username" value={userName} onChange={handleUserNameChange}>
                         <Field.Control>
