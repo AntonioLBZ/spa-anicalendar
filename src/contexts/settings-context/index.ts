@@ -5,5 +5,6 @@ export type {
     ThemeMode,
     WeekStartDay,
     TimeFormat,
+    CalendarLayout,
     SettingsContextValue,
 } from './settings-context.types';

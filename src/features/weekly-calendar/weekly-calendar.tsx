@@ -1,6 +1,5 @@
 'use client';
 
-import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import React, { useMemo } from 'react';
 
@@ -11,7 +10,7 @@ import { getAiringDay, getTodayIndex } from '@/lib/airing';
 import { useLayoutMode } from '@/lib/use-layout-mode';
 
 import { WeeklyCalendarDay } from './weekly-calendar-day';
-import { getGridConfigForLayout, getMinSizeColumnsTemplate } from './weekly-calendar-layout';
+import { getGridConfigForLayout } from './weekly-calendar-layout';
 
 import './weekly-calendar.css';
 
@@ -58,7 +57,7 @@ const groupByAiringDay = (
 
 const WeeklyCalendar = (props: WeeklyCalendarProps) => {
     const { entries } = props;
-    const { contentFilter, emptyDaysMode, weekStartDay } = useSettingsContext();
+    const { contentFilter, emptyDaysMode, weekStartDay, calendarLayout } = useSettingsContext();
     const layoutMode = useLayoutMode();
     const t = useTranslations('weeklyCalendar');
 
@@ -71,21 +70,21 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
     }
 
     const hideEmptyDays = emptyDaysMode === 'hide';
-    const collapseContent = emptyDaysMode === 'minimize';
 
     const visibleDays = Object.entries(days).filter(([, entries]) => !(hideEmptyDays && entries.length === 0));
 
-    const minSizeColumnsTemplate = getMinSizeColumnsTemplate(Object.entries(days));
-    const gridConfig = getGridConfigForLayout(layoutMode, visibleDays.length, minSizeColumnsTemplate);
+    const isVertical = calendarLayout === 'vertical';
 
-    const style = gridConfig.cssVariables as React.CSSProperties;
-    const gridClsx = clsx('weekly-calendar__grid', { 'weekly-calendar__grid--collapse-content': collapseContent });
+    const style = isVertical
+        ? undefined
+        : (getGridConfigForLayout(layoutMode, visibleDays.length).cssVariables as React.CSSProperties);
+    const containerClsx = isVertical ? 'weekly-calendar__list' : 'weekly-calendar__grid';
 
     return (
         <div className="weekly-calendar body-l" style={style}>
             <div className="weekly-calendar__section">
                 <div className="weekly-calendar__section-header label-l">{t('sectionHeader')}</div>
-                <div className={gridClsx} role="list" aria-label={t('sectionHeader')}>
+                <div className={containerClsx} role="list" aria-label={t('sectionHeader')}>
                     {visibleDays.map(([dayIndex, entries]) => (
                         <WeeklyCalendarDay
                             key={dayIndex}
@@ -93,6 +92,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
                             entries={entries}
                             isToday={Number(dayIndex) === todayIndex}
                             weekStartDay={weekStartDay}
+                            layout={calendarLayout}
                         />
                     ))}
                 </div>

@@ -51,3 +51,31 @@
     padding: var(--size-50);
     text-align: center;
 }
+
+.day--row {
+    align-items: stretch;
+    overflow-x: auto;
+    position: relative;
+    width: 100%;
+}
+
+.day--row .day__header {
+    flex: 0 0 auto;
+    justify-content: center;
+    left: 0;
+    position: sticky;
+    width: 100%;
+    z-index: 1;
+}
+
+.day--row .day__entries {
+    flex-direction: row;
+    height: auto;
+    padding: var(--size-100) var(--size-150);
+    width: 100%;
+}
+
+.day--row .day__entries > * {
+    flex: 0 0 auto;
+    min-width: var(--size-800);
+}

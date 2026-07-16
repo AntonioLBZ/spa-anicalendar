@@ -1,11 +1,12 @@
 import type { Provider } from '@/services/api/api.types';
 
 type ContentFilter = 'sfw' | 'plus16' | 'plus18';
-type EmptyDaysMode = 'show' | 'minimize' | 'hide';
+type EmptyDaysMode = 'show' | 'hide';
 type ThemeMode = 'system' | 'light' | 'dark';
 type ResolvedThemeMode = Exclude<ThemeMode, 'system'>;
 type WeekStartDay = 'monday' | 'sunday';
 type TimeFormat = '12h' | '24h';
+type CalendarLayout = 'grid' | 'vertical';
 
 interface SettingsContextValue {
     provider: Provider;
@@ -21,6 +22,8 @@ interface SettingsContextValue {
     setWeekStartDay: (day: WeekStartDay) => void;
     timeFormat: TimeFormat;
     setTimeFormat: (format: TimeFormat) => void;
+    calendarLayout: CalendarLayout;
+    setCalendarLayout: (layout: CalendarLayout) => void;
 }
 
 export type {
@@ -29,6 +32,7 @@ export type {
     ThemeMode,
     WeekStartDay,
     TimeFormat,
+    CalendarLayout,
     SettingsContextValue,
     ResolvedThemeMode,
 };
