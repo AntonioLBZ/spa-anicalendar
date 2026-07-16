@@ -1,4 +1,4 @@
-import type { WeekStartDay } from '@/contexts/settings-context';
+import type { CalendarLayout, WeekStartDay } from '@/contexts/settings-context';
 import type { AnimeEntry } from '@/services';
 
 type WeeklyCalendarProps = {
@@ -10,6 +10,7 @@ type WeeklyCalendarDayProps = {
     entries: AnimeEntry[];
     isToday: boolean;
     weekStartDay: WeekStartDay;
+    layout: CalendarLayout;
 };
 
 export type { WeeklyCalendarProps, WeeklyCalendarDayProps };

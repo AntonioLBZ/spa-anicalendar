@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { DialogTrigger, Popover, Dialog, Button, Link } from 'react-aria-components';
 
 import { Radio } from '@/components';
@@ -9,11 +10,19 @@ import {
     EMPTY_DAYS_OPTIONS,
     TIME_FORMAT_OPTIONS,
     WEEK_START_OPTIONS,
+    CALENDAR_LAYOUT_OPTIONS,
 } from '@/contexts/settings-context/options';
 
 import { GearIcon } from './gear-icon';
 
-import type { ContentFilter, EmptyDaysMode, ThemeMode, WeekStartDay, TimeFormat } from '@/contexts/settings-context';
+import type {
+    ContentFilter,
+    EmptyDaysMode,
+    ThemeMode,
+    WeekStartDay,
+    TimeFormat,
+    CalendarLayout,
+} from '@/contexts/settings-context';
 
 import './settings.css';
 
@@ -25,6 +34,7 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
 );
 
 const Settings = () => {
+    const t = useTranslations('settings');
     const {
         theme,
         setTheme,
@@ -36,84 +46,106 @@ const Settings = () => {
         setWeekStartDay,
         timeFormat,
         setTimeFormat,
+        calendarLayout,
+        setCalendarLayout,
     } = useSettingsContext();
 
     return (
         <DialogTrigger>
-            <Button className="settings__trigger" aria-label="Settings">
+            <Button className="settings__trigger" aria-label={t('trigger')}>
                 <GearIcon />
             </Button>
             <Popover placement="bottom end" className="settings__panel">
                 <Dialog className="settings__dialog">
-                    <Section title="Theme">
-                        <Radio.Group aria-label="Theme" value={theme} onChange={(v) => setTheme(v as ThemeMode)}>
-                            <Radio.Option value="system">System</Radio.Option>
-                            <Radio.Option value="dark">Dark</Radio.Option>
-                            <Radio.Option value="light">Light</Radio.Option>
+                    <Section title={t('sections.theme')}>
+                        <Radio.Group
+                            aria-label={t('sections.theme')}
+                            value={theme}
+                            onChange={(v) => setTheme(v as ThemeMode)}
+                        >
+                            <Radio.Option value="system">{t('theme.system')}</Radio.Option>
+                            <Radio.Option value="dark">{t('theme.dark')}</Radio.Option>
+                            <Radio.Option value="light">{t('theme.light')}</Radio.Option>
                         </Radio.Group>
                     </Section>
-                    <Section title="Content">
+                    <Section title={t('sections.content')}>
                         <Radio.Group
-                            aria-label="Content"
+                            aria-label={t('sections.content')}
                             value={contentFilter}
                             onChange={(v) => setContentFilter(v as ContentFilter)}
                         >
-                            {CONTENT_FILTER_OPTIONS.map(({ value, label }) => (
+                            {CONTENT_FILTER_OPTIONS.map((value) => (
                                 <Radio.Option key={value} value={value}>
-                                    {label}
+                                    {t(`content.${value}`)}
                                 </Radio.Option>
                             ))}
                         </Radio.Group>
                     </Section>
-                    <Section title="Empty Days">
+                    <Section title={t('sections.layout')}>
                         <Radio.Group
-                            aria-label="Empty Days"
+                            aria-label={t('sections.layout')}
+                            value={calendarLayout}
+                            onChange={(v) => setCalendarLayout(v as CalendarLayout)}
+                        >
+                            {CALENDAR_LAYOUT_OPTIONS.map((value) => (
+                                <Radio.Option key={value} value={value}>
+                                    {t(`layout.${value}`)}
+                                </Radio.Option>
+                            ))}
+                        </Radio.Group>
+                    </Section>
+                    <Section title={t('sections.emptyDays')}>
+                        <Radio.Group
+                            aria-label={t('sections.emptyDays')}
                             value={emptyDaysMode}
                             onChange={(v) => setEmptyDaysMode(v as EmptyDaysMode)}
                         >
-                            {EMPTY_DAYS_OPTIONS.map(({ value, label }) => (
+                            {EMPTY_DAYS_OPTIONS.map((value) => (
                                 <Radio.Option key={value} value={value}>
-                                    {label}
+                                    {t(`emptyDays.${value}`)}
                                 </Radio.Option>
                             ))}
                         </Radio.Group>
                     </Section>
-                    <Section title="Week Start">
+                    <Section title={t('sections.weekStart')}>
                         <Radio.Group
-                            aria-label="Week Start"
+                            aria-label={t('sections.weekStart')}
                             value={weekStartDay}
                             onChange={(v) => setWeekStartDay(v as WeekStartDay)}
                         >
-                            {WEEK_START_OPTIONS.map(({ value, label }) => (
+                            {WEEK_START_OPTIONS.map((value) => (
                                 <Radio.Option key={value} value={value}>
-                                    {label}
+                                    {t(`weekStart.${value}`)}
                                 </Radio.Option>
                             ))}
                         </Radio.Group>
                     </Section>
-                    <Section title="Time Format">
+                    <Section title={t('sections.timeFormat')}>
                         <Radio.Group
-                            aria-label="Time Format"
+                            aria-label={t('sections.timeFormat')}
                             value={timeFormat}
                             onChange={(v) => setTimeFormat(v as TimeFormat)}
                         >
-                            {TIME_FORMAT_OPTIONS.map(({ value, label }) => (
+                            {TIME_FORMAT_OPTIONS.map((value) => (
                                 <Radio.Option key={value} value={value}>
-                                    {label}
+                                    {t(`timeFormat.${value}`)}
                                 </Radio.Option>
                             ))}
                         </Radio.Group>
                     </Section>
                     <span className="issue-text boddy-m">
-                        Any issue? Click{' '}
-                        <Link
-                            className="issue-text__link"
-                            href="https://github.com/AntonioLBZ/spa-anicalendar/issues/new/choose"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            here
-                        </Link>
+                        {t.rich('issueText', {
+                            link: (chunks) => (
+                                <Link
+                                    className="issue-text__link"
+                                    href="https://github.com/AntonioLBZ/spa-anicalendar/issues/new/choose"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {chunks}
+                                </Link>
+                            ),
+                        })}
                     </span>
                 </Dialog>
             </Popover>

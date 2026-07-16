@@ -4,6 +4,8 @@
     border-radius: var(--size-37);
     color: var(--color-content-primary);
     display: block;
+    max-width: var(--size-1000);
+    min-width: var(--size-800);
     overflow: hidden;
     position: relative;
 }
@@ -42,7 +44,6 @@
 }
 
 .card__info-btn::after {
-    /* invisible hit area, expanded to the WCAG 2.5.5 / platform-recommended minimum touch target size (--size-275, 44px) without growing the visible button */
     content: '';
     height: var(--size-275);
     left: 50%;
@@ -161,13 +162,13 @@
 
 .card--expanded .card__hover-content,
 .card--hovered .card__hover-content,
-.card:focus-within .card__hover-content {
+.card:has(.card__link:focus-visible) .card__hover-content {
     animation: card-slide-up 0.25s ease forwards;
 }
 
 .card--expanded .card__hover-inner,
 .card--hovered .card__hover-inner,
-.card:focus-within .card__hover-inner {
+.card:has(.card__link:focus-visible) .card__hover-inner {
     transform: translateY(0%);
 }
 

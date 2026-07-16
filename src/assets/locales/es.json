@@ -54,6 +54,44 @@
 			"notYetReleased": "Aún no emitido"
 		}
 	},
+	"settings": {
+		"trigger": "Ajustes",
+		"sections": {
+			"theme": "Tema",
+			"content": "Contenido",
+			"layout": "Diseño",
+			"emptyDays": "Días vacíos",
+			"weekStart": "Inicio de semana",
+			"timeFormat": "Formato de hora"
+		},
+		"theme": {
+			"system": "Sistema",
+			"dark": "Oscuro",
+			"light": "Claro"
+		},
+		"content": {
+			"sfw": "SFW",
+			"plus16": "+16",
+			"plus18": "+18"
+		},
+		"layout": {
+			"grid": "Horizontal",
+			"vertical": "Lista"
+		},
+		"emptyDays": {
+			"show": "Mostrar",
+			"hide": "Ocultar"
+		},
+		"weekStart": {
+			"monday": "Lunes",
+			"sunday": "Domingo"
+		},
+		"timeFormat": {
+			"24h": "24h",
+			"12h": "12h"
+		},
+		"issueText": "¿Algún problema? Haz clic <link>aquí</link>"
+	},
 	"weeklyCalendar": {
 		"emptyList": "No tienes anime en tu lista de seguimiento.",
 		"sectionHeader": "Calendario semanal de anime",

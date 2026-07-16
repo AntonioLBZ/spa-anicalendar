@@ -12,6 +12,7 @@ import type {
     ThemeMode,
     WeekStartDay,
     TimeFormat,
+    CalendarLayout,
     SettingsContextValue,
 } from './settings-context.types';
 import type { Provider } from '@/services/api/api.types';
@@ -25,6 +26,7 @@ type SettingsState = {
     emptyDaysMode: EmptyDaysMode;
     weekStartDay: WeekStartDay;
     timeFormat: TimeFormat;
+    calendarLayout: CalendarLayout;
 };
 
 const DEFAULTS: SettingsState = {
@@ -34,6 +36,7 @@ const DEFAULTS: SettingsState = {
     emptyDaysMode: 'show',
     weekStartDay: 'monday',
     timeFormat: '24h',
+    calendarLayout: 'grid',
 };
 
 let listeners: Array<() => void> = [];
@@ -82,6 +85,7 @@ const SettingsProvider = (props: { children: ReactNode }) => {
     const setEmptyDaysMode = useCallback((v: EmptyDaysMode) => settingsStore.set((s) => ({ ...s, emptyDaysMode: v })), []);
     const setWeekStartDay = useCallback((v: WeekStartDay) => settingsStore.set((s) => ({ ...s, weekStartDay: v })), []);
     const setTimeFormat = useCallback((v: TimeFormat) => settingsStore.set((s) => ({ ...s, timeFormat: v })), []);
+    const setCalendarLayout = useCallback((v: CalendarLayout) => settingsStore.set((s) => ({ ...s, calendarLayout: v })), []);
 
     const value = useMemo<SettingsContextValue>(
         () => ({
@@ -98,6 +102,8 @@ const SettingsProvider = (props: { children: ReactNode }) => {
             setWeekStartDay,
             timeFormat: settings.timeFormat,
             setTimeFormat,
+            calendarLayout: settings.calendarLayout,
+            setCalendarLayout,
         }),
         [
             settings,
@@ -108,6 +114,7 @@ const SettingsProvider = (props: { children: ReactNode }) => {
             setEmptyDaysMode,
             setWeekStartDay,
             setTimeFormat,
+            setCalendarLayout,
         ]
     );
 

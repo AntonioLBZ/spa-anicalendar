@@ -9,11 +9,11 @@ import { WeeklyCalendarDayProps } from './weekly-calendar.types';
 
 import './weekly-calendar-day.css';
 
-const WeeklyCalendarDay = ({ dayIndex, entries, isToday, weekStartDay }: WeeklyCalendarDayProps) => {
+const WeeklyCalendarDay = ({ dayIndex, entries, isToday, weekStartDay, layout }: WeeklyCalendarDayProps) => {
     const t = useTranslations('weeklyCalendar');
     const dayId = `day-${dayIndex}`;
     const isEmpty = entries.length === 0;
-    const dayClsx = clsx('day', { 'day--today': isToday });
+    const dayClsx = clsx('day', { 'day--today': isToday, 'day--row': layout === 'vertical' });
     const dayKey = getDayKey(dayIndex, weekStartDay);
 
     return (

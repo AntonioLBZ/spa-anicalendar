@@ -69,4 +69,15 @@ describe('AnimeCard info toggle', () => {
         await user.click(toggle);
         expect(toggle).toHaveAttribute('aria-expanded', 'false');
     });
+
+    it('keeps focus on the info button after clicking it (no .blur() side effect)', async () => {
+        const user = userEvent.setup();
+        render(<AnimeCard entry={entry} />, { wrapper: Wrapper });
+
+        const toggle = screen.getByRole('button', { name: 'Show details' });
+
+        await user.click(toggle);
+
+        expect(document.activeElement).toBe(toggle);
+    });
 });
