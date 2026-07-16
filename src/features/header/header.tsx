@@ -1,7 +1,9 @@
 'use client';
 
+import clsx from 'clsx';
 import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
+import { useRef } from 'react';
 import { Link } from 'react-aria-components';
 
 import { useSettingsContext } from '@/contexts/settings-context';
@@ -9,6 +11,7 @@ import { useUserContext } from '@/contexts/user-context';
 import { Settings } from '@/features/settings';
 
 import { ProviderBadge } from './provider-badge';
+import { useAutoHideHeader } from './use-auto-hide-header';
 
 import './header.css';
 
@@ -17,9 +20,11 @@ const Header = () => {
     const { provider } = useSettingsContext();
     const t = useTranslations('header');
     const locale = useLocale();
+    const headerRef = useRef<HTMLElement>(null);
+    const isHidden = useAutoHideHeader(headerRef);
 
     return (
-        <header className="header">
+        <header ref={headerRef} className={clsx('header', isHidden && 'header--hidden')}>
             <div className="header__content">
                 {user && (
                     <Link className="header__user-link" href={user.siteUrl} target="_blank" rel="noopener noreferrer">

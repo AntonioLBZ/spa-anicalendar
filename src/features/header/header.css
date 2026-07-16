@@ -6,7 +6,21 @@
     justify-content: center;
     min-height: var(--header-height);
     padding-block: 0;
+    position: sticky;
+    top: 0;
+    transition: transform 0.25s ease;
     width: 100%;
+    z-index: 10;
+}
+
+.header--hidden {
+    transform: translateY(-100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .header {
+        transition: none;
+    }
 }
 
 .header__content {

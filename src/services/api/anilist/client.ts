@@ -1,3 +1,5 @@
+class AnilistUserNotFoundError extends Error {}
+
 const ANILIST_API_URL = 'https://graphql.anilist.co';
 
 interface GraphQLResponse<T> {
@@ -23,11 +25,14 @@ async function anilistQuery<T, V = Record<string, unknown>>(query: string, varia
     });
 
     if (!response.ok) {
+        if (response.status === 404) {
+            throw new AnilistUserNotFoundError(`AniList API error: ${response.status} ${response.statusText}.`);
+        }
         throw new Error(`AniList API error: ${response.status} ${response.statusText}.`);
     }
 
     return response.json();
 }
 
-export { anilistQuery };
+export { anilistQuery, AnilistUserNotFoundError };
 export type { GraphQLResponse };

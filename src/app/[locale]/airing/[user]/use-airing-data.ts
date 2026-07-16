@@ -1,10 +1,11 @@
+import { notFound } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 
 import { useSettingsContext } from '@/contexts/settings-context';
 import { useUserContext } from '@/contexts/user-context';
 import { getEntriesWithNextAiring } from '@/lib/airing';
 import { useRouter } from '@/lib/i18n/navigation';
-import { useMediaList, useUser } from '@/services';
+import { isUserNotFoundError, useMediaList, useUser } from '@/services';
 
 const useAiringData = (userName: string | null) => {
     const router = useRouter();
@@ -13,7 +14,7 @@ const useAiringData = (userName: string | null) => {
 
     useEffect(() => {
         if (!userName?.trim()) {
-            router.push('/');
+            router.replace('/');
         }
     }, [userName, router]);
 
@@ -29,18 +30,25 @@ const useAiringData = (userName: string | null) => {
 
     const queryError = userQuery.error ?? mediaListQuery.error ?? null;
 
-    useEffect(() => {
-        if (queryError) {
-            router.push(`/?error=UserNotFound`);
-        }
-    }, [queryError, router]);
+    if (queryError && isUserNotFoundError(queryError)) {
+        notFound();
+    }
 
     const entries = useMemo(() => getEntriesWithNextAiring(mediaListQuery.data ?? []), [mediaListQuery.data]);
 
+    const retry = () => {
+        if (userQuery.error) {
+            userQuery.refetch();
+        } else if (mediaListQuery.error) {
+            mediaListQuery.refetch();
+        }
+    };
+
     return {
         entries,
-        error: queryError?.message ?? null,
+        error: queryError,
         isLoading: userQuery.isLoading || mediaListQuery.isLoading,
+        retry,
     };
 };
 
