@@ -133,20 +133,22 @@ const Settings = () => {
                             ))}
                         </Radio.Group>
                     </Section>
-                    <span className="issue-text boddy-m">
-                        {t.rich('issueText', {
-                            link: (chunks) => (
-                                <Link
-                                    className="issue-text__link"
-                                    href="https://github.com/AntonioLBZ/spa-anicalendar/issues/new/choose"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    {chunks}
-                                </Link>
-                            ),
-                        })}
-                    </span>
+                    <Section title={t('sections.help')}>
+                        <span className="issue-text body-m">
+                            {t.rich('issueText', {
+                                link: (chunks) => (
+                                    <Link
+                                        className="issue-text__link"
+                                        href="https://github.com/AntonioLBZ/spa-anicalendar/issues/new/choose"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {chunks}
+                                    </Link>
+                                ),
+                            })}
+                        </span>
+                    </Section>
                 </Dialog>
             </Popover>
         </DialogTrigger>

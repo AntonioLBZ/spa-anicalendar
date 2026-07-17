@@ -62,7 +62,8 @@
 			"layout": "Diseño",
 			"emptyDays": "Días vacíos",
 			"weekStart": "Inicio de semana",
-			"timeFormat": "Formato de hora"
+			"timeFormat": "Formato de hora",
+			"help": "Ayuda"
 		},
 		"theme": {
 			"system": "Sistema",

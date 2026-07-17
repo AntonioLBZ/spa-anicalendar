@@ -62,7 +62,8 @@
 			"layout": "Layout",
 			"emptyDays": "Empty Days",
 			"weekStart": "Week Start",
-			"timeFormat": "Time Format"
+			"timeFormat": "Time Format",
+			"help": "Help"
 		},
 		"theme": {
 			"system": "System",
