@@ -4,10 +4,12 @@ import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 import { Button, ErrorState } from '@/components';
+import { EditModeBar } from '@/features/edit-mode-bar';
 import { WeeklyCalendar } from '@/features/weekly-calendar';
 import { Link } from '@/lib/i18n/navigation';
 
 import { useAiringData } from './use-airing-data';
+import { useEntryVisibility } from './use-entry-visibility';
 
 import '@/components/button/button.css';
 import './page.css';
@@ -19,6 +21,8 @@ export default function AiringPage() {
     const userName = rawUser ? decodeURIComponent(rawUser) : null;
 
     const { entries, error, retry } = useAiringData(userName);
+    const { isEditMode, hiddenIds, hiddenCount, enterEditMode, saveEditMode, cancelEditMode, toggleDraftHidden } =
+        useEntryVisibility();
 
     if (error) {
         return (
@@ -40,7 +44,19 @@ export default function AiringPage() {
     return (
         <main className="airing-page">
             <div className="airing-page__content">
-                <WeeklyCalendar entries={entries} />
+                <EditModeBar
+                    isEditMode={isEditMode}
+                    hiddenCount={hiddenCount}
+                    onEnter={enterEditMode}
+                    onSave={saveEditMode}
+                    onCancel={cancelEditMode}
+                />
+                <WeeklyCalendar
+                    entries={entries}
+                    isEditMode={isEditMode}
+                    hiddenIds={hiddenIds}
+                    onToggleEntry={toggleDraftHidden}
+                />
             </div>
         </main>
     );

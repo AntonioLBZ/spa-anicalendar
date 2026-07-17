@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useHover } from 'react-aria';
 
-import { Pill } from '@/components';
+import { Pill, ToggleButton } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { getLocalAiringTime, getTimeUntilAiring } from '@/lib/airing';
 
@@ -46,7 +46,7 @@ const formatCountdown = (t: CountdownTranslator, countdown: CountdownBreakdown):
 };
 
 const AnimeCard = (props: AnimeCardProps) => {
-    const { entry, hideStatus = false } = props;
+    const { entry, hideStatus = false, isEditMode = false, isHidden = false, onToggle } = props;
     const { timeFormat } = useSettingsContext();
     const t = useTranslations('animeCard');
     const titleId = `anime-title-${entry.id}`;
@@ -104,25 +104,36 @@ const AnimeCard = (props: AnimeCardProps) => {
                     </div>
                 </div>
             </div>
-            <Link
-                className="card__link"
-                href={entry.siteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-labelledby={titleId}
-            />
-            <button
-                type="button"
-                className="card__info-btn"
-                aria-expanded={isExpanded}
-                aria-controls={detailsId}
-                aria-label={t('toggleDetails')}
-                onClick={() => {
-                    setIsExpanded((value) => !value);
-                }}
-            >
-                <InfoIcon />
-            </button>
+            {isEditMode ? (
+                <ToggleButton
+                    className="card__link"
+                    isSelected={isHidden}
+                    onChange={() => onToggle?.()}
+                    aria-labelledby={titleId}
+                />
+            ) : (
+                <>
+                    <Link
+                        className="card__link"
+                        href={entry.siteUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-labelledby={titleId}
+                    />
+                    <button
+                        type="button"
+                        className="card__info-btn"
+                        aria-expanded={isExpanded}
+                        aria-controls={detailsId}
+                        aria-label={t('toggleDetails')}
+                        onClick={() => {
+                            setIsExpanded((value) => !value);
+                        }}
+                    >
+                        <InfoIcon />
+                    </button>
+                </>
+            )}
         </div>
     );
 };

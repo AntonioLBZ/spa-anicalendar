@@ -3,6 +3,9 @@ import type { AnimeEntry } from '@/services';
 
 type WeeklyCalendarProps = {
     entries: AnimeEntry[];
+    isEditMode?: boolean;
+    hiddenIds?: number[];
+    onToggleEntry?: (id: number) => void;
 };
 
 type WeeklyCalendarDayProps = {
@@ -11,6 +14,9 @@ type WeeklyCalendarDayProps = {
     isToday: boolean;
     weekStartDay: WeekStartDay;
     layout: CalendarLayout;
+    isEditMode?: boolean;
+    hiddenIds?: number[];
+    onToggleEntry?: (id: number) => void;
 };
 
 export type { WeeklyCalendarProps, WeeklyCalendarDayProps };

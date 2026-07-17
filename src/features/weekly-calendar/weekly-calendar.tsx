@@ -33,6 +33,12 @@ const filterByContent = (entries: AnimeEntry[], contentFilter: ContentFilter): A
     });
 };
 
+const filterByHidden = (entries: AnimeEntry[], hiddenIds: number[]): AnimeEntry[] => {
+    if (hiddenIds.length === 0) return entries;
+
+    return entries.filter((entry) => !hiddenIds.includes(entry.id));
+};
+
 const groupByAiringDay = (
     entries: AnimeEntry[],
     weekStartDay: WeekStartDay
@@ -56,12 +62,15 @@ const groupByAiringDay = (
 };
 
 const WeeklyCalendar = (props: WeeklyCalendarProps) => {
-    const { entries } = props;
+    const { entries, isEditMode = false, hiddenIds = [], onToggleEntry } = props;
     const { contentFilter, emptyDaysMode, weekStartDay, calendarLayout } = useSettingsContext();
     const layoutMode = useLayoutMode();
     const t = useTranslations('weeklyCalendar');
 
-    const filtered = useMemo(() => filterByContent(entries, contentFilter), [entries, contentFilter]);
+    const filtered = useMemo(() => {
+        const byContent = filterByContent(entries, contentFilter);
+        return isEditMode ? byContent : filterByHidden(byContent, hiddenIds);
+    }, [entries, contentFilter, isEditMode, hiddenIds]);
     const todayIndex = getTodayIndex(weekStartDay);
     const { days, noAiring } = useMemo(() => groupByAiringDay(filtered, weekStartDay), [filtered, weekStartDay]);
 
@@ -93,6 +102,9 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
                             isToday={Number(dayIndex) === todayIndex}
                             weekStartDay={weekStartDay}
                             layout={calendarLayout}
+                            isEditMode={isEditMode}
+                            hiddenIds={hiddenIds}
+                            onToggleEntry={onToggleEntry}
                         />
                     ))}
                 </div>
@@ -104,7 +116,13 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
                         <div className="weekly-calendar__section-header label-l">{t('noUpcoming')}</div>
                         <div className="weekly-calendar__section-entries">
                             {noAiring.map((entry) => (
-                                <AnimeCard key={entry.id} entry={entry} />
+                                <AnimeCard
+                                    key={entry.id}
+                                    entry={entry}
+                                    isEditMode={isEditMode}
+                                    isHidden={hiddenIds.includes(entry.id)}
+                                    onToggle={() => onToggleEntry?.(entry.id)}
+                                />
                             ))}
                         </div>
                     </div>

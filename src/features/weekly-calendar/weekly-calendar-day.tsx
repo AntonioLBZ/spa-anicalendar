@@ -9,7 +9,16 @@ import { WeeklyCalendarDayProps } from './weekly-calendar.types';
 
 import './weekly-calendar-day.css';
 
-const WeeklyCalendarDay = ({ dayIndex, entries, isToday, weekStartDay, layout }: WeeklyCalendarDayProps) => {
+const WeeklyCalendarDay = ({
+    dayIndex,
+    entries,
+    isToday,
+    weekStartDay,
+    layout,
+    isEditMode = false,
+    hiddenIds = [],
+    onToggleEntry,
+}: WeeklyCalendarDayProps) => {
     const t = useTranslations('weeklyCalendar');
     const dayId = `day-${dayIndex}`;
     const isEmpty = entries.length === 0;
@@ -27,7 +36,16 @@ const WeeklyCalendarDay = ({ dayIndex, entries, isToday, weekStartDay, layout }:
             </div>
             <div className="day__entries">
                 {!isEmpty ? (
-                    entries.map((entry) => <AnimeCard key={entry.id} entry={entry} hideStatus />)
+                    entries.map((entry) => (
+                        <AnimeCard
+                            key={entry.id}
+                            entry={entry}
+                            hideStatus
+                            isEditMode={isEditMode}
+                            isHidden={hiddenIds.includes(entry.id)}
+                            onToggle={() => onToggleEntry?.(entry.id)}
+                        />
+                    ))
                 ) : (
                     <div className="day__empty body-m">{t('noEpisodes')}</div>
                 )}

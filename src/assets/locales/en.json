@@ -92,6 +92,12 @@
 		},
 		"issueText": "Any issue? Click <link>here</link>"
 	},
+	"editMode": {
+		"edit": "Edit",
+		"save": "Save",
+		"cancel": "Cancel",
+		"hiddenCount": "{count} hidden"
+	},
 	"weeklyCalendar": {
 		"emptyList": "No anime in your watching list.",
 		"sectionHeader": "Weekly anime schedule",

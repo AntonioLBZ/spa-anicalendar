@@ -11,13 +11,34 @@
 }
 
 .card__link {
+    background: none;
+    border: none;
+    cursor: pointer;
     inset: 0;
+    padding: 0;
     position: absolute;
 }
 
 .card__link:focus-visible {
     outline: var(--size-12) solid var(--color-border-focus);
     outline-offset: calc(-1 * var(--size-12));
+}
+
+.card:has(.card__link[data-selected]) {
+    opacity: 0.4;
+}
+
+.card:has(.card__link[data-selected])::after {
+    background: var(--color-bg-primary);
+    border: var(--size-6) solid var(--color-content-bright);
+    border-radius: 50%;
+    content: '';
+    height: var(--size-175);
+    left: var(--size-12);
+    position: absolute;
+    top: var(--size-12);
+    width: var(--size-175);
+    z-index: 1;
 }
 
 .card__next-airing {
