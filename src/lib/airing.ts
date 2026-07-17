@@ -1,5 +1,5 @@
 import type { WeekStartDay, TimeFormat } from '@/contexts/settings-context';
-import type { AnimeEntry } from '@/services';
+import type { AnimeEntry, MediaSeason } from '@/services';
 
 type DayKey = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
 
@@ -124,6 +124,22 @@ const formatCountdown = (t: CountdownTranslator, countdown: CountdownBreakdown):
 };
 
 /**
+ * Returns the current AniList season and year for a given date.
+ * AniList seasons: WINTER=Dec-Feb, SPRING=Mar-May, SUMMER=Jun-Aug, FALL=Sep-Nov.
+ * December belongs to WINTER of the *following* year (AniList convention).
+ */
+const getCurrentSeason = (date: Date = new Date()): { season: MediaSeason; seasonYear: number } => {
+    const month = date.getMonth();
+    const year = date.getFullYear();
+
+    if (month === 11) return { season: 'WINTER', seasonYear: year + 1 };
+    if (month <= 1) return { season: 'WINTER', seasonYear: year };
+    if (month <= 4) return { season: 'SPRING', seasonYear: year };
+    if (month <= 7) return { season: 'SUMMER', seasonYear: year };
+    return { season: 'FALL', seasonYear: year };
+};
+
+/**
  * Aggregate stats over a set of (already visible/filtered) entries:
  * total pending episodes, total pending watch time, and the soonest upcoming airing time.
  */
@@ -143,7 +159,7 @@ const getCalendarStats = (entries: AnimeEntry[]): CalendarStats => {
         const nextEp = entry.nextAiringEpisode;
         if (!nextEp) continue;
 
-        const pending = nextEp.episode - entry.progress - 1;
+        const pending = entry.progress !== undefined ? nextEp.episode - entry.progress - 1 : 0;
         if (pending > 0) {
             pendingEpisodes += pending;
             if (entry.duration) pendingMinutes += pending * entry.duration;
@@ -166,5 +182,6 @@ export {
     getNextAiringEntryId,
     getCalendarStats,
     formatCountdown,
+    getCurrentSeason,
 };
 export type { DayKey, CountdownBreakdown, CalendarStats, CountdownTranslator };

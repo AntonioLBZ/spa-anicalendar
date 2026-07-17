@@ -15,3 +15,8 @@
 .airing-page__error-back {
     text-decoration: none;
 }
+
+.airing-page__disclosure {
+    color: var(--color-content-secondary);
+    margin-block-end: var(--size-50);
+}

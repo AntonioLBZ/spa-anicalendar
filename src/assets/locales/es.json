@@ -13,7 +13,8 @@
 		"errorUserNotFound": "Usuario no encontrado. Comprueba que tu perfil sea público.",
 		"errorGeneric": "Algo salió mal. Inténtalo de nuevo.",
 		"go": "Buscar",
-		"apiProviderLabel": "Proveedor de API"
+		"apiProviderLabel": "Proveedor de API",
+		"browseSeason": "Explorar lo que está en emisión esta temporada"
 	},
 	"footer": {
 		"languageSwitcherLabel": "Idioma",
@@ -31,7 +32,9 @@
 		"errorTitle": "Algo salió mal",
 		"errorSubtitle": "No hemos podido cargar este calendario. Puede que el proveedor esté teniendo problemas.",
 		"retry": "Reintentar",
-		"backHome": "Volver al inicio"
+		"backHome": "Volver al inicio",
+		"seasonalDisclosure": "Mostrando los 50 animes más populares en emisión esta temporada.",
+		"seasonalEmptyList": "No se han encontrado animes en emisión esta temporada."
 	},
 	"animeCard": {
 		"toggleDetails": "Mostrar detalles",

@@ -8,9 +8,10 @@ import { Form } from 'react-aria-components';
 import { Button, Field, Radio } from '@/components';
 import { useSettingsContext } from '@/contexts';
 import { SOURCE_OPTIONS } from '@/contexts/settings-context/options';
-import { useRouter } from '@/lib/i18n/navigation';
+import { Link, useRouter } from '@/lib/i18n/navigation';
 import { getProvider, isUserNotFoundError, userQueryKey } from '@/services';
 
+import '@/components/button/button.css';
 import './page.css';
 
 export default function HomePage() {
@@ -73,6 +74,9 @@ export default function HomePage() {
                     ))}
                 </Radio.Group>
             </Form>
+            <Link className="home__anonymous-link button button--secondary button--size-m body-m" href="/airing">
+                {t('browseSeason')}
+            </Link>
         </main>
     );
 }

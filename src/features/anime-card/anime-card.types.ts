@@ -15,6 +15,10 @@ type AnimeCardProps = {
     onToggle?: () => void;
     /** Whether this is the single entry with the soonest upcoming airing time, across the visible calendar. */
     isNextAiring?: boolean;
+    /** Whether to render per-user watch progress (progress badge, "behind"/"caught up"). Off for entries with no per-user list (e.g. anonymous seasonal browsing).
+     * @default true
+     */
+    showProgress?: boolean;
 };
 
 export type { AnimeCardProps };

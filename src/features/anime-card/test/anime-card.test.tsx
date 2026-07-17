@@ -81,3 +81,20 @@ describe('AnimeCard info toggle', () => {
         expect(document.activeElement).toBe(toggle);
     });
 });
+
+describe('AnimeCard showProgress', () => {
+    it('omits all progress UI when showProgress is false, without crashing on undefined progress', () => {
+        const anonymousEntry: AnimeEntry = { ...entry, progress: undefined, repeat: undefined };
+        render(<AnimeCard entry={anonymousEntry} showProgress={false} />, { wrapper: Wrapper });
+
+        expect(screen.queryByText(/Ep \d+\/\d+/)).not.toBeInTheDocument();
+        expect(screen.queryByText(/behind/)).not.toBeInTheDocument();
+        expect(screen.queryByText('Caught up!')).not.toBeInTheDocument();
+    });
+
+    it('renders progress UI by default (showProgress defaults to true)', () => {
+        render(<AnimeCard entry={entry} />, { wrapper: Wrapper });
+
+        expect(screen.getByText('Ep 3/12')).toBeInTheDocument();
+    });
+});

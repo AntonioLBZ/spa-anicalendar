@@ -1,6 +1,5 @@
 'use client';
 
-import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 
@@ -11,19 +10,15 @@ import { filterByContent, filterByHidden, WeeklyCalendar } from '@/features/week
 import { getCalendarStats } from '@/lib/airing';
 import { Link } from '@/lib/i18n/navigation';
 
-import { useEntryVisibility } from '../use-entry-visibility';
-import { useAiringData } from './use-airing-data';
+import { useEntryVisibility } from './use-entry-visibility';
+import { useSeasonalAiringData } from './use-seasonal-airing-data';
 
 import '@/components/button/button.css';
-import '../page.css';
+import './page.css';
 
-export default function AiringPage() {
+export default function SeasonalAiringPage() {
     const t = useTranslations('airing');
-    const params = useParams<{ user: string }>();
-    const rawUser = Array.isArray(params.user) ? params.user[0] : params.user;
-    const userName = rawUser ? decodeURIComponent(rawUser) : null;
-
-    const { entries, error, retry } = useAiringData(userName);
+    const { entries, error, retry } = useSeasonalAiringData();
     const { isEditMode, hiddenIds, hiddenCount, enterEditMode, saveEditMode, cancelEditMode, toggleDraftHidden } =
         useEntryVisibility();
     const { contentFilter } = useSettingsContext();
@@ -53,6 +48,7 @@ export default function AiringPage() {
     return (
         <main className="airing-page">
             <div className="airing-page__content">
+                <p className="airing-page__disclosure body-s">{t('seasonalDisclosure')}</p>
                 <CalendarToolbar
                     stats={stats}
                     isEditMode={isEditMode}
@@ -60,12 +56,15 @@ export default function AiringPage() {
                     onEnter={enterEditMode}
                     onSave={saveEditMode}
                     onCancel={cancelEditMode}
+                    showPendingStats={false}
                 />
                 <WeeklyCalendar
                     entries={entries}
                     isEditMode={isEditMode}
                     hiddenIds={hiddenIds}
                     onToggleEntry={toggleDraftHidden}
+                    showProgress={false}
+                    emptyMessage={t('seasonalEmptyList')}
                 />
             </div>
         </main>

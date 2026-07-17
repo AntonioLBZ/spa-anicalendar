@@ -34,3 +34,7 @@
 .home__radio-option {
     background-color: var(--color-bg-secondary);
 }
+
+.home__anonymous-link {
+    text-decoration: none;
+}

@@ -6,6 +6,12 @@ type WeeklyCalendarProps = {
     isEditMode?: boolean;
     hiddenIds?: number[];
     onToggleEntry?: (id: number) => void;
+    /** Whether cards render per-user watch progress. Off for entries with no per-user list (e.g. anonymous seasonal browsing).
+     * @default true
+     */
+    showProgress?: boolean;
+    /** Overrides the default "No anime in your watching list" empty-state copy, which is inaccurate outside a per-user list. */
+    emptyMessage?: string;
 };
 
 type WeeklyCalendarDayProps = {
@@ -18,6 +24,8 @@ type WeeklyCalendarDayProps = {
     hiddenIds?: number[];
     onToggleEntry?: (id: number) => void;
     nextAiringEntryId?: number | null;
+    /** @default true */
+    showProgress?: boolean;
 };
 
 export type { WeeklyCalendarProps, WeeklyCalendarDayProps };

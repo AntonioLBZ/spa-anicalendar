@@ -46,7 +46,7 @@ const groupByAiringDay = (
 };
 
 const WeeklyCalendar = (props: WeeklyCalendarProps) => {
-    const { entries, isEditMode = false, hiddenIds = [], onToggleEntry } = props;
+    const { entries, isEditMode = false, hiddenIds = [], onToggleEntry, showProgress = true, emptyMessage } = props;
     const { contentFilter, emptyDaysMode, weekStartDay, calendarLayout } = useSettingsContext();
     const layoutMode = useLayoutMode();
     const t = useTranslations('weeklyCalendar');
@@ -60,7 +60,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
     const { days, noAiring } = useMemo(() => groupByAiringDay(filtered, weekStartDay), [filtered, weekStartDay]);
 
     if (filtered.length === 0) {
-        return <div className="weekly-calendar body-l">{t('emptyList')}</div>;
+        return <div className="weekly-calendar body-l">{emptyMessage ?? t('emptyList')}</div>;
     }
 
     const hideEmptyDays = emptyDaysMode === 'hide';
@@ -91,6 +91,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
                             hiddenIds={hiddenIds}
                             onToggleEntry={onToggleEntry}
                             nextAiringEntryId={nextAiringEntryId}
+                            showProgress={showProgress}
                         />
                     ))}
                 </div>
@@ -109,6 +110,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
                                     isHidden={hiddenIds.includes(entry.id)}
                                     onToggle={() => onToggleEntry?.(entry.id)}
                                     isNextAiring={entry.id === nextAiringEntryId}
+                                    showProgress={showProgress}
                                 />
                             ))}
                         </div>

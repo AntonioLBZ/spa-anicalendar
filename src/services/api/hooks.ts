@@ -1,7 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { getSeasonalMedia } from './anilist';
 import { getProvider } from './registry';
 
+import type { GetSeasonalMediaParams } from './anilist';
 import type { Provider } from './api.types';
 import type { User } from '@/services/models';
 
@@ -28,4 +30,11 @@ const useMediaList = (provider: Provider, user: User | undefined) => {
     });
 };
 
-export { useUser, useMediaList, userQueryKey };
+const useSeasonalMedia = (params: GetSeasonalMediaParams) => {
+    return useQuery({
+        queryKey: ['seasonal', 'anilist', params.season, params.seasonYear],
+        queryFn: () => getSeasonalMedia(params),
+    });
+};
+
+export { useUser, useMediaList, useSeasonalMedia, userQueryKey };

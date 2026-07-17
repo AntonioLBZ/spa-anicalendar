@@ -13,7 +13,8 @@
 		"errorUserNotFound": "User not found. Please check your user is public.",
 		"errorGeneric": "Something went wrong. Please try again.",
 		"go": "Go",
-		"apiProviderLabel": "API Provider"
+		"apiProviderLabel": "API Provider",
+		"browseSeason": "Browse what's airing this season"
 	},
 	"footer": {
 		"languageSwitcherLabel": "Language",
@@ -31,7 +32,9 @@
 		"errorTitle": "Something went wrong",
 		"errorSubtitle": "We couldn't load this schedule. The provider might be having issues.",
 		"retry": "Retry",
-		"backHome": "Back home"
+		"backHome": "Back home",
+		"seasonalDisclosure": "Showing the top 50 most popular anime airing this season.",
+		"seasonalEmptyList": "No currently airing anime found this season."
 	},
 	"animeCard": {
 		"toggleDetails": "Show details",

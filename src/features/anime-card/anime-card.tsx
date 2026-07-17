@@ -31,7 +31,15 @@ const STATUS_META_MAP: Record<
 const DEFAULT_STATUS_META = STATUS_META_MAP.NOT_YET_RELEASED;
 
 const AnimeCard = (props: AnimeCardProps) => {
-    const { entry, hideStatus = false, isEditMode = false, isHidden = false, onToggle, isNextAiring = false } = props;
+    const {
+        entry,
+        hideStatus = false,
+        isEditMode = false,
+        isHidden = false,
+        onToggle,
+        isNextAiring = false,
+        showProgress = true,
+    } = props;
     const { timeFormat } = useSettingsContext();
     const t = useTranslations('animeCard');
     const titleId = `anime-title-${entry.id}`;
@@ -39,17 +47,20 @@ const AnimeCard = (props: AnimeCardProps) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const { hoverProps, isHovered } = useHover({});
 
-    const totalEpisodes = entry.episodes;
-    const progressText = totalEpisodes
-        ? t('episodeProgress', { progress: entry.progress, total: totalEpisodes })
-        : t('episodeProgressUnknown', { progress: entry.progress });
-    const progressAriaText = t('episodeProgressAria', {
-        progress: entry.progress,
-        total: totalEpisodes ?? t('unknown'),
-    });
-
     const nextEp = entry.nextAiringEpisode;
-    const pendingCount = nextEp ? nextEp.episode - entry.progress - 1 : -1;
+
+    // showProgress=true implies a per-user list entry (entry.progress is always set by the real
+    // providers in that path); anonymous/seasonal entries always pass showProgress=false instead.
+    const totalEpisodes = entry.episodes;
+    const progressText = showProgress
+        ? totalEpisodes
+            ? t('episodeProgress', { progress: entry.progress!, total: totalEpisodes })
+            : t('episodeProgressUnknown', { progress: entry.progress! })
+        : null;
+    const progressAriaText = showProgress
+        ? t('episodeProgressAria', { progress: entry.progress!, total: totalEpisodes ?? t('unknown') })
+        : null;
+    const pendingCount = showProgress && nextEp ? nextEp.episode - entry.progress! - 1 : -1;
 
     const statusMeta = STATUS_META_MAP[entry.status] ?? DEFAULT_STATUS_META;
 
@@ -68,12 +79,16 @@ const AnimeCard = (props: AnimeCardProps) => {
             <Image className="card__image" src={entry.coverImageUrl} alt={entry.title} fill />
             {isNextAiring && <Pill className="card__next-airing">{t('next')}</Pill>}
             <div className="card__overlay">
-                <span className="card__progress" title={progressAriaText}>
-                    {progressText}
-                </span>
+                {showProgress && (
+                    <span className="card__progress" title={progressAriaText ?? undefined}>
+                        {progressText}
+                    </span>
+                )}
                 <span className="card__pending">
-                    {pendingCount > 0 && <span className="card__behind">{t('behind', { count: pendingCount })}</span>}
-                    {pendingCount === 0 && <span className="card__on-date">{t('caughtUp')}</span>}
+                    {showProgress && pendingCount > 0 && (
+                        <span className="card__behind">{t('behind', { count: pendingCount })}</span>
+                    )}
+                    {showProgress && pendingCount === 0 && <span className="card__on-date">{t('caughtUp')}</span>}
                     {nextEp && <span>{getLocalAiringTime(nextEp.airingAt, timeFormat)}</span>}
                 </span>
                 <div className="card__hover-content" id={detailsId}>

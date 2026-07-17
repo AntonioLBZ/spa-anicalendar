@@ -36,10 +36,10 @@ interface AnimeEntry {
     /** The season it originally released in. */
     season?: MediaSeason;
     genres: string[];
-    /** Episodes/chapters the user has watched/read so far. */
-    progress: number;
-    /** Number of times the user has rewatched/reread this entry. */
-    repeat: number;
+    /** Episodes/chapters the user has watched/read so far. Absent for entries with no per-user list (e.g. anonymous seasonal browsing). */
+    progress?: number;
+    /** Number of times the user has rewatched/reread this entry. Absent for entries with no per-user list; no renderer currently reads it. */
+    repeat?: number;
 }
 
 export type { MediaStatus, MediaSeason, PartialDate, AiringInfo, AnimeEntry };

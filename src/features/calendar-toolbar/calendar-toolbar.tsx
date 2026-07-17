@@ -19,7 +19,7 @@ const formatPendingDuration = (minutes: number): string => {
 };
 
 const CalendarToolbar = (props: CalendarToolbarProps) => {
-    const { stats, isEditMode, hiddenCount, onEnter, onSave, onCancel } = props;
+    const { stats, isEditMode, hiddenCount, onEnter, onSave, onCancel, showPendingStats = true } = props;
     const t = useTranslations('calendarToolbar');
     const tCard = useTranslations('animeCard');
 
@@ -30,15 +30,17 @@ const CalendarToolbar = (props: CalendarToolbarProps) => {
         <div className="calendar-toolbar">
             <div className="calendar-toolbar__row">
                 <div className="calendar-toolbar__stats body-m">
-                    <span className="calendar-toolbar__stat">
-                        {stats.pendingMinutes > 0
-                            ? t.rich('pendingEpisodesWithTime', {
-                                  count: stats.pendingEpisodes,
-                                  time: formatPendingDuration(stats.pendingMinutes),
-                                  ...richBold,
-                              })
-                            : t.rich('pendingEpisodes', { count: stats.pendingEpisodes, ...richBold })}
-                    </span>
+                    {showPendingStats && (
+                        <span className="calendar-toolbar__stat">
+                            {stats.pendingMinutes > 0
+                                ? t.rich('pendingEpisodesWithTime', {
+                                      count: stats.pendingEpisodes,
+                                      time: formatPendingDuration(stats.pendingMinutes),
+                                      ...richBold,
+                                  })
+                                : t.rich('pendingEpisodes', { count: stats.pendingEpisodes, ...richBold })}
+                        </span>
+                    )}
                     {countdown && (
                         <span className="calendar-toolbar__stat">
                             {t.rich('nextEpisodeIn', { time: formatCountdown(tCard, countdown), ...richBold })}

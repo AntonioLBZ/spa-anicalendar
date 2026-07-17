@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { getNextAiringEntryId } from '../airing';
+import { getCalendarStats, getCurrentSeason, getNextAiringEntryId } from '../airing';
 
 import type { AnimeEntry } from '@/services';
 
@@ -51,5 +51,64 @@ describe('getNextAiringEntryId', () => {
         const entries = [baseEntry({ id: 1 }), baseEntry({ id: 2 })];
 
         expect(getNextAiringEntryId(entries)).toBeNull();
+    });
+});
+
+describe('getCurrentSeason', () => {
+    it('maps December to WINTER of the following year', () => {
+        expect(getCurrentSeason(new Date(2026, 11, 15))).toEqual({ season: 'WINTER', seasonYear: 2027 });
+    });
+
+    it('maps January/February to WINTER of the same year', () => {
+        expect(getCurrentSeason(new Date(2026, 0, 1))).toEqual({ season: 'WINTER', seasonYear: 2026 });
+        expect(getCurrentSeason(new Date(2026, 1, 28))).toEqual({ season: 'WINTER', seasonYear: 2026 });
+    });
+
+    it('maps March-May to SPRING', () => {
+        expect(getCurrentSeason(new Date(2026, 3, 1))).toEqual({ season: 'SPRING', seasonYear: 2026 });
+    });
+
+    it('maps June-August to SUMMER', () => {
+        expect(getCurrentSeason(new Date(2026, 6, 1))).toEqual({ season: 'SUMMER', seasonYear: 2026 });
+    });
+
+    it('maps September-November to FALL', () => {
+        expect(getCurrentSeason(new Date(2026, 9, 1))).toEqual({ season: 'FALL', seasonYear: 2026 });
+    });
+});
+
+describe('getCalendarStats', () => {
+    it('returns 0 pending (not NaN) when progress is undefined', () => {
+        const entries = [
+            baseEntry({
+                id: 1,
+                progress: undefined,
+                duration: 24,
+                nextAiringEpisode: { airingAt: Math.floor(Date.now() / 1000) + 3600, episode: 5 },
+            }),
+        ];
+
+        const stats = getCalendarStats(entries);
+
+        expect(stats.pendingEpisodes).toBe(0);
+        expect(stats.pendingMinutes).toBe(0);
+        expect(Number.isNaN(stats.pendingEpisodes)).toBe(false);
+        expect(stats.nextAiringAt).not.toBeNull();
+    });
+
+    it('still computes pending episodes when progress is defined', () => {
+        const entries = [
+            baseEntry({
+                id: 1,
+                progress: 2,
+                duration: 24,
+                nextAiringEpisode: { airingAt: Math.floor(Date.now() / 1000) + 3600, episode: 5 },
+            }),
+        ];
+
+        const stats = getCalendarStats(entries);
+
+        expect(stats.pendingEpisodes).toBe(2);
+        expect(stats.pendingMinutes).toBe(48);
     });
 });
