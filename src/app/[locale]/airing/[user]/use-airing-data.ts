@@ -1,9 +1,8 @@
 import { notFound } from 'next/navigation';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 
 import { useSettingsContext } from '@/contexts/settings-context';
 import { useUserContext } from '@/contexts/user-context';
-import { getEntriesWithNextAiring } from '@/lib/airing';
 import { useRouter } from '@/lib/i18n/navigation';
 import { isUserNotFoundError, useMediaList, useUser } from '@/services';
 
@@ -34,7 +33,7 @@ const useAiringData = (userName: string | null) => {
         notFound();
     }
 
-    const entries = useMemo(() => getEntriesWithNextAiring(mediaListQuery.data ?? []), [mediaListQuery.data]);
+    const entries = mediaListQuery.data ?? [];
 
     const retry = () => {
         if (userQuery.error) {

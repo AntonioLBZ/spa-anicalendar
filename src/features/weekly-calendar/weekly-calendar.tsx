@@ -6,7 +6,7 @@ import React, { useMemo } from 'react';
 import { Divider } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { AnimeCard } from '@/features/anime-card';
-import { getAiringDay, getTodayIndex } from '@/lib/airing';
+import { getAiringDay, getEntriesWithNextAiring, getTodayIndex } from '@/lib/airing';
 import { useLayoutMode } from '@/lib/use-layout-mode';
 
 import { WeeklyCalendarDay } from './weekly-calendar-day';
@@ -69,7 +69,8 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
 
     const filtered = useMemo(() => {
         const byContent = filterByContent(entries, contentFilter);
-        return isEditMode ? byContent : filterByHidden(byContent, hiddenIds);
+        const visible = isEditMode ? byContent : filterByHidden(byContent, hiddenIds);
+        return getEntriesWithNextAiring(visible);
     }, [entries, contentFilter, isEditMode, hiddenIds]);
     const todayIndex = getTodayIndex(weekStartDay);
     const { days, noAiring } = useMemo(() => groupByAiringDay(filtered, weekStartDay), [filtered, weekStartDay]);

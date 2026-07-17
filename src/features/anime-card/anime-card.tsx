@@ -11,6 +11,7 @@ import { Pill, ToggleButton } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { getLocalAiringTime, getTimeUntilAiring } from '@/lib/airing';
 
+import { CheckIcon } from './check-icon';
 import { InfoIcon } from './info-icon';
 
 import './anime-card.css';
@@ -71,7 +72,12 @@ const AnimeCard = (props: AnimeCardProps) => {
     const countdown = nextEp ? getTimeUntilAiring(nextEp.airingAt) : null;
     const countdownText = countdown && formatCountdown(t, countdown);
 
-    const cardClsx = clsx('card body-m', isExpanded && 'card--expanded', isHovered && 'card--hovered');
+    const cardClsx = clsx(
+        'card body-m',
+        isExpanded && 'card--expanded',
+        isHovered && 'card--hovered',
+        isEditMode && 'card--edit-mode'
+    );
 
     return (
         <div className={cardClsx} {...hoverProps}>
@@ -105,12 +111,17 @@ const AnimeCard = (props: AnimeCardProps) => {
                 </div>
             </div>
             {isEditMode ? (
-                <ToggleButton
-                    className="card__link"
-                    isSelected={isHidden}
-                    onChange={() => onToggle?.()}
-                    aria-labelledby={titleId}
-                />
+                <>
+                    <ToggleButton
+                        className="card__link"
+                        isSelected={isHidden}
+                        onChange={() => onToggle?.()}
+                        aria-labelledby={titleId}
+                    />
+                    <span className={clsx('card__select-badge', isHidden && 'card__select-badge--checked')} aria-hidden="true">
+                        {isHidden && <CheckIcon />}
+                    </span>
+                </>
             ) : (
                 <>
                     <Link
