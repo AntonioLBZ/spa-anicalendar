@@ -17,10 +17,9 @@ const ALL_SOURCE_OPTIONS: { value: Provider; label: string }[] = [
     { value: 'anilist', label: 'AniList' },
     { value: 'myanimelist', label: 'MyAnimeList' },
     { value: 'kitsu', label: 'Kitsu' },
-    { value: 'mock', label: 'Mock' },
 ];
 
-// Complete list: anilist,kitsu,myanimelist,mock
+// Complete list: anilist,kitsu,myanimelist
 const DEFAULT_ENABLED: Provider[] = ['anilist'];
 const enabledFromEnv = process.env.NEXT_PUBLIC_ENABLED_PROVIDERS?.split(',')
     .map((s) => s.trim())

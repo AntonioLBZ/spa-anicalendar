@@ -12,7 +12,7 @@ A client-side SPA that shows your weekly anime airing schedule. Enter your usern
 
 ## Tech Stack
 
-- Next.js 16 (App Router, static export)
+- Next.js 16 (App Router)
 - React 19, TypeScript 5.9
 - react-aria / react-aria-components
 - TanStack Query
@@ -32,5 +32,3 @@ Open [http://localhost:3000](http://localhost:3000).
 ```bash
 pnpm build
 ```
-
-Outputs a static export to `out/`.
