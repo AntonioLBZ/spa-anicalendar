@@ -1,7 +1,7 @@
 {
 	"name": "spa-anicalendar",
 	"private": true,
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"packageManager": "pnpm@11.12.0",
 	"scripts": {
 		"predev": "vercel env pull .env.local --environment=development --yes || true",

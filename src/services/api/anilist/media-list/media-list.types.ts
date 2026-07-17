@@ -40,6 +40,7 @@ interface AnilistMediaListEntry {
         coverImage: { medium: string; large: string };
         chapters: number | null;
         episodes: number | null;
+        duration: number | null;
         status: string;
         nextAiringEpisode: { airingAt: number; episode: number } | null;
         siteUrl: string;

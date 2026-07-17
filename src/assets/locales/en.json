@@ -92,11 +92,15 @@
 		},
 		"issueText": "Any issue? Click <link>here</link>"
 	},
-	"editMode": {
+	"calendarToolbar": {
 		"edit": "Edit",
 		"save": "Save",
 		"cancel": "Cancel",
-		"hiddenCount": "{count} hidden"
+		"hiddenCount": "{count} hidden",
+		"pendingEpisodes": "Episodes pending: <b>{count}</b> ",
+		"pendingEpisodesWithTime": "Episodes pending: <b>{count}</b> (<b>{time}</b>)",
+		"nextEpisodeIn": "Next episode in <b>{time}</b>",
+		"editHint": "Hiding anime here only changes what's shown in this calendar — your list stays untouched."
 	},
 	"weeklyCalendar": {
 		"emptyList": "No anime in your watching list.",

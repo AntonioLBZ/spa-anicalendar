@@ -17,6 +17,7 @@ type WeeklyCalendarDayProps = {
     isEditMode?: boolean;
     hiddenIds?: number[];
     onToggleEntry?: (id: number) => void;
+    nextAiringEntryId?: number | null;
 };
 
 export type { WeeklyCalendarProps, WeeklyCalendarDayProps };

@@ -1,7 +1,7 @@
 import type { ButtonProps as AriaButtonProps } from 'react-aria-components';
 
 type ButtonProps = AriaButtonProps & {
-    variant?: 'primary' | 'ghost';
+    variant?: 'primary' | 'secondary' | 'ghost';
     size?: 's' | 'm';
     ref?: React.Ref<HTMLButtonElement>;
 };

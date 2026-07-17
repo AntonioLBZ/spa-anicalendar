@@ -9,7 +9,7 @@ import { useHover } from 'react-aria';
 
 import { Pill, ToggleButton } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
-import { getLocalAiringTime, getTimeUntilAiring } from '@/lib/airing';
+import { formatCountdown, getLocalAiringTime, getTimeUntilAiring } from '@/lib/airing';
 
 import { CheckIcon } from './check-icon';
 import { InfoIcon } from './info-icon';
@@ -17,7 +17,6 @@ import { InfoIcon } from './info-icon';
 import './anime-card.css';
 
 import type { AnimeCardProps } from './anime-card.types';
-import type { CountdownBreakdown } from '@/lib/airing';
 
 const STATUS_META_MAP: Record<
     string,
@@ -31,23 +30,8 @@ const STATUS_META_MAP: Record<
 };
 const DEFAULT_STATUS_META = STATUS_META_MAP.NOT_YET_RELEASED;
 
-type CountdownTranslator = (key: string, values?: Record<string, number>) => string;
-
-const formatCountdown = (t: CountdownTranslator, countdown: CountdownBreakdown): string => {
-    switch (countdown.unit) {
-        case 'aired':
-            return t('aired');
-        case 'days':
-            return t('countdownDays', { days: countdown.days, hours: countdown.hours });
-        case 'hours':
-            return t('countdownHours', { hours: countdown.hours, minutes: countdown.minutes });
-        case 'minutes':
-            return t('countdownMinutes', { minutes: countdown.minutes });
-    }
-};
-
 const AnimeCard = (props: AnimeCardProps) => {
-    const { entry, hideStatus = false, isEditMode = false, isHidden = false, onToggle } = props;
+    const { entry, hideStatus = false, isEditMode = false, isHidden = false, onToggle, isNextAiring = false } = props;
     const { timeFormat } = useSettingsContext();
     const t = useTranslations('animeCard');
     const titleId = `anime-title-${entry.id}`;
@@ -82,7 +66,7 @@ const AnimeCard = (props: AnimeCardProps) => {
     return (
         <div className={cardClsx} {...hoverProps}>
             <Image className="card__image" src={entry.coverImageUrl} alt={entry.title} fill />
-            {entry.isNextAiring && <Pill className="card__next-airing">{t('next')}</Pill>}
+            {isNextAiring && <Pill className="card__next-airing">{t('next')}</Pill>}
             <div className="card__overlay">
                 <span className="card__progress" title={progressAriaText}>
                     {progressText}

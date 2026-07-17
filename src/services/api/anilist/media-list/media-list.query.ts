@@ -16,6 +16,7 @@ query MediaList($userId: Int, $type: MediaType, $statusIn: [MediaListStatus], $s
         }
         chapters
         episodes
+        duration
         status
         nextAiringEpisode {
           airingAt

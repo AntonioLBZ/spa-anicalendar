@@ -68,10 +68,10 @@ const getDayKey = (dayIndex: number, weekStartDay: WeekStartDay = 'monday'): Day
 };
 
 /**
- * Marks the single entry with the soonest upcoming airing time as `isNextAiring`.
+ * Returns the id of the entry with the soonest upcoming airing time, or null if none are upcoming.
  * Entries with no upcoming episode, or whose episode has already aired, are ignored.
  */
-const getEntriesWithNextAiring = (entries: AnimeEntry[]): AnimeEntry[] => {
+const getNextAiringEntryId = (entries: AnimeEntry[]): number | null => {
     const now = Math.floor(Date.now() / 1000);
 
     let nextEntryId: number | null = null;
@@ -86,9 +86,7 @@ const getEntriesWithNextAiring = (entries: AnimeEntry[]): AnimeEntry[] => {
         }
     }
 
-    if (nextEntryId === null) return entries;
-
-    return entries.map((entry) => (entry.id === nextEntryId ? { ...entry, isNextAiring: true } : entry));
+    return nextEntryId;
 };
 
 /**
@@ -106,12 +104,67 @@ const getTodayIndex = (weekStartDay: WeekStartDay = 'monday'): number => {
     return jsDay === 0 ? 6 : jsDay - 1;
 };
 
+/**
+ * Formats a countdown breakdown using the caller's translator.
+ * Shared between any UI that needs to render "time until airing" (e.g. AnimeCard, calendar toolbar).
+ */
+type CountdownTranslator = (key: string, values?: Record<string, number>) => string;
+
+const formatCountdown = (t: CountdownTranslator, countdown: CountdownBreakdown): string => {
+    switch (countdown.unit) {
+        case 'aired':
+            return t('aired');
+        case 'days':
+            return t('countdownDays', { days: countdown.days, hours: countdown.hours });
+        case 'hours':
+            return t('countdownHours', { hours: countdown.hours, minutes: countdown.minutes });
+        case 'minutes':
+            return t('countdownMinutes', { minutes: countdown.minutes });
+    }
+};
+
+/**
+ * Aggregate stats over a set of (already visible/filtered) entries:
+ * total pending episodes, total pending watch time, and the soonest upcoming airing time.
+ */
+type CalendarStats = {
+    pendingEpisodes: number;
+    pendingMinutes: number;
+    nextAiringAt: number | null;
+};
+
+const getCalendarStats = (entries: AnimeEntry[]): CalendarStats => {
+    let pendingEpisodes = 0;
+    let pendingMinutes = 0;
+    let nextAiringAt: number | null = null;
+    const now = Math.floor(Date.now() / 1000);
+
+    for (const entry of entries) {
+        const nextEp = entry.nextAiringEpisode;
+        if (!nextEp) continue;
+
+        const pending = nextEp.episode - entry.progress - 1;
+        if (pending > 0) {
+            pendingEpisodes += pending;
+            if (entry.duration) pendingMinutes += pending * entry.duration;
+        }
+
+        if (nextEp.airingAt >= now && (nextAiringAt === null || nextEp.airingAt < nextAiringAt)) {
+            nextAiringAt = nextEp.airingAt;
+        }
+    }
+
+    return { pendingEpisodes, pendingMinutes, nextAiringAt };
+};
+
 export {
     getAiringDay,
     getLocalAiringTime,
     getTimeUntilAiring,
     getDayKey,
     getTodayIndex,
-    getEntriesWithNextAiring,
+    getNextAiringEntryId,
+    getCalendarStats,
+    formatCountdown,
 };
-export type { DayKey, CountdownBreakdown };
+export type { DayKey, CountdownBreakdown, CalendarStats, CountdownTranslator };

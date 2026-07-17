@@ -135,10 +135,4 @@ describe('selectAnimeEntry', () => {
         expect(entry.progress).toBe(7);
         expect(entry.nextAiringEpisode?.episode).toBe(8);
     });
-
-    it('leaves isNextAiring undefined', () => {
-        const entry = selectAnimeEntry({ node: baseNode(), list_status: baseListStatus() }, NO_AIRING);
-
-        expect(entry.isNextAiring).toBeUndefined();
-    });
 });

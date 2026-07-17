@@ -13,6 +13,8 @@ type AnimeCardProps = {
     isHidden?: boolean;
     /** Called when the card is activated while in edit mode. */
     onToggle?: () => void;
+    /** Whether this is the single entry with the soonest upcoming airing time, across the visible calendar. */
+    isNextAiring?: boolean;
 };
 
 export type { AnimeCardProps };

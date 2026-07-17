@@ -92,11 +92,15 @@
 		},
 		"issueText": "¿Algún problema? Haz clic <link>aquí</link>"
 	},
-	"editMode": {
+	"calendarToolbar": {
 		"edit": "Editar",
 		"save": "Guardar",
 		"cancel": "Cancelar",
-		"hiddenCount": "{count} ocultos"
+		"hiddenCount": "{count} ocultos",
+		"pendingEpisodes": "Episodios pendientes: <b>{count}</b> ",
+		"pendingEpisodesWithTime": "Episodios pendientes: <b>{count}</b> (<b>{time}</b>)",
+		"nextEpisodeIn": "Próximo episodio en <b>{time}</b>",
+		"editHint": "Ocultar un anime aquí solo cambia lo que se muestra en este calendario — tu lista no se modifica."
 	},
 	"weeklyCalendar": {
 		"emptyList": "No tienes anime en tu lista de seguimiento.",

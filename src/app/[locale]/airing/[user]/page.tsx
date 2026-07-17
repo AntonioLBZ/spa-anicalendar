@@ -2,10 +2,13 @@
 
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
 
 import { Button, ErrorState } from '@/components';
-import { EditModeBar } from '@/features/edit-mode-bar';
-import { WeeklyCalendar } from '@/features/weekly-calendar';
+import { useSettingsContext } from '@/contexts/settings-context';
+import { CalendarToolbar } from '@/features/calendar-toolbar';
+import { filterByContent, filterByHidden, WeeklyCalendar } from '@/features/weekly-calendar';
+import { getCalendarStats } from '@/lib/airing';
 import { Link } from '@/lib/i18n/navigation';
 
 import { useAiringData } from './use-airing-data';
@@ -23,6 +26,12 @@ export default function AiringPage() {
     const { entries, error, retry } = useAiringData(userName);
     const { isEditMode, hiddenIds, hiddenCount, enterEditMode, saveEditMode, cancelEditMode, toggleDraftHidden } =
         useEntryVisibility();
+    const { contentFilter } = useSettingsContext();
+
+    const stats = useMemo(() => {
+        const visibleEntries = filterByHidden(filterByContent(entries, contentFilter), hiddenIds);
+        return getCalendarStats(visibleEntries);
+    }, [entries, contentFilter, hiddenIds]);
 
     if (error) {
         return (
@@ -44,7 +53,8 @@ export default function AiringPage() {
     return (
         <main className="airing-page">
             <div className="airing-page__content">
-                <EditModeBar
+                <CalendarToolbar
+                    stats={stats}
                     isEditMode={isEditMode}
                     hiddenCount={hiddenCount}
                     onEnter={enterEditMode}

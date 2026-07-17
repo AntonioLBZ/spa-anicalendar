@@ -18,6 +18,7 @@ const WeeklyCalendarDay = ({
     isEditMode = false,
     hiddenIds = [],
     onToggleEntry,
+    nextAiringEntryId = null,
 }: WeeklyCalendarDayProps) => {
     const t = useTranslations('weeklyCalendar');
     const dayId = `day-${dayIndex}`;
@@ -44,6 +45,7 @@ const WeeklyCalendarDay = ({
                             isEditMode={isEditMode}
                             isHidden={hiddenIds.includes(entry.id)}
                             onToggle={() => onToggleEntry?.(entry.id)}
+                            isNextAiring={entry.id === nextAiringEntryId}
                         />
                     ))
                 ) : (

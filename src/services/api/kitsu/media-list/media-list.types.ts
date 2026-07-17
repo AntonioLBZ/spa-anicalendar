@@ -23,6 +23,7 @@ interface KitsuAnimeResource {
         slug: string;
         posterImage?: { medium?: string; large?: string } | null;
         episodeCount?: number | null;
+        episodeLength?: number | null;
         status: 'current' | 'finished' | 'upcoming' | 'tba';
         endDate: string | null;
         ageRating?: string | null;
