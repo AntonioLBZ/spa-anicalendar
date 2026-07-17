@@ -6,31 +6,21 @@ import React, { useMemo } from 'react';
 import { Divider } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { AnimeCard } from '@/features/anime-card';
-import { getAiringDay, getTodayIndex } from '@/lib/airing';
+import { getAiringDay, getNextAiringEntryId, getTodayIndex } from '@/lib/airing';
 import { useLayoutMode } from '@/lib/use-layout-mode';
 
+import { filterByContent, filterByHidden } from './filters';
 import { WeeklyCalendarDay } from './weekly-calendar-day';
 import { getGridConfigForLayout } from './weekly-calendar-layout';
 
 import './weekly-calendar.css';
 
 import type { WeeklyCalendarProps } from './weekly-calendar.types';
-import type { ContentFilter, WeekStartDay } from '@/contexts/settings-context';
+import type { WeekStartDay } from '@/contexts/settings-context';
 import type { AnimeEntry } from '@/services';
 
 type DayEntries = {
     [day: number]: AnimeEntry[];
-};
-
-const filterByContent = (entries: AnimeEntry[], contentFilter: ContentFilter): AnimeEntry[] => {
-    if (contentFilter === 'plus18') return entries;
-
-    return entries.filter((entry) => {
-        if (contentFilter === 'sfw') {
-            return !entry.isAdult && !entry.genres.includes('Ecchi');
-        }
-        return !entry.isAdult;
-    });
 };
 
 const groupByAiringDay = (
@@ -56,12 +46,16 @@ const groupByAiringDay = (
 };
 
 const WeeklyCalendar = (props: WeeklyCalendarProps) => {
-    const { entries } = props;
+    const { entries, isEditMode = false, hiddenIds = [], onToggleEntry } = props;
     const { contentFilter, emptyDaysMode, weekStartDay, calendarLayout } = useSettingsContext();
     const layoutMode = useLayoutMode();
     const t = useTranslations('weeklyCalendar');
 
-    const filtered = useMemo(() => filterByContent(entries, contentFilter), [entries, contentFilter]);
+    const filtered = useMemo(() => {
+        const byContent = filterByContent(entries, contentFilter);
+        return isEditMode ? byContent : filterByHidden(byContent, hiddenIds);
+    }, [entries, contentFilter, isEditMode, hiddenIds]);
+    const nextAiringEntryId = useMemo(() => getNextAiringEntryId(filtered), [filtered]);
     const todayIndex = getTodayIndex(weekStartDay);
     const { days, noAiring } = useMemo(() => groupByAiringDay(filtered, weekStartDay), [filtered, weekStartDay]);
 
@@ -93,6 +87,10 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
                             isToday={Number(dayIndex) === todayIndex}
                             weekStartDay={weekStartDay}
                             layout={calendarLayout}
+                            isEditMode={isEditMode}
+                            hiddenIds={hiddenIds}
+                            onToggleEntry={onToggleEntry}
+                            nextAiringEntryId={nextAiringEntryId}
                         />
                     ))}
                 </div>
@@ -104,7 +102,14 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
                         <div className="weekly-calendar__section-header label-l">{t('noUpcoming')}</div>
                         <div className="weekly-calendar__section-entries">
                             {noAiring.map((entry) => (
-                                <AnimeCard key={entry.id} entry={entry} />
+                                <AnimeCard
+                                    key={entry.id}
+                                    entry={entry}
+                                    isEditMode={isEditMode}
+                                    isHidden={hiddenIds.includes(entry.id)}
+                                    onToggle={() => onToggleEntry?.(entry.id)}
+                                    isNextAiring={entry.id === nextAiringEntryId}
+                                />
                             ))}
                         </div>
                     </div>

@@ -1,0 +1,66 @@
+name: Changeset from label
+
+on:
+    pull_request:
+        types: [opened, labeled, synchronize, reopened]
+
+permissions:
+    contents: write
+    pull-requests: read
+
+jobs:
+    changeset:
+        name: Create changeset from bump label
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout PR branch
+              uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.pull_request.head.ref }}
+                  fetch-depth: 0
+
+            - name: Generate changeset file
+              id: generate
+              uses: actions/github-script@v7
+              with:
+                  script: |
+                      const fs = require("fs");
+                      const path = require("path");
+
+                      const bumpLabels = ["bump:major", "bump:minor", "bump:patch"];
+                      const labels = context.payload.pull_request.labels.map((l) => l.name);
+                      const found = bumpLabels.find((b) => labels.includes(b));
+
+                      if (!found) {
+                        core.info("No bump:* label found, skipping.");
+                        core.setOutput("created", "false");
+                        return;
+                      }
+
+                      const bumpType = found.split(":")[1];
+                      const pkg = require(path.join(process.cwd(), "package.json")).name;
+                      const prNumber = context.payload.pull_request.number;
+                      const prTitle = context.payload.pull_request.title;
+                      const file = path.join(".changeset", `pr-${prNumber}.md`);
+
+                      const content = `---\n"${pkg}": ${bumpType}\n---\n\n${prTitle}\n`;
+                      fs.writeFileSync(file, content);
+
+                      core.info(`Wrote ${file} with bump type "${bumpType}".`);
+                      core.setOutput("created", "true");
+
+            - name: Commit changeset
+              if: steps.generate.outputs.created == 'true'
+              env:
+                  PR_NUMBER: ${{ github.event.pull_request.number }}
+              run: |
+                  if git diff --quiet; then
+                    echo "No changes to commit"
+                    exit 0
+                  fi
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+                  git add ".changeset/pr-${PR_NUMBER}.md"
+                  git commit -m "chore: add changeset for PR #${PR_NUMBER}"
+                  git push origin "HEAD:${{ github.event.pull_request.head.ref }}"

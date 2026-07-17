@@ -2,12 +2,17 @@
 
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
 
 import { Button, ErrorState } from '@/components';
-import { WeeklyCalendar } from '@/features/weekly-calendar';
+import { useSettingsContext } from '@/contexts/settings-context';
+import { CalendarToolbar } from '@/features/calendar-toolbar';
+import { filterByContent, filterByHidden, WeeklyCalendar } from '@/features/weekly-calendar';
+import { getCalendarStats } from '@/lib/airing';
 import { Link } from '@/lib/i18n/navigation';
 
 import { useAiringData } from './use-airing-data';
+import { useEntryVisibility } from './use-entry-visibility';
 
 import '@/components/button/button.css';
 import './page.css';
@@ -19,6 +24,14 @@ export default function AiringPage() {
     const userName = rawUser ? decodeURIComponent(rawUser) : null;
 
     const { entries, error, retry } = useAiringData(userName);
+    const { isEditMode, hiddenIds, hiddenCount, enterEditMode, saveEditMode, cancelEditMode, toggleDraftHidden } =
+        useEntryVisibility();
+    const { contentFilter } = useSettingsContext();
+
+    const stats = useMemo(() => {
+        const visibleEntries = filterByHidden(filterByContent(entries, contentFilter), hiddenIds);
+        return getCalendarStats(visibleEntries);
+    }, [entries, contentFilter, hiddenIds]);
 
     if (error) {
         return (
@@ -40,7 +53,20 @@ export default function AiringPage() {
     return (
         <main className="airing-page">
             <div className="airing-page__content">
-                <WeeklyCalendar entries={entries} />
+                <CalendarToolbar
+                    stats={stats}
+                    isEditMode={isEditMode}
+                    hiddenCount={hiddenCount}
+                    onEnter={enterEditMode}
+                    onSave={saveEditMode}
+                    onCancel={cancelEditMode}
+                />
+                <WeeklyCalendar
+                    entries={entries}
+                    isEditMode={isEditMode}
+                    hiddenIds={hiddenIds}
+                    onToggleEntry={toggleDraftHidden}
+                />
             </div>
         </main>
     );

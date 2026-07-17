@@ -31,6 +31,7 @@ const selectAnimeEntry = (
         title: anime.attributes.canonicalTitle,
         coverImageUrl: anime.attributes.posterImage?.large ?? anime.attributes.posterImage?.medium ?? '',
         episodes: anime.attributes.episodeCount ?? undefined,
+        duration: anime.attributes.episodeLength ?? undefined,
         status: STATUS_MAP[anime.attributes.status] ?? 'NOT_YET_RELEASED',
         nextAiringEpisode,
         siteUrl: `https://kitsu.io/anime/${anime.attributes.slug}`,

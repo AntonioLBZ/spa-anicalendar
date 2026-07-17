@@ -1,6 +1,6 @@
 ---
 name: Issue report
-about: Report a textual bug, functional bug, or a feature suggestion
+about: Report a textual or functional bug in the app
 title: '[ISSUE]'
 labels: bug
 assignees: []
@@ -13,9 +13,9 @@ assignees: []
 
 ## Description
 
-What is the issue or suggestion?
+What is the issue?
 
-## Steps to reproduce (for bugs)
+## Steps to reproduce
 
 1.
 2.
@@ -31,6 +31,7 @@ What should happen instead?
 
 ## Additional information (optional)
 
+- Provider (AniList / MAL / Kitsu):
 - Browser / device:
 - Frequency:
 - Relevant screenshots or logs:

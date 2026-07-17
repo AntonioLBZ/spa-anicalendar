@@ -7,16 +7,16 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useHover } from 'react-aria';
 
-import { Pill } from '@/components';
+import { Pill, ToggleButton } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
-import { getLocalAiringTime, getTimeUntilAiring } from '@/lib/airing';
+import { formatCountdown, getLocalAiringTime, getTimeUntilAiring } from '@/lib/airing';
 
+import { CheckIcon } from './check-icon';
 import { InfoIcon } from './info-icon';
 
 import './anime-card.css';
 
 import type { AnimeCardProps } from './anime-card.types';
-import type { CountdownBreakdown } from '@/lib/airing';
 
 const STATUS_META_MAP: Record<
     string,
@@ -30,23 +30,8 @@ const STATUS_META_MAP: Record<
 };
 const DEFAULT_STATUS_META = STATUS_META_MAP.NOT_YET_RELEASED;
 
-type CountdownTranslator = (key: string, values?: Record<string, number>) => string;
-
-const formatCountdown = (t: CountdownTranslator, countdown: CountdownBreakdown): string => {
-    switch (countdown.unit) {
-        case 'aired':
-            return t('aired');
-        case 'days':
-            return t('countdownDays', { days: countdown.days, hours: countdown.hours });
-        case 'hours':
-            return t('countdownHours', { hours: countdown.hours, minutes: countdown.minutes });
-        case 'minutes':
-            return t('countdownMinutes', { minutes: countdown.minutes });
-    }
-};
-
 const AnimeCard = (props: AnimeCardProps) => {
-    const { entry, hideStatus = false } = props;
+    const { entry, hideStatus = false, isEditMode = false, isHidden = false, onToggle, isNextAiring = false } = props;
     const { timeFormat } = useSettingsContext();
     const t = useTranslations('animeCard');
     const titleId = `anime-title-${entry.id}`;
@@ -71,12 +56,17 @@ const AnimeCard = (props: AnimeCardProps) => {
     const countdown = nextEp ? getTimeUntilAiring(nextEp.airingAt) : null;
     const countdownText = countdown && formatCountdown(t, countdown);
 
-    const cardClsx = clsx('card body-m', isExpanded && 'card--expanded', isHovered && 'card--hovered');
+    const cardClsx = clsx(
+        'card body-m',
+        isExpanded && 'card--expanded',
+        isHovered && 'card--hovered',
+        isEditMode && 'card--edit-mode'
+    );
 
     return (
         <div className={cardClsx} {...hoverProps}>
             <Image className="card__image" src={entry.coverImageUrl} alt={entry.title} fill />
-            {entry.isNextAiring && <Pill className="card__next-airing">{t('next')}</Pill>}
+            {isNextAiring && <Pill className="card__next-airing">{t('next')}</Pill>}
             <div className="card__overlay">
                 <span className="card__progress" title={progressAriaText}>
                     {progressText}
@@ -104,25 +94,41 @@ const AnimeCard = (props: AnimeCardProps) => {
                     </div>
                 </div>
             </div>
-            <Link
-                className="card__link"
-                href={entry.siteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-labelledby={titleId}
-            />
-            <button
-                type="button"
-                className="card__info-btn"
-                aria-expanded={isExpanded}
-                aria-controls={detailsId}
-                aria-label={t('toggleDetails')}
-                onClick={() => {
-                    setIsExpanded((value) => !value);
-                }}
-            >
-                <InfoIcon />
-            </button>
+            {isEditMode ? (
+                <>
+                    <ToggleButton
+                        className="card__link"
+                        isSelected={isHidden}
+                        onChange={() => onToggle?.()}
+                        aria-labelledby={titleId}
+                    />
+                    <span className={clsx('card__select-badge', isHidden && 'card__select-badge--checked')} aria-hidden="true">
+                        {isHidden && <CheckIcon />}
+                    </span>
+                </>
+            ) : (
+                <>
+                    <Link
+                        className="card__link"
+                        href={entry.siteUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-labelledby={titleId}
+                    />
+                    <button
+                        type="button"
+                        className="card__info-btn"
+                        aria-expanded={isExpanded}
+                        aria-controls={detailsId}
+                        aria-label={t('toggleDetails')}
+                        onClick={() => {
+                            setIsExpanded((value) => !value);
+                        }}
+                    >
+                        <InfoIcon />
+                    </button>
+                </>
+            )}
         </div>
     );
 };

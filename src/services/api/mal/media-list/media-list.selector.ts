@@ -28,6 +28,7 @@ const selectAnimeEntry = (raw: MalAnimeListEntry, nextAiringByMalId: Record<numb
         title: node.title,
         coverImageUrl: node.main_picture?.large ?? node.main_picture?.medium ?? '',
         episodes: node.num_episodes || undefined,
+        duration: node.average_episode_duration ? Math.round(node.average_episode_duration / 60) : undefined,
         status: STATUS_MAP[node.status],
         nextAiringEpisode,
         siteUrl: `https://myanimelist.net/anime/${node.id}`,

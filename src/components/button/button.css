@@ -9,7 +9,35 @@
 .button--primary {
     background-color: var(--color-content-bg-primary);
     box-shadow: 0 0 0 var(--color-border-elevation);
+    color: var(--color-content-on-accent);
+}
+
+.button--secondary {
+    background-color: var(--color-bg-primary);
+    border: var(--size-6) solid var(--color-border);
     color: var(--color-content-primary);
+}
+
+.button--secondary[data-hovered] {
+    background-color: var(--color-bg-hover);
+}
+
+.button--secondary[data-pressed] {
+    background-color: var(--color-bg-highlight);
+}
+
+.button--ghost {
+    background-color: transparent;
+    color: var(--color-content-secondary);
+}
+
+.button--ghost[data-hovered] {
+    background-color: var(--color-bg-hover);
+    color: var(--color-content-primary);
+}
+
+.button--ghost[data-pressed] {
+    background-color: var(--color-bg-highlight);
 }
 
 .button--size-s {

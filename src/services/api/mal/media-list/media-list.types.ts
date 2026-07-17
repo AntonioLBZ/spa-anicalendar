@@ -13,6 +13,7 @@ interface MalAnimeNode {
     title: string;
     main_picture?: { medium: string; large: string };
     num_episodes?: number;
+    average_episode_duration?: number;
     status: 'finished_airing' | 'currently_airing' | 'not_yet_aired';
     start_season?: MalStartSeason;
     genres?: MalGenre[];

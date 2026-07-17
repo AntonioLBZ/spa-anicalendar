@@ -4,20 +4,62 @@
     border-radius: var(--size-37);
     color: var(--color-content-primary);
     display: block;
-    max-width: var(--size-1000);
-    min-width: var(--size-800);
+    max-width: var(--size-1300);
+    min-width: var(--size-500);
     overflow: hidden;
     position: relative;
 }
 
 .card__link {
+    background: none;
+    border: none;
+    cursor: pointer;
     inset: 0;
+    padding: 0;
     position: absolute;
 }
 
 .card__link:focus-visible {
     outline: var(--size-12) solid var(--color-border-focus);
     outline-offset: calc(-1 * var(--size-12));
+}
+
+.card--edit-mode .card__image {
+    opacity: 0.85;
+}
+
+.card--edit-mode::before {
+    border: var(--size-6) solid var(--color-border-focus);
+    border-radius: inherit;
+    content: '';
+    inset: 0;
+    position: absolute;
+}
+
+.card:has(.card__link[data-selected]) {
+    opacity: 0.4;
+}
+
+.card__select-badge {
+    align-items: center;
+    background: rgb(0 0 0 / 50%);
+    border: var(--size-6) solid var(--color-content-bright);
+    border-radius: 50%;
+    color: var(--color-content-bright);
+    display: flex;
+    height: var(--size-175);
+    justify-content: center;
+    left: var(--size-12);
+    pointer-events: none;
+    position: absolute;
+    top: var(--size-12);
+    width: var(--size-175);
+    z-index: 1;
+}
+
+.card__select-badge--checked {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
 }
 
 .card__next-airing {
