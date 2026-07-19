@@ -43,6 +43,12 @@
     white-space: nowrap;
 }
 
+.calendar-toolbar__bulk-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--size-75);
+}
+
 @media (width <= 640px) {
     .calendar-toolbar__row {
         align-items: stretch;

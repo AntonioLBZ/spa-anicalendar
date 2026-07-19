@@ -32,7 +32,15 @@ const useMediaList = (provider: Provider, user: User | undefined) => {
 
 const useSeasonalMedia = (params: GetSeasonalMediaParams) => {
     return useQuery({
-        queryKey: ['seasonal', 'anilist', params.season, params.seasonYear],
+        queryKey: [
+            'seasonal',
+            'anilist',
+            params.season,
+            params.seasonYear,
+            params.onlyNewSeason ?? false,
+            params.formats?.join(',') ?? 'all',
+            params.perPage ?? 50,
+        ],
         queryFn: () => getSeasonalMedia(params),
     });
 };

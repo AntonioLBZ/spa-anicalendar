@@ -18,6 +18,7 @@ function baseMedia(overrides: Partial<AnilistSeasonalMedia> = {}): AnilistSeason
         endDate: { day: null, month: null, year: null },
         isAdult: false,
         season: 'FALL',
+        seasonYear: 2026,
         genres: ['Action'],
         ...overrides,
     };
@@ -54,5 +55,7 @@ describe('selectSeasonalEntries', () => {
         expect(entry.nextAiringEpisode).toEqual({ airingAt: 1700000000, episode: 5 });
         expect(entry.isAdult).toBe(false);
         expect(entry.genres).toEqual(['Action']);
+        expect(entry.season).toBe('FALL');
+        expect(entry.seasonYear).toBe(2026);
     });
 });

@@ -22,6 +22,7 @@ const selectSeasonalEntry = (media: AnilistSeasonalMedia): AnimeEntry => ({
     },
     isAdult: media.isAdult,
     season: (media.season as MediaSeason | null) ?? undefined,
+    seasonYear: media.seasonYear ?? undefined,
     genres: media.genres,
 });
 

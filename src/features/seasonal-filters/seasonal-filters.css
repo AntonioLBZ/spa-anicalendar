@@ -1,0 +1,22 @@
+.seasonal-filters {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--size-100);
+}
+
+.seasonal-filters__group {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--size-50);
+}
+
+.seasonal-filters__label {
+    color: var(--color-content-secondary);
+    white-space: nowrap;
+}
+
+.seasonal-filters__submit {
+    margin-inline-start: auto;
+}

@@ -1,4 +1,5 @@
 export * from './button';
+export * from './checkbox';
 export * from './error-state';
 export * from './field';
 export * from './radio-option';

@@ -33,8 +33,23 @@
 		"errorSubtitle": "No hemos podido cargar este calendario. Puede que el proveedor esté teniendo problemas.",
 		"retry": "Reintentar",
 		"backHome": "Volver al inicio",
-		"seasonalDisclosure": "Mostrando los 50 animes más populares en emisión esta temporada.",
+		"seasonalDisclosure": "Mostrando los {count} animes más populares en emisión esta temporada.",
 		"seasonalEmptyList": "No se han encontrado animes en emisión esta temporada."
+	},
+	"seasonalFilters": {
+		"formatLabel": "Formato",
+		"format": {
+			"TV": "TV",
+			"TV_SHORT": "TV corta",
+			"MOVIE": "Película",
+			"SPECIAL": "Especial",
+			"OVA": "OVA",
+			"ONA": "ONA",
+			"MUSIC": "Música"
+		},
+		"topLabel": "Top",
+		"onlyNewSeason": "Solo estrenos de esta temporada",
+		"search": "Buscar"
 	},
 	"animeCard": {
 		"toggleDetails": "Mostrar detalles",
@@ -105,7 +120,9 @@
 		"pendingEpisodesWithTime": "Episodios pendientes: <b>{count}</b> (<b>{time}</b>)",
 		"nextEpisodeIn": "Próximo episodio en <b>{time}</b>",
 		"editHint": "Ocultar un anime aquí solo cambia lo que se muestra en este calendario — tu lista no se modifica.",
-		"editSeasonalHint": "Haz clic en \"Editar\" para ocultar algún anime del calendario."
+		"editSeasonalHint": "Haz clic en \"Editar\" para ocultar algún anime del calendario.",
+		"hideAll": "Ocultar todos",
+		"showAll": "Mostrar todos"
 	},
 	"weeklyCalendar": {
 		"emptyList": "No tienes anime en tu lista de seguimiento.",

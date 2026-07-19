@@ -31,6 +31,7 @@ const useEntryVisibility = () => {
         saveEditMode,
         cancelEditMode,
         toggleDraftHidden,
+        setDraftHiddenIds,
     };
 };
 

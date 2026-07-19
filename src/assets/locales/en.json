@@ -33,8 +33,23 @@
 		"errorSubtitle": "We couldn't load this schedule. The provider might be having issues.",
 		"retry": "Retry",
 		"backHome": "Back home",
-		"seasonalDisclosure": "Showing the top 50 most popular anime airing this season.",
+		"seasonalDisclosure": "Showing the top {count} most popular anime airing this season.",
 		"seasonalEmptyList": "No currently airing anime found this season."
+	},
+	"seasonalFilters": {
+		"formatLabel": "Format",
+		"format": {
+			"TV": "TV",
+			"TV_SHORT": "TV Short",
+			"MOVIE": "Movie",
+			"SPECIAL": "Special",
+			"OVA": "OVA",
+			"ONA": "ONA",
+			"MUSIC": "Music"
+		},
+		"topLabel": "Top",
+		"onlyNewSeason": "New this season only",
+		"search": "Search"
 	},
 	"animeCard": {
 		"toggleDetails": "Show details",
@@ -104,7 +119,10 @@
 		"pendingEpisodes": "Episodes pending: <b>{count}</b> ",
 		"pendingEpisodesWithTime": "Episodes pending: <b>{count}</b> (<b>{time}</b>)",
 		"nextEpisodeIn": "Next episode in <b>{time}</b>",
-		"editHint": "Hiding anime here only changes what's shown in this calendar — your list stays untouched."
+		"editHint": "Hiding anime here only changes what's shown in this calendar — your list stays untouched.",
+		"editSeasonalHint": "Click \"Edit\" to hide anime from the calendar.",
+		"hideAll": "Hide all",
+		"showAll": "Show all"
 	},
 	"weeklyCalendar": {
 		"emptyList": "No anime in your watching list.",

@@ -18,15 +18,29 @@ import './page.css';
 
 export default function SeasonalAiringPage() {
     const t = useTranslations('airing');
-    const { entries, error, retry } = useSeasonalAiringData();
-    const { isEditMode, hiddenIds, hiddenCount, enterEditMode, saveEditMode, cancelEditMode, toggleDraftHidden } =
-        useEntryVisibility();
+    const { entries, error, retry, filters, setFilters, isFiltersHydrated } = useSeasonalAiringData();
+    const {
+        isEditMode,
+        hiddenIds,
+        hiddenCount,
+        enterEditMode,
+        saveEditMode,
+        cancelEditMode,
+        toggleDraftHidden,
+        setDraftHiddenIds,
+    } = useEntryVisibility();
     const { contentFilter } = useSettingsContext();
 
+    const editableEntries = useMemo(() => filterByContent(entries, contentFilter), [entries, contentFilter]);
+    const editableIds = useMemo(() => editableEntries.map((entry) => entry.id), [editableEntries]);
+    const isAllHidden = editableIds.length > 0 && editableIds.every((id) => hiddenIds.includes(id));
+
+    const handleToggleAll = () => setDraftHiddenIds(isAllHidden ? [] : editableIds);
+
     const stats = useMemo(() => {
-        const visibleEntries = filterByHidden(filterByContent(entries, contentFilter), hiddenIds);
+        const visibleEntries = filterByHidden(editableEntries, hiddenIds);
         return getCalendarStats(visibleEntries);
-    }, [entries, contentFilter, hiddenIds]);
+    }, [editableEntries, hiddenIds]);
 
     if (error) {
         return (
@@ -48,7 +62,7 @@ export default function SeasonalAiringPage() {
     return (
         <main className="airing-page">
             <div className="airing-page__content">
-                <p className="airing-page__disclosure body-s">{t('seasonalDisclosure')}</p>
+                <p className="airing-page__disclosure body-s">{t('seasonalDisclosure', { count: filters.topN })}</p>
                 <CalendarToolbar
                     stats={stats}
                     isEditMode={isEditMode}
@@ -57,6 +71,12 @@ export default function SeasonalAiringPage() {
                     onSave={saveEditMode}
                     onCancel={cancelEditMode}
                     showPendingStats={false}
+                    isSeasonal
+                    isAllHidden={isAllHidden}
+                    onToggleAll={handleToggleAll}
+                    seasonalFiltersValue={filters}
+                    onSeasonalFiltersSubmit={setFilters}
+                    isSeasonalFiltersHydrated={isFiltersHydrated}
                 />
                 <WeeklyCalendar
                     entries={entries}

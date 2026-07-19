@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components';
+import { SeasonalFilters } from '@/features/seasonal-filters';
 import { formatCountdown, getTimeUntilAiring } from '@/lib/airing';
 
 import './calendar-toolbar.css';
@@ -19,7 +20,21 @@ const formatPendingDuration = (minutes: number): string => {
 };
 
 const CalendarToolbar = (props: CalendarToolbarProps) => {
-    const { stats, isEditMode, hiddenCount, onEnter, onSave, onCancel, showPendingStats = true } = props;
+    const {
+        stats,
+        isEditMode,
+        hiddenCount,
+        onEnter,
+        onSave,
+        onCancel,
+        showPendingStats = true,
+        isSeasonal = false,
+        isAllHidden = false,
+        onToggleAll,
+        seasonalFiltersValue,
+        onSeasonalFiltersSubmit,
+        isSeasonalFiltersHydrated = false,
+    } = props;
     const t = useTranslations('calendarToolbar');
     const tCard = useTranslations('animeCard');
 
@@ -28,6 +43,13 @@ const CalendarToolbar = (props: CalendarToolbarProps) => {
 
     return (
         <div className="calendar-toolbar">
+            {isSeasonal && seasonalFiltersValue && onSeasonalFiltersSubmit && (
+                <SeasonalFilters
+                    value={seasonalFiltersValue}
+                    onSubmit={onSeasonalFiltersSubmit}
+                    isHydrated={isSeasonalFiltersHydrated}
+                />
+            )}
             <div className="calendar-toolbar__row">
                 <div className="calendar-toolbar__stats body-m">
                     {showPendingStats && (
@@ -67,7 +89,14 @@ const CalendarToolbar = (props: CalendarToolbarProps) => {
                     )}
                 </div>
             </div>
-            <p className="calendar-toolbar__hint body-s">{t('editHint')}</p>
+            {isEditMode && onToggleAll && (
+                <div className="calendar-toolbar__bulk-actions">
+                    <Button variant="secondary" size="s" onPress={onToggleAll}>
+                        {isAllHidden ? t('showAll') : t('hideAll')}
+                    </Button>
+                </div>
+            )}
+            <p className="calendar-toolbar__hint body-s">{isSeasonal ? t('editSeasonalHint') : t('editHint')}</p>
         </div>
     );
 };

@@ -5,9 +5,9 @@ import type { AnilistSeasonalResponse, AnilistSeasonalVariables, GetSeasonalMedi
 import type { AnimeEntry } from '@/services/models';
 
 const GET_SEASONAL_MEDIA = `
-query Seasonal($season: MediaSeason, $seasonYear: Int, $type: MediaType, $format: MediaFormat, $status: MediaStatus, $sort: [MediaSort]) {
-  Page(page: 1, perPage: 50) {
-    media(season: $season, seasonYear: $seasonYear, type: $type, format: $format, status: $status, sort: $sort) {
+query Seasonal($season: MediaSeason, $seasonYear: Int, $type: MediaType, $format_in: [MediaFormat], $status: MediaStatus, $sort: [MediaSort], $perPage: Int) {
+  Page(page: 1, perPage: $perPage) {
+    media(season: $season, seasonYear: $seasonYear, type: $type, format_in: $format_in, status: $status, sort: $sort) {
       id
       coverImage {
         medium
@@ -32,20 +32,23 @@ query Seasonal($season: MediaSeason, $seasonYear: Int, $type: MediaType, $format
       }
       isAdult
       season
+      seasonYear
       genres
     }
   }
 }
 `;
 
+const ANILIST_MAX_PER_PAGE = 50;
+
 async function getSeasonalMedia(params: GetSeasonalMediaParams): Promise<AnimeEntry[]> {
     const variables: AnilistSeasonalVariables = {
-        season: params.season,
-        seasonYear: params.seasonYear,
+        ...((params.onlyNewSeason ?? false) ? { season: params.season, seasonYear: params.seasonYear } : {}),
         type: 'ANIME',
-        format: 'TV',
         status: 'RELEASING',
         sort: ['POPULARITY_DESC'],
+        perPage: Math.min(params.perPage ?? ANILIST_MAX_PER_PAGE, ANILIST_MAX_PER_PAGE),
+        ...(params.formats && params.formats.length > 0 ? { format_in: params.formats } : {}),
     };
 
     const response = await anilistQuery<AnilistSeasonalResponse, AnilistSeasonalVariables>(
