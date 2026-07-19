@@ -83,18 +83,43 @@ describe('AnimeCard info toggle', () => {
 });
 
 describe('AnimeCard showProgress', () => {
-    it('omits all progress UI when showProgress is false, without crashing on undefined progress', () => {
-        const anonymousEntry: AnimeEntry = { ...entry, progress: undefined, repeat: undefined };
-        render(<AnimeCard entry={anonymousEntry} showProgress={false} />, { wrapper: Wrapper });
+    it('omits the progress badge entirely when progress is undefined, without crashing', () => {
+        const noProgressEntry: AnimeEntry = { ...entry, progress: undefined, repeat: undefined };
+        render(<AnimeCard entry={noProgressEntry} />, { wrapper: Wrapper });
 
         expect(screen.queryByText(/Ep \d+\/\d+/)).not.toBeInTheDocument();
-        expect(screen.queryByText(/behind/)).not.toBeInTheDocument();
-        expect(screen.queryByText('Caught up!')).not.toBeInTheDocument();
+    });
+
+    it('omits the progress badge when showProgress is false, even with progress defined', () => {
+        render(<AnimeCard entry={entry} showProgress={false} />, { wrapper: Wrapper });
+
+        expect(screen.queryByText(/Ep \d+\/\d+/)).not.toBeInTheDocument();
     });
 
     it('renders progress UI by default (showProgress defaults to true)', () => {
         render(<AnimeCard entry={entry} />, { wrapper: Wrapper });
 
         expect(screen.getByText('Ep 3/12')).toBeInTheDocument();
+    });
+});
+
+describe('AnimeCard showWatchStatus', () => {
+    it('shows the "Ep X/Y" badge using episodes-aired progress, but omits behind/caught-up, when showWatchStatus is false', () => {
+        // Anonymous/seasonal entries: progress holds "episodes aired so far" (see seasonal.selector.ts),
+        // not a user's watch count — the badge is still meaningful, but "behind"/"caught up" is not.
+        const seasonalEntry: AnimeEntry = { ...entry, progress: 4, repeat: undefined };
+        render(<AnimeCard entry={seasonalEntry} showWatchStatus={false} />, { wrapper: Wrapper });
+
+        expect(screen.getByText('Ep 4/12')).toBeInTheDocument();
+        expect(screen.queryByText(/behind/)).not.toBeInTheDocument();
+        expect(screen.queryByText('Caught up!')).not.toBeInTheDocument();
+    });
+
+    it('renders "caught up"/"behind" by default (showWatchStatus defaults to true)', () => {
+        render(<AnimeCard entry={{ ...entry, progress: 3, nextAiringEpisode: { airingAt: 1700000000, episode: 4 } }} />, {
+            wrapper: Wrapper,
+        });
+
+        expect(screen.getByText('Caught up!')).toBeInTheDocument();
     });
 });

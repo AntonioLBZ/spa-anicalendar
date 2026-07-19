@@ -67,7 +67,7 @@ const CalendarToolbar = (props: CalendarToolbarProps) => {
                     )}
                 </div>
             </div>
-            {isEditMode && <p className="calendar-toolbar__hint body-s">{t('editHint')}</p>}
+            <p className="calendar-toolbar__hint body-s">{t('editHint')}</p>
         </div>
     );
 };

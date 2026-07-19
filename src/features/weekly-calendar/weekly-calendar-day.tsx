@@ -20,6 +20,7 @@ const WeeklyCalendarDay = ({
     onToggleEntry,
     nextAiringEntryId = null,
     showProgress = true,
+    showWatchStatus = true,
 }: WeeklyCalendarDayProps) => {
     const t = useTranslations('weeklyCalendar');
     const dayId = `day-${dayIndex}`;
@@ -48,6 +49,7 @@ const WeeklyCalendarDay = ({
                             onToggle={() => onToggleEntry?.(entry.id)}
                             isNextAiring={entry.id === nextAiringEntryId}
                             showProgress={showProgress}
+                            showWatchStatus={showWatchStatus}
                         />
                     ))
                 ) : (

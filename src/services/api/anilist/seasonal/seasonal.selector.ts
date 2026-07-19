@@ -11,6 +11,9 @@ const selectSeasonalEntry = (media: AnilistSeasonalMedia): AnimeEntry => ({
     duration: media.duration ?? undefined,
     status: media.status as MediaStatus,
     nextAiringEpisode: media.nextAiringEpisode ?? undefined,
+    // No per-user watch progress exists here — reuse the "Ep X/Y" badge to show episodes
+    // already aired instead (nextAiringEpisode.episode is the *next* one, so aired = episode - 1).
+    progress: media.nextAiringEpisode ? media.nextAiringEpisode.episode - 1 : undefined,
     siteUrl: media.siteUrl,
     endDate: {
         day: media.endDate.day ?? undefined,

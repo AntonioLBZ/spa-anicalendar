@@ -46,7 +46,15 @@ const groupByAiringDay = (
 };
 
 const WeeklyCalendar = (props: WeeklyCalendarProps) => {
-    const { entries, isEditMode = false, hiddenIds = [], onToggleEntry, showProgress = true, emptyMessage } = props;
+    const {
+        entries,
+        isEditMode = false,
+        hiddenIds = [],
+        onToggleEntry,
+        showProgress = true,
+        showWatchStatus = true,
+        emptyMessage,
+    } = props;
     const { contentFilter, emptyDaysMode, weekStartDay, calendarLayout } = useSettingsContext();
     const layoutMode = useLayoutMode();
     const t = useTranslations('weeklyCalendar');
@@ -92,6 +100,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
                             onToggleEntry={onToggleEntry}
                             nextAiringEntryId={nextAiringEntryId}
                             showProgress={showProgress}
+                            showWatchStatus={showWatchStatus}
                         />
                     ))}
                 </div>
@@ -111,6 +120,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
                                     onToggle={() => onToggleEntry?.(entry.id)}
                                     isNextAiring={entry.id === nextAiringEntryId}
                                     showProgress={showProgress}
+                                    showWatchStatus={showWatchStatus}
                                 />
                             ))}
                         </div>

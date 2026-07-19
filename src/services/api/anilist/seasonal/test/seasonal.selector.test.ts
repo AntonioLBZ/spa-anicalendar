@@ -24,14 +24,25 @@ function baseMedia(overrides: Partial<AnilistSeasonalMedia> = {}): AnilistSeason
 }
 
 describe('selectSeasonalEntries', () => {
-    it('synthesizes id and mediaId from media.id, and omits progress/repeat', () => {
+    it('synthesizes id and mediaId from media.id, and omits repeat', () => {
         const [entry] = selectSeasonalEntries([baseMedia({ id: 42 })]);
 
         expect(entry.id).toBe(42);
         expect(entry.mediaId).toBe(42);
         expect(entry.id).toBe(entry.mediaId);
-        expect(entry.progress).toBeUndefined();
         expect(entry.repeat).toBeUndefined();
+    });
+
+    it('sets progress to episodes already aired (nextAiringEpisode.episode - 1)', () => {
+        const [entry] = selectSeasonalEntries([baseMedia()]);
+
+        expect(entry.progress).toBe(4);
+    });
+
+    it('leaves progress undefined when there is no nextAiringEpisode', () => {
+        const [entry] = selectSeasonalEntries([baseMedia({ nextAiringEpisode: null })]);
+
+        expect(entry.progress).toBeUndefined();
     });
 
     it('maps the rest of the fields the same way the per-user selector does', () => {

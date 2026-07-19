@@ -39,6 +39,7 @@ const AnimeCard = (props: AnimeCardProps) => {
         onToggle,
         isNextAiring = false,
         showProgress = true,
+        showWatchStatus = true,
     } = props;
     const { timeFormat } = useSettingsContext();
     const t = useTranslations('animeCard');
@@ -49,18 +50,21 @@ const AnimeCard = (props: AnimeCardProps) => {
 
     const nextEp = entry.nextAiringEpisode;
 
-    // showProgress=true implies a per-user list entry (entry.progress is always set by the real
-    // providers in that path); anonymous/seasonal entries always pass showProgress=false instead.
+    // entry.progress means "user's watch count" for a real per-user list, or "episodes aired so
+    // far" for anonymous/seasonal entries (see seasonal.selector.ts) — either way, the "Ep X/Y"
+    // badge reuses the same rendering. showWatchStatus additionally gates "behind"/"caught up",
+    // which is only meaningful when progress represents an actual user's watch state.
+    const hasProgress = showProgress && entry.progress !== undefined;
     const totalEpisodes = entry.episodes;
-    const progressText = showProgress
+    const progressText = hasProgress
         ? totalEpisodes
             ? t('episodeProgress', { progress: entry.progress!, total: totalEpisodes })
             : t('episodeProgressUnknown', { progress: entry.progress! })
         : null;
-    const progressAriaText = showProgress
+    const progressAriaText = hasProgress
         ? t('episodeProgressAria', { progress: entry.progress!, total: totalEpisodes ?? t('unknown') })
         : null;
-    const pendingCount = showProgress && nextEp ? nextEp.episode - entry.progress! - 1 : -1;
+    const pendingCount = showWatchStatus && hasProgress && nextEp ? nextEp.episode - entry.progress! - 1 : -1;
 
     const statusMeta = STATUS_META_MAP[entry.status] ?? DEFAULT_STATUS_META;
 
@@ -79,16 +83,14 @@ const AnimeCard = (props: AnimeCardProps) => {
             <Image className="card__image" src={entry.coverImageUrl} alt={entry.title} fill />
             {isNextAiring && <Pill className="card__next-airing">{t('next')}</Pill>}
             <div className="card__overlay">
-                {showProgress && (
+                {hasProgress && (
                     <span className="card__progress" title={progressAriaText ?? undefined}>
                         {progressText}
                     </span>
                 )}
                 <span className="card__pending">
-                    {showProgress && pendingCount > 0 && (
-                        <span className="card__behind">{t('behind', { count: pendingCount })}</span>
-                    )}
-                    {showProgress && pendingCount === 0 && <span className="card__on-date">{t('caughtUp')}</span>}
+                    {pendingCount > 0 && <span className="card__behind">{t('behind', { count: pendingCount })}</span>}
+                    {pendingCount === 0 && <span className="card__on-date">{t('caughtUp')}</span>}
                     {nextEp && <span>{getLocalAiringTime(nextEp.airingAt, timeFormat)}</span>}
                 </span>
                 <div className="card__hover-content" id={detailsId}>

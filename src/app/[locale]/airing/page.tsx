@@ -63,7 +63,7 @@ export default function SeasonalAiringPage() {
                     isEditMode={isEditMode}
                     hiddenIds={hiddenIds}
                     onToggleEntry={toggleDraftHidden}
-                    showProgress={false}
+                    showWatchStatus={false}
                     emptyMessage={t('seasonalEmptyList')}
                 />
             </div>
