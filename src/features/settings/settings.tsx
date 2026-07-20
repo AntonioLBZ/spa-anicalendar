@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { DialogTrigger, Popover, Dialog, Button, Link } from 'react-aria-components';
 
-import { Radio } from '@/components';
+import { GearIcon, Radio } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import {
     CONTENT_FILTER_OPTIONS,
@@ -12,8 +12,6 @@ import {
     WEEK_START_OPTIONS,
     CALENDAR_LAYOUT_OPTIONS,
 } from '@/contexts/settings-context/options';
-
-import { GearIcon } from './gear-icon';
 
 import type {
     ContentFilter,

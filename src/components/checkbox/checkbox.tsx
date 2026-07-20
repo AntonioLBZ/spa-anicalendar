@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { Checkbox as AriaCheckbox } from 'react-aria-components';
 
-import { CheckIcon } from './check-icon';
+import { CheckboxIcon } from './checkbox-icon';
 
 import type { CheckboxProps } from './checkbox.types';
 
@@ -12,10 +12,14 @@ const Checkbox = (props: CheckboxProps) => {
 
     return (
         <AriaCheckbox {...rest} className={checkboxClsx}>
-            <span className="checkbox__box" aria-hidden="true">
-                <CheckIcon />
-            </span>
-            {children}
+            {({ isSelected }) => {
+                return (
+                    <>
+                        <CheckboxIcon isSelected={isSelected} />
+                        {children}
+                    </>
+                );
+            }}
         </AriaCheckbox>
     );
 };

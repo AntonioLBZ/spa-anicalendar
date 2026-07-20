@@ -7,12 +7,9 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useHover } from 'react-aria';
 
-import { Pill, ToggleButton } from '@/components';
+import { CheckMarkIcon, InfoIcon, Pill, ToggleButton } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { formatCountdown, getLocalAiringTime, getTimeUntilAiring } from '@/lib/airing';
-
-import { CheckIcon } from './check-icon';
-import { InfoIcon } from './info-icon';
 
 import './anime-card.css';
 
@@ -120,7 +117,7 @@ const AnimeCard = (props: AnimeCardProps) => {
                         aria-labelledby={titleId}
                     />
                     <span className={clsx('card__select-badge', isHidden && 'card__select-badge--checked')} aria-hidden="true">
-                        {isHidden && <CheckIcon />}
+                        {isHidden && <CheckMarkIcon />}
                     </span>
                 </>
             ) : (

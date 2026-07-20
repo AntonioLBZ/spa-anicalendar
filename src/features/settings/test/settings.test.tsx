@@ -20,6 +20,7 @@ const messages = {
             emptyDays: 'Empty Days',
             weekStart: 'Week Start',
             timeFormat: 'Time Format',
+            help: 'Help',
         },
         theme: { system: 'System', dark: 'Dark', light: 'Light' },
         content: { sfw: 'SFW', plus16: '+16', plus18: '+18' },
