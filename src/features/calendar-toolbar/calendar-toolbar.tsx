@@ -3,7 +3,6 @@
 import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components';
-import { SeasonalFilters } from '@/features/seasonal-filters';
 import { formatCountdown, getTimeUntilAiring } from '@/lib/airing';
 
 import './calendar-toolbar.css';
@@ -31,9 +30,6 @@ const CalendarToolbar = (props: CalendarToolbarProps) => {
         isSeasonal = false,
         isAllHidden = false,
         onToggleAll,
-        seasonalFiltersValue,
-        onSeasonalFiltersSubmit,
-        isSeasonalFiltersHydrated = false,
     } = props;
     const t = useTranslations('calendarToolbar');
     const tCard = useTranslations('animeCard');
@@ -43,13 +39,6 @@ const CalendarToolbar = (props: CalendarToolbarProps) => {
 
     return (
         <div className="calendar-toolbar">
-            {isSeasonal && seasonalFiltersValue && onSeasonalFiltersSubmit && (
-                <SeasonalFilters
-                    value={seasonalFiltersValue}
-                    onSubmit={onSeasonalFiltersSubmit}
-                    isHydrated={isSeasonalFiltersHydrated}
-                />
-            )}
             <div className="calendar-toolbar__row">
                 <div className="calendar-toolbar__stats body-m">
                     {showPendingStats && (
@@ -83,6 +72,7 @@ const CalendarToolbar = (props: CalendarToolbarProps) => {
                             </Button>
                         </>
                     ) : (
+                        // Edit stays in the toolbar (not a header drawer): it toggles canvas-level direct manipulation — the user clicks calendar cards directly to hide/show them — unlike Settings and Seasonal Filters, which are self-contained panels opened from header drawer triggers. A drawer would occlude/focus-trap the very grid this mode edits.
                         <Button variant="secondary" size="s" onPress={onEnter}>
                             {t('edit')}
                         </Button>

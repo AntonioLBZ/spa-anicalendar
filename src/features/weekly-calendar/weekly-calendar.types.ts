@@ -16,6 +16,8 @@ type WeeklyCalendarProps = {
     showWatchStatus?: boolean;
     /** Overrides the default "No anime in your watching list" empty-state copy, which is inaccurate outside a per-user list. */
     emptyMessage?: string;
+    /** Rendered at the right edge of the main section header row (e.g. a seasonal filters trigger). */
+    sectionHeaderAction?: React.ReactNode;
 };
 
 type WeeklyCalendarDayProps = {

@@ -49,7 +49,9 @@
 		},
 		"topLabel": "Top",
 		"onlyNewSeason": "New this season only",
-		"search": "Search"
+		"search": "Search",
+		"filtersTrigger": "Seasonal filters",
+		"close": "Close seasonal filters"
 	},
 	"animeCard": {
 		"toggleDetails": "Show details",
@@ -74,6 +76,7 @@
 	},
 	"settings": {
 		"trigger": "Settings",
+		"close": "Close settings",
 		"sections": {
 			"theme": "Theme",
 			"content": "Content",
@@ -112,7 +115,7 @@
 		"issueText": "Any issue? Click <link>here</link>"
 	},
 	"calendarToolbar": {
-		"edit": "Edit",
+		"edit": "Manage visibility",
 		"save": "Save",
 		"cancel": "Cancel",
 		"hiddenCount": "{count} hidden",
@@ -120,7 +123,7 @@
 		"pendingEpisodesWithTime": "Episodes pending: <b>{count}</b> (<b>{time}</b>)",
 		"nextEpisodeIn": "Next episode in <b>{time}</b>",
 		"editHint": "Hiding anime here only changes what's shown in this calendar — your list stays untouched.",
-		"editSeasonalHint": "Click \"Edit\" to hide anime from the calendar.",
+		"editSeasonalHint": "Use \"Manage visibility\" to hide anime from the calendar.",
 		"hideAll": "Hide all",
 		"showAll": "Show all"
 	},

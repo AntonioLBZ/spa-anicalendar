@@ -4,7 +4,7 @@ import { useCallback, useEffect, useSyncExternalStore } from 'react';
 
 import { seasonalFiltersStore } from './seasonal-filters-store';
 
-import type { SeasonalFiltersState } from '@/features/seasonal-filters';
+import type { SeasonalFiltersState } from './seasonal-filters.types';
 
 const useSeasonalFilters = () => {
     const snapshot = useSyncExternalStore(

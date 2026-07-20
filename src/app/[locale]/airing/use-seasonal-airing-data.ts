@@ -1,7 +1,6 @@
+import { useSeasonalFilters } from '@/features/seasonal-filters';
 import { getCurrentSeason } from '@/lib/airing';
 import { useSeasonalMedia } from '@/services';
-
-import { useSeasonalFilters } from './use-seasonal-filters';
 
 const useSeasonalAiringData = () => {
     const { season, seasonYear } = getCurrentSeason();

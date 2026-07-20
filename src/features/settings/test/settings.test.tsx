@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { NextIntlClientProvider } from 'next-intl';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -51,27 +51,34 @@ afterEach(() => {
     vi.unstubAllGlobals();
 });
 
+// GOTCHA: switching Settings from RAC Popover (non-modal) to Modal (via Drawer) activates
+// RAC's ariaHideOutside, which sets aria-hidden on sibling DOM (including the trigger button)
+// while the drawer is open. So the trigger must be read from `screen` BEFORE opening, and once
+// open, all content assertions must be scoped with within(screen.getByRole('dialog')) instead
+// of querying the unscoped `screen`/`document.body`.
 const openSettings = async (user: ReturnType<typeof userEvent.setup>) => {
     render(<Settings />, { wrapper: Wrapper });
-    await user.click(screen.getByRole('button', { name: 'Settings' }));
+    const trigger = screen.getByRole('button', { name: 'Settings' });
+    await user.click(trigger);
+    return within(await screen.findByRole('dialog'));
 };
 
 describe('Settings', () => {
     it('renders a Layout section with Horizontal and List options', async () => {
         const user = userEvent.setup();
-        await openSettings(user);
+        const dialog = await openSettings(user);
 
-        const group = await screen.findByRole('radiogroup', { name: 'Layout' });
+        const group = await dialog.findByRole('radiogroup', { name: 'Layout' });
         expect(group).toBeInTheDocument();
-        expect(screen.getByRole('radio', { name: 'Horizontal' })).toBeInTheDocument();
-        expect(screen.getByRole('radio', { name: 'List' })).toBeInTheDocument();
+        expect(dialog.getByRole('radio', { name: 'Horizontal' })).toBeInTheDocument();
+        expect(dialog.getByRole('radio', { name: 'List' })).toBeInTheDocument();
     });
 
     it('updates calendarLayout in storage when a Layout option is clicked', async () => {
         const user = userEvent.setup();
-        await openSettings(user);
+        const dialog = await openSettings(user);
 
-        const listOption = await screen.findByRole('radio', { name: 'List' });
+        const listOption = await dialog.findByRole('radio', { name: 'List' });
         await user.click(listOption);
 
         await waitFor(() => {
@@ -83,11 +90,24 @@ describe('Settings', () => {
 
     it('no longer offers a "Min" option in the Empty Days section', async () => {
         const user = userEvent.setup();
+        const dialog = await openSettings(user);
+
+        await dialog.findByRole('radiogroup', { name: 'Empty Days' });
+        expect(dialog.getByRole('radio', { name: 'Show' })).toBeInTheDocument();
+        expect(dialog.getByRole('radio', { name: 'Hide' })).toBeInTheDocument();
+        expect(dialog.queryByRole('radio', { name: 'Min' })).not.toBeInTheDocument();
+    });
+
+    it('closes on Escape', async () => {
+        const user = userEvent.setup();
         await openSettings(user);
 
-        await screen.findByRole('radiogroup', { name: 'Empty Days' });
-        expect(screen.getByRole('radio', { name: 'Show' })).toBeInTheDocument();
-        expect(screen.getByRole('radio', { name: 'Hide' })).toBeInTheDocument();
-        expect(screen.queryByRole('radio', { name: 'Min' })).not.toBeInTheDocument();
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+
+        await user.keyboard('{Escape}');
+
+        await waitFor(() => {
+            expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+        });
     });
 });

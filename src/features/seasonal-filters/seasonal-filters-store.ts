@@ -1,4 +1,4 @@
-import type { SeasonalFiltersState } from '@/features/seasonal-filters';
+import type { SeasonalFiltersState } from './seasonal-filters.types';
 
 const STORAGE_KEY = 'anicalendar-seasonal-filters';
 

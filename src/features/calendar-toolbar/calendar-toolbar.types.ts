@@ -1,4 +1,3 @@
-import type { SeasonalFiltersState } from '@/features/seasonal-filters';
 import type { CalendarStats } from '@/lib/airing';
 
 type CalendarToolbarProps = {
@@ -12,7 +11,7 @@ type CalendarToolbarProps = {
      * @default true
      */
     showPendingStats?: boolean;
-    /** Whether this toolbar is for the anonymous seasonal calendar rather than a per-user list. Swaps the hint copy and reveals the seasonal filters row.
+    /** Whether this toolbar is for the anonymous seasonal calendar rather than a per-user list. Swaps the hint copy.
      * @default false
      */
     isSeasonal?: boolean;
@@ -20,12 +19,6 @@ type CalendarToolbarProps = {
     isAllHidden?: boolean;
     /** Toggles all eligible entries between fully hidden and fully visible in the edit-mode draft. Omit to hide the button. */
     onToggleAll?: () => void;
-    /** Current (persisted) seasonal filters. Required together with `onSeasonalFiltersSubmit` to render the filters row — only meaningful when `isSeasonal` is true. */
-    seasonalFiltersValue?: SeasonalFiltersState;
-    /** Applies a new set of seasonal filters (triggers a refetch). Called only on explicit form submit, not per-field change. */
-    onSeasonalFiltersSubmit?: (next: SeasonalFiltersState) => void;
-    /** Whether the persisted seasonal filters have finished loading from storage. */
-    isSeasonalFiltersHydrated?: boolean;
 };
 
 export type { CalendarToolbarProps };

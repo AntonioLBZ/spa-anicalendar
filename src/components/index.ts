@@ -1,5 +1,6 @@
 export * from './button';
 export * from './checkbox';
+export * from './drawer';
 export * from './error-state';
 export * from './field';
 export * from './icons';

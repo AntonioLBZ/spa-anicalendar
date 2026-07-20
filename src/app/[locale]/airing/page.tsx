@@ -6,6 +6,7 @@ import { useMemo } from 'react';
 import { Button, ErrorState } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { CalendarToolbar } from '@/features/calendar-toolbar';
+import { SeasonalFiltersTrigger } from '@/features/seasonal-filters';
 import { filterByContent, filterByHidden, WeeklyCalendar } from '@/features/weekly-calendar';
 import { getCalendarStats } from '@/lib/airing';
 import { Link } from '@/lib/i18n/navigation';
@@ -18,7 +19,7 @@ import './page.css';
 
 export default function SeasonalAiringPage() {
     const t = useTranslations('airing');
-    const { entries, error, retry, filters, setFilters, isFiltersHydrated } = useSeasonalAiringData();
+    const { entries, error, retry, filters } = useSeasonalAiringData();
     const {
         isEditMode,
         hiddenIds,
@@ -74,9 +75,6 @@ export default function SeasonalAiringPage() {
                     isSeasonal
                     isAllHidden={isAllHidden}
                     onToggleAll={handleToggleAll}
-                    seasonalFiltersValue={filters}
-                    onSeasonalFiltersSubmit={setFilters}
-                    isSeasonalFiltersHydrated={isFiltersHydrated}
                 />
                 <WeeklyCalendar
                     entries={entries}
@@ -85,6 +83,7 @@ export default function SeasonalAiringPage() {
                     onToggleEntry={toggleDraftHidden}
                     showWatchStatus={false}
                     emptyMessage={t('seasonalEmptyList')}
+                    sectionHeaderAction={<SeasonalFiltersTrigger />}
                 />
             </div>
         </main>

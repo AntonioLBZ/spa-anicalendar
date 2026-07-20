@@ -49,7 +49,9 @@
 		},
 		"topLabel": "Top",
 		"onlyNewSeason": "Solo estrenos de esta temporada",
-		"search": "Buscar"
+		"search": "Buscar",
+		"filtersTrigger": "Filtros de temporada",
+		"close": "Cerrar filtros de temporada"
 	},
 	"animeCard": {
 		"toggleDetails": "Mostrar detalles",
@@ -74,6 +76,7 @@
 	},
 	"settings": {
 		"trigger": "Ajustes",
+		"close": "Cerrar ajustes",
 		"sections": {
 			"theme": "Tema",
 			"content": "Contenido",
@@ -112,7 +115,7 @@
 		"issueText": "¿Algún problema? Haz clic <link>aquí</link>"
 	},
 	"calendarToolbar": {
-		"edit": "Editar",
+		"edit": "Gestionar visibilidad",
 		"save": "Guardar",
 		"cancel": "Cancelar",
 		"hiddenCount": "{count} ocultos",
@@ -120,7 +123,7 @@
 		"pendingEpisodesWithTime": "Episodios pendientes: <b>{count}</b> (<b>{time}</b>)",
 		"nextEpisodeIn": "Próximo episodio en <b>{time}</b>",
 		"editHint": "Ocultar un anime aquí solo cambia lo que se muestra en este calendario — tu lista no se modifica.",
-		"editSeasonalHint": "Haz clic en \"Editar\" para ocultar algún anime del calendario.",
+		"editSeasonalHint": "Usa \"Gestionar visibilidad\" para ocultar algún anime del calendario.",
 		"hideAll": "Ocultar todos",
 		"showAll": "Mostrar todos"
 	},

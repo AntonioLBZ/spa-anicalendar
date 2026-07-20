@@ -54,6 +54,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
         showProgress = true,
         showWatchStatus = true,
         emptyMessage,
+        sectionHeaderAction,
     } = props;
     const { contentFilter, emptyDaysMode, weekStartDay, calendarLayout } = useSettingsContext();
     const layoutMode = useLayoutMode();
@@ -68,7 +69,15 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
     const { days, noAiring } = useMemo(() => groupByAiringDay(filtered, weekStartDay), [filtered, weekStartDay]);
 
     if (filtered.length === 0) {
-        return <div className="weekly-calendar body-l">{emptyMessage ?? t('emptyList')}</div>;
+        return (
+            <div className="weekly-calendar body-l">
+                <div className="weekly-calendar__section-header label-l">
+                    {t('sectionHeader')}
+                    {sectionHeaderAction}
+                </div>
+                <div className="weekly-calendar__empty">{emptyMessage ?? t('emptyList')}</div>
+            </div>
+        );
     }
 
     const hideEmptyDays = emptyDaysMode === 'hide';
@@ -85,7 +94,10 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
     return (
         <div className="weekly-calendar body-l" style={style}>
             <div className="weekly-calendar__section">
-                <div className="weekly-calendar__section-header label-l">{t('sectionHeader')}</div>
+                <div className="weekly-calendar__section-header label-l">
+                    {t('sectionHeader')}
+                    {sectionHeaderAction}
+                </div>
                 <div className={containerClsx} role="list" aria-label={t('sectionHeader')}>
                     {visibleDays.map(([dayIndex, entries]) => (
                         <WeeklyCalendarDay

@@ -9,7 +9,7 @@ import type { ReactNode } from 'react';
 
 const messages = {
     calendarToolbar: {
-        edit: 'Edit',
+        edit: 'Manage visibility',
         save: 'Save',
         cancel: 'Cancel',
         hiddenCount: '{count} hidden',
@@ -20,21 +20,6 @@ const messages = {
         editSeasonalHint: 'Seasonal hint',
         hideAll: 'Hide all',
         showAll: 'Show all',
-    },
-    seasonalFilters: {
-        formatLabel: 'Format',
-        format: {
-            TV: 'TV',
-            TV_SHORT: 'TV Short',
-            MOVIE: 'Movie',
-            SPECIAL: 'Special',
-            OVA: 'OVA',
-            ONA: 'ONA',
-            MUSIC: 'Music',
-        },
-        topLabel: 'Top',
-        onlyNewSeason: 'New this season only',
-        search: 'Search',
     },
     animeCard: {
         aired: 'Aired',
@@ -55,8 +40,6 @@ const stats: CalendarStats = {
     pendingMinutes: 96,
     nextAiringAt: Math.floor(Date.now() / 1000) + 3600,
 };
-
-const seasonalFiltersValue = { formats: [], topN: 50, onlyNewSeason: false };
 
 const noop = () => {};
 
@@ -183,55 +166,5 @@ describe('CalendarToolbar bulk actions', () => {
 
         expect(screen.queryByText('Hide all')).not.toBeInTheDocument();
         expect(screen.queryByText('Show all')).not.toBeInTheDocument();
-    });
-});
-
-describe('CalendarToolbar seasonal filters', () => {
-    it('renders the seasonal filters row above the rest of the toolbar when isSeasonal with a value and submit handler', () => {
-        render(
-            <CalendarToolbar
-                stats={stats}
-                isEditMode={false}
-                hiddenCount={0}
-                onEnter={noop}
-                onSave={noop}
-                onCancel={noop}
-                isSeasonal
-                seasonalFiltersValue={seasonalFiltersValue}
-                onSeasonalFiltersSubmit={noop}
-                isSeasonalFiltersHydrated
-            />,
-            { wrapper: Wrapper }
-        );
-
-        expect(screen.getByRole('checkbox', { name: 'TV' })).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: 'Search' })).toBeInTheDocument();
-    });
-
-    it('does not render the seasonal filters row when not seasonal, even with a value and handler', () => {
-        render(
-            <CalendarToolbar
-                stats={stats}
-                isEditMode={false}
-                hiddenCount={0}
-                onEnter={noop}
-                onSave={noop}
-                onCancel={noop}
-                seasonalFiltersValue={seasonalFiltersValue}
-                onSeasonalFiltersSubmit={noop}
-            />,
-            { wrapper: Wrapper }
-        );
-
-        expect(screen.queryByRole('checkbox', { name: 'TV' })).not.toBeInTheDocument();
-    });
-
-    it('does not render the seasonal filters row when seasonal but no value/handler is provided', () => {
-        render(
-            <CalendarToolbar stats={stats} isEditMode={false} hiddenCount={0} onEnter={noop} onSave={noop} onCancel={noop} isSeasonal />,
-            { wrapper: Wrapper }
-        );
-
-        expect(screen.queryByRole('checkbox', { name: 'TV' })).not.toBeInTheDocument();
     });
 });
