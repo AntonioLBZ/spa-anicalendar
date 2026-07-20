@@ -7,8 +7,8 @@
 		"brand": "Anicalendar"
 	},
 	"home": {
-		"title": "Anicalendar",
-		"subtitle": "Introduce tu nombre de usuario para ver tu calendario semanal de emisiones.",
+		"title": "Introduce tu nombre de usuario para ver tu calendario semanal de emisiones.",
+		"subtitle": "Trabajamos únicamente con tus datos públicos y no hacemos modificaciones en tu cuenta.",
 		"usernameLabel": "Nombre de usuario",
 		"errorUserNotFound": "Usuario no encontrado. Comprueba que tu perfil sea público.",
 		"errorGeneric": "Algo salió mal. Inténtalo de nuevo.",

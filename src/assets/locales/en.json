@@ -7,8 +7,8 @@
 		"brand": "Anicalendar"
 	},
 	"home": {
-		"title": "Anicalendar",
-		"subtitle": "Enter your username to see your weekly airing schedule.",
+		"title": "Enter your username to see your weekly airing schedule.",
+		"subtitle": "We only use your public data and don't make any changes to your account.",
 		"usernameLabel": "Username",
 		"errorUserNotFound": "User not found. Please check your user is public.",
 		"errorGeneric": "Something went wrong. Please try again.",

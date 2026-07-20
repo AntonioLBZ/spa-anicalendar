@@ -51,8 +51,12 @@ export default function HomePage() {
 
     return (
         <main className="home">
-            <h1 className="home__title title-l">{t('title')}</h1>
-            <p className="home__subtitle body-l">{t('subtitle')}</p>
+            {/* <h1 className="home__title title-l">{t('title')}</h1> */}
+            <p className="home__title body-l">{t('title')}</p>
+            <p className="home__subtitle body-m">{t('subtitle')}</p>
+            <Link className="home__anonymous-link button button--secondary button--size-m body-m" href="/airing">
+                {t('browseSeason')}
+            </Link>
             <Form className="home__form" validationErrors={validationErrors} onSubmit={handleSubmit}>
                 <div className="home__input-group">
                     <Field.Root name="username" value={userName} onChange={handleUserNameChange}>
@@ -74,9 +78,6 @@ export default function HomePage() {
                     ))}
                 </Radio.Group>
             </Form>
-            <Link className="home__anonymous-link button button--secondary button--size-m body-m" href="/airing">
-                {t('browseSeason')}
-            </Link>
         </main>
     );
 }
