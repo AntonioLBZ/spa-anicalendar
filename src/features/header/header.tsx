@@ -23,8 +23,10 @@ const Header = () => {
     const headerRef = useRef<HTMLElement>(null);
     const isHidden = useAutoHideHeader(headerRef);
 
+    const headerClsx = clsx('header', isHidden && 'header--hidden');
+
     return (
-        <header ref={headerRef} className={clsx('header', isHidden && 'header--hidden')}>
+        <header ref={headerRef} className={headerClsx}>
             <div className="header__content">
                 {user && (
                     <Link className="header__user-link" href={user.siteUrl} target="_blank" rel="noopener noreferrer">

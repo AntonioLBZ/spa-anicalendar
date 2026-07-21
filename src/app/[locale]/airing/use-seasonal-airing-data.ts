@@ -4,7 +4,7 @@ import { useSeasonalMedia } from '@/services';
 
 const useSeasonalAiringData = () => {
     const { season, seasonYear } = getCurrentSeason();
-    const { filters, setFilters, isHydrated } = useSeasonalFilters();
+    const { filters } = useSeasonalFilters();
 
     const seasonalQuery = useSeasonalMedia({
         season,
@@ -22,8 +22,6 @@ const useSeasonalAiringData = () => {
         isLoading: seasonalQuery.isLoading,
         retry: () => seasonalQuery.refetch(),
         filters,
-        setFilters,
-        isFiltersHydrated: isHydrated,
     };
 };
 

@@ -7,11 +7,4 @@ type SeasonalFiltersState = {
     onlyNewSeason: boolean;
 };
 
-type SeasonalFiltersProps = {
-    value: SeasonalFiltersState;
-    onSubmit: (next: SeasonalFiltersState) => void;
-    /** Whether the persisted value has finished loading from storage. Used to re-sync the draft once, right after hydration completes. */
-    isHydrated: boolean;
-};
-
-export type { SeasonalFiltersState, SeasonalFiltersProps };
+export type { SeasonalFiltersState };

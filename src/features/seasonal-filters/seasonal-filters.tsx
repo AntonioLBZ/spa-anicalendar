@@ -4,16 +4,32 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { Form } from 'react-aria-components';
 
-import { Button, Checkbox, Radio } from '@/components';
+import {
+    Button,
+    Checkbox,
+    DismissIcon,
+    Divider,
+    Drawer,
+    DrawerTrigger,
+    FilterIcon,
+    Radio,
+    Section,
+} from '@/components';
 
 import { FORMAT_OPTIONS, TOP_N_OPTIONS } from './seasonal-filters.options';
+import { useSeasonalFilters } from './use-seasonal-filters';
 
 import './seasonal-filters.css';
 
-import type { SeasonalFiltersProps } from './seasonal-filters.types';
+import type { SeasonalFiltersState } from './seasonal-filters.types';
 import type { FormEvent } from 'react';
 
-const SeasonalFiltersForm = (props: SeasonalFiltersProps) => {
+type SeasonalFiltersFormProps = {
+    value: SeasonalFiltersState;
+    onSubmit: (next: SeasonalFiltersState) => void;
+};
+
+const SeasonalFiltersForm = (props: SeasonalFiltersFormProps) => {
     const { value, onSubmit } = props;
     const t = useTranslations('seasonalFilters');
     const [draft, setDraft] = useState(value);
@@ -21,8 +37,6 @@ const SeasonalFiltersForm = (props: SeasonalFiltersProps) => {
     const selectedFormats = draft.formats.length > 0 ? draft.formats : FORMAT_OPTIONS;
 
     const handleFormatsChange = (next: (typeof FORMAT_OPTIONS)[number][]) => {
-        if (next.length === 0) return; // keep at least one format selected
-
         setDraft((prev) => ({ ...prev, formats: next.length === FORMAT_OPTIONS.length ? [] : next }));
     };
 
@@ -33,8 +47,8 @@ const SeasonalFiltersForm = (props: SeasonalFiltersProps) => {
 
     return (
         <Form className="seasonal-filters" onSubmit={handleSubmit}>
-            <div className="seasonal-filters__group">
-                <span className="seasonal-filters__label label-s">{t('formatLabel')}</span>
+            <Section.Root>
+                <Section.Title>{t('formatLabel')}</Section.Title>
                 <Checkbox.Group aria-label={t('formatLabel')} value={selectedFormats} onChange={handleFormatsChange}>
                     {FORMAT_OPTIONS.map((format) => (
                         <Checkbox.Option key={format} value={format}>
@@ -42,9 +56,10 @@ const SeasonalFiltersForm = (props: SeasonalFiltersProps) => {
                         </Checkbox.Option>
                     ))}
                 </Checkbox.Group>
-            </div>
-            <div className="seasonal-filters__group">
-                <span className="seasonal-filters__label label-s">{t('topLabel')}</span>
+            </Section.Root>
+            <Divider />
+            <Section.Root>
+                <Section.Title>{t('topLabel')}</Section.Title>
                 <Radio.Group
                     aria-label={t('topLabel')}
                     value={String(draft.topN)}
@@ -56,7 +71,8 @@ const SeasonalFiltersForm = (props: SeasonalFiltersProps) => {
                         </Radio.Option>
                     ))}
                 </Radio.Group>
-            </div>
+            </Section.Root>
+            <Divider />
             <Checkbox.Option
                 isSelected={draft.onlyNewSeason}
                 onChange={(onlyNewSeason) => setDraft((prev) => ({ ...prev, onlyNewSeason }))}
@@ -70,8 +86,28 @@ const SeasonalFiltersForm = (props: SeasonalFiltersProps) => {
     );
 };
 
-const SeasonalFilters = (props: SeasonalFiltersProps) => (
-    <SeasonalFiltersForm key={String(props.isHydrated)} {...props} />
-);
+const SeasonalFiltersTrigger = () => {
+    const t = useTranslations('seasonalFilters');
+    const { filters, setFilters } = useSeasonalFilters();
 
-export { SeasonalFilters };
+    return (
+        <DrawerTrigger>
+            <Button size="s" variant="ghost" aria-label={t('title')}>
+                <FilterIcon />
+            </Button>
+            <Drawer.Root placement="right">
+                <Drawer.Header>
+                    <span>{t('title')}</span>
+                    <Button size="s" variant="ghost" aria-label={t('close')} slot="close">
+                        <DismissIcon />
+                    </Button>
+                </Drawer.Header>
+                <Drawer.Body>
+                    <SeasonalFiltersForm value={filters} onSubmit={setFilters} />
+                </Drawer.Body>
+            </Drawer.Root>
+        </DrawerTrigger>
+    );
+};
+
+export { SeasonalFiltersTrigger };

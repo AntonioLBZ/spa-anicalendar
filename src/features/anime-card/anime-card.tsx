@@ -74,6 +74,7 @@ const AnimeCard = (props: AnimeCardProps) => {
         isHovered && 'card--hovered',
         isEditMode && 'card--edit-mode'
     );
+    const selectBadgeClsx = clsx('card__select-badge', isHidden && 'card__select-badge--checked');
 
     return (
         <div className={cardClsx} {...hoverProps}>
@@ -116,7 +117,7 @@ const AnimeCard = (props: AnimeCardProps) => {
                         onChange={() => onToggle?.()}
                         aria-labelledby={titleId}
                     />
-                    <span className={clsx('card__select-badge', isHidden && 'card__select-badge--checked')} aria-hidden="true">
+                    <span className={selectBadgeClsx} aria-hidden="true">
                         {isHidden && <CheckMarkIcon />}
                     </span>
                 </>

@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { Link } from 'react-aria-components';
 
-import { Button, DismissIcon, Divider, Drawer, DrawerTrigger, GearIcon, Radio } from '@/components';
+import { Button, DismissIcon, Divider, Drawer, DrawerTrigger, GearIcon, Radio, Section } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import {
     CONTENT_FILTER_OPTIONS,
@@ -23,13 +23,6 @@ import type {
 } from '@/contexts/settings-context';
 
 import './settings.css';
-
-const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-    <section className="settings__section">
-        <h3 className="settings__section-title label-m">{title}</h3>
-        {children}
-    </section>
-);
 
 const Settings = () => {
     const t = useTranslations('settings');
@@ -61,7 +54,8 @@ const Settings = () => {
                     </Button>
                 </Drawer.Header>
                 <Drawer.Body className="settings__body">
-                    <Section title={t('sections.theme')}>
+                    <Section.Root>
+                        <Section.Title>{t('sections.theme')}</Section.Title>
                         <Radio.Group
                             aria-label={t('sections.theme')}
                             value={theme}
@@ -71,9 +65,10 @@ const Settings = () => {
                             <Radio.Option value="dark">{t('theme.dark')}</Radio.Option>
                             <Radio.Option value="light">{t('theme.light')}</Radio.Option>
                         </Radio.Group>
-                    </Section>
+                    </Section.Root>
                     <Divider />
-                    <Section title={t('sections.content')}>
+                    <Section.Root>
+                        <Section.Title>{t('sections.content')}</Section.Title>
                         <Radio.Group
                             aria-label={t('sections.content')}
                             value={contentFilter}
@@ -85,9 +80,10 @@ const Settings = () => {
                                 </Radio.Option>
                             ))}
                         </Radio.Group>
-                    </Section>
+                    </Section.Root>
                     <Divider />
-                    <Section title={t('sections.layout')}>
+                    <Section.Root>
+                        <Section.Title>{t('sections.layout')}</Section.Title>
                         <Radio.Group
                             aria-label={t('sections.layout')}
                             value={calendarLayout}
@@ -99,9 +95,10 @@ const Settings = () => {
                                 </Radio.Option>
                             ))}
                         </Radio.Group>
-                    </Section>
+                    </Section.Root>
                     <Divider />
-                    <Section title={t('sections.emptyDays')}>
+                    <Section.Root>
+                        <Section.Title>{t('sections.emptyDays')}</Section.Title>
                         <Radio.Group
                             aria-label={t('sections.emptyDays')}
                             value={emptyDaysMode}
@@ -113,9 +110,10 @@ const Settings = () => {
                                 </Radio.Option>
                             ))}
                         </Radio.Group>
-                    </Section>
+                    </Section.Root>
                     <Divider />
-                    <Section title={t('sections.weekStart')}>
+                    <Section.Root>
+                        <Section.Title>{t('sections.weekStart')}</Section.Title>
                         <Radio.Group
                             aria-label={t('sections.weekStart')}
                             value={weekStartDay}
@@ -127,9 +125,10 @@ const Settings = () => {
                                 </Radio.Option>
                             ))}
                         </Radio.Group>
-                    </Section>
+                    </Section.Root>
                     <Divider />
-                    <Section title={t('sections.timeFormat')}>
+                    <Section.Root>
+                        <Section.Title>{t('sections.timeFormat')}</Section.Title>
                         <Radio.Group
                             aria-label={t('sections.timeFormat')}
                             value={timeFormat}
@@ -141,9 +140,10 @@ const Settings = () => {
                                 </Radio.Option>
                             ))}
                         </Radio.Group>
-                    </Section>
+                    </Section.Root>
                     <Divider />
-                    <Section title={t('sections.help')}>
+                    <Section.Root>
+                        <Section.Title>{t('sections.help')}</Section.Title>
                         <span className="issue-text body-m">
                             {t.rich('issueText', {
                                 link: (chunks) => (
@@ -158,7 +158,7 @@ const Settings = () => {
                                 ),
                             })}
                         </span>
-                    </Section>
+                    </Section.Root>
                 </Drawer.Body>
             </Drawer.Root>
         </DrawerTrigger>

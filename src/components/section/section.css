@@ -1,0 +1,16 @@
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-25);
+}
+
+.section--disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.section__title {
+    color: var(--color-content-secondary);
+    margin: 0;
+    text-transform: uppercase;
+}

@@ -6,5 +6,6 @@ export * from './field';
 export * from './icons';
 export * from './radio-option';
 export * from './divider';
+export * from './section';
 export * from './pill';
 export * from './toggle-button';

@@ -5,101 +5,76 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { IntlTestWrapper as Wrapper } from '@/lib/test/intl-wrapper';
 import { MemoryStorage } from '@/lib/test/memory-storage';
 
-import { SeasonalFilters } from '../seasonal-filters';
-import { SeasonalFiltersTrigger } from '../seasonal-filters-trigger';
+import { SeasonalFiltersTrigger } from '../seasonal-filters';
 
-import type { SeasonalFiltersState } from '../seasonal-filters.types';
+const STORAGE_KEY = 'anicalendar-seasonal-filters';
+const memoryStorage = new MemoryStorage();
 
-const baseValue: SeasonalFiltersState = { formats: [], topN: 50, onlyNewSeason: false };
-const noop = () => {};
+const getStoredFilters = () => JSON.parse(memoryStorage.getItem(STORAGE_KEY) ?? '{}');
 
-describe('SeasonalFilters', () => {
-    it('renders every format option checked by default when formats is empty', () => {
-        render(<SeasonalFilters value={baseValue} onSubmit={noop} isHydrated />, { wrapper: Wrapper });
+const openDrawer = async (user: ReturnType<typeof userEvent.setup>) => {
+    render(<SeasonalFiltersTrigger />, { wrapper: Wrapper });
+    await user.click(screen.getByRole('button', { name: 'Seasonal filters' }));
+    return within(await screen.findByRole('dialog'));
+};
 
-        expect(screen.getByRole('checkbox', { name: 'TV' })).toBeChecked();
-        expect(screen.getByRole('checkbox', { name: 'Movie' })).toBeChecked();
+beforeEach(() => {
+    vi.stubGlobal('localStorage', memoryStorage);
+    memoryStorage.clear();
+});
+
+afterEach(() => {
+    vi.unstubAllGlobals();
+});
+
+describe('SeasonalFiltersTrigger', () => {
+    it('renders every format option checked by default when nothing is stored', async () => {
+        const user = userEvent.setup();
+        const dialog = await openDrawer(user);
+
+        expect(dialog.getByRole('checkbox', { name: 'TV' })).toBeChecked();
+        expect(dialog.getByRole('checkbox', { name: 'Movie' })).toBeChecked();
     });
 
-    it('does not call onSubmit while editing the draft — only on explicit submit', async () => {
-        const onSubmit = vi.fn();
+    it('does not persist to storage while editing the draft — only on explicit submit', async () => {
         const user = userEvent.setup();
+        const dialog = await openDrawer(user);
 
-        render(<SeasonalFilters value={baseValue} onSubmit={onSubmit} isHydrated />, { wrapper: Wrapper });
+        await user.click(dialog.getByRole('checkbox', { name: 'Movie' }));
+        await user.click(dialog.getByRole('radio', { name: '25' }));
+        await user.click(dialog.getByRole('checkbox', { name: 'New this season only' }));
 
-        await user.click(screen.getByRole('checkbox', { name: 'Movie' }));
-        await user.click(screen.getByRole('radio', { name: '25' }));
-        await user.click(screen.getByRole('checkbox', { name: 'New this season only' }));
-
-        expect(onSubmit).not.toHaveBeenCalled();
+        expect(memoryStorage.getItem(STORAGE_KEY)).toBeNull();
     });
 
-    it('calls onSubmit with the accumulated draft only when the form is submitted', async () => {
-        const onSubmit = vi.fn();
+    it('persists the accumulated draft to storage only when the form is submitted', async () => {
         const user = userEvent.setup();
+        const dialog = await openDrawer(user);
 
-        render(<SeasonalFilters value={baseValue} onSubmit={onSubmit} isHydrated />, { wrapper: Wrapper });
+        await user.click(dialog.getByRole('checkbox', { name: 'Movie' }));
+        await user.click(dialog.getByRole('radio', { name: '25' }));
+        await user.click(dialog.getByRole('checkbox', { name: 'New this season only' }));
+        await user.click(dialog.getByRole('button', { name: 'Search' }));
 
-        await user.click(screen.getByRole('checkbox', { name: 'Movie' }));
-        await user.click(screen.getByRole('radio', { name: '25' }));
-        await user.click(screen.getByRole('checkbox', { name: 'New this season only' }));
-        await user.click(screen.getByRole('button', { name: 'Search' }));
-
-        expect(onSubmit).toHaveBeenCalledTimes(1);
-        expect(onSubmit).toHaveBeenCalledWith({
-            formats: ['TV', 'TV_SHORT', 'SPECIAL', 'OVA', 'ONA', 'MUSIC'],
-            topN: 25,
-            onlyNewSeason: true,
+        await waitFor(() => {
+            expect(getStoredFilters()).toEqual({
+                formats: ['TV', 'TV_SHORT', 'SPECIAL', 'OVA', 'ONA', 'MUSIC'],
+                topN: 25,
+                onlyNewSeason: true,
+            });
         });
     });
 
-    it('does not allow deselecting the last remaining selected format', async () => {
-        const onSubmit = vi.fn();
+    it('allows deselecting the last remaining selected format, treating it as "all formats"', async () => {
+        memoryStorage.setItem(STORAGE_KEY, JSON.stringify({ formats: ['TV'], topN: 50, onlyNewSeason: false }));
         const user = userEvent.setup();
+        const dialog = await openDrawer(user);
 
-        render(
-            <SeasonalFilters value={{ formats: ['TV'], topN: 50, onlyNewSeason: false }} onSubmit={onSubmit} isHydrated />,
-            { wrapper: Wrapper }
-        );
-
-        await user.click(screen.getByRole('checkbox', { name: 'TV' }));
-        await user.click(screen.getByRole('button', { name: 'Search' }));
-
-        expect(onSubmit).toHaveBeenCalledWith({ formats: ['TV'], topN: 50, onlyNewSeason: false });
-    });
-});
-
-// GOTCHA: SeasonalFiltersTrigger renders its Drawer.Panel as an RAC `Modal`, which activates
-// `ariaHideOutside` and hides sibling DOM (including the trigger) from the accessibility tree
-// while open. Query the trigger from `screen` BEFORE opening, then scope all post-open content
-// queries with `within(screen.getByRole('dialog'))`. No focus-trap tab-cycling assertions here.
-describe('SeasonalFiltersTrigger', () => {
-    const STORAGE_KEY = 'anicalendar-seasonal-filters';
-    const memoryStorage = new MemoryStorage();
-
-    beforeEach(() => {
-        vi.stubGlobal('localStorage', memoryStorage);
-        memoryStorage.clear();
-    });
-
-    afterEach(() => {
-        vi.unstubAllGlobals();
-    });
-
-    it('opens the drawer, renders the form inside the dialog, and submits an updated value to the store', async () => {
-        const user = userEvent.setup();
-        render(<SeasonalFiltersTrigger />, { wrapper: Wrapper });
-
-        const trigger = screen.getByRole('button', { name: 'Seasonal filters' });
-        await user.click(trigger);
-
-        const dialog = await screen.findByRole('dialog');
-        await user.click(within(dialog).getByRole('radio', { name: '25' }));
-        await user.click(within(dialog).getByRole('button', { name: 'Search' }));
+        await user.click(dialog.getByRole('checkbox', { name: 'TV' }));
+        await user.click(dialog.getByRole('button', { name: 'Search' }));
 
         await waitFor(() => {
-            const stored = JSON.parse(memoryStorage.getItem(STORAGE_KEY) ?? '{}');
-            expect(stored.topN).toBe(25);
+            expect(getStoredFilters()).toEqual({ formats: [], topN: 50, onlyNewSeason: false });
         });
     });
 
