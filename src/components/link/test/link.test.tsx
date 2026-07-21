@@ -40,4 +40,20 @@ describe('Link', () => {
         expect(link).toHaveAttribute('data-custom');
         expect(link).toHaveClass('button', 'button--secondary');
     });
+
+    it('renders a plain, non-interactive span when isDisabled, even with a non-RAC `as`', () => {
+        const CustomAnchor = (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => <a data-custom {...props} />;
+
+        render(
+            <Link as={CustomAnchor} isDisabled className="footer__locale-button" href="/es">
+                Español
+            </Link>
+        );
+
+        expect(screen.queryByRole('link', { name: 'Español' })).not.toBeInTheDocument();
+        const span = screen.getByText('Español');
+        expect(span.tagName).toBe('SPAN');
+        expect(span).toHaveClass('footer__locale-button');
+        expect(span).toHaveAttribute('aria-disabled', 'true');
+    });
 });

@@ -7,7 +7,7 @@ import '../button/button.css';
 import './link.css';
 
 const Link = (props: LinkProps) => {
-    const { as, variant = 'plain', size = 'm', className, ...rest } = props;
+    const { as, variant = 'plain', size = 'm', className, isDisabled, href, locale, style, children, ...rest } = props;
 
     const Component = as ?? AriaLink;
 
@@ -24,7 +24,19 @@ const Link = (props: LinkProps) => {
 
     const variantClsx = variant === 'plain' ? linkClsx : buttonClsx;
 
-    return <Component className={variantClsx} {...rest} />;
+    if (isDisabled) {
+        return (
+            <span className={variantClsx} style={style} aria-disabled="true">
+                {children}
+            </span>
+        );
+    }
+
+    return (
+        <Component className={variantClsx} href={href} locale={locale} style={style} {...rest}>
+            {children}
+        </Component>
+    );
 };
 
 export { Link };

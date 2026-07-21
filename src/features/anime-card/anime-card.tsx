@@ -69,7 +69,7 @@ const AnimeCard = (props: AnimeCardProps) => {
     const countdownText = countdown && formatCountdown(t, countdown);
 
     const cardClsx = clsx(
-        'card body-m',
+        'card body-s',
         isExpanded && 'card--expanded',
         isHovered && 'card--hovered',
         isEditMode && 'card--edit-mode'
@@ -93,7 +93,7 @@ const AnimeCard = (props: AnimeCardProps) => {
                 </span>
                 <div className="card__hover-content" id={detailsId}>
                     <div className="card__hover-inner">
-                        <span className="card__title label-m" id={titleId}>
+                        <span className="card__title label-s" id={titleId}>
                             {entry.title}
                         </span>
                         {nextEp && (
@@ -112,7 +112,7 @@ const AnimeCard = (props: AnimeCardProps) => {
             {isEditMode ? (
                 <>
                     <ToggleButton
-                        className="card__link"
+                        className="card__hit-area"
                         isSelected={isHidden}
                         onChange={() => onToggle?.()}
                         aria-labelledby={titleId}
@@ -124,7 +124,7 @@ const AnimeCard = (props: AnimeCardProps) => {
             ) : (
                 <>
                     <Link
-                        className="card__link"
+                        className="card__hit-area"
                         href={entry.siteUrl}
                         target="_blank"
                         rel="noopener noreferrer"

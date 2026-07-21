@@ -1,12 +1,15 @@
 .link {
+    border-radius: var(--size-25);
+    color: var(--color-content-primary);
     text-decoration: underline;
 }
 
-.link[data-focus-visible] {
+.link:focus-visible {
     outline: var(--size-border-focus) solid var(--color-border-focus);
     outline-offset: var(--size-border-focus-offset);
 }
 
+.link[aria-disabled],
 .button-link {
     text-decoration: none;
 }

@@ -3,8 +3,8 @@
 import { useSearchParams } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 
-import { Button, Link } from '@/components';
-import { usePathname, useRouter } from '@/lib/i18n/navigation';
+import { Link } from '@/components';
+import { Link as NavLink, usePathname } from '@/lib/i18n/navigation';
 import { routing } from '@/lib/i18n/routing';
 
 import './footer.css';
@@ -21,7 +21,6 @@ const Footer = () => {
     const activeLocale = useLocale();
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    const router = useRouter();
 
     const query = Object.fromEntries(searchParams.entries());
 
@@ -30,17 +29,16 @@ const Footer = () => {
             <div className="footer__content">
                 <div className="footer__locales" role="group" aria-label={t('languageSwitcherLabel')}>
                     {routing.locales.map((locale) => (
-                        <Button
+                        <Link
                             key={locale}
-                            className="footer__locale-button"
-                            size="m"
-                            variant="ghost"
-                            aria-current={locale === activeLocale ? 'true' : undefined}
+                            as={NavLink}
+                            href={{ pathname, query }}
+                            locale={locale}
                             isDisabled={locale === activeLocale}
-                            onClick={() => router.replace({ pathname, query }, { locale })}
+                            aria-current={locale === activeLocale ? 'true' : undefined}
                         >
                             {t(`locale.${locale}`)}
-                        </Button>
+                        </Link>
                     ))}
                 </div>
                 <div className="footer__contact label-m" role="group" aria-label={t('contactLabel')}>

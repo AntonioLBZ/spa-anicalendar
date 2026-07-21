@@ -1,9 +1,8 @@
 import { render, screen, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { useSearchParams } from 'next/navigation';
 import { describe, expect, it, vi } from 'vitest';
 
-import { usePathname, useRouter } from '@/lib/i18n/navigation';
+import { usePathname } from '@/lib/i18n/navigation';
 import { IntlTestWrapper } from '@/lib/test/intl-wrapper';
 
 import { Footer } from '../footer';
@@ -14,35 +13,33 @@ vi.mock('next/navigation', () => ({
 
 vi.mock('@/lib/i18n/navigation', () => ({
     usePathname: vi.fn(() => '/airing'),
-    useRouter: vi.fn(),
+    Link: ({ href, locale, children, ...rest }: { href: unknown; locale?: string; children: React.ReactNode }) => (
+        <a href={typeof href === 'string' ? href : JSON.stringify(href)} data-locale={locale} {...rest}>
+            {children}
+        </a>
+    ),
 }));
 
 describe('Footer', () => {
-    it('disables the button for the active locale and enables the other', () => {
-        const replace = vi.fn();
-        vi.mocked(useRouter).mockReturnValue({ replace } as unknown as ReturnType<typeof useRouter>);
+    it('renders the active locale as plain text and the other as a link', () => {
         render(<Footer />, { wrapper: IntlTestWrapper });
 
-        expect(screen.getByRole('button', { name: 'English' })).toBeDisabled();
-        expect(screen.getByRole('button', { name: 'Español' })).toBeEnabled();
+        expect(screen.getByText('English')).not.toHaveAttribute('href');
+        expect(screen.getByRole('link', { name: 'Español' })).toBeInTheDocument();
     });
 
-    it('navigates to the same path/query in the other locale when clicked', async () => {
-        const replace = vi.fn();
-        vi.mocked(useRouter).mockReturnValue({ replace } as unknown as ReturnType<typeof useRouter>);
+    it('links to the same path/query in the other locale', () => {
         vi.mocked(useSearchParams).mockReturnValue(new URLSearchParams('username=foo') as ReturnType<
             typeof useSearchParams
         >);
-        const user = userEvent.setup();
         render(<Footer />, { wrapper: IntlTestWrapper });
 
-        await user.click(screen.getByRole('button', { name: 'Español' }));
-
-        expect(replace).toHaveBeenCalledWith({ pathname: '/airing', query: { username: 'foo' } }, { locale: 'es' });
+        const link = screen.getByRole('link', { name: 'Español' });
+        expect(link).toHaveAttribute('data-locale', 'es');
+        expect(link).toHaveAttribute('href', JSON.stringify({ pathname: '/airing', query: { username: 'foo' } }));
     });
 
     it('renders the contact links pointing at the right external destinations', () => {
-        vi.mocked(useRouter).mockReturnValue({ replace: vi.fn() } as unknown as ReturnType<typeof useRouter>);
         render(<Footer />, { wrapper: IntlTestWrapper });
 
         const group = screen.getByRole('group', { name: 'Contact' });
