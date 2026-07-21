@@ -1,12 +1,8 @@
 .settings__trigger {
     align-items: center;
-    all: unset;
-    border-radius: var(--size-border-radius);
-    color: var(--color-content-secondary);
     cursor: pointer;
     display: flex;
     justify-content: center;
-    padding: var(--size-25);
     transition: color 0.2s ease;
 }
 
@@ -21,9 +17,4 @@
 
 .settings__body {
     gap: var(--size-125);
-}
-
-.issue-text,
-.issue-text__link {
-    color: var(--color-content-primary);
 }

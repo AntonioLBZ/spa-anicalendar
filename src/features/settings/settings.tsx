@@ -1,7 +1,6 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Link } from 'react-aria-components';
 
 import { Button, DismissIcon, Divider, Drawer, DrawerTrigger, GearIcon, Radio, Section } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
@@ -43,7 +42,7 @@ const Settings = () => {
 
     return (
         <DrawerTrigger>
-            <Button className="settings__trigger" aria-label={t('title')}>
+            <Button className="settings__trigger" aria-label={t('title')} size="s" variant="ghost">
                 <GearIcon />
             </Button>
             <Drawer.Root placement="right" className="settings">
@@ -140,24 +139,6 @@ const Settings = () => {
                                 </Radio.Option>
                             ))}
                         </Radio.Group>
-                    </Section.Root>
-                    <Divider />
-                    <Section.Root>
-                        <Section.Title>{t('sections.help')}</Section.Title>
-                        <span className="issue-text body-m">
-                            {t.rich('issueText', {
-                                link: (chunks) => (
-                                    <Link
-                                        className="issue-text__link"
-                                        href="https://github.com/AntonioLBZ/spa-anicalendar/issues/new/choose"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        {chunks}
-                                    </Link>
-                                ),
-                            })}
-                        </span>
                     </Section.Root>
                 </Drawer.Body>
             </Drawer.Root>

@@ -12,6 +12,7 @@
 .radio-option {
     align-items: center;
     background-color: var(--color-bg-primary);
+    border: var(--size-12) solid var(--color-bg-primary);
     border-radius: var(--size-25);
     color: var(--color-content-secondary);
     cursor: pointer;
@@ -25,13 +26,18 @@
     user-select: none;
 }
 
-.radio-option:hover {
-    color: var(--color-content-primary);
-}
-
 .radio-option[data-selected] {
     background-color: var(--color-content-bg-primary);
+    border-color: var(--color-content-bg-primary);
     color: var(--color-content-on-accent);
+}
+
+.radio-option[data-hovered] {
+    background-color: var(--color-bg-primary-hover);
+}
+
+.radio-option[data-selected][data-hovered] {
+    background-color: var(--color-bg-accent);
 }
 
 .radio-option__group .radio-option[data-focus-visible] {

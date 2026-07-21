@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useSyncExternalStore } from 'react';
 
-import type { SeasonalFiltersState } from './seasonal-filters.types';
+import type { SeasonalFiltersState } from './seasonal-filters-context.types';
 
 const STORAGE_KEY = 'anicalendar-seasonal-filters';
 

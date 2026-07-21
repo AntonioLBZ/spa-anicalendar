@@ -6,40 +6,6 @@
     justify-content: center;
 }
 
-.button--primary {
-    background-color: var(--color-content-bg-primary);
-    box-shadow: 0 0 0 var(--color-border-elevation);
-    color: var(--color-content-on-accent);
-}
-
-.button--secondary {
-    background-color: var(--color-bg-primary);
-    border: var(--size-6) solid var(--color-border);
-    color: var(--color-content-primary);
-}
-
-.button--secondary[data-hovered] {
-    background-color: var(--color-bg-hover);
-}
-
-.button--secondary[data-pressed] {
-    background-color: var(--color-bg-highlight);
-}
-
-.button--ghost {
-    background-color: transparent;
-    color: var(--color-content-secondary);
-}
-
-.button--ghost[data-hovered] {
-    background-color: var(--color-bg-hover);
-    color: var(--color-content-primary);
-}
-
-.button--ghost[data-pressed] {
-    background-color: var(--color-bg-highlight);
-}
-
 .button--size-s {
     height: var(--size-250);
     padding-inline: var(--size-75);
@@ -50,7 +16,46 @@
     padding-inline: var(--size-100);
 }
 
-.button:focus-visible {
+.button--primary {
+    --button-hover-bg: var(--color-bg-accent);
+    --button-pressed-bg: var(--color-bg-accent);
+    --button-hover-color: var(--color-content-on-accent);
+
+    background-color: var(--color-content-bg-primary);
+    box-shadow: 0 0 0 var(--color-border-elevation);
+    color: var(--color-content-primary);
+}
+
+.button--secondary {
+    --button-hover-bg: var(--color-bg-secondary-hover);
+    --button-pressed-bg: var(--color-bg-highlight);
+    --button-hover-color: var(--color-content-primary);
+
+    background-color: var(--color-bg-primary);
+    border: var(--size-6) solid var(--color-border);
+    color: var(--color-content-primary);
+}
+
+.button--ghost {
+    --button-hover-bg: transparent;
+    --button-pressed-bg: transparent;
+    --button-hover-color: var(--color-content-primary);
+
+    background-color: transparent;
+    color: var(--color-content-secondary);
+    padding: 0;
+}
+
+.button[data-hovered] {
+    background-color: var(--button-hover-bg);
+    color: var(--button-hover-color);
+}
+
+.button[data-pressed] {
+    background-color: var(--button-pressed-bg);
+}
+
+.button[data-focus-visible] {
     outline: var(--size-border-focus) solid var(--color-border-focus);
     outline-offset: var(--size-border-focus-offset);
 }

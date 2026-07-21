@@ -1,4 +1,4 @@
-import { useSeasonalFilters } from '@/features/seasonal-filters';
+import { useSeasonalFilters } from '@/contexts';
 import { getCurrentSeason } from '@/lib/airing';
 import { useSeasonalMedia } from '@/services';
 

@@ -21,6 +21,13 @@
 		"locale": {
 			"en": "English",
 			"es": "Español"
+		},
+		"contactLabel": "Contacto",
+		"contact": {
+			"github": "GitHub",
+			"anilist": "AniList",
+			"linkedin": "LinkedIn",
+			"issues": "Reportar un problema"
 		}
 	},
 	"notFound": {
@@ -48,6 +55,7 @@
 			"MUSIC": "Música"
 		},
 		"topLabel": "Top",
+		"newSeasonLabel": "Estrenos",
 		"onlyNewSeason": "Solo estrenos de esta temporada",
 		"search": "Buscar",
 		"title": "Filtros de temporada",
@@ -83,8 +91,7 @@
 			"layout": "Diseño",
 			"emptyDays": "Días vacíos",
 			"weekStart": "Inicio de semana",
-			"timeFormat": "Formato de hora",
-			"help": "Ayuda"
+			"timeFormat": "Formato de hora"
 		},
 		"theme": {
 			"system": "Sistema",
@@ -111,8 +118,7 @@
 		"timeFormat": {
 			"24h": "24h",
 			"12h": "12h"
-		},
-		"issueText": "¿Algún problema? Haz clic <link>aquí</link>"
+		}
 	},
 	"calendarToolbar": {
 		"edit": "Gestionar visibilidad",
