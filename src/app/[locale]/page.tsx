@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
 import { Form } from 'react-aria-components';
 
-import { Button, Field, Link, Radio } from '@/components';
+import { Button, Divider, Field, Link, Radio } from '@/components';
 import { useSettingsContext } from '@/contexts';
 import { SOURCE_OPTIONS } from '@/contexts/settings-context/options';
 import { Link as NavLink, useRouter } from '@/lib/i18n/navigation';
@@ -73,6 +73,8 @@ export default function HomePage() {
                     </Button>
                 </div>
             </Form>
+            <Divider className="home__divider" />
+            <p className="home__title body-l">{t('noUsernameLead')}</p>
             <Link as={NavLink} variant="secondary" href="/airing">
                 {t('browseSeason')}
             </Link>

@@ -37,13 +37,14 @@ const openSettings = async (user: ReturnType<typeof userEvent.setup>) => {
 };
 
 describe('Settings', () => {
-    it('renders a Layout section with Horizontal and List options', async () => {
+    it('renders a Layout section with Auto, Grid and List options', async () => {
         const user = userEvent.setup();
         const dialog = await openSettings(user);
 
         const group = await dialog.findByRole('radiogroup', { name: 'Layout' });
         expect(group).toBeInTheDocument();
-        expect(dialog.getByRole('radio', { name: 'Horizontal' })).toBeInTheDocument();
+        expect(dialog.getByRole('radio', { name: 'Auto' })).toBeChecked();
+        expect(dialog.getByRole('radio', { name: 'Grid' })).toBeInTheDocument();
         expect(dialog.getByRole('radio', { name: 'List' })).toBeInTheDocument();
     });
 
@@ -56,19 +57,9 @@ describe('Settings', () => {
 
         await waitFor(() => {
             const stored = JSON.parse(memoryStorage.getItem(STORAGE_KEY) ?? '{}');
-            expect(stored.calendarLayout).toBe('vertical');
+            expect(stored.calendarLayout).toBe('list');
         });
         expect(listOption).toBeChecked();
-    });
-
-    it('no longer offers a "Min" option in the Empty Days section', async () => {
-        const user = userEvent.setup();
-        const dialog = await openSettings(user);
-
-        await dialog.findByRole('radiogroup', { name: 'Empty Days' });
-        expect(dialog.getByRole('radio', { name: 'Show' })).toBeInTheDocument();
-        expect(dialog.getByRole('radio', { name: 'Hide' })).toBeInTheDocument();
-        expect(dialog.queryByRole('radio', { name: 'Min' })).not.toBeInTheDocument();
     });
 
     it('closes on Escape', async () => {

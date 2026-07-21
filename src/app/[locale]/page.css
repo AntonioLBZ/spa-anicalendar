@@ -36,3 +36,8 @@
     gap: var(--size-50);
     width: 100%;
 }
+
+.home__divider {
+    max-width: var(--size-4000);
+    width: 100%;
+}

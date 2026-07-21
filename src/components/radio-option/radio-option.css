@@ -40,7 +40,7 @@
     background-color: var(--color-bg-accent);
 }
 
-.radio-option__group .radio-option[data-focus-visible] {
+.radio-option[data-focus-visible] {
     outline: var(--size-border-focus) solid var(--color-border-focus);
     outline-offset: var(--size-border-focus-offset);
 }

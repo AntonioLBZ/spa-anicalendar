@@ -35,7 +35,7 @@
 }
 
 .day__today-badge {
-    margin-block-start: calc(-1 * var(--size-12));
+    margin-block: calc(-1 * var(--size-12)) calc(-1 * var(--size-6));
 }
 
 .day__entries {
@@ -54,23 +54,19 @@
 
 .day--row {
     align-items: stretch;
-    overflow-x: auto;
-    position: relative;
     width: 100%;
 }
 
 .day--row .day__header {
     flex: 0 0 auto;
     justify-content: center;
-    left: 0;
-    position: sticky;
     width: 100%;
-    z-index: 1;
 }
 
 .day--row .day__entries {
     flex-direction: row;
     height: auto;
+    overflow-x: auto;
     padding: var(--size-100) var(--size-150);
     width: 100%;
 }

@@ -97,8 +97,8 @@ describe('WeeklyCalendar layout', () => {
         });
     });
 
-    it('renders vertical mode: container has weekly-calendar__list, no --columns var, and every day carries day--row', async () => {
-        setStoredSettings({ calendarLayout: 'vertical' });
+    it('renders list mode: container has weekly-calendar__list, no --columns var, and every day carries day--row', async () => {
+        setStoredSettings({ calendarLayout: 'list' });
         const entries = [makeEntry(1, 0), makeEntry(2, 1), makeEntry(3, 2)];
 
         render(<WeeklyCalendar entries={entries} />, { wrapper: Wrapper });

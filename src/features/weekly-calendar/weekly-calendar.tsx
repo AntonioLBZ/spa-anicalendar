@@ -6,7 +6,7 @@ import React, { useMemo } from 'react';
 import { Divider } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { AnimeCard } from '@/features/anime-card';
-import { getAiringDay, getNextAiringEntryId, getTodayIndex } from '@/lib/airing';
+import { getAiringDay, getAiringMinuteOfDay, getNextAiringEntryId, getTodayIndex } from '@/lib/airing';
 import { useLayoutMode } from '@/lib/use-layout-mode';
 
 import { filterByContent, filterByHidden } from './filters';
@@ -15,7 +15,7 @@ import { getGridConfigForLayout } from './weekly-calendar-layout';
 
 import './weekly-calendar.css';
 
-import type { WeeklyCalendarProps } from './weekly-calendar.types';
+import type { ResolvedCalendarLayout, WeeklyCalendarProps } from './weekly-calendar.types';
 import type { WeekStartDay } from '@/contexts/settings-context';
 import type { AnimeEntry } from '@/services';
 
@@ -40,6 +40,13 @@ const groupByAiringDay = (
         } else {
             noAiring.push(entry);
         }
+    }
+
+    for (const day of Object.values(days)) {
+        day.sort(
+            (a, b) =>
+                getAiringMinuteOfDay(a.nextAiringEpisode!.airingAt) - getAiringMinuteOfDay(b.nextAiringEpisode!.airingAt)
+        );
     }
 
     return { days, noAiring };
@@ -84,7 +91,9 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
 
     const visibleDays = Object.entries(days).filter(([, entries]) => !(hideEmptyDays && entries.length === 0));
 
-    const isVertical = calendarLayout === 'vertical';
+    const resolvedLayout: ResolvedCalendarLayout =
+        calendarLayout === 'auto' ? (layoutMode === 'desktop' ? 'grid' : 'list') : calendarLayout;
+    const isVertical = resolvedLayout === 'list';
 
     const style = isVertical
         ? undefined
@@ -106,7 +115,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
                             entries={entries}
                             isToday={Number(dayIndex) === todayIndex}
                             weekStartDay={weekStartDay}
-                            layout={calendarLayout}
+                            layout={resolvedLayout}
                             isEditMode={isEditMode}
                             hiddenIds={hiddenIds}
                             onToggleEntry={onToggleEntry}

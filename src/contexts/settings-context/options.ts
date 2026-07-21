@@ -7,7 +7,7 @@ const CONTENT_FILTER_OPTIONS: ContentFilter[] = ['sfw', 'plus16', 'plus18'];
 
 const EMPTY_DAYS_OPTIONS: EmptyDaysMode[] = ['show', 'hide'];
 
-const CALENDAR_LAYOUT_OPTIONS: CalendarLayout[] = ['grid', 'vertical'];
+const CALENDAR_LAYOUT_OPTIONS: CalendarLayout[] = ['auto', 'grid', 'list'];
 
 const WEEK_START_OPTIONS: WeekStartDay[] = ['monday', 'sunday'];
 

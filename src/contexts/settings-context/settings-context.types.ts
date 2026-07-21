@@ -6,7 +6,7 @@ type ThemeMode = 'system' | 'light' | 'dark';
 type ResolvedThemeMode = Exclude<ThemeMode, 'system'>;
 type WeekStartDay = 'monday' | 'sunday';
 type TimeFormat = '12h' | '24h';
-type CalendarLayout = 'grid' | 'vertical';
+type CalendarLayout = 'auto' | 'grid' | 'list';
 
 interface SettingsContextValue {
     provider: Provider;

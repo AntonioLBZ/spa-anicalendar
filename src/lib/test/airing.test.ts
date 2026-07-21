@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { getCalendarStats, getCurrentSeason, getNextAiringEntryId } from '../airing';
+import { getAiringMinuteOfDay, getCalendarStats, getCurrentSeason, getNextAiringEntryId } from '../airing';
 
 import type { AnimeEntry } from '@/services';
 
@@ -51,6 +51,27 @@ describe('getNextAiringEntryId', () => {
         const entries = [baseEntry({ id: 1 }), baseEntry({ id: 2 })];
 
         expect(getNextAiringEntryId(entries)).toBeNull();
+    });
+});
+
+describe('getAiringMinuteOfDay', () => {
+    it('returns the local minute-of-day for a timestamp', () => {
+        const morning = new Date(2026, 3, 7, 9, 15);
+        const evening = new Date(2026, 3, 14, 20, 30);
+
+        expect(getAiringMinuteOfDay(Math.floor(morning.getTime() / 1000))).toBe(9 * 60 + 15);
+        expect(getAiringMinuteOfDay(Math.floor(evening.getTime() / 1000))).toBe(20 * 60 + 30);
+    });
+
+    it('ranks by time of day even when absolute epoch ordering disagrees across weeks', () => {
+        // Same weekday, different calendar weeks: a later time this week has an earlier epoch
+        // than an earlier time next week — entries grouped by weekday alone (see getAiringDay)
+        // must not be ordered by raw epoch, or "this week 18:35" would sort before "next week 13:30".
+        const laterTimeThisWeek = Math.floor(new Date(2026, 3, 7, 18, 35).getTime() / 1000);
+        const earlierTimeNextWeek = Math.floor(new Date(2026, 3, 14, 13, 30).getTime() / 1000);
+
+        expect(laterTimeThisWeek).toBeLessThan(earlierTimeNextWeek);
+        expect(getAiringMinuteOfDay(earlierTimeNextWeek)).toBeLessThan(getAiringMinuteOfDay(laterTimeThisWeek));
     });
 });
 

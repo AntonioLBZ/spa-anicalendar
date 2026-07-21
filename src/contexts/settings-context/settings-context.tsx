@@ -37,7 +37,7 @@ const DEFAULTS: SettingsState = {
     emptyDaysMode: 'show',
     weekStartDay: 'monday',
     timeFormat: '24h',
-    calendarLayout: 'grid',
+    calendarLayout: 'auto',
 };
 
 const settingsStore = createPersistedStore<SettingsState>(STORAGE_KEY, DEFAULTS, (defaults, saved) => ({

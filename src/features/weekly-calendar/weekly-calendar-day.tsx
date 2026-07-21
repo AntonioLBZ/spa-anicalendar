@@ -25,7 +25,7 @@ const WeeklyCalendarDay = ({
     const t = useTranslations('weeklyCalendar');
     const dayId = `day-${dayIndex}`;
     const isEmpty = entries.length === 0;
-    const dayClsx = clsx('day', { 'day--today': isToday, 'day--row': layout === 'vertical' });
+    const dayClsx = clsx('day', { 'day--today': isToday, 'day--row': layout === 'list' });
     const dayKey = getDayKey(dayIndex, weekStartDay);
 
     return (

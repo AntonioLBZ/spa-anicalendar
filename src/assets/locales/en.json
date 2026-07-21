@@ -14,7 +14,8 @@
 		"errorGeneric": "Something went wrong. Please try again.",
 		"go": "Go",
 		"apiProviderLabel": "API Provider",
-		"browseSeason": "Browse what's airing this season"
+		"noUsernameLead": "Don't have a username? Explore what's airing this season.",
+		"browseSeason": "Browse season"
 	},
 	"footer": {
 		"languageSwitcherLabel": "Language",
@@ -104,8 +105,9 @@
 			"plus18": "+18"
 		},
 		"layout": {
-			"grid": "Horizontal",
-			"vertical": "List"
+			"auto": "Auto",
+			"grid": "Grid",
+			"list": "List"
 		},
 		"emptyDays": {
 			"show": "Show",

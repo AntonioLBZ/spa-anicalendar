@@ -25,6 +25,11 @@ const useAiringData = (userName: string | null) => {
         }
     }, [userQuery.data, setUser]);
 
+    // Clear the header's user on unmount
+    useEffect(() => {
+        return () => setUser?.(undefined);
+    }, [setUser]);
+
     const mediaListQuery = useMediaList(provider, userQuery.data);
 
     const queryError = userQuery.error ?? mediaListQuery.error ?? null;

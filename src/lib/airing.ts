@@ -19,6 +19,18 @@ const getAiringDay = (airingAt: number, weekStartDay: WeekStartDay = 'monday'): 
 };
 
 /**
+ * Returns the local minute-of-day (0-1439) for a Unix timestamp — used to order same-weekday
+ * entries by time of day. Two entries grouped into the same weekday bucket (via `getAiringDay`,
+ * which discards the date) can belong to different calendar weeks — e.g. one airs later today
+ * and another already aired this week so its *next* episode falls next week — so comparing raw
+ * `airingAt` epoch values would sort by week instead of by time of day.
+ */
+const getAiringMinuteOfDay = (airingAt: number): number => {
+    const date = new Date(airingAt * 1000);
+    return date.getHours() * 60 + date.getMinutes();
+};
+
+/**
  * Returns a formatted local time string for a Unix timestamp.
  */
 const getLocalAiringTime = (airingAt: number, timeFormat: TimeFormat = '24h'): string => {
@@ -175,6 +187,7 @@ const getCalendarStats = (entries: AnimeEntry[]): CalendarStats => {
 
 export {
     getAiringDay,
+    getAiringMinuteOfDay,
     getLocalAiringTime,
     getTimeUntilAiring,
     getDayKey,

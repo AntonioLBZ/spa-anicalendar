@@ -1,6 +1,9 @@
 import type { CalendarLayout, WeekStartDay } from '@/contexts/settings-context';
 import type { AnimeEntry } from '@/services';
 
+/** `calendarLayout` with `'auto'` resolved away — the concrete layout actually being rendered. */
+type ResolvedCalendarLayout = Exclude<CalendarLayout, 'auto'>;
+
 type WeeklyCalendarProps = {
     entries: AnimeEntry[];
     isEditMode?: boolean;
@@ -25,7 +28,7 @@ type WeeklyCalendarDayProps = {
     entries: AnimeEntry[];
     isToday: boolean;
     weekStartDay: WeekStartDay;
-    layout: CalendarLayout;
+    layout: ResolvedCalendarLayout;
     isEditMode?: boolean;
     hiddenIds?: number[];
     onToggleEntry?: (id: number) => void;
@@ -36,4 +39,4 @@ type WeeklyCalendarDayProps = {
     showWatchStatus?: boolean;
 };
 
-export type { WeeklyCalendarProps, WeeklyCalendarDayProps };
+export type { WeeklyCalendarProps, WeeklyCalendarDayProps, ResolvedCalendarLayout };
