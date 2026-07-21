@@ -1,9 +1,8 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { DialogTrigger, Popover, Dialog, Button, Link } from 'react-aria-components';
 
-import { Radio } from '@/components';
+import { Button, DismissIcon, Divider, Drawer, DrawerTrigger, GearIcon, Radio, Section } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import {
     CONTENT_FILTER_OPTIONS,
@@ -12,8 +11,6 @@ import {
     WEEK_START_OPTIONS,
     CALENDAR_LAYOUT_OPTIONS,
 } from '@/contexts/settings-context/options';
-
-import { GearIcon } from './gear-icon';
 
 import type {
     ContentFilter,
@@ -25,13 +22,6 @@ import type {
 } from '@/contexts/settings-context';
 
 import './settings.css';
-
-const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-    <section className="settings__section">
-        <h3 className="settings__section-title label-m">{title}</h3>
-        {children}
-    </section>
-);
 
 const Settings = () => {
     const t = useTranslations('settings');
@@ -51,13 +41,20 @@ const Settings = () => {
     } = useSettingsContext();
 
     return (
-        <DialogTrigger>
-            <Button className="settings__trigger" aria-label={t('trigger')}>
+        <DrawerTrigger>
+            <Button className="settings__trigger" aria-label={t('title')} size="s" variant="ghost">
                 <GearIcon />
             </Button>
-            <Popover placement="bottom end" className="settings__panel">
-                <Dialog className="settings__dialog">
-                    <Section title={t('sections.theme')}>
+            <Drawer.Root placement="right" className="settings">
+                <Drawer.Header>
+                    <span>{t('title')}</span>
+                    <Button className="settings__close" aria-label={t('close')} slot="close" size="s" variant="ghost">
+                        <DismissIcon />
+                    </Button>
+                </Drawer.Header>
+                <Drawer.Body className="settings__body">
+                    <Section.Root>
+                        <Section.Title>{t('sections.theme')}</Section.Title>
                         <Radio.Group
                             aria-label={t('sections.theme')}
                             value={theme}
@@ -67,8 +64,10 @@ const Settings = () => {
                             <Radio.Option value="dark">{t('theme.dark')}</Radio.Option>
                             <Radio.Option value="light">{t('theme.light')}</Radio.Option>
                         </Radio.Group>
-                    </Section>
-                    <Section title={t('sections.content')}>
+                    </Section.Root>
+                    <Divider />
+                    <Section.Root>
+                        <Section.Title>{t('sections.content')}</Section.Title>
                         <Radio.Group
                             aria-label={t('sections.content')}
                             value={contentFilter}
@@ -80,8 +79,10 @@ const Settings = () => {
                                 </Radio.Option>
                             ))}
                         </Radio.Group>
-                    </Section>
-                    <Section title={t('sections.layout')}>
+                    </Section.Root>
+                    <Divider />
+                    <Section.Root>
+                        <Section.Title>{t('sections.layout')}</Section.Title>
                         <Radio.Group
                             aria-label={t('sections.layout')}
                             value={calendarLayout}
@@ -93,8 +94,10 @@ const Settings = () => {
                                 </Radio.Option>
                             ))}
                         </Radio.Group>
-                    </Section>
-                    <Section title={t('sections.emptyDays')}>
+                    </Section.Root>
+                    <Divider />
+                    <Section.Root>
+                        <Section.Title>{t('sections.emptyDays')}</Section.Title>
                         <Radio.Group
                             aria-label={t('sections.emptyDays')}
                             value={emptyDaysMode}
@@ -106,8 +109,10 @@ const Settings = () => {
                                 </Radio.Option>
                             ))}
                         </Radio.Group>
-                    </Section>
-                    <Section title={t('sections.weekStart')}>
+                    </Section.Root>
+                    <Divider />
+                    <Section.Root>
+                        <Section.Title>{t('sections.weekStart')}</Section.Title>
                         <Radio.Group
                             aria-label={t('sections.weekStart')}
                             value={weekStartDay}
@@ -119,8 +124,10 @@ const Settings = () => {
                                 </Radio.Option>
                             ))}
                         </Radio.Group>
-                    </Section>
-                    <Section title={t('sections.timeFormat')}>
+                    </Section.Root>
+                    <Divider />
+                    <Section.Root>
+                        <Section.Title>{t('sections.timeFormat')}</Section.Title>
                         <Radio.Group
                             aria-label={t('sections.timeFormat')}
                             value={timeFormat}
@@ -132,26 +139,10 @@ const Settings = () => {
                                 </Radio.Option>
                             ))}
                         </Radio.Group>
-                    </Section>
-                    <Section title={t('sections.help')}>
-                        <span className="issue-text body-m">
-                            {t.rich('issueText', {
-                                link: (chunks) => (
-                                    <Link
-                                        className="issue-text__link"
-                                        href="https://github.com/AntonioLBZ/spa-anicalendar/issues/new/choose"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        {chunks}
-                                    </Link>
-                                ),
-                            })}
-                        </span>
-                    </Section>
-                </Dialog>
-            </Popover>
-        </DialogTrigger>
+                    </Section.Root>
+                </Drawer.Body>
+            </Drawer.Root>
+        </DrawerTrigger>
     );
 };
 

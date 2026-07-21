@@ -29,7 +29,10 @@
 }
 
 .weekly-calendar__section-header {
+    align-items: center;
     color: var(--color-content-secondary);
+    display: flex;
+    justify-content: space-between;
 }
 
 .weekly-calendar__section-entries {

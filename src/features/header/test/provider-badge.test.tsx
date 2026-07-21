@@ -13,9 +13,6 @@ describe('ProviderBadge', () => {
 
         rerender(<ProviderBadge provider="kitsu" />);
         expect(screen.getByTitle('kitsu')).toHaveTextContent('K');
-
-        rerender(<ProviderBadge provider="mock" />);
-        expect(screen.getByTitle('mock')).toHaveTextContent('?');
     });
 
     it('uses a different background color per provider', () => {

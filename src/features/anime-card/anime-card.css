@@ -10,7 +10,7 @@
     position: relative;
 }
 
-.card__link {
+.card__hit-area {
     background: none;
     border: none;
     cursor: pointer;
@@ -19,7 +19,7 @@
     position: absolute;
 }
 
-.card__link:focus-visible {
+.card__hit-area:focus-visible {
     outline: var(--size-12) solid var(--color-border-focus);
     outline-offset: calc(-1 * var(--size-12));
 }
@@ -36,7 +36,7 @@
     position: absolute;
 }
 
-.card:has(.card__link[data-selected]) {
+.card:has(.card__hit-area[data-selected]) {
     opacity: 0.4;
 }
 
@@ -144,6 +144,8 @@
 
 .card__pending {
     display: flex;
+    flex-wrap: wrap;
+    gap: var(--size-25);
     justify-content: space-between;
 }
 
@@ -204,13 +206,13 @@
 
 .card--expanded .card__hover-content,
 .card--hovered .card__hover-content,
-.card:has(.card__link:focus-visible) .card__hover-content {
+.card:has(.card__hit-area:focus-visible) .card__hover-content {
     animation: card-slide-up 0.25s ease forwards;
 }
 
 .card--expanded .card__hover-inner,
 .card--hovered .card__hover-inner,
-.card:has(.card__link:focus-visible) .card__hover-inner {
+.card:has(.card__hit-area:focus-visible) .card__hover-inner {
     transform: translateY(0%);
 }
 

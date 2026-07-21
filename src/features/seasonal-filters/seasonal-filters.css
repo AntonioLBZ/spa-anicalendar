@@ -1,0 +1,16 @@
+.seasonal-filters {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-125);
+    height: 100%;
+}
+
+.seasonal-filters__submit {
+    width: 100%;
+}
+
+@media (width <= 768px) {
+    .seasonal-filters__submit {
+        margin-block: auto var(--size-50);
+    }
+}

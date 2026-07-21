@@ -19,11 +19,13 @@ const WeeklyCalendarDay = ({
     hiddenIds = [],
     onToggleEntry,
     nextAiringEntryId = null,
+    showProgress = true,
+    showWatchStatus = true,
 }: WeeklyCalendarDayProps) => {
     const t = useTranslations('weeklyCalendar');
     const dayId = `day-${dayIndex}`;
     const isEmpty = entries.length === 0;
-    const dayClsx = clsx('day', { 'day--today': isToday, 'day--row': layout === 'vertical' });
+    const dayClsx = clsx('day', { 'day--today': isToday, 'day--row': layout === 'list' });
     const dayKey = getDayKey(dayIndex, weekStartDay);
 
     return (
@@ -46,6 +48,8 @@ const WeeklyCalendarDay = ({
                             isHidden={hiddenIds.includes(entry.id)}
                             onToggle={() => onToggleEntry?.(entry.id)}
                             isNextAiring={entry.id === nextAiringEntryId}
+                            showProgress={showProgress}
+                            showWatchStatus={showWatchStatus}
                         />
                     ))
                 ) : (

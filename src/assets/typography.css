@@ -1,18 +1,3 @@
-/* Title */
-.title-l {
-    font-size: var(--size-150);
-    font-weight: 700;
-    letter-spacing: normal;
-    line-height: 1.2;
-}
-
-.title-m {
-    font-size: var(--size-125);
-    font-weight: 700;
-    letter-spacing: normal;
-    line-height: 1.2;
-}
-
 /* Body */
 .body-l {
     font-size: var(--size-100);
@@ -22,14 +7,14 @@
 }
 
 .body-m {
-    font-size: var(--size-75);
+    font-size: var(--size-87);
     font-weight: 400;
     letter-spacing: normal;
     line-height: 1.4;
 }
 
 .body-s {
-    font-size: var(--size-62);
+    font-size: var(--size-75);
     font-weight: 400;
     letter-spacing: var(--size-3);
     line-height: 1.3;
@@ -44,15 +29,30 @@
 }
 
 .label-m {
-    font-size: var(--size-75);
+    font-size: var(--size-87);
     font-weight: 600;
     letter-spacing: normal;
     line-height: 1.2;
 }
 
 .label-s {
-    font-size: var(--size-62);
+    font-size: var(--size-75);
     font-weight: 600;
     letter-spacing: var(--size-3);
+    line-height: 1.2;
+}
+
+/* Title */
+.title-l {
+    font-size: var(--size-150);
+    font-weight: 700;
+    letter-spacing: normal;
+    line-height: 1.2;
+}
+
+.title-m {
+    font-size: var(--size-125);
+    font-weight: 700;
+    letter-spacing: normal;
     line-height: 1.2;
 }

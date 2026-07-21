@@ -3,6 +3,7 @@
 import { useSyncExternalStore, useEffect, useMemo, useCallback, type ReactNode } from 'react';
 
 import { createContext } from '@/lib/context';
+import { createPersistedStore } from '@/lib/create-persisted-store';
 
 import { useResolvedTheme } from '../../lib/use-theme';
 
@@ -36,36 +37,13 @@ const DEFAULTS: SettingsState = {
     emptyDaysMode: 'show',
     weekStartDay: 'monday',
     timeFormat: '24h',
-    calendarLayout: 'grid',
+    calendarLayout: 'auto',
 };
 
-let listeners: Array<() => void> = [];
-let currentSettings: SettingsState = DEFAULTS;
-
-const settingsStore = {
-    getSnapshot: () => currentSettings,
-    getServerSnapshot: () => DEFAULTS,
-    subscribe: (listener: () => void) => {
-        listeners = [...listeners, listener];
-        return () => {
-            listeners = listeners.filter((l) => l !== listener);
-        };
-    },
-    set: (updater: (prev: SettingsState) => SettingsState) => {
-        currentSettings = updater(currentSettings);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(currentSettings));
-        listeners.forEach((l) => l());
-    },
-    hydrate: () => {
-        try {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            if (saved) {
-                currentSettings = { ...DEFAULTS, ...JSON.parse(saved) };
-                listeners.forEach((l) => l());
-            }
-        } catch {}
-    },
-};
+const settingsStore = createPersistedStore<SettingsState>(STORAGE_KEY, DEFAULTS, (defaults, saved) => ({
+    ...defaults,
+    ...saved,
+}));
 
 const [SettingsContext, useSettingsContext] = createContext<SettingsContextValue>();
 

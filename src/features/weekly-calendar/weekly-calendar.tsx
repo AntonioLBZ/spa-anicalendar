@@ -6,7 +6,7 @@ import React, { useMemo } from 'react';
 import { Divider } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { AnimeCard } from '@/features/anime-card';
-import { getAiringDay, getNextAiringEntryId, getTodayIndex } from '@/lib/airing';
+import { getAiringDay, getAiringMinuteOfDay, getNextAiringEntryId, getTodayIndex } from '@/lib/airing';
 import { useLayoutMode } from '@/lib/use-layout-mode';
 
 import { filterByContent, filterByHidden } from './filters';
@@ -15,7 +15,7 @@ import { getGridConfigForLayout } from './weekly-calendar-layout';
 
 import './weekly-calendar.css';
 
-import type { WeeklyCalendarProps } from './weekly-calendar.types';
+import type { ResolvedCalendarLayout, WeeklyCalendarProps } from './weekly-calendar.types';
 import type { WeekStartDay } from '@/contexts/settings-context';
 import type { AnimeEntry } from '@/services';
 
@@ -42,11 +42,27 @@ const groupByAiringDay = (
         }
     }
 
+    for (const day of Object.values(days)) {
+        day.sort(
+            (a, b) =>
+                getAiringMinuteOfDay(a.nextAiringEpisode!.airingAt) - getAiringMinuteOfDay(b.nextAiringEpisode!.airingAt)
+        );
+    }
+
     return { days, noAiring };
 };
 
 const WeeklyCalendar = (props: WeeklyCalendarProps) => {
-    const { entries, isEditMode = false, hiddenIds = [], onToggleEntry } = props;
+    const {
+        entries,
+        isEditMode = false,
+        hiddenIds = [],
+        onToggleEntry,
+        showProgress = true,
+        showWatchStatus = true,
+        emptyMessage,
+        sectionHeaderAction,
+    } = props;
     const { contentFilter, emptyDaysMode, weekStartDay, calendarLayout } = useSettingsContext();
     const layoutMode = useLayoutMode();
     const t = useTranslations('weeklyCalendar');
@@ -60,14 +76,24 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
     const { days, noAiring } = useMemo(() => groupByAiringDay(filtered, weekStartDay), [filtered, weekStartDay]);
 
     if (filtered.length === 0) {
-        return <div className="weekly-calendar body-l">{t('emptyList')}</div>;
+        return (
+            <div className="weekly-calendar body-l">
+                <div className="weekly-calendar__section-header label-l">
+                    {t('sectionHeader')}
+                    {sectionHeaderAction}
+                </div>
+                <div className="weekly-calendar__empty">{emptyMessage ?? t('emptyList')}</div>
+            </div>
+        );
     }
 
     const hideEmptyDays = emptyDaysMode === 'hide';
 
     const visibleDays = Object.entries(days).filter(([, entries]) => !(hideEmptyDays && entries.length === 0));
 
-    const isVertical = calendarLayout === 'vertical';
+    const resolvedLayout: ResolvedCalendarLayout =
+        calendarLayout === 'auto' ? (layoutMode === 'desktop' ? 'grid' : 'list') : calendarLayout;
+    const isVertical = resolvedLayout === 'list';
 
     const style = isVertical
         ? undefined
@@ -77,7 +103,10 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
     return (
         <div className="weekly-calendar body-l" style={style}>
             <div className="weekly-calendar__section">
-                <div className="weekly-calendar__section-header label-l">{t('sectionHeader')}</div>
+                <div className="weekly-calendar__section-header label-l">
+                    {t('sectionHeader')}
+                    {sectionHeaderAction}
+                </div>
                 <div className={containerClsx} role="list" aria-label={t('sectionHeader')}>
                     {visibleDays.map(([dayIndex, entries]) => (
                         <WeeklyCalendarDay
@@ -86,18 +115,20 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
                             entries={entries}
                             isToday={Number(dayIndex) === todayIndex}
                             weekStartDay={weekStartDay}
-                            layout={calendarLayout}
+                            layout={resolvedLayout}
                             isEditMode={isEditMode}
                             hiddenIds={hiddenIds}
                             onToggleEntry={onToggleEntry}
                             nextAiringEntryId={nextAiringEntryId}
+                            showProgress={showProgress}
+                            showWatchStatus={showWatchStatus}
                         />
                     ))}
                 </div>
             </div>
             {noAiring.length > 0 && (
                 <>
-                    <Divider />
+                    <Divider size="l" />
                     <div className="weekly-calendar__section">
                         <div className="weekly-calendar__section-header label-l">{t('noUpcoming')}</div>
                         <div className="weekly-calendar__section-entries">
@@ -109,6 +140,8 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
                                     isHidden={hiddenIds.includes(entry.id)}
                                     onToggle={() => onToggleEntry?.(entry.id)}
                                     isNextAiring={entry.id === nextAiringEntryId}
+                                    showProgress={showProgress}
+                                    showWatchStatus={showWatchStatus}
                                 />
                             ))}
                         </div>

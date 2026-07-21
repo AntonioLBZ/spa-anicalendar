@@ -34,7 +34,7 @@
 }
 
 .header__nav {
-    color: var(--color-content-bright);
+    color: var(--color-content-primary);
     display: flex;
     flex: 1;
     gap: var(--size-100);
@@ -54,7 +54,6 @@
     color: var(--color-content-secondary);
     display: flex;
     gap: var(--size-50);
-    text-decoration: none;
 }
 
 .header__user-link:hover {

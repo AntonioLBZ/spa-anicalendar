@@ -1,91 +1,20 @@
 .settings__trigger {
     align-items: center;
-    all: unset;
-    border-radius: var(--size-border-radius);
-    color: var(--color-content-secondary);
     cursor: pointer;
     display: flex;
     justify-content: center;
-    padding: var(--size-25);
     transition: color 0.2s ease;
 }
 
-.settings__trigger:hover {
+.settings__trigger[data-hovered] {
     color: var(--color-content-primary);
 }
 
-.settings__trigger[data-focused] {
+.settings__trigger[data-focus-visible] {
     outline: var(--size-border-focus) solid var(--color-border-focus);
     outline-offset: var(--size-border-focus-offset);
 }
 
-.settings__panel {
-    background-color: var(--color-bg-secondary);
-    border: var(--size-6) solid var(--color-border-elevation);
-    border-radius: var(--size-border-radius);
-    box-shadow: 0 var(--size-25) var(--size-100) var(--color-border-elevation-2);
-    min-width: var(--size-1300);
-    padding: var(--size-50);
-}
-
-.settings__panel[data-entering] {
-    animation: settings-fade-in 0.15s ease-out;
-}
-
-.settings__panel[data-exiting] {
-    animation: settings-fade-out 0.1s ease-in;
-}
-
-.issue-text,
-.issue-text__link {
-    color: var(--color-content-primary);
-}
-
-@keyframes settings-fade-in {
-    from {
-        opacity: 0;
-        transform: translateY(-4px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes settings-fade-out {
-    from {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    to {
-        opacity: 0;
-        transform: translateY(-4px);
-    }
-}
-
-.settings__dialog {
-    outline: none;
-}
-
-.settings__section {
-    padding-block: var(--size-50);
-}
-
-.settings__section + .settings__section {
-    border-top: var(--size-6) solid var(--color-border-elevation-2);
-}
-
-.settings__section--disabled {
-    opacity: 0.5;
-    pointer-events: none;
-}
-
-.settings__section-title {
-    color: var(--color-content-secondary);
-    letter-spacing: var(--size-6);
-    margin: 0;
-    margin-bottom: var(--size-25);
-    text-transform: uppercase;
+.settings__body {
+    gap: var(--size-125);
 }

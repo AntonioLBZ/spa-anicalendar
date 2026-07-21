@@ -1,5 +1,5 @@
 import type { WeekStartDay, TimeFormat } from '@/contexts/settings-context';
-import type { AnimeEntry } from '@/services';
+import type { AnimeEntry, MediaSeason } from '@/services';
 
 type DayKey = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
 
@@ -16,6 +16,18 @@ const getAiringDay = (airingAt: number, weekStartDay: WeekStartDay = 'monday'): 
     }
 
     return jsDay === 0 ? 6 : jsDay - 1;
+};
+
+/**
+ * Returns the local minute-of-day (0-1439) for a Unix timestamp — used to order same-weekday
+ * entries by time of day. Two entries grouped into the same weekday bucket (via `getAiringDay`,
+ * which discards the date) can belong to different calendar weeks — e.g. one airs later today
+ * and another already aired this week so its *next* episode falls next week — so comparing raw
+ * `airingAt` epoch values would sort by week instead of by time of day.
+ */
+const getAiringMinuteOfDay = (airingAt: number): number => {
+    const date = new Date(airingAt * 1000);
+    return date.getHours() * 60 + date.getMinutes();
 };
 
 /**
@@ -124,6 +136,22 @@ const formatCountdown = (t: CountdownTranslator, countdown: CountdownBreakdown):
 };
 
 /**
+ * Returns the current AniList season and year for a given date.
+ * AniList seasons: WINTER=Dec-Feb, SPRING=Mar-May, SUMMER=Jun-Aug, FALL=Sep-Nov.
+ * December belongs to WINTER of the *following* year (AniList convention).
+ */
+const getCurrentSeason = (date: Date = new Date()): { season: MediaSeason; seasonYear: number } => {
+    const month = date.getMonth();
+    const year = date.getFullYear();
+
+    if (month === 11) return { season: 'WINTER', seasonYear: year + 1 };
+    if (month <= 1) return { season: 'WINTER', seasonYear: year };
+    if (month <= 4) return { season: 'SPRING', seasonYear: year };
+    if (month <= 7) return { season: 'SUMMER', seasonYear: year };
+    return { season: 'FALL', seasonYear: year };
+};
+
+/**
  * Aggregate stats over a set of (already visible/filtered) entries:
  * total pending episodes, total pending watch time, and the soonest upcoming airing time.
  */
@@ -143,7 +171,7 @@ const getCalendarStats = (entries: AnimeEntry[]): CalendarStats => {
         const nextEp = entry.nextAiringEpisode;
         if (!nextEp) continue;
 
-        const pending = nextEp.episode - entry.progress - 1;
+        const pending = entry.progress !== undefined ? nextEp.episode - entry.progress - 1 : 0;
         if (pending > 0) {
             pendingEpisodes += pending;
             if (entry.duration) pendingMinutes += pending * entry.duration;
@@ -159,6 +187,7 @@ const getCalendarStats = (entries: AnimeEntry[]): CalendarStats => {
 
 export {
     getAiringDay,
+    getAiringMinuteOfDay,
     getLocalAiringTime,
     getTimeUntilAiring,
     getDayKey,
@@ -166,5 +195,6 @@ export {
     getNextAiringEntryId,
     getCalendarStats,
     formatCountdown,
+    getCurrentSeason,
 };
 export type { DayKey, CountdownBreakdown, CalendarStats, CountdownTranslator };

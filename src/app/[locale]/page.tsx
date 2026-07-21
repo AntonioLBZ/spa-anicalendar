@@ -5,10 +5,10 @@ import { useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
 import { Form } from 'react-aria-components';
 
-import { Button, Field, Radio } from '@/components';
+import { Button, Divider, Field, Link, Radio } from '@/components';
 import { useSettingsContext } from '@/contexts';
 import { SOURCE_OPTIONS } from '@/contexts/settings-context/options';
-import { useRouter } from '@/lib/i18n/navigation';
+import { Link as NavLink, useRouter } from '@/lib/i18n/navigation';
 import { getProvider, isUserNotFoundError, userQueryKey } from '@/services';
 
 import './page.css';
@@ -50,9 +50,16 @@ export default function HomePage() {
 
     return (
         <main className="home">
-            <h1 className="home__title title-l">{t('title')}</h1>
-            <p className="home__subtitle body-l">{t('subtitle')}</p>
+            <p className="home__title body-l">{t('title')}</p>
+            <p className="home__subtitle body-m">{t('subtitle')}</p>
             <Form className="home__form" validationErrors={validationErrors} onSubmit={handleSubmit}>
+                <Radio.Group aria-label={t('apiProviderLabel')} value={provider} onChange={setProvider}>
+                    {SOURCE_OPTIONS.map((option) => (
+                        <Radio.Option key={option.value} value={option.value}>
+                            {option.label}
+                        </Radio.Option>
+                    ))}
+                </Radio.Group>
                 <div className="home__input-group">
                     <Field.Root name="username" value={userName} onChange={handleUserNameChange}>
                         <Field.Control>
@@ -65,14 +72,12 @@ export default function HomePage() {
                         {t('go')}
                     </Button>
                 </div>
-                <Radio.Group aria-label={t('apiProviderLabel')} value={provider} onChange={setProvider}>
-                    {SOURCE_OPTIONS.map((option) => (
-                        <Radio.Option key={option.value} value={option.value} className="home__radio-option">
-                            {option.label}
-                        </Radio.Option>
-                    ))}
-                </Radio.Group>
             </Form>
+            <Divider className="home__divider" />
+            <p className="home__title body-l">{t('noUsernameLead')}</p>
+            <Link as={NavLink} variant="secondary" href="/airing">
+                {t('browseSeason')}
+            </Link>
         </main>
     );
 }

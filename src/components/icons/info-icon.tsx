@@ -1,5 +1,7 @@
-const InfoIcon = () => (
-    <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+import type { IconProps } from './icon.types';
+
+const InfoIcon = (props: IconProps) => (
+    <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" {...props}>
         <path
             fillRule="evenodd"
             clipRule="evenodd"

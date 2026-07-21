@@ -1,8 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { NextIntlClientProvider } from 'next-intl';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { SettingsProvider } from '@/contexts';
+import { IntlTestWrapper } from '@/lib/test/intl-wrapper';
 import { MemoryStorage } from '@/lib/test/memory-storage';
 
 import { WeeklyCalendar } from '../weekly-calendar';
@@ -24,53 +24,10 @@ vi.mock('@/lib/airing', async (importOriginal) => {
     };
 });
 
-const messages = {
-    weeklyCalendar: {
-        emptyList: 'No anime in your watching list.',
-        sectionHeader: 'Weekly anime schedule',
-        noUpcoming: 'No upcoming episodes',
-        today: 'Today',
-        noEpisodes: 'No episodes',
-        entriesCount: 'Entries: {count}',
-        days: {
-            long: {
-                monday: 'Monday',
-                tuesday: 'Tuesday',
-                wednesday: 'Wednesday',
-                thursday: 'Thursday',
-                friday: 'Friday',
-                saturday: 'Saturday',
-                sunday: 'Sunday',
-            },
-        },
-    },
-    animeCard: {
-        toggleDetails: 'Show details',
-        next: 'Next',
-        behind: '{count} behind',
-        caughtUp: 'Caught up!',
-        unknown: 'unknown',
-        episodeProgress: 'Ep {progress}/{total}',
-        episodeProgressUnknown: 'Ep {progress}/?',
-        episodeProgressAria: 'Episode {progress} of {total}',
-        aired: 'Aired',
-        countdownDays: '{days}d {hours}h',
-        countdownHours: '{hours}h {minutes}m',
-        countdownMinutes: '{minutes}m',
-        status: {
-            releasing: 'Releasing',
-            finished: 'Finished',
-            hiatus: 'Hiatus',
-            cancelled: 'Cancelled',
-            notYetReleased: 'Not yet released',
-        },
-    },
-};
-
 const Wrapper = (props: { children: ReactNode }) => (
-    <NextIntlClientProvider locale="en" messages={messages}>
+    <IntlTestWrapper>
         <SettingsProvider>{props.children}</SettingsProvider>
-    </NextIntlClientProvider>
+    </IntlTestWrapper>
 );
 
 const STORAGE_KEY = 'anicalendar-settings';
@@ -140,8 +97,8 @@ describe('WeeklyCalendar layout', () => {
         });
     });
 
-    it('renders vertical mode: container has weekly-calendar__list, no --columns var, and every day carries day--row', async () => {
-        setStoredSettings({ calendarLayout: 'vertical' });
+    it('renders list mode: container has weekly-calendar__list, no --columns var, and every day carries day--row', async () => {
+        setStoredSettings({ calendarLayout: 'list' });
         const entries = [makeEntry(1, 0), makeEntry(2, 1), makeEntry(3, 2)];
 
         render(<WeeklyCalendar entries={entries} />, { wrapper: Wrapper });

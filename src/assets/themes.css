@@ -15,6 +15,7 @@
     --size-50: 0.5rem; /* 8px */
     --size-62: 0.625rem; /* 10px */
     --size-75: 0.75rem; /* 12px */
+    --size-87: 0.875rem; /* 14px */
     --size-100: 1rem; /* 16px */
     --size-125: 1.25rem; /* 20px */
     --size-150: 1.5rem; /* 24px */
@@ -41,6 +42,8 @@
     --size-1600: 16rem; /* 256px */
     --size-2000: 20rem; /* 320px */
     --size-2400: 24rem; /* 384px */
+    --size-3000: 30rem; /* 480px */
+    --size-4000: 40rem; /* 640px */
 
     /* Sizes */
     --size-border-focus: var(--size-12);
@@ -75,10 +78,11 @@
 [data-theme='dark'] {
     /* Background */
     --color-bg-primary: rgb(10 22 37);
+    --color-bg-primary-hover: rgb(14 26 41);
     --color-bg-secondary: rgb(21 34 50);
+    --color-bg-secondary-hover: rgb(30 44 62);
     --color-bg-overlay: rgb(31 38 49 / 70%);
     --color-bg-highlight: rgb(0 98 255 / 18.5%);
-    --color-bg-hover: rgb(30 44 62);
 
     /* Content */
     --color-content-primary: rgb(255 255 255);
@@ -113,9 +117,10 @@
     /* Background */
     --color-bg-primary: rgb(237 241 245);
     --color-bg-secondary: rgb(250 250 250);
+    --color-bg-primary-hover: rgb(223 234 250);
+    --color-bg-secondary-hover: rgb(236 243 255);
     --color-bg-overlay: rgb(49 56 64 / 40%);
     --color-bg-highlight: rgb(59 131 246 / 15%);
-    --color-bg-hover: rgb(236 243 255);
 
     /* Content */
     --color-content-primary: rgb(92 114 138);

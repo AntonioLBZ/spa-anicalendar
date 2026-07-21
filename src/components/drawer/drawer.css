@@ -1,0 +1,65 @@
+.drawer__overlay {
+    background-color: var(--color-bg-overlay);
+    inset: 0;
+    position: fixed;
+    z-index: 100;
+}
+
+.drawer__dialog {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.drawer {
+    background-color: var(--color-bg-secondary);
+    block-size: 100%;
+    box-shadow: 0 0 var(--size-100) var(--color-border-elevation-2);
+    inline-size: 100%;
+    inset-block: 0;
+    max-inline-size: var(--size-2000);
+    overflow-y: auto;
+    padding: var(--size-50);
+    position: fixed;
+    transition: transform 0.25s ease;
+}
+
+.drawer--right {
+    inset-inline-end: 0;
+}
+
+.drawer--left {
+    inset-inline-start: 0;
+}
+
+.drawer--right[data-entering],
+.drawer--right[data-exiting] {
+    transform: translateX(100%);
+}
+
+.drawer--left[data-entering],
+.drawer--left[data-exiting] {
+    transform: translateX(-100%);
+}
+
+.drawer__header {
+    align-items: center;
+    color: var(--color-content-primary);
+    display: flex;
+    justify-content: space-between;
+    padding: var(--size-100);
+}
+
+.drawer__body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--size-100);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .drawer {
+        transition: none;
+    }
+}

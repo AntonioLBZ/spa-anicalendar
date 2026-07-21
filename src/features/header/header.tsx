@@ -4,8 +4,8 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRef } from 'react';
-import { Link } from 'react-aria-components';
 
+import { Link } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { useUserContext } from '@/contexts/user-context';
 import { Settings } from '@/features/settings';
@@ -23,20 +23,28 @@ const Header = () => {
     const headerRef = useRef<HTMLElement>(null);
     const isHidden = useAutoHideHeader(headerRef);
 
+    const headerClsx = clsx('header', isHidden && 'header--hidden');
+
     return (
-        <header ref={headerRef} className={clsx('header', isHidden && 'header--hidden')}>
+        <header ref={headerRef} className={headerClsx}>
             <div className="header__content">
                 {user && (
                     <Link className="header__user-link" href={user.siteUrl} target="_blank" rel="noopener noreferrer">
                         <span className="header__avatar-wrapper">
-                            <Image src={user.avatarUrl} alt={user.name} width={28} height={28} className="header__avatar" />
+                            <Image
+                                src={user.avatarUrl}
+                                alt={user.name}
+                                width={28}
+                                height={28}
+                                className="header__avatar"
+                            />
                             <ProviderBadge provider={provider} />
                         </span>
                         <span className="header__username label-l">{user.name}</span>
                     </Link>
                 )}
                 {/* react-aria-components' Link is not next-intl-aware; compose the locale into the href */}
-                <Link className="header__nav title-m" href={`/${locale}`}>
+                <Link className="header__nav title-l" href={`/${locale}`}>
                     {t('brand')}
                 </Link>
                 <div className="header__actions">

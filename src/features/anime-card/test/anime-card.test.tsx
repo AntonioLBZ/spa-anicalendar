@@ -1,43 +1,19 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { NextIntlClientProvider } from 'next-intl';
 import { describe, expect, it } from 'vitest';
 
 import { SettingsProvider } from '@/contexts';
+import { IntlTestWrapper } from '@/lib/test/intl-wrapper';
 
 import { AnimeCard } from '../anime-card';
 
 import type { AnimeEntry } from '@/services';
 import type { ReactNode } from 'react';
 
-const messages = {
-    animeCard: {
-        toggleDetails: 'Show details',
-        next: 'Next',
-        behind: '{count} behind',
-        caughtUp: 'Caught up!',
-        unknown: 'unknown',
-        episodeProgress: 'Ep {progress}/{total}',
-        episodeProgressUnknown: 'Ep {progress}/?',
-        episodeProgressAria: 'Episode {progress} of {total}',
-        aired: 'Aired',
-        countdownDays: '{days}d {hours}h',
-        countdownHours: '{hours}h {minutes}m',
-        countdownMinutes: '{minutes}m',
-        status: {
-            releasing: 'Releasing',
-            finished: 'Finished',
-            hiatus: 'Hiatus',
-            cancelled: 'Cancelled',
-            notYetReleased: 'Not yet released',
-        },
-    },
-};
-
 const Wrapper = (props: { children: ReactNode }) => (
-    <NextIntlClientProvider locale="en" messages={messages}>
+    <IntlTestWrapper>
         <SettingsProvider>{props.children}</SettingsProvider>
-    </NextIntlClientProvider>
+    </IntlTestWrapper>
 );
 
 const entry: AnimeEntry = {
@@ -79,5 +55,47 @@ describe('AnimeCard info toggle', () => {
         await user.click(toggle);
 
         expect(document.activeElement).toBe(toggle);
+    });
+});
+
+describe('AnimeCard showProgress', () => {
+    it('omits the progress badge entirely when progress is undefined, without crashing', () => {
+        const noProgressEntry: AnimeEntry = { ...entry, progress: undefined, repeat: undefined };
+        render(<AnimeCard entry={noProgressEntry} />, { wrapper: Wrapper });
+
+        expect(screen.queryByText(/Ep \d+\/\d+/)).not.toBeInTheDocument();
+    });
+
+    it('omits the progress badge when showProgress is false, even with progress defined', () => {
+        render(<AnimeCard entry={entry} showProgress={false} />, { wrapper: Wrapper });
+
+        expect(screen.queryByText(/Ep \d+\/\d+/)).not.toBeInTheDocument();
+    });
+
+    it('renders progress UI by default (showProgress defaults to true)', () => {
+        render(<AnimeCard entry={entry} />, { wrapper: Wrapper });
+
+        expect(screen.getByText('Ep 3/12')).toBeInTheDocument();
+    });
+});
+
+describe('AnimeCard showWatchStatus', () => {
+    it('shows the "Ep X/Y" badge using episodes-aired progress, but omits behind/caught-up, when showWatchStatus is false', () => {
+        // Anonymous/seasonal entries: progress holds "episodes aired so far" (see seasonal.selector.ts),
+        // not a user's watch count — the badge is still meaningful, but "behind"/"caught up" is not.
+        const seasonalEntry: AnimeEntry = { ...entry, progress: 4, repeat: undefined };
+        render(<AnimeCard entry={seasonalEntry} showWatchStatus={false} />, { wrapper: Wrapper });
+
+        expect(screen.getByText('Ep 4/12')).toBeInTheDocument();
+        expect(screen.queryByText(/behind/)).not.toBeInTheDocument();
+        expect(screen.queryByText('Caught up!')).not.toBeInTheDocument();
+    });
+
+    it('renders "caught up"/"behind" by default (showWatchStatus defaults to true)', () => {
+        render(<AnimeCard entry={{ ...entry, progress: 3, nextAiringEpisode: { airingAt: 1700000000, episode: 4 } }} />, {
+            wrapper: Wrapper,
+        });
+
+        expect(screen.getByText('Caught up!')).toBeInTheDocument();
     });
 });

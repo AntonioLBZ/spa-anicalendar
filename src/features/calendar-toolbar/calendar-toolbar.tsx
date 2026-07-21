@@ -19,7 +19,18 @@ const formatPendingDuration = (minutes: number): string => {
 };
 
 const CalendarToolbar = (props: CalendarToolbarProps) => {
-    const { stats, isEditMode, hiddenCount, onEnter, onSave, onCancel } = props;
+    const {
+        stats,
+        isEditMode,
+        hiddenCount,
+        onEnter,
+        onSave,
+        onCancel,
+        showPendingStats = true,
+        isSeasonal = false,
+        isAllHidden = false,
+        onToggleAll,
+    } = props;
     const t = useTranslations('calendarToolbar');
     const tCard = useTranslations('animeCard');
 
@@ -30,15 +41,17 @@ const CalendarToolbar = (props: CalendarToolbarProps) => {
         <div className="calendar-toolbar">
             <div className="calendar-toolbar__row">
                 <div className="calendar-toolbar__stats body-m">
-                    <span className="calendar-toolbar__stat">
-                        {stats.pendingMinutes > 0
-                            ? t.rich('pendingEpisodesWithTime', {
-                                  count: stats.pendingEpisodes,
-                                  time: formatPendingDuration(stats.pendingMinutes),
-                                  ...richBold,
-                              })
-                            : t.rich('pendingEpisodes', { count: stats.pendingEpisodes, ...richBold })}
-                    </span>
+                    {showPendingStats && (
+                        <span className="calendar-toolbar__stat">
+                            {stats.pendingMinutes > 0
+                                ? t.rich('pendingEpisodesWithTime', {
+                                      count: stats.pendingEpisodes,
+                                      time: formatPendingDuration(stats.pendingMinutes),
+                                      ...richBold,
+                                  })
+                                : t.rich('pendingEpisodes', { count: stats.pendingEpisodes, ...richBold })}
+                        </span>
+                    )}
                     {countdown && (
                         <span className="calendar-toolbar__stat">
                             {t.rich('nextEpisodeIn', { time: formatCountdown(tCard, countdown), ...richBold })}
@@ -59,13 +72,23 @@ const CalendarToolbar = (props: CalendarToolbarProps) => {
                             </Button>
                         </>
                     ) : (
+                        // Edit stays in the toolbar (not a header drawer): it toggles canvas-level direct manipulation — the user clicks calendar cards directly to hide/show them — unlike Settings and Seasonal Filters, which are self-contained panels opened from header drawer triggers. A drawer would occlude/focus-trap the very grid this mode edits.
                         <Button variant="secondary" size="s" onPress={onEnter}>
                             {t('edit')}
                         </Button>
                     )}
                 </div>
             </div>
-            {isEditMode && <p className="calendar-toolbar__hint body-s">{t('editHint')}</p>}
+            {isEditMode && onToggleAll && (
+                <div className="calendar-toolbar__bulk-actions">
+                    <Button variant="secondary" size="s" onPress={onToggleAll}>
+                        {isAllHidden ? t('showAll') : t('hideAll')}
+                    </Button>
+                </div>
+            )}
+            {isEditMode && (
+                <p className="calendar-toolbar__hint body-s">{isSeasonal ? t('editSeasonalHint') : t('editHint')}</p>
+            )}
         </div>
     );
 };
