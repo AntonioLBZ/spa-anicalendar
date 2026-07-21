@@ -1,6 +1,4 @@
 import clsx from 'clsx';
-import { useContext } from 'react';
-import { ModalContext, useContextProps } from 'react-aria-components';
 
 import type { DrawerHeaderProps } from './drawer.types';
 

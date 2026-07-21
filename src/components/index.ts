@@ -4,6 +4,7 @@ export * from './drawer';
 export * from './error-state';
 export * from './field';
 export * from './icons';
+export * from './link';
 export * from './radio-option';
 export * from './divider';
 export * from './section';

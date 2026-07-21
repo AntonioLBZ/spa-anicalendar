@@ -4,8 +4,8 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRef } from 'react';
-import { Link } from 'react-aria-components';
 
+import { Link } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { useUserContext } from '@/contexts/user-context';
 import { Settings } from '@/features/settings';

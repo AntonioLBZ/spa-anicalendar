@@ -5,6 +5,13 @@
     z-index: 100;
 }
 
+.drawer__dialog {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
 .drawer {
     background-color: var(--color-bg-secondary);
     block-size: 100%;
@@ -47,6 +54,7 @@
 .drawer__body {
     display: flex;
     flex-direction: column;
+    height: 100%;
     padding: var(--size-100);
 }
 

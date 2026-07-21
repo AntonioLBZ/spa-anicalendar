@@ -40,7 +40,6 @@
     gap: var(--size-100);
     grid-column: 2;
     justify-content: center;
-    text-decoration: none;
 }
 
 .header__actions {
@@ -54,7 +53,6 @@
     color: var(--color-content-secondary);
     display: flex;
     gap: var(--size-50);
-    text-decoration: none;
 }
 
 .header__user-link:hover {

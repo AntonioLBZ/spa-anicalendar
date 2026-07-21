@@ -4,17 +4,16 @@ import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 
-import { Button, ErrorState } from '@/components';
+import { Button, ErrorState, Link } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { CalendarToolbar } from '@/features/calendar-toolbar';
 import { filterByContent, filterByHidden, WeeklyCalendar } from '@/features/weekly-calendar';
 import { getCalendarStats } from '@/lib/airing';
-import { Link } from '@/lib/i18n/navigation';
+import { Link as NavLink } from '@/lib/i18n/navigation';
 
 import { useEntryVisibility } from '../use-entry-visibility';
 import { useAiringData } from './use-airing-data';
 
-import '@/components/button/button.css';
 import '../page.css';
 
 export default function AiringPage() {
@@ -41,7 +40,7 @@ export default function AiringPage() {
                     <ErrorState.Subtitle>{t('errorSubtitle')}</ErrorState.Subtitle>
                     <ErrorState.Actions>
                         <Button onPress={retry}>{t('retry')}</Button>
-                        <Link className="airing-page__error-back button button--primary button--size-m body-m" href="/">
+                        <Link as={NavLink} variant="primary" href="/">
                             {t('backHome')}
                         </Link>
                     </ErrorState.Actions>

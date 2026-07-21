@@ -2,9 +2,9 @@
 
 import { useTranslations } from 'next-intl';
 
-import { Link } from '@/lib/i18n/navigation';
+import { Link } from '@/components';
+import { Link as NavLink } from '@/lib/i18n/navigation';
 
-import '@/components/button/button.css';
 import './not-found.css';
 
 export default function NotFound() {
@@ -15,7 +15,7 @@ export default function NotFound() {
             <p className="not-found__code label-l">404</p>
             <h1 className="not-found__title title-l">{t('title')}</h1>
             <p className="not-found__subtitle body-l">{t('subtitle')}</p>
-            <Link className="not-found__link button button--primary button--size-m" href="/">
+            <Link as={NavLink} variant="primary" href="/">
                 {t('backHome')}
             </Link>
         </main>

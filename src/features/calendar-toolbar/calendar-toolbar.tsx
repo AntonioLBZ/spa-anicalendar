@@ -86,7 +86,9 @@ const CalendarToolbar = (props: CalendarToolbarProps) => {
                     </Button>
                 </div>
             )}
-            <p className="calendar-toolbar__hint body-s">{isSeasonal ? t('editSeasonalHint') : t('editHint')}</p>
+            {isEditMode && (
+                <p className="calendar-toolbar__hint body-s">{isSeasonal ? t('editSeasonalHint') : t('editHint')}</p>
+            )}
         </div>
     );
 };

@@ -3,7 +3,17 @@
 import { useTranslations } from 'next-intl';
 import { Form } from 'react-aria-components';
 
-import { Button, Checkbox, DismissIcon, Divider, Drawer, DrawerTrigger, FilterIcon, Radio, Section } from '@/components';
+import {
+    Button,
+    Checkbox,
+    DismissIcon,
+    Divider,
+    Drawer,
+    DrawerTrigger,
+    FilterIcon,
+    Radio,
+    Section,
+} from '@/components';
 import { useSeasonalFilters } from '@/contexts';
 
 import { FORMAT_OPTIONS, TOP_N_OPTIONS } from './seasonal-filters.options';
@@ -73,7 +83,13 @@ const SeasonalFiltersTrigger = () => {
                                 {t('onlyNewSeason')}
                             </Checkbox.Option>
                         </Section.Root>
-                        <Button type="submit" variant="primary" size="s" className="seasonal-filters__submit" slot="close">
+                        <Button
+                            type="submit"
+                            variant="primary"
+                            size="m"
+                            className="seasonal-filters__submit"
+                            slot="close"
+                        >
                             {t('search')}
                         </Button>
                     </Form>

@@ -2,13 +2,12 @@
 
 import { useSearchParams } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
-import { Link } from 'react-aria-components';
 
+import { Button, Link } from '@/components';
 import { usePathname, useRouter } from '@/lib/i18n/navigation';
 import { routing } from '@/lib/i18n/routing';
 
 import './footer.css';
-import { Button } from '../../components';
 
 const CONTACT_LINKS = [
     { key: 'github', href: 'https://github.com/AntonioLBZ' },

@@ -5,9 +5,9 @@ import type { SectionRootProps } from './section.types';
 import './section.css';
 
 const SectionRoot = (props: SectionRootProps) => {
-    const { className, disabled, children, ...rest } = props;
+    const { className, children, ...rest } = props;
 
-    const sectionClsx = clsx('section', disabled && 'section--disabled', className);
+    const sectionClsx = clsx('section', className);
 
     return (
         <section className={sectionClsx} {...rest}>

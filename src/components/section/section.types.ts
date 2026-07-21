@@ -1,7 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
 type SectionRootProps = HTMLAttributes<HTMLElement> & {
-    disabled?: boolean;
     children: ReactNode;
 };
 

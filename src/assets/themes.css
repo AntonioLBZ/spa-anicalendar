@@ -41,6 +41,7 @@
     --size-1600: 16rem; /* 256px */
     --size-2000: 20rem; /* 320px */
     --size-2400: 24rem; /* 384px */
+    --size-3000: 30rem; /* 480px */
 
     /* Sizes */
     --size-border-focus: var(--size-12);

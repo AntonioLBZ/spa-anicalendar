@@ -13,7 +13,7 @@ const DrawerRoot = (props: DrawerRootProps) => {
     return (
         <ModalOverlay isDismissable {...rest} className="drawer__overlay">
             <Modal className={drawerClsx}>
-                <Dialog>{children}</Dialog>
+                <Dialog className="drawer__dialog">{children}</Dialog>
             </Modal>
         </ModalOverlay>
     );

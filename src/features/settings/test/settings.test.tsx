@@ -29,11 +29,6 @@ afterEach(() => {
     vi.unstubAllGlobals();
 });
 
-// GOTCHA: switching Settings from RAC Popover (non-modal) to Modal (via Drawer) activates
-// RAC's ariaHideOutside, which sets aria-hidden on sibling DOM (including the trigger button)
-// while the drawer is open. So the trigger must be read from `screen` BEFORE opening, and once
-// open, all content assertions must be scoped with within(screen.getByRole('dialog')) instead
-// of querying the unscoped `screen`/`document.body`.
 const openSettings = async (user: ReturnType<typeof userEvent.setup>) => {
     render(<Settings />, { wrapper: Wrapper });
     const trigger = screen.getByRole('button', { name: 'Settings' });

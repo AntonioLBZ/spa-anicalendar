@@ -28,7 +28,6 @@
     color: var(--color-content-primary);
     cursor: pointer;
     height: auto;
-    text-decoration: underline;
 }
 
 .footer__locale-button:hover {
@@ -41,7 +40,6 @@
     color: var(--color-content-secondary);
     cursor: pointer;
     padding: 0;
-    text-decoration: none;
 }
 
 .footer__link:hover {

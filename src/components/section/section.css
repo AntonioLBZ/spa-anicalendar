@@ -4,11 +4,6 @@
     gap: var(--size-50);
 }
 
-.section--disabled {
-    opacity: 0.5;
-    pointer-events: none;
-}
-
 .section__title {
     color: var(--color-content-secondary);
     margin: 0;

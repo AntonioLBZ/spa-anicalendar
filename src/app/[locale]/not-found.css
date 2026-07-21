@@ -21,7 +21,3 @@
     color: var(--color-content-secondary);
     max-width: var(--size-2400);
 }
-
-.not-found__link {
-    text-decoration: none;
-}
