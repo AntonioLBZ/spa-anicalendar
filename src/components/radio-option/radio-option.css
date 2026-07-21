@@ -3,7 +3,6 @@
     display: flex;
     flex-direction: row;
     gap: var(--size-50);
-    padding: var(--size-9);
 }
 
 .radio-option-group[data-orientation='vertical'] {

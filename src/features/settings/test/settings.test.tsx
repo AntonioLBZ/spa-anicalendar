@@ -1,41 +1,19 @@
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { NextIntlClientProvider } from 'next-intl';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { SettingsProvider } from '@/contexts';
+import { IntlTestWrapper } from '@/lib/test/intl-wrapper';
 import { MemoryStorage } from '@/lib/test/memory-storage';
 
 import { Settings } from '../settings';
 
 import type { ReactNode } from 'react';
 
-const messages = {
-    settings: {
-        trigger: 'Settings',
-        sections: {
-            theme: 'Theme',
-            content: 'Content',
-            layout: 'Layout',
-            emptyDays: 'Empty Days',
-            weekStart: 'Week Start',
-            timeFormat: 'Time Format',
-            help: 'Help',
-        },
-        theme: { system: 'System', dark: 'Dark', light: 'Light' },
-        content: { sfw: 'SFW', plus16: '+16', plus18: '+18' },
-        layout: { grid: 'Horizontal', vertical: 'List' },
-        emptyDays: { show: 'Show', hide: 'Hide' },
-        weekStart: { monday: 'Mon', sunday: 'Sun' },
-        timeFormat: { '24h': '24h', '12h': '12h' },
-        issueText: 'Any issue? Click <link>here</link>',
-    },
-};
-
 const Wrapper = (props: { children: ReactNode }) => (
-    <NextIntlClientProvider locale="en" messages={messages}>
+    <IntlTestWrapper>
         <SettingsProvider>{props.children}</SettingsProvider>
-    </NextIntlClientProvider>
+    </IntlTestWrapper>
 );
 
 const STORAGE_KEY = 'anicalendar-settings';

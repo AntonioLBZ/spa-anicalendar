@@ -6,9 +6,9 @@ import type { DividerProps } from './divider.types';
 import './divider.css';
 
 const Divider = (props: DividerProps) => {
-    const { className, ...rest } = props;
+    const { className, size = 'm', ...rest } = props;
 
-    const dividerClsx = clsx('divider', className);
+    const dividerClsx = clsx('divider', `divider--size-${size}`, className);
 
     return <Separator {...rest} className={dividerClsx} />;
 };

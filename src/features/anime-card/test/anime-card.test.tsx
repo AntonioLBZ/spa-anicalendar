@@ -1,43 +1,19 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { NextIntlClientProvider } from 'next-intl';
 import { describe, expect, it } from 'vitest';
 
 import { SettingsProvider } from '@/contexts';
+import { IntlTestWrapper } from '@/lib/test/intl-wrapper';
 
 import { AnimeCard } from '../anime-card';
 
 import type { AnimeEntry } from '@/services';
 import type { ReactNode } from 'react';
 
-const messages = {
-    animeCard: {
-        toggleDetails: 'Show details',
-        next: 'Next',
-        behind: '{count} behind',
-        caughtUp: 'Caught up!',
-        unknown: 'unknown',
-        episodeProgress: 'Ep {progress}/{total}',
-        episodeProgressUnknown: 'Ep {progress}/?',
-        episodeProgressAria: 'Episode {progress} of {total}',
-        aired: 'Aired',
-        countdownDays: '{days}d {hours}h',
-        countdownHours: '{hours}h {minutes}m',
-        countdownMinutes: '{minutes}m',
-        status: {
-            releasing: 'Releasing',
-            finished: 'Finished',
-            hiatus: 'Hiatus',
-            cancelled: 'Cancelled',
-            notYetReleased: 'Not yet released',
-        },
-    },
-};
-
 const Wrapper = (props: { children: ReactNode }) => (
-    <NextIntlClientProvider locale="en" messages={messages}>
+    <IntlTestWrapper>
         <SettingsProvider>{props.children}</SettingsProvider>
-    </NextIntlClientProvider>
+    </IntlTestWrapper>
 );
 
 const entry: AnimeEntry = {

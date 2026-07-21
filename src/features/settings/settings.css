@@ -10,26 +10,23 @@
     transition: color 0.2s ease;
 }
 
-.settings__trigger:hover {
+.settings__trigger[data-hovered] {
     color: var(--color-content-primary);
 }
 
-.settings__trigger[data-focused] {
+.settings__trigger[data-focus-visible] {
     outline: var(--size-border-focus) solid var(--color-border-focus);
     outline-offset: var(--size-border-focus-offset);
 }
 
-.issue-text,
-.issue-text__link {
-    color: var(--color-content-primary);
+.settings__body {
+    gap: var(--size-125);
 }
 
 .settings__section {
-    padding-block: var(--size-50);
-}
-
-.settings__section + .settings__section {
-    border-top: var(--size-6) solid var(--color-border-elevation-2);
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-25);
 }
 
 .settings__section--disabled {
@@ -39,8 +36,11 @@
 
 .settings__section-title {
     color: var(--color-content-secondary);
-    letter-spacing: var(--size-6);
     margin: 0;
-    margin-bottom: var(--size-25);
     text-transform: uppercase;
+}
+
+.issue-text,
+.issue-text__link {
+    color: var(--color-content-primary);
 }

@@ -1,30 +1,22 @@
-'use client';
+import clsx from 'clsx';
+import { Dialog, Modal, ModalOverlay } from 'react-aria-components';
 
-import { useCallback, useRef } from 'react';
-import { DialogTrigger } from 'react-aria-components';
+import type { DrawerRootProps } from './drawer.types';
 
-import { DrawerOnOpenChangeContext } from './drawer-context';
+import './drawer.css';
 
-import type { DrawerProps } from './drawer.types';
+const DrawerRoot = (props: DrawerRootProps) => {
+    const { className, children, placement = 'right', ...rest } = props;
 
-const Drawer = (props: DrawerProps) => {
-    const { children, isOpen, defaultOpen, onOpenChange: rootOnOpenChange } = props;
-    const handlerRef = useRef<((isOpen: boolean) => void) | undefined>(undefined);
-    const onOpenChange = useCallback(
-        (nextIsOpen: boolean) => {
-            handlerRef.current?.(nextIsOpen);
-            rootOnOpenChange?.(nextIsOpen);
-        },
-        [rootOnOpenChange]
-    );
+    const drawerClsx = clsx('drawer', `drawer--${placement}`, className);
 
     return (
-        <DrawerOnOpenChangeContext.Provider value={handlerRef}>
-            <DialogTrigger isOpen={isOpen} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
-                {children}
-            </DialogTrigger>
-        </DrawerOnOpenChangeContext.Provider>
+        <ModalOverlay isDismissable {...rest} className="drawer__overlay">
+            <Modal className={drawerClsx}>
+                <Dialog>{children}</Dialog>
+            </Modal>
+        </ModalOverlay>
     );
 };
 
-export { Drawer };
+export { DrawerRoot };

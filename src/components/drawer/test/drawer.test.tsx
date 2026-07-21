@@ -2,16 +2,24 @@ import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
-import { Drawer } from '..';
+import { Button, Drawer, DrawerTrigger } from '@/components';
 
 const renderDrawer = (onOpenChange?: (isOpen: boolean) => void) =>
     render(
-        <Drawer>
-            <Drawer.Trigger aria-label="Open filters">Open</Drawer.Trigger>
-            <Drawer.Panel onOpenChange={onOpenChange} closeButtonLabel="Close">
-                <p>Panel content</p>
-            </Drawer.Panel>
-        </Drawer>
+        <DrawerTrigger onOpenChange={onOpenChange}>
+            <Button aria-label="Open filters">Open</Button>
+            <Drawer.Root>
+                <Drawer.Header>
+                    <span>Panel title</span>
+                    <Button aria-label="Close" slot="close">
+                        Close
+                    </Button>
+                </Drawer.Header>
+                <Drawer.Body>
+                    <p>Panel content</p>
+                </Drawer.Body>
+            </Drawer.Root>
+        </DrawerTrigger>
     );
 
 describe('Drawer', () => {

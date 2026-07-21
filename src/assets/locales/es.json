@@ -50,7 +50,7 @@
 		"topLabel": "Top",
 		"onlyNewSeason": "Solo estrenos de esta temporada",
 		"search": "Buscar",
-		"filtersTrigger": "Filtros de temporada",
+		"title": "Filtros de temporada",
 		"close": "Cerrar filtros de temporada"
 	},
 	"animeCard": {
@@ -75,7 +75,7 @@
 		}
 	},
 	"settings": {
-		"trigger": "Ajustes",
+		"title": "Ajustes",
 		"close": "Cerrar ajustes",
 		"sections": {
 			"theme": "Tema",

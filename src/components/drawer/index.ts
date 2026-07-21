@@ -1,13 +1,14 @@
-import { Drawer as DrawerRoot } from './drawer';
-import { DrawerPanel } from './drawer-panel';
-import { DrawerTrigger } from './drawer-trigger';
+import { DrawerRoot } from './drawer';
+import { DrawerBody } from './drawer-body';
+import { DrawerHeader } from './drawer-header';
 
-import './drawer.css';
-
-const Drawer = Object.assign(DrawerRoot, {
-    Trigger: DrawerTrigger,
-    Panel: DrawerPanel,
-});
+const Drawer = {
+    Root: DrawerRoot,
+    Header: DrawerHeader,
+    Body: DrawerBody,
+};
 
 export { Drawer };
-export type { DrawerProps, DrawerTriggerProps, DrawerPanelProps } from './drawer.types';
+export { DialogTrigger as DrawerTrigger } from 'react-aria-components';
+export type { DialogTriggerProps as DrawerTriggerProps } from 'react-aria-components';
+export type { DrawerRootProps, DrawerHeaderProps } from './drawer.types';

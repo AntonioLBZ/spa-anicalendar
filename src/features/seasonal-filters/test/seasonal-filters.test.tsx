@@ -1,40 +1,14 @@
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { NextIntlClientProvider } from 'next-intl';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { IntlTestWrapper as Wrapper } from '@/lib/test/intl-wrapper';
 import { MemoryStorage } from '@/lib/test/memory-storage';
 
 import { SeasonalFilters } from '../seasonal-filters';
 import { SeasonalFiltersTrigger } from '../seasonal-filters-trigger';
 
 import type { SeasonalFiltersState } from '../seasonal-filters.types';
-import type { ReactNode } from 'react';
-
-const messages = {
-    seasonalFilters: {
-        formatLabel: 'Format',
-        format: {
-            TV: 'TV',
-            TV_SHORT: 'TV Short',
-            MOVIE: 'Movie',
-            SPECIAL: 'Special',
-            OVA: 'OVA',
-            ONA: 'ONA',
-            MUSIC: 'Music',
-        },
-        topLabel: 'Top',
-        onlyNewSeason: 'New this season only',
-        search: 'Search',
-        filtersTrigger: 'Seasonal filters',
-    },
-};
-
-const Wrapper = (props: { children: ReactNode }) => (
-    <NextIntlClientProvider locale="en" messages={messages}>
-        {props.children}
-    </NextIntlClientProvider>
-);
 
 const baseValue: SeasonalFiltersState = { formats: [], topN: 50, onlyNewSeason: false };
 const noop = () => {};

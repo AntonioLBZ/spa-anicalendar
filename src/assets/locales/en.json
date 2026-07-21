@@ -50,7 +50,7 @@
 		"topLabel": "Top",
 		"onlyNewSeason": "New this season only",
 		"search": "Search",
-		"filtersTrigger": "Seasonal filters",
+		"title": "Seasonal filters",
 		"close": "Close seasonal filters"
 	},
 	"animeCard": {
@@ -75,7 +75,7 @@
 		}
 	},
 	"settings": {
-		"trigger": "Settings",
+		"title": "Settings",
 		"close": "Close settings",
 		"sections": {
 			"theme": "Theme",

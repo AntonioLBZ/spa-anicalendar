@@ -119,7 +119,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
             </div>
             {noAiring.length > 0 && (
                 <>
-                    <Divider />
+                    <Divider size="l" />
                     <div className="weekly-calendar__section">
                         <div className="weekly-calendar__section-header label-l">{t('noUpcoming')}</div>
                         <div className="weekly-calendar__section-entries">

@@ -13,9 +13,6 @@ import './seasonal-filters.css';
 import type { SeasonalFiltersProps } from './seasonal-filters.types';
 import type { FormEvent } from 'react';
 
-// Keyed on `isHydrated` by the outer SeasonalFilters wrapper below: once the persisted value
-// finishes loading from storage, this remounts fresh (rather than syncing via an effect) so its
-// draft state picks up the hydrated value.
 const SeasonalFiltersForm = (props: SeasonalFiltersProps) => {
     const { value, onSubmit } = props;
     const t = useTranslations('seasonalFilters');
@@ -66,13 +63,15 @@ const SeasonalFiltersForm = (props: SeasonalFiltersProps) => {
             >
                 {t('onlyNewSeason')}
             </Checkbox.Option>
-            <Button type="submit" variant="primary" size="s" className="seasonal-filters__submit">
+            <Button type="submit" variant="primary" size="s" className="seasonal-filters__submit" slot="close">
                 {t('search')}
             </Button>
         </Form>
     );
 };
 
-const SeasonalFilters = (props: SeasonalFiltersProps) => <SeasonalFiltersForm key={String(props.isHydrated)} {...props} />;
+const SeasonalFilters = (props: SeasonalFiltersProps) => (
+    <SeasonalFiltersForm key={String(props.isHydrated)} {...props} />
+);
 
 export { SeasonalFilters };
