@@ -1,11 +1,16 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { IntlTestWrapper as Wrapper } from '@/lib/test/intl-wrapper';
 
 import { CalendarToolbar } from '../calendar-toolbar';
 
 import type { CalendarStats } from '@/lib/airing';
+import type { User } from '@/services';
+
+const { useUserContext } = vi.hoisted(() => ({ useUserContext: vi.fn() }));
+
+vi.mock('@/contexts/user-context', () => ({ useUserContext }));
 
 const stats: CalendarStats = {
     pendingEpisodes: 4,
@@ -13,10 +18,18 @@ const stats: CalendarStats = {
     nextAiringAt: Math.floor(Date.now() / 1000) + 3600,
 };
 
+const fakeUser: User = { id: 1, name: 'kanade', avatarUrl: '', siteUrl: '' };
+
 const noop = () => {};
 
+beforeEach(() => {
+    useUserContext.mockReturnValue({ user: fakeUser });
+});
+
 describe('CalendarToolbar showPendingStats', () => {
-    it('shows the pending stat by default while keeping the next-airing stat', () => {
+    it('shows the pending stat when there is a signed-in user, keeping the next-airing stat', () => {
+        useUserContext.mockReturnValue({ user: fakeUser });
+
         render(
             <CalendarToolbar
                 stats={stats}
@@ -33,7 +46,9 @@ describe('CalendarToolbar showPendingStats', () => {
         expect(screen.getByText(/Next episode in/)).toBeInTheDocument();
     });
 
-    it('hides the pending stat when showPendingStats is false, but keeps the next-airing stat', () => {
+    it('hides the pending stat when there is no user (seasonal browsing), but keeps the next-airing stat', () => {
+        useUserContext.mockReturnValue({ user: undefined });
+
         render(
             <CalendarToolbar
                 stats={stats}
@@ -42,7 +57,6 @@ describe('CalendarToolbar showPendingStats', () => {
                 onEnter={noop}
                 onSave={noop}
                 onCancel={noop}
-                showPendingStats={false}
             />,
             { wrapper: Wrapper }
         );
@@ -117,7 +131,6 @@ describe('CalendarToolbar bulk actions', () => {
                 onEnter={noop}
                 onSave={noop}
                 onCancel={noop}
-                isSeasonal
             />,
             { wrapper: Wrapper }
         );

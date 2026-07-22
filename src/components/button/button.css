@@ -9,6 +9,19 @@
 .button--size-s {
     height: var(--size-250);
     padding-inline: var(--size-75);
+    position: relative;
+}
+
+@media (hover: none), (pointer: coarse) {
+    .button--size-s::after {
+        content: '';
+        height: var(--size-275);
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: var(--size-275);
+    }
 }
 
 .button--size-m {

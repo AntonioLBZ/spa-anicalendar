@@ -126,7 +126,7 @@
 		"edit": "Manage visibility",
 		"save": "Save",
 		"cancel": "Cancel",
-		"hiddenCount": "{count} hidden",
+		"hiddenCount": "Hidden anime: {count}.",
 		"pendingEpisodes": "Episodes pending: <b>{count}</b> ",
 		"pendingEpisodesWithTime": "Episodes pending: <b>{count}</b> (<b>{time}</b>)",
 		"nextEpisodeIn": "Next episode in <b>{time}</b>",

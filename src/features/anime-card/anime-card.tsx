@@ -1,124 +1,66 @@
 'use client';
 
-import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
-import { useState } from 'react';
-import { useHover } from 'react-aria';
 
 import { CheckMarkIcon, InfoIcon, Pill, ToggleButton } from '@/components';
-import { useSettingsContext } from '@/contexts/settings-context';
-import { formatCountdown, getLocalAiringTime, getTimeUntilAiring } from '@/lib/airing';
 
 import './anime-card.css';
 
+import { useAnimeCard } from './use-anime-card';
+
 import type { AnimeCardProps } from './anime-card.types';
 
-const STATUS_META_MAP: Record<
-    string,
-    { variant: 'releasing' | 'finished' | 'hiatus' | 'cancelled' | 'upcoming'; key: string }
-> = {
-    RELEASING: { variant: 'releasing', key: 'releasing' },
-    FINISHED: { variant: 'finished', key: 'finished' },
-    HIATUS: { variant: 'hiatus', key: 'hiatus' },
-    CANCELLED: { variant: 'cancelled', key: 'cancelled' },
-    NOT_YET_RELEASED: { variant: 'upcoming', key: 'notYetReleased' },
-};
-const DEFAULT_STATUS_META = STATUS_META_MAP.NOT_YET_RELEASED;
-
 const AnimeCard = (props: AnimeCardProps) => {
-    const {
-        entry,
-        hideStatus = false,
-        isEditMode = false,
-        isHidden = false,
-        onToggle,
-        isNextAiring = false,
-        showProgress = true,
-        showWatchStatus = true,
-    } = props;
-    const { timeFormat } = useSettingsContext();
-    const t = useTranslations('animeCard');
-    const titleId = `anime-title-${entry.id}`;
-    const detailsId = `anime-details-${entry.id}`;
-    const [isExpanded, setIsExpanded] = useState(false);
-    const { hoverProps, isHovered } = useHover({});
-
-    const nextEp = entry.nextAiringEpisode;
-
-    // entry.progress means "user's watch count" for a real per-user list, or "episodes aired so
-    // far" for anonymous/seasonal entries (see seasonal.selector.ts) — either way, the "Ep X/Y"
-    // badge reuses the same rendering. showWatchStatus additionally gates "behind"/"caught up",
-    // which is only meaningful when progress represents an actual user's watch state.
-    const hasProgress = showProgress && entry.progress !== undefined;
-    const totalEpisodes = entry.episodes;
-    const progressText = hasProgress
-        ? totalEpisodes
-            ? t('episodeProgress', { progress: entry.progress!, total: totalEpisodes })
-            : t('episodeProgressUnknown', { progress: entry.progress! })
-        : null;
-    const progressAriaText = hasProgress
-        ? t('episodeProgressAria', { progress: entry.progress!, total: totalEpisodes ?? t('unknown') })
-        : null;
-    const pendingCount = showWatchStatus && hasProgress && nextEp ? nextEp.episode - entry.progress! - 1 : -1;
-
-    const statusMeta = STATUS_META_MAP[entry.status] ?? DEFAULT_STATUS_META;
-
-    const countdown = nextEp ? getTimeUntilAiring(nextEp.airingAt) : null;
-    const countdownText = countdown && formatCountdown(t, countdown);
-
-    const cardClsx = clsx(
-        'card body-s',
-        isExpanded && 'card--expanded',
-        isHovered && 'card--hovered',
-        isEditMode && 'card--edit-mode'
-    );
-    const selectBadgeClsx = clsx('card__select-badge', isHidden && 'card__select-badge--checked');
+    const { entry } = props;
+    const { state, copy, actions, ids, hoverProps } = useAnimeCard(props);
 
     return (
-        <div className={cardClsx} {...hoverProps}>
+        <div className={state.cardClassName} {...hoverProps}>
             <Image className="card__image" src={entry.coverImageUrl} alt={entry.title} fill />
-            {isNextAiring && <Pill className="card__next-airing">{t('next')}</Pill>}
+            {state.isNextAiring && <Pill className="card__next-airing">{copy.next}</Pill>}
             <div className="card__overlay">
-                {hasProgress && (
-                    <span className="card__progress" title={progressAriaText ?? undefined}>
-                        {progressText}
+                {state.hasProgress && (
+                    <span className="card__progress" title={copy.progressAria ?? undefined}>
+                        {copy.progress}
                     </span>
                 )}
                 <span className="card__pending">
-                    {pendingCount > 0 && <span className="card__behind">{t('behind', { count: pendingCount })}</span>}
-                    {pendingCount === 0 && <span className="card__on-date">{t('caughtUp')}</span>}
-                    {nextEp && <span>{getLocalAiringTime(nextEp.airingAt, timeFormat)}</span>}
+                    {copy.behind && <span className="card__behind">{copy.behind}</span>}
+                    {copy.caughtUp && <span className="card__on-date">{copy.caughtUp}</span>}
+                    {copy.airingTime && <span>{copy.airingTime}</span>}
                 </span>
-                <div className="card__hover-content" id={detailsId}>
+                <div className="card__hover-content" id={ids.detailsId}>
                     <div className="card__hover-inner">
-                        <span className="card__title label-s" id={titleId}>
+                        <span className="card__title label-s" id={ids.titleId}>
                             {entry.title}
                         </span>
-                        {nextEp && (
+                        {copy.countdown && (
                             <span className="card__airing">
-                                <span className="card__airing-countdown">{countdownText}</span>
+                                <span className="card__airing-countdown">{copy.countdown}</span>
                             </span>
                         )}
-                        {!hideStatus && (
-                            <span className={`card__status label-s card__status--${statusMeta.variant}`} role="status">
-                                {t(`status.${statusMeta.key}`)}
+                        {state.showStatus && (
+                            <span
+                                className={`card__status label-s card__status--${state.statusVariant}`}
+                                role="status"
+                            >
+                                {copy.status}
                             </span>
                         )}
                     </div>
                 </div>
             </div>
-            {isEditMode ? (
+            {state.isEditMode ? (
                 <>
                     <ToggleButton
                         className="card__hit-area"
-                        isSelected={isHidden}
-                        onChange={() => onToggle?.()}
-                        aria-labelledby={titleId}
+                        isSelected={state.isHidden}
+                        onChange={actions.onToggleHidden}
+                        aria-labelledby={ids.titleId}
                     />
-                    <span className={selectBadgeClsx} aria-hidden="true">
-                        {isHidden && <CheckMarkIcon />}
+                    <span className={state.selectBadgeClassName} aria-hidden="true">
+                        {!state.isHidden && <CheckMarkIcon />}
                     </span>
                 </>
             ) : (
@@ -128,17 +70,15 @@ const AnimeCard = (props: AnimeCardProps) => {
                         href={entry.siteUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-labelledby={titleId}
+                        aria-labelledby={ids.titleId}
                     />
                     <button
                         type="button"
                         className="card__info-btn"
-                        aria-expanded={isExpanded}
-                        aria-controls={detailsId}
-                        aria-label={t('toggleDetails')}
-                        onClick={() => {
-                            setIsExpanded((value) => !value);
-                        }}
+                        aria-expanded={state.isExpanded}
+                        aria-controls={ids.detailsId}
+                        aria-label={copy.toggleDetails}
+                        onClick={actions.onToggleExpanded}
                     >
                         <InfoIcon />
                     </button>

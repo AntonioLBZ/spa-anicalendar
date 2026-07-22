@@ -70,8 +70,6 @@ export default function SeasonalAiringPage() {
                     onEnter={enterEditMode}
                     onSave={saveEditMode}
                     onCancel={cancelEditMode}
-                    showPendingStats={false}
-                    isSeasonal
                     isAllHidden={isAllHidden}
                     onToggleAll={handleToggleAll}
                 />

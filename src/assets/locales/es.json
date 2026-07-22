@@ -126,7 +126,7 @@
 		"edit": "Gestionar visibilidad",
 		"save": "Guardar",
 		"cancel": "Cancelar",
-		"hiddenCount": "{count} ocultos",
+		"hiddenCount": "Animes ocultados: {count}.",
 		"pendingEpisodes": "Episodios pendientes: <b>{count}</b> ",
 		"pendingEpisodesWithTime": "Episodios pendientes: <b>{count}</b> (<b>{time}</b>)",
 		"nextEpisodeIn": "Próximo episodio en <b>{time}</b>",

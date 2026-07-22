@@ -23,14 +23,28 @@ export default function AiringPage() {
     const userName = rawUser ? decodeURIComponent(rawUser) : null;
 
     const { entries, error, retry } = useAiringData(userName);
-    const { isEditMode, hiddenIds, hiddenCount, enterEditMode, saveEditMode, cancelEditMode, toggleDraftHidden } =
-        useEntryVisibility();
+    const {
+        isEditMode,
+        hiddenIds,
+        hiddenCount,
+        enterEditMode,
+        saveEditMode,
+        cancelEditMode,
+        toggleDraftHidden,
+        setDraftHiddenIds,
+    } = useEntryVisibility();
     const { contentFilter } = useSettingsContext();
 
+    const editableEntries = useMemo(() => filterByContent(entries, contentFilter), [entries, contentFilter]);
+    const editableIds = useMemo(() => editableEntries.map((entry) => entry.id), [editableEntries]);
+    const isAllHidden = editableIds.length > 0 && editableIds.every((id) => hiddenIds.includes(id));
+
+    const handleToggleAll = () => setDraftHiddenIds(isAllHidden ? [] : editableIds);
+
     const stats = useMemo(() => {
-        const visibleEntries = filterByHidden(filterByContent(entries, contentFilter), hiddenIds);
+        const visibleEntries = filterByHidden(editableEntries, hiddenIds);
         return getCalendarStats(visibleEntries);
-    }, [entries, contentFilter, hiddenIds]);
+    }, [editableEntries, hiddenIds]);
 
     if (error) {
         return (
@@ -59,6 +73,8 @@ export default function AiringPage() {
                     onEnter={enterEditMode}
                     onSave={saveEditMode}
                     onCancel={cancelEditMode}
+                    isAllHidden={isAllHidden}
+                    onToggleAll={handleToggleAll}
                 />
                 <WeeklyCalendar
                     entries={entries}
