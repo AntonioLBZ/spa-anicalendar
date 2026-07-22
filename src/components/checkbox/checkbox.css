@@ -17,10 +17,22 @@
     height: var(--size-150);
     justify-content: center;
     padding-inline: var(--size-25);
+    position: relative;
     transition:
         background-color 0.15s ease,
         border-color 0.15s ease,
         color 0.15s ease;
+}
+
+@media (hover: none), (pointer: coarse) {
+    .checkbox::after {
+        content: '';
+        height: var(--size-275);
+        inset-inline: 0;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 }
 
 .checkbox[data-selected] {

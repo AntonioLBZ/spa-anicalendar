@@ -6,50 +6,43 @@ import { useMemo } from 'react';
 import { Button, ErrorState, Link } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { CalendarToolbar } from '@/features/calendar-toolbar';
+import { useEntryVisibility } from '@/features/entry-visibility';
 import { SeasonalFiltersTrigger } from '@/features/seasonal-filters';
 import { filterByContent, filterByHidden, WeeklyCalendar } from '@/features/weekly-calendar';
 import { getCalendarStats } from '@/lib/airing';
 import { Link as NavLink } from '@/lib/i18n/navigation';
 
-import { useEntryVisibility } from './use-entry-visibility';
 import { useSeasonalAiringData } from './use-seasonal-airing-data';
 
 import './page.css';
 
 export default function SeasonalAiringPage() {
     const t = useTranslations('airing');
-    const { entries, error, retry, filters } = useSeasonalAiringData();
-    const {
-        isEditMode,
-        hiddenIds,
-        hiddenCount,
-        enterEditMode,
-        saveEditMode,
-        cancelEditMode,
-        toggleDraftHidden,
-        setDraftHiddenIds,
-    } = useEntryVisibility();
+    const airing = useSeasonalAiringData();
     const { contentFilter } = useSettingsContext();
 
-    const editableEntries = useMemo(() => filterByContent(entries, contentFilter), [entries, contentFilter]);
+    const allIds = useMemo(() => airing.data.entries.map((entry) => entry.id), [airing.data.entries]);
+    const editableEntries = useMemo(
+        () => filterByContent(airing.data.entries, contentFilter),
+        [airing.data.entries, contentFilter]
+    );
     const editableIds = useMemo(() => editableEntries.map((entry) => entry.id), [editableEntries]);
-    const isAllHidden = editableIds.length > 0 && editableIds.every((id) => hiddenIds.includes(id));
 
-    const handleToggleAll = () => setDraftHiddenIds(isAllHidden ? [] : editableIds);
+    const visibility = useEntryVisibility({ scope: 'seasonal', allIds, editableIds });
 
     const stats = useMemo(() => {
-        const visibleEntries = filterByHidden(editableEntries, hiddenIds);
+        const visibleEntries = filterByHidden(editableEntries, visibility.data.hiddenIds);
         return getCalendarStats(visibleEntries);
-    }, [editableEntries, hiddenIds]);
+    }, [editableEntries, visibility.data.hiddenIds]);
 
-    if (error) {
+    if (airing.state.error) {
         return (
             <main className="airing-page">
                 <ErrorState.Root>
                     <ErrorState.Title>{t('errorTitle')}</ErrorState.Title>
                     <ErrorState.Subtitle>{t('errorSubtitle')}</ErrorState.Subtitle>
                     <ErrorState.Actions>
-                        <Button onPress={retry}>{t('retry')}</Button>
+                        <Button onPress={airing.actions.retry}>{t('retry')}</Button>
                         <Link as={NavLink} variant="primary" href="/">
                             {t('backHome')}
                         </Link>
@@ -62,24 +55,24 @@ export default function SeasonalAiringPage() {
     return (
         <main className="airing-page">
             <div className="airing-page__content">
-                <p className="airing-page__disclosure body-s">{t('seasonalDisclosure', { count: filters.topN })}</p>
+                <p className="airing-page__disclosure body-s">
+                    {t('seasonalDisclosure', { count: airing.data.filters.topN })}
+                </p>
                 <CalendarToolbar
                     stats={stats}
-                    isEditMode={isEditMode}
-                    hiddenCount={hiddenCount}
-                    onEnter={enterEditMode}
-                    onSave={saveEditMode}
-                    onCancel={cancelEditMode}
-                    showPendingStats={false}
-                    isSeasonal
-                    isAllHidden={isAllHidden}
-                    onToggleAll={handleToggleAll}
+                    isEditMode={visibility.state.isEditMode}
+                    hiddenCount={visibility.data.hiddenCount}
+                    onEnter={visibility.actions.enterEditMode}
+                    onSave={visibility.actions.saveEditMode}
+                    onCancel={visibility.actions.cancelEditMode}
+                    isAllHidden={visibility.state.isAllHidden}
+                    onToggleAll={visibility.actions.toggleAll}
                 />
                 <WeeklyCalendar
-                    entries={entries}
-                    isEditMode={isEditMode}
-                    hiddenIds={hiddenIds}
-                    onToggleEntry={toggleDraftHidden}
+                    entries={airing.data.entries}
+                    isEditMode={visibility.state.isEditMode}
+                    hiddenIds={visibility.data.hiddenIds}
+                    onToggleEntry={visibility.actions.toggleDraftHidden}
                     showWatchStatus={false}
                     emptyMessage={t('seasonalEmptyList')}
                     sectionHeaderAction={<SeasonalFiltersTrigger />}

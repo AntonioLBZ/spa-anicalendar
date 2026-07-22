@@ -1,9 +1,9 @@
 .calendar-toolbar {
     background-color: var(--color-bg-secondary);
-    border-radius: var(--size-25);
+    border-radius: var(--size-50);
     display: flex;
     flex-direction: column;
-    gap: var(--size-25);
+    gap: var(--size-100);
     margin-block: var(--size-150) var(--size-50);
     padding: var(--size-75) var(--size-100);
 }
@@ -17,6 +17,13 @@
 
 .calendar-toolbar__hint {
     color: var(--color-content-secondary);
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.calendar-toolbar__count {
+    white-space: nowrap;
 }
 
 .calendar-toolbar__stats {
@@ -26,7 +33,7 @@
     gap: var(--size-25) var(--size-150);
 }
 
-.calendar-toolbar__stat strong {
+.calendar-toolbar__stat > * {
     color: var(--color-content-primary);
 }
 
@@ -38,25 +45,19 @@
     justify-content: flex-end;
 }
 
-.calendar-toolbar__count {
-    color: var(--color-content-secondary);
-    white-space: nowrap;
-}
-
 .calendar-toolbar__bulk-actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--size-75);
 }
 
-@media (width <= 640px) {
+@media (width <= 1024px) {
     .calendar-toolbar__row {
         align-items: stretch;
         flex-direction: column;
     }
 
     .calendar-toolbar__controls {
-        flex-direction: row-reverse;
-        justify-content: flex-end;
+        justify-content: flex-start;
     }
 }

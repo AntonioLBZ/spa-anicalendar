@@ -7,11 +7,11 @@ import { useMemo } from 'react';
 import { Button, ErrorState, Link } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { CalendarToolbar } from '@/features/calendar-toolbar';
+import { useEntryVisibility } from '@/features/entry-visibility';
 import { filterByContent, filterByHidden, WeeklyCalendar } from '@/features/weekly-calendar';
 import { getCalendarStats } from '@/lib/airing';
 import { Link as NavLink } from '@/lib/i18n/navigation';
 
-import { useEntryVisibility } from '../use-entry-visibility';
 import { useAiringData } from './use-airing-data';
 
 import '../page.css';
@@ -22,24 +22,35 @@ export default function AiringPage() {
     const rawUser = Array.isArray(params.user) ? params.user[0] : params.user;
     const userName = rawUser ? decodeURIComponent(rawUser) : null;
 
-    const { entries, error, retry } = useAiringData(userName);
-    const { isEditMode, hiddenIds, hiddenCount, enterEditMode, saveEditMode, cancelEditMode, toggleDraftHidden } =
-        useEntryVisibility();
-    const { contentFilter } = useSettingsContext();
+    const airing = useAiringData(userName);
+    const { contentFilter, provider } = useSettingsContext();
+
+    const allIds = useMemo(() => airing.data.entries.map((entry) => entry.id), [airing.data.entries]);
+    const editableEntries = useMemo(
+        () => filterByContent(airing.data.entries, contentFilter),
+        [airing.data.entries, contentFilter]
+    );
+    const editableIds = useMemo(() => editableEntries.map((entry) => entry.id), [editableEntries]);
+
+    const visibility = useEntryVisibility({
+        scope: `${provider}:${userName ?? 'unknown'}`,
+        allIds,
+        editableIds,
+    });
 
     const stats = useMemo(() => {
-        const visibleEntries = filterByHidden(filterByContent(entries, contentFilter), hiddenIds);
+        const visibleEntries = filterByHidden(editableEntries, visibility.data.hiddenIds);
         return getCalendarStats(visibleEntries);
-    }, [entries, contentFilter, hiddenIds]);
+    }, [editableEntries, visibility.data.hiddenIds]);
 
-    if (error) {
+    if (airing.state.error) {
         return (
             <main className="airing-page">
                 <ErrorState.Root>
                     <ErrorState.Title>{t('errorTitle')}</ErrorState.Title>
                     <ErrorState.Subtitle>{t('errorSubtitle')}</ErrorState.Subtitle>
                     <ErrorState.Actions>
-                        <Button onPress={retry}>{t('retry')}</Button>
+                        <Button onPress={airing.actions.retry}>{t('retry')}</Button>
                         <Link as={NavLink} variant="primary" href="/">
                             {t('backHome')}
                         </Link>
@@ -54,17 +65,19 @@ export default function AiringPage() {
             <div className="airing-page__content">
                 <CalendarToolbar
                     stats={stats}
-                    isEditMode={isEditMode}
-                    hiddenCount={hiddenCount}
-                    onEnter={enterEditMode}
-                    onSave={saveEditMode}
-                    onCancel={cancelEditMode}
+                    isEditMode={visibility.state.isEditMode}
+                    hiddenCount={visibility.data.hiddenCount}
+                    onEnter={visibility.actions.enterEditMode}
+                    onSave={visibility.actions.saveEditMode}
+                    onCancel={visibility.actions.cancelEditMode}
+                    isAllHidden={visibility.state.isAllHidden}
+                    onToggleAll={visibility.actions.toggleAll}
                 />
                 <WeeklyCalendar
-                    entries={entries}
-                    isEditMode={isEditMode}
-                    hiddenIds={hiddenIds}
-                    onToggleEntry={toggleDraftHidden}
+                    entries={airing.data.entries}
+                    isEditMode={visibility.state.isEditMode}
+                    hiddenIds={visibility.data.hiddenIds}
+                    onToggleEntry={visibility.actions.toggleDraftHidden}
                 />
             </div>
         </main>

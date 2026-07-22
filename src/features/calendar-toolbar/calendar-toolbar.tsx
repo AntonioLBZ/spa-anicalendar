@@ -1,94 +1,50 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
-
 import { Button } from '@/components';
-import { formatCountdown, getTimeUntilAiring } from '@/lib/airing';
 
 import './calendar-toolbar.css';
 
+import { useCalendarToolbar } from './use-calendar-toolbar';
+
 import type { CalendarToolbarProps } from './calendar-toolbar.types';
 
-const formatPendingDuration = (minutes: number): string => {
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
-
-    if (hours === 0) return `${remainingMinutes}m`;
-    if (remainingMinutes === 0) return `${hours}h`;
-    return `${hours}h ${remainingMinutes}m`;
-};
-
 const CalendarToolbar = (props: CalendarToolbarProps) => {
-    const {
-        stats,
-        isEditMode,
-        hiddenCount,
-        onEnter,
-        onSave,
-        onCancel,
-        showPendingStats = true,
-        isSeasonal = false,
-        isAllHidden = false,
-        onToggleAll,
-    } = props;
-    const t = useTranslations('calendarToolbar');
-    const tCard = useTranslations('animeCard');
-
-    const countdown = stats.nextAiringAt !== null ? getTimeUntilAiring(stats.nextAiringAt) : null;
-    const richBold = { b: (chunks: React.ReactNode) => <strong>{chunks}</strong> };
+    const { state, copy, actions } = useCalendarToolbar(props);
 
     return (
         <div className="calendar-toolbar">
             <div className="calendar-toolbar__row">
                 <div className="calendar-toolbar__stats body-m">
-                    {showPendingStats && (
-                        <span className="calendar-toolbar__stat">
-                            {stats.pendingMinutes > 0
-                                ? t.rich('pendingEpisodesWithTime', {
-                                      count: stats.pendingEpisodes,
-                                      time: formatPendingDuration(stats.pendingMinutes),
-                                      ...richBold,
-                                  })
-                                : t.rich('pendingEpisodes', { count: stats.pendingEpisodes, ...richBold })}
-                        </span>
-                    )}
-                    {countdown && (
-                        <span className="calendar-toolbar__stat">
-                            {t.rich('nextEpisodeIn', { time: formatCountdown(tCard, countdown), ...richBold })}
-                        </span>
-                    )}
+                    {copy.pendingStat && <span className="calendar-toolbar__stat">{copy.pendingStat}</span>}
+                    {copy.nextEpisodeStat && <span className="calendar-toolbar__stat">{copy.nextEpisodeStat}</span>}
                 </div>
                 <div className="calendar-toolbar__controls">
-                    {isEditMode ? (
+                    {state.isEditMode ? (
                         <>
-                            <span className="calendar-toolbar__count body-m">
-                                {t('hiddenCount', { count: hiddenCount })}
-                            </span>
-                            <Button variant="secondary" size="s" onPress={onCancel}>
-                                {t('cancel')}
+                            <Button variant="secondary" size="s" onPress={actions.onCancel}>
+                                {copy.cancel}
                             </Button>
-                            <Button variant="primary" size="s" onPress={onSave}>
-                                {t('save')}
+                            <Button variant="primary" size="s" onPress={actions.onSave}>
+                                {copy.save}
                             </Button>
                         </>
                     ) : (
-                        // Edit stays in the toolbar (not a header drawer): it toggles canvas-level direct manipulation — the user clicks calendar cards directly to hide/show them — unlike Settings and Seasonal Filters, which are self-contained panels opened from header drawer triggers. A drawer would occlude/focus-trap the very grid this mode edits.
-                        <Button variant="secondary" size="s" onPress={onEnter}>
-                            {t('edit')}
+                        <Button variant="secondary" size="s" onPress={actions.onEnter}>
+                            {copy.edit}
                         </Button>
+                    )}
+                    {state.isEditMode && actions.onToggleAll && (
+                        <div className="calendar-toolbar__bulk-actions">
+                            <Button variant="secondary" size="s" onPress={actions.onToggleAll}>
+                                {copy.toggleAll}
+                            </Button>
+                        </div>
                     )}
                 </div>
             </div>
-            {isEditMode && onToggleAll && (
-                <div className="calendar-toolbar__bulk-actions">
-                    <Button variant="secondary" size="s" onPress={onToggleAll}>
-                        {isAllHidden ? t('showAll') : t('hideAll')}
-                    </Button>
-                </div>
-            )}
-            {isEditMode && (
-                <p className="calendar-toolbar__hint body-s">{isSeasonal ? t('editSeasonalHint') : t('editHint')}</p>
-            )}
+            <p className="calendar-toolbar__hint body-s">
+                {copy.hint} {state.isEditMode && <span className="calendar-toolbar__count">{copy.hiddenCount}</span>}
+            </p>
         </div>
     );
 };

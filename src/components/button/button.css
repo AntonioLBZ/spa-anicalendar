@@ -9,6 +9,19 @@
 .button--size-s {
     height: var(--size-250);
     padding-inline: var(--size-75);
+    position: relative;
+}
+
+@media (hover: none), (pointer: coarse) {
+    .button--size-s::after {
+        content: '';
+        height: var(--size-275);
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: var(--size-275);
+    }
 }
 
 .button--size-m {
@@ -23,7 +36,7 @@
 
     background-color: var(--color-content-bg-primary);
     box-shadow: 0 0 0 var(--color-border-elevation);
-    color: var(--color-content-primary);
+    color: var(--color-content-on-accent);
 }
 
 .button--secondary {

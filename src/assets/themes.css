@@ -123,9 +123,9 @@
     --color-bg-highlight: rgb(59 131 246 / 15%);
 
     /* Content */
-    --color-content-primary: rgb(92 114 138);
-    --color-content-secondary: rgb(139 160 178);
-    --color-content-bright: rgb(61 61 61);
+    --color-content-primary: rgb(75 93 113);
+    --color-content-secondary: rgb(114 131 145);
+    --color-content-bright: rgb(237 241 245 / 90%);
     --color-content-bg-primary: rgb(53 119 255);
 
     /* Borders */

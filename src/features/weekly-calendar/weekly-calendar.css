@@ -30,7 +30,7 @@
 
 .weekly-calendar__section-header {
     align-items: center;
-    color: var(--color-content-secondary);
+    color: var(--color-content-primary);
     display: flex;
     justify-content: space-between;
 }
