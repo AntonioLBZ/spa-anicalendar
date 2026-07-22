@@ -40,6 +40,7 @@
     gap: var(--size-100);
     grid-column: 2;
     justify-content: center;
+    margin-inline: auto;
     text-decoration: none;
 }
 
@@ -54,6 +55,8 @@
     color: var(--color-content-secondary);
     display: flex;
     gap: var(--size-50);
+    margin-inline-end: auto;
+    text-decoration: none;
 }
 
 .header__user-link:hover {
