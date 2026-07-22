@@ -17,11 +17,17 @@ const useSeasonalAiringData = () => {
     const entries = seasonalQuery.data ?? [];
 
     return {
-        entries,
-        error: seasonalQuery.error ?? null,
-        isLoading: seasonalQuery.isLoading,
-        retry: () => seasonalQuery.refetch(),
-        filters,
+        state: {
+            error: seasonalQuery.error ?? null,
+            isLoading: seasonalQuery.isLoading,
+        },
+        data: {
+            entries,
+            filters,
+        },
+        actions: {
+            retry: () => seasonalQuery.refetch(),
+        },
     };
 };
 

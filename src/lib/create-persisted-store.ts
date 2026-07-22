@@ -49,3 +49,4 @@ const createPersistedStore = <T>(
 };
 
 export { createPersistedStore };
+export type { PersistedStore };

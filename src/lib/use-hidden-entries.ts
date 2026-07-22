@@ -2,20 +2,18 @@
 
 import { useCallback, useEffect, useSyncExternalStore } from 'react';
 
-import { hiddenEntriesStore } from './hidden-entries-store';
+import { getHiddenEntriesStore } from './hidden-entries-store';
 
-const useHiddenEntries = () => {
-    const hiddenIds = useSyncExternalStore(
-        hiddenEntriesStore.subscribe,
-        hiddenEntriesStore.getSnapshot,
-        hiddenEntriesStore.getServerSnapshot
-    );
+const useHiddenEntries = (scope: string) => {
+    const store = getHiddenEntriesStore(scope);
+
+    const hiddenIds = useSyncExternalStore(store.subscribe, store.getSnapshot, store.getServerSnapshot);
 
     useEffect(() => {
-        hiddenEntriesStore.hydrate();
-    }, []);
+        store.hydrate();
+    }, [store]);
 
-    const setHiddenIds = useCallback((ids: number[]) => hiddenEntriesStore.set(ids), []);
+    const setHiddenIds = useCallback((ids: number[]) => store.set(ids), [store]);
 
     return { hiddenIds, setHiddenIds };
 };

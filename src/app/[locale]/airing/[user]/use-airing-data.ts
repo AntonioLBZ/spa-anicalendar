@@ -49,10 +49,16 @@ const useAiringData = (userName: string | null) => {
     };
 
     return {
-        entries,
-        error: queryError,
-        isLoading: userQuery.isLoading || mediaListQuery.isLoading,
-        retry,
+        state: {
+            error: queryError,
+            isLoading: userQuery.isLoading || mediaListQuery.isLoading,
+        },
+        data: {
+            entries,
+        },
+        actions: {
+            retry,
+        },
     };
 };
 
