@@ -55,7 +55,7 @@ jobs:
               env:
                   PR_NUMBER: ${{ github.event.pull_request.number }}
               run: |
-                  if git diff --quiet; then
+                  if [ -z "$(git status --porcelain ".changeset/pr-${PR_NUMBER}.md")" ]; then
                     echo "No changes to commit"
                     exit 0
                   fi
