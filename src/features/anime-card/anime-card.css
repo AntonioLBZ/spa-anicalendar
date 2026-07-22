@@ -2,7 +2,7 @@
     aspect-ratio: 5 / 7;
     background-color: var(--color-bg-secondary);
     border-radius: var(--size-37);
-    color: var(--color-content-primary);
+    color: var(--color-content-bright);
     display: block;
     max-width: var(--size-1300);
     min-width: var(--size-500);
@@ -150,7 +150,7 @@
 }
 
 .card__progress {
-    color: var(--color-content-secondary);
+    color: var(--color-content-bright);
 }
 
 .card__behind {
@@ -161,19 +161,13 @@
     color: var(--color-accent);
 }
 
-.card__airing {
-    color: var(--color-content-secondary);
-    display: flex;
-    gap: var(--size-37);
-}
-
 .card__airing-countdown {
     color: var(--color-accent);
 }
 
 .card__status {
-    align-self: flex-end;
     border-radius: var(--size-17);
+    margin-inline-start: calc(-1 * var(--size-25));
     padding: var(--size-6) var(--size-25);
     text-transform: uppercase;
     width: fit-content;

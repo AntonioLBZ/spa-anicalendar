@@ -10,10 +10,10 @@
 		"title": "Enter your username to see your weekly airing schedule.",
 		"subtitle": "We only use your public data and don't make any changes to your account.",
 		"usernameLabel": "Username",
-		"errorUserNotFound": "User not found. Please check your user is public.",
+		"errorUserNotFound": "User not found. Please check that your profile is public.",
 		"errorGeneric": "Something went wrong. Please try again.",
-		"go": "Go",
-		"apiProviderLabel": "API Provider",
+		"go": "Search",
+		"apiProviderLabel": "API provider",
 		"noUsernameLead": "Don't have a username? Explore what's airing this season.",
 		"browseSeason": "Browse season"
 	},
@@ -90,9 +90,9 @@
 			"theme": "Theme",
 			"content": "Content",
 			"layout": "Layout",
-			"emptyDays": "Empty Days",
-			"weekStart": "Week Start",
-			"timeFormat": "Time Format"
+			"emptyDays": "Empty days",
+			"weekStart": "Week start",
+			"timeFormat": "Time format"
 		},
 		"theme": {
 			"system": "System",
@@ -114,8 +114,8 @@
 			"hide": "Hide"
 		},
 		"weekStart": {
-			"monday": "Mon",
-			"sunday": "Sun"
+			"monday": "Monday",
+			"sunday": "Sunday"
 		},
 		"timeFormat": {
 			"24h": "24h",
@@ -127,7 +127,7 @@
 		"save": "Save",
 		"cancel": "Cancel",
 		"hiddenCount": "Hidden anime: {count}.",
-		"pendingEpisodes": "Episodes pending: <b>{count}</b> ",
+		"pendingEpisodes": "Episodes pending: <b>{count}</b>",
 		"pendingEpisodesWithTime": "Episodes pending: <b>{count}</b> (<b>{time}</b>)",
 		"nextEpisodeIn": "Next episode in <b>{time}</b>",
 		"editHint": "Hiding anime here only changes what's shown in this calendar — your list stays untouched.",
@@ -141,7 +141,7 @@
 		"noUpcoming": "No upcoming episodes",
 		"today": "Today",
 		"noEpisodes": "No episodes",
-		"entriesCount": "Entries: {count}",
+		"entriesCount": "Anime: {count}",
 		"days": {
 			"long": {
 				"monday": "Monday",

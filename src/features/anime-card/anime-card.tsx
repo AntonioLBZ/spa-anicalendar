@@ -35,16 +35,9 @@ const AnimeCard = (props: AnimeCardProps) => {
                         <span className="card__title label-s" id={ids.titleId}>
                             {entry.title}
                         </span>
-                        {copy.countdown && (
-                            <span className="card__airing">
-                                <span className="card__airing-countdown">{copy.countdown}</span>
-                            </span>
-                        )}
+                        {copy.countdown && <span className="card__airing-countdown">{copy.countdown}</span>}
                         {state.showStatus && (
-                            <span
-                                className={`card__status label-s card__status--${state.statusVariant}`}
-                                role="status"
-                            >
+                            <span className={`card__status label-s card__status--${state.statusVariant}`} role="status">
                                 {copy.status}
                             </span>
                         )}

@@ -106,7 +106,7 @@
 		},
 		"layout": {
 			"auto": "Auto",
-			"grid": "Columna",
+			"grid": "Cuadrícula",
 			"list": "Lista"
 		},
 		"emptyDays": {
@@ -127,7 +127,7 @@
 		"save": "Guardar",
 		"cancel": "Cancelar",
 		"hiddenCount": "Animes ocultados: {count}.",
-		"pendingEpisodes": "Episodios pendientes: <b>{count}</b> ",
+		"pendingEpisodes": "Episodios pendientes: <b>{count}</b>",
 		"pendingEpisodesWithTime": "Episodios pendientes: <b>{count}</b> (<b>{time}</b>)",
 		"nextEpisodeIn": "Próximo episodio en <b>{time}</b>",
 		"editHint": "Ocultar un anime aquí solo cambia lo que se muestra en este calendario — tu lista no se modifica.",
