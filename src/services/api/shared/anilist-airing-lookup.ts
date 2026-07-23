@@ -2,6 +2,19 @@ import { anilistQuery } from '../anilist/client';
 
 import type { AiringInfo, MediaSeason } from '@/services/models';
 
+// AniList's Page connection hard-caps perPage at 50 — callers with larger id sets (e.g. Kitsu's
+// fully-paginated planning lists) must be chunked, or ids beyond the 50th are silently dropped
+// from the lookup instead of erroring, meaning some entries would just be missing enrichment data.
+const ANILIST_PAGE_SIZE_CAP = 50;
+
+function chunk<T>(items: T[], size: number): T[][] {
+    const chunks: T[][] = [];
+    for (let i = 0; i < items.length; i += size) {
+        chunks.push(items.slice(i, i + size));
+    }
+    return chunks;
+}
+
 interface AnilistAiringLookupResponse {
     Page: {
         media: Array<{
@@ -37,26 +50,32 @@ async function getNextAiringByMalIds(
     }
 
     try {
-        const response = await anilistQuery<AnilistAiringLookupResponse>(GET_NEXT_AIRING_BY_MAL_ID, {
-            idMalIn: malIds,
-            perPage: malIds.length,
-        });
-
-        if (response.errors) {
-            console.error(`AniList airing lookup error: ${response.errors[0].message}`);
-            return {};
-        }
+        const responses = await Promise.all(
+            chunk(malIds, ANILIST_PAGE_SIZE_CAP).map((idMalIn) =>
+                anilistQuery<AnilistAiringLookupResponse>(GET_NEXT_AIRING_BY_MAL_ID, {
+                    idMalIn,
+                    perPage: idMalIn.length,
+                }),
+            ),
+        );
 
         const result: Record<number, { nextAiringEpisode?: AiringInfo; season?: MediaSeason; seasonYear?: number }> =
             {};
 
-        for (const media of response.data.Page.media) {
-            if (media.idMal !== null) {
-                result[media.idMal] = {
-                    nextAiringEpisode: media.nextAiringEpisode ?? undefined,
-                    season: media.season ?? undefined,
-                    seasonYear: media.seasonYear ?? undefined,
-                };
+        for (const response of responses) {
+            if (response.errors) {
+                console.error(`AniList airing lookup error: ${response.errors[0].message}`);
+                continue;
+            }
+
+            for (const media of response.data.Page.media) {
+                if (media.idMal !== null) {
+                    result[media.idMal] = {
+                        nextAiringEpisode: media.nextAiringEpisode ?? undefined,
+                        season: media.season ?? undefined,
+                        seasonYear: media.seasonYear ?? undefined,
+                    };
+                }
             }
         }
 
@@ -107,25 +126,31 @@ async function getNextAiringByAnilistIds(
     }
 
     try {
-        const response = await anilistQuery<AnilistAiringByIdLookupResponse>(GET_NEXT_AIRING_BY_ANILIST_ID, {
-            idIn: anilistIds,
-            perPage: anilistIds.length,
-        });
-
-        if (response.errors) {
-            console.error(`AniList airing lookup error: ${response.errors[0].message}`);
-            return {};
-        }
+        const responses = await Promise.all(
+            chunk(anilistIds, ANILIST_PAGE_SIZE_CAP).map((idIn) =>
+                anilistQuery<AnilistAiringByIdLookupResponse>(GET_NEXT_AIRING_BY_ANILIST_ID, {
+                    idIn,
+                    perPage: idIn.length,
+                }),
+            ),
+        );
 
         const result: Record<number, { nextAiringEpisode?: AiringInfo; season?: MediaSeason; seasonYear?: number }> =
             {};
 
-        for (const media of response.data.Page.media) {
-            result[media.id] = {
-                nextAiringEpisode: media.nextAiringEpisode ?? undefined,
-                season: media.season ?? undefined,
-                seasonYear: media.seasonYear ?? undefined,
-            };
+        for (const response of responses) {
+            if (response.errors) {
+                console.error(`AniList airing lookup error: ${response.errors[0].message}`);
+                continue;
+            }
+
+            for (const media of response.data.Page.media) {
+                result[media.id] = {
+                    nextAiringEpisode: media.nextAiringEpisode ?? undefined,
+                    season: media.season ?? undefined,
+                    seasonYear: media.seasonYear ?? undefined,
+                };
+            }
         }
 
         return result;

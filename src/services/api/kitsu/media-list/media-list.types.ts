@@ -1,3 +1,5 @@
+import type { MediaFormat, MediaSeason } from '@/services/models';
+
 interface KitsuMapping {
     type: 'mappings';
     id: string;
@@ -53,6 +55,34 @@ type KitsuIncludedResource = KitsuAnimeResource | KitsuMapping | KitsuCategory;
 interface KitsuLibraryEntriesResponse {
     data: KitsuLibraryEntry[];
     included?: KitsuIncludedResource[];
+    links?: { next?: string };
 }
 
-export type { KitsuMapping, KitsuCategory, KitsuAnimeResource, KitsuLibraryEntry, KitsuIncludedResource, KitsuLibraryEntriesResponse };
+interface KitsuCandidateAnime {
+    type: 'anime';
+    id: string;
+}
+
+interface KitsuCandidateAnimeResponse {
+    data: KitsuCandidateAnime[];
+    links?: { next?: string };
+}
+
+interface GetCandidateAnimeIdsParams {
+    season?: MediaSeason;
+    seasonYear?: number;
+    status?: string;
+    formats?: MediaFormat[];
+}
+
+export type {
+    KitsuMapping,
+    KitsuCategory,
+    KitsuAnimeResource,
+    KitsuLibraryEntry,
+    KitsuIncludedResource,
+    KitsuLibraryEntriesResponse,
+    KitsuCandidateAnime,
+    KitsuCandidateAnimeResponse,
+    GetCandidateAnimeIdsParams,
+};

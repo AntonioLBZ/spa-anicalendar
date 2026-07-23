@@ -68,37 +68,55 @@ describe('getNextAiringByMalIds', () => {
         expect(console.error).toHaveBeenCalled();
     });
 
-    it('documents truncation boundary: passes all ids to AniList even when exceeding perPage=50', async () => {
-        // AniList's Page connection hard-caps perPage at 50. Passing >50 ids will result in silent truncation.
-        // This test documents the current boundary behavior so future chunking decisions are explicit.
-        // Today: Kitsu's page[limit]=20 keeps this safe in practice (id lists stay well under 50).
+    it('chunks ids into batches of 50 when exceeding AniList Page.perPage cap, merging all results', async () => {
         const manyIds = Array.from({ length: 51 }, (_, i) => i + 1);
 
-        fetchMock.mockResolvedValueOnce(
-            new Response(
-                JSON.stringify({
-                    data: {
-                        Page: {
-                            media: [{ idMal: 1, nextAiringEpisode: { airingAt: 1000, episode: 1 }, season: 'FALL', seasonYear: 2024 }],
-                        },
-                    },
-                }),
-                { status: 200 },
-            ),
-        );
+        fetchMock
+            .mockResolvedValueOnce(
+                new Response(
+                    JSON.stringify({
+                        data: { Page: { media: [{ idMal: 1, nextAiringEpisode: { airingAt: 1000, episode: 1 }, season: 'FALL', seasonYear: 2024 }] } },
+                    }),
+                    { status: 200 },
+                ),
+            )
+            .mockResolvedValueOnce(
+                new Response(
+                    JSON.stringify({
+                        data: { Page: { media: [{ idMal: 51, nextAiringEpisode: { airingAt: 2000, episode: 5 }, season: 'FALL', seasonYear: 2024 }] } },
+                    }),
+                    { status: 200 },
+                ),
+            );
 
         const result = await getNextAiringByMalIds(manyIds);
 
-        // Verify the fetch was called (with all 51 ids in the request body)
-        expect(fetchMock).toHaveBeenCalled();
-        const callArgs = fetchMock.mock.calls[0];
-        // Call is made to GraphQL endpoint with POST containing the 51 ids
-        expect(callArgs[0]).toBe('https://graphql.anilist.co');
-        const body = JSON.parse(callArgs[1].body as string);
-        expect(body.variables.idMalIn).toHaveLength(51);
-        expect(body.variables.perPage).toBe(51);
-        // Result contains only what AniList returned (truncated to 1 in this mock)
-        expect(Object.keys(result).length).toBe(1);
+        expect(fetchMock).toHaveBeenCalledTimes(2);
+        const firstBody = JSON.parse(fetchMock.mock.calls[0][1].body as string);
+        const secondBody = JSON.parse(fetchMock.mock.calls[1][1].body as string);
+        expect(firstBody.variables.idMalIn).toHaveLength(50);
+        expect(secondBody.variables.idMalIn).toHaveLength(1);
+        expect(Object.keys(result)).toEqual(['1', '51']);
+    });
+
+    it('skips a failing chunk but still returns results from the others', async () => {
+        const manyIds = Array.from({ length: 51 }, (_, i) => i + 1);
+
+        fetchMock
+            .mockResolvedValueOnce(new Response(JSON.stringify({ errors: [{ message: 'boom' }] }), { status: 200 }))
+            .mockResolvedValueOnce(
+                new Response(
+                    JSON.stringify({
+                        data: { Page: { media: [{ idMal: 51, nextAiringEpisode: null, season: null, seasonYear: null }] } },
+                    }),
+                    { status: 200 },
+                ),
+            );
+
+        const result = await getNextAiringByMalIds(manyIds);
+
+        expect(Object.keys(result)).toEqual(['51']);
+        expect(console.error).toHaveBeenCalled();
     });
 });
 
