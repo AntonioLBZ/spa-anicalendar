@@ -13,7 +13,7 @@ async function GET(_request: Request, { params }: { params: Promise<{ username: 
     }
 
     return fetchMalUpstream(
-        `/users/${encodeURIComponent(username)}/animelist?status=watching&fields=${ANIMELIST_FIELDS}&limit=1000`,
+        `/users/${encodeURIComponent(username)}/animelist?status=watching&nsfw=true&fields=${ANIMELIST_FIELDS}&limit=1000`,
     );
 }
 
