@@ -1,10 +1,15 @@
-import type { AnimeEntry, User } from '@/services/models';
+import type { AnimeEntry, MediaFormat, MediaListEntryStatus, User } from '@/services/models';
 
 type Provider = 'anilist' | 'kitsu' | 'myanimelist';
 
-interface ApiProvider {
-    getUserByName(name: string): Promise<User>;
-    getMediaList(user: User): Promise<AnimeEntry[]>;
+interface MediaListFilters {
+    formats: MediaFormat[];
+    onlyNewSeason: boolean;
 }
 
-export type { Provider, ApiProvider };
+interface ApiProvider {
+    getUserByName(name: string): Promise<User>;
+    getMediaList(user: User, statuses: MediaListEntryStatus[], filters?: MediaListFilters): Promise<AnimeEntry[]>;
+}
+
+export type { Provider, ApiProvider, MediaListFilters };

@@ -4,7 +4,7 @@ import { selectAnimeEntries } from './media-list.selector';
 
 import type { DenormalizedEntry } from './media-list.selector';
 import type { KitsuAnimeResource, KitsuCategory, KitsuLibraryEntriesResponse, KitsuMapping } from './media-list.types';
-import type { AnimeEntry, User } from '@/services/models';
+import type { AnimeEntry, MediaListEntryStatus, User } from '@/services/models';
 
 function getExternalIdForAnime(
     anime: KitsuAnimeResource,
@@ -20,9 +20,15 @@ function getExternalIdForAnime(
     return mapping ? Number(mapping.attributes.externalId) : undefined;
 }
 
-async function getMediaList(user: User): Promise<AnimeEntry[]> {
+async function getMediaList(user: User, statuses: MediaListEntryStatus[] = ['WATCHING']): Promise<AnimeEntry[]> {
+    const kitsuStatusMap: Record<MediaListEntryStatus, string> = {
+        WATCHING: 'current',
+        PLANNING: 'planned',
+    };
+
+    const kitsuStatuses = statuses.map((s) => kitsuStatusMap[s]).join(',');
     const response = await kitsuFetch<KitsuLibraryEntriesResponse>(
-        `/library-entries?filter[user_id]=${user.id}&filter[kind]=anime&filter[status]=current&include=anime,anime.mappings,anime.categories&page[limit]=20`,
+        `/library-entries?filter[user_id]=${user.id}&filter[kind]=anime&filter[status]=${kitsuStatuses}&include=anime,anime.mappings,anime.categories&page[limit]=20`,
     );
 
     const included = response.included ?? [];
@@ -45,15 +51,18 @@ async function getMediaList(user: User): Promise<AnimeEntry[]> {
         return [{ entry, anime, categories, malId }];
     });
 
-    const currentlyAiring = denormalized.filter(({ anime }) => anime.attributes.status === 'current');
-
-    const malIds = currentlyAiring.map(({ malId }) => malId).filter((malId): malId is number => malId !== undefined);
+    // Build lookup maps from ALL denormalized entries (not just currently-airing), so season/seasonYear
+    // backfill covers FINISHED and PLANNING entries too. Keep nextAiringEpisode sourced separately.
+    // IMPORTANT: AniList's Page connection hard-caps perPage at 50. Kitsu's page[limit]=20 currently keeps
+    // this safe (id lists stay well under 50), but if page[limit] is ever raised above ~50, the AniList
+    // lookup must be chunked to avoid silent truncation. See anilist-airing-lookup.ts line 36.
+    const malIds = denormalized.map(({ malId }) => malId).filter((malId): malId is number => malId !== undefined);
 
     // Kitsu's crowdsourced MAL crossreference is frequently missing for newer/niche titles even
     // though the show is actively airing and Kitsu already has an AniList crossreference for it —
     // fall back to looking the airing schedule up by AniList id instead of dropping the show.
     const anilistIdByAnimeId = new Map(
-        currentlyAiring
+        denormalized
             .filter(({ malId }) => malId === undefined)
             .map(({ anime }) => [anime.id, getExternalIdForAnime(anime, mappingById, 'anilist/anime')] as const)
             .filter((pair): pair is [string, number] => pair[1] !== undefined),
@@ -64,15 +73,30 @@ async function getMediaList(user: User): Promise<AnimeEntry[]> {
         getNextAiringByAnilistIds([...anilistIdByAnimeId.values()]),
     ]);
 
-    const entries = selectAnimeEntries(denormalized, nextAiringByMalId);
+    const entries = selectAnimeEntries(denormalized, nextAiringByMalId, nextAiringByAnilistId, anilistIdByAnimeId);
+
+    // Merge backfilled season/seasonYear from AniList lookup, but keep nextAiringEpisode from currentlyAiring only
+    const currentlyAiring = denormalized.filter(({ anime }) => anime.attributes.status === 'current');
+    const currentlyAiringIds = new Set(currentlyAiring.map(({ anime }) => anime.id));
 
     return entries.map((item, index) => {
-        if (item.nextAiringEpisode) return item;
+        const isCurrentlyAiring = currentlyAiringIds.has(denormalized[index].anime.id);
 
-        const anilistId = anilistIdByAnimeId.get(denormalized[index].anime.id);
-        const fallbackAiring = anilistId !== undefined ? nextAiringByAnilistId[anilistId] : undefined;
+        // Keep nextAiringEpisode only if currently airing
+        if (!isCurrentlyAiring && item.nextAiringEpisode) {
+            return { ...item, nextAiringEpisode: undefined };
+        }
 
-        return fallbackAiring ? { ...item, nextAiringEpisode: fallbackAiring } : item;
+        // Fallback nextAiringEpisode to AniList if not already set
+        if (!item.nextAiringEpisode && isCurrentlyAiring) {
+            const anilistId = anilistIdByAnimeId.get(denormalized[index].anime.id);
+            const fallbackAiring = anilistId !== undefined ? nextAiringByAnilistId[anilistId]?.nextAiringEpisode : undefined;
+            if (fallbackAiring) {
+                return { ...item, nextAiringEpisode: fallbackAiring };
+            }
+        }
+
+        return item;
     });
 }
 

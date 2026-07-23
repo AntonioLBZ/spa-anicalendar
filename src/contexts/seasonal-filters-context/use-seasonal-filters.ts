@@ -12,6 +12,7 @@ const SEASONAL_FILTERS_DEFAULTS: SeasonalFiltersState = {
     formats: [],
     topN: 50,
     onlyNewSeason: false,
+    userList: { watching: true, planning: false },
 };
 
 const seasonalFiltersStore = createPersistedStore<SeasonalFiltersState>(

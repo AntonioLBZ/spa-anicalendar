@@ -5,7 +5,7 @@ import type { ApiProvider } from '../api.types';
 
 const kitsuProvider: ApiProvider = {
     getUserByName,
-    getMediaList,
+    getMediaList: (user, statuses) => getMediaList(user, statuses),
 };
 
 export { kitsuProvider };

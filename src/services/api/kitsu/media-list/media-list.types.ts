@@ -27,6 +27,7 @@ interface KitsuAnimeResource {
         status: 'current' | 'finished' | 'upcoming' | 'tba';
         endDate: string | null;
         ageRating?: string | null;
+        subtype?: string | null;
     };
     relationships?: {
         mappings?: { data: Array<{ type: 'mappings'; id: string }> };

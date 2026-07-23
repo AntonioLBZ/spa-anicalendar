@@ -4,4 +4,4 @@ export * from './hooks';
 export * from './kitsu';
 export * from './mal';
 export { getProvider } from './registry';
-export type { Provider, ApiProvider } from './api.types';
+export type { Provider, ApiProvider, MediaListFilters } from './api.types';

@@ -8,6 +8,7 @@ import { Button, ErrorState, Link } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { CalendarToolbar } from '@/features/calendar-toolbar';
 import { useEntryVisibility } from '@/features/entry-visibility';
+import { SeasonalFiltersTrigger } from '@/features/seasonal-filters';
 import { filterByContent, filterByHidden, WeeklyCalendar } from '@/features/weekly-calendar';
 import { getCalendarStats } from '@/lib/airing';
 import { Link as NavLink } from '@/lib/i18n/navigation';
@@ -78,6 +79,7 @@ export default function AiringPage() {
                     isEditMode={visibility.state.isEditMode}
                     hiddenIds={visibility.data.hiddenIds}
                     onToggleEntry={visibility.actions.toggleDraftHidden}
+                    sectionHeaderAction={<SeasonalFiltersTrigger />}
                 />
             </div>
         </main>

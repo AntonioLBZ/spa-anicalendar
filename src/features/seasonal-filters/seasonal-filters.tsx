@@ -15,8 +15,9 @@ import {
     Section,
 } from '@/components';
 import { useSeasonalFilters } from '@/contexts';
+import { useUserContext } from '@/contexts/user-context';
 
-import { FORMAT_OPTIONS, TOP_N_OPTIONS } from './seasonal-filters.options';
+import { FORMAT_OPTIONS, TOP_N_OPTIONS, USER_LIST_OPTIONS } from './seasonal-filters.options';
 
 import './seasonal-filters.css';
 
@@ -26,6 +27,7 @@ import type { FormEvent } from 'react';
 const SeasonalFiltersTrigger = () => {
     const t = useTranslations('seasonalFilters');
     const { filters, setFilters } = useSeasonalFilters();
+    const { user } = useUserContext();
 
     const selectedFormats = filters.formats.length > 0 ? filters.formats : FORMAT_OPTIONS;
 
@@ -38,6 +40,15 @@ const SeasonalFiltersTrigger = () => {
             formats: formats.length === FORMAT_OPTIONS.length ? [] : formats,
             topN: Number(data.get('topN')),
             onlyNewSeason: data.get('onlyNewSeason') === 'on',
+            // Only the user-present branch reflects submitted userList checkboxes — without a
+            // user the section isn't rendered, so the previously persisted value is carried over
+            // unchanged rather than reset or omitted (setFilters replaces the whole object).
+            userList: user
+                ? {
+                      watching: data.get('userListWatching') === 'on',
+                      planning: data.get('userListPlanning') === 'on',
+                  }
+                : filters.userList,
         });
     };
 
@@ -67,14 +78,31 @@ const SeasonalFiltersTrigger = () => {
                         </Section.Root>
                         <Divider />
                         <Section.Root>
-                            <Section.Title>{t('topLabel')}</Section.Title>
-                            <Radio.Group name="topN" aria-label={t('topLabel')} defaultValue={String(filters.topN)}>
-                                {TOP_N_OPTIONS.map((n) => (
-                                    <Radio.Option key={n} value={String(n)}>
-                                        {n}
-                                    </Radio.Option>
-                                ))}
-                            </Radio.Group>
+                            {user ? (
+                                <>
+                                    <Section.Title>{t('userListLabel')}</Section.Title>
+                                    {USER_LIST_OPTIONS.map(({ key, name }) => (
+                                        <Checkbox.Option key={key} name={name} defaultSelected={filters.userList[key]}>
+                                            {t(key)}
+                                        </Checkbox.Option>
+                                    ))}
+                                </>
+                            ) : (
+                                <>
+                                    <Section.Title>{t('topLabel')}</Section.Title>
+                                    <Radio.Group
+                                        name="topN"
+                                        aria-label={t('topLabel')}
+                                        defaultValue={String(filters.topN)}
+                                    >
+                                        {TOP_N_OPTIONS.map((n) => (
+                                            <Radio.Option key={n} value={String(n)}>
+                                                {n}
+                                            </Radio.Option>
+                                        ))}
+                                    </Radio.Group>
+                                </>
+                            )}
                         </Section.Root>
                         <Divider />
                         <Section.Root>

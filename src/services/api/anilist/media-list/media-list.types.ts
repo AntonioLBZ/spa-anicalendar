@@ -1,3 +1,5 @@
+import type { MediaFormat, MediaSeason } from '@/services/models';
+
 type AnilistMediaType = 'ANIME' | 'MANGA';
 
 type AnilistMediaListStatus = 'CURRENT' | 'PLANNING' | 'COMPLETED' | 'DROPPED' | 'PAUSED' | 'REPEATING';
@@ -36,6 +38,7 @@ type AnilistMediaListSort =
 
 interface AnilistMediaListEntry {
     id: number;
+    status: AnilistMediaListStatus;
     media: {
         coverImage: { medium: string; large: string };
         chapters: number | null;
@@ -48,6 +51,8 @@ interface AnilistMediaListEntry {
         endDate: { day: number | null; month: number | null; year: number | null };
         isAdult: boolean;
         season: string | null;
+        seasonYear: number | null;
+        format: string | null;
         genres: string[];
     };
     progress: number;
@@ -57,6 +62,7 @@ interface AnilistMediaListEntry {
 
 interface AnilistMediaListResponse {
     Page: {
+        pageInfo: { hasNextPage: boolean };
         mediaList: AnilistMediaListEntry[];
     };
 }
@@ -65,14 +71,49 @@ interface AnilistMediaListVariables {
     userId: number;
     type?: AnilistMediaType;
     statusIn?: AnilistMediaListStatus[];
+    mediaIdIn?: number[];
     sort?: AnilistMediaListSort[];
+    page?: number;
+    perPage?: number;
 }
 
 interface GetMediaListParams {
     userId: number;
     type?: AnilistMediaType;
     statusIn?: AnilistMediaListStatus[];
+    /** Restrict results to media whose id is in this list. Used to scope a "planning" fetch down
+     * to a small candidate set (this season's roster + currently-releasing media) instead of
+     * pulling an entire, potentially huge planning backlog. Omit to fetch unrestricted (e.g. watching). */
+    mediaIdIn?: number[];
     sort?: AnilistMediaListSort[];
+}
+
+interface AnilistCandidateMedia {
+    id: number;
+}
+
+interface AnilistCandidateMediaResponse {
+    Page: {
+        pageInfo: { hasNextPage: boolean };
+        media: AnilistCandidateMedia[];
+    };
+}
+
+interface AnilistCandidateMediaVariables {
+    season?: MediaSeason;
+    seasonYear?: number;
+    status?: string;
+    formatIn?: MediaFormat[];
+    type?: AnilistMediaType;
+    page?: number;
+    perPage?: number;
+}
+
+interface GetCandidateMediaIdsParams {
+    season?: MediaSeason;
+    seasonYear?: number;
+    status?: string;
+    formats?: MediaFormat[];
 }
 
 export type {
@@ -83,4 +124,8 @@ export type {
     AnilistMediaListResponse,
     AnilistMediaListVariables,
     GetMediaListParams,
+    AnilistCandidateMedia,
+    AnilistCandidateMediaResponse,
+    AnilistCandidateMediaVariables,
+    GetCandidateMediaIdsParams,
 };

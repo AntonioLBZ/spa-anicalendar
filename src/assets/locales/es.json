@@ -56,6 +56,9 @@
 			"MUSIC": "Música"
 		},
 		"topLabel": "Top",
+		"userListLabel": "Mi lista",
+		"watching": "Viendo",
+		"planning": "Planeando",
 		"newSeasonLabel": "Estrenos",
 		"onlyNewSeason": "Solo estrenos de esta temporada",
 		"search": "Buscar",

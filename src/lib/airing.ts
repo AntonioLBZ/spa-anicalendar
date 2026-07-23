@@ -136,11 +136,11 @@ const formatCountdown = (t: CountdownTranslator, countdown: CountdownBreakdown):
 };
 
 /**
- * Returns the current AniList season and year for a given date.
+ * Derives the AniList season and year for a given date.
  * AniList seasons: WINTER=Dec-Feb, SPRING=Mar-May, SUMMER=Jun-Aug, FALL=Sep-Nov.
  * December belongs to WINTER of the *following* year (AniList convention).
  */
-const getCurrentSeason = (date: Date = new Date()): { season: MediaSeason; seasonYear: number } => {
+const deriveSeasonFromDate = (date: Date): { season: MediaSeason; seasonYear: number } => {
     const month = date.getMonth();
     const year = date.getFullYear();
 
@@ -150,6 +150,45 @@ const getCurrentSeason = (date: Date = new Date()): { season: MediaSeason; seaso
     if (month <= 7) return { season: 'SUMMER', seasonYear: year };
     return { season: 'FALL', seasonYear: year };
 };
+
+/**
+ * Returns the current AniList season and year for a given date (defaults to now).
+ */
+const getCurrentSeason = (date: Date = new Date()): { season: MediaSeason; seasonYear: number } => deriveSeasonFromDate(date);
+
+/**
+ * True iff the entry's own `season`/`seasonYear` (when the media originally started airing)
+ * matches the current season.
+ */
+const startedInCurrentSeason = (entry: AnimeEntry, now: Date = new Date()): boolean => {
+    if (!entry.season || !entry.seasonYear) return false;
+
+    const current = getCurrentSeason(now);
+    return entry.season === current.season && entry.seasonYear === current.seasonYear;
+};
+
+/**
+ * True iff the entry's `endDate` is fully resolved (day/month/year all present) and falls in the
+ * current season. Runs unconditionally whenever `endDate` is usable — it must NOT be gated by
+ * whether `entry.season` is present, or 2-cour shows (which always have `season` set by
+ * AniList/MAL) would never be checked for finishing in a later season than they started.
+ */
+const finishedInCurrentSeason = (entry: AnimeEntry, now: Date = new Date()): boolean => {
+    const { day, month, year } = entry.endDate;
+    if (day === undefined || month === undefined || year === undefined) return false;
+
+    const endDate = new Date(year, month - 1, day);
+    const derived = deriveSeasonFromDate(endDate);
+    const current = getCurrentSeason(now);
+    return derived.season === current.season && derived.seasonYear === current.seasonYear;
+};
+
+/**
+ * True iff the entry has finished airing and either started or finished in the current season
+ * (covers both single-cour shows and 2-cour shows that started in an earlier season).
+ */
+const isFinishedInCurrentSeason = (entry: AnimeEntry, now: Date = new Date()): boolean =>
+    entry.status === 'FINISHED' && (startedInCurrentSeason(entry, now) || finishedInCurrentSeason(entry, now));
 
 /**
  * Aggregate stats over a set of (already visible/filtered) entries:
@@ -196,5 +235,9 @@ export {
     getCalendarStats,
     formatCountdown,
     getCurrentSeason,
+    deriveSeasonFromDate,
+    startedInCurrentSeason,
+    finishedInCurrentSeason,
+    isFinishedInCurrentSeason,
 };
 export type { DayKey, CountdownBreakdown, CalendarStats, CountdownTranslator };

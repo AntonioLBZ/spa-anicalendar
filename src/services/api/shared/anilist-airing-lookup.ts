@@ -1,12 +1,14 @@
 import { anilistQuery } from '../anilist/client';
 
-import type { AiringInfo } from '@/services/models';
+import type { AiringInfo, MediaSeason } from '@/services/models';
 
 interface AnilistAiringLookupResponse {
     Page: {
         media: Array<{
             idMal: number | null;
             nextAiringEpisode: AiringInfo | null;
+            season: MediaSeason | null;
+            seasonYear: number | null;
         }>;
     };
 }
@@ -20,12 +22,16 @@ query NextAiringByMalId($idMalIn: [Int], $perPage: Int) {
         airingAt
         episode
       }
+      season
+      seasonYear
     }
   }
 }
 `;
 
-async function getNextAiringByMalIds(malIds: number[]): Promise<Record<number, AiringInfo>> {
+async function getNextAiringByMalIds(
+    malIds: number[],
+): Promise<Record<number, { nextAiringEpisode?: AiringInfo; season?: MediaSeason; seasonYear?: number }>> {
     if (malIds.length === 0) {
         return {};
     }
@@ -41,11 +47,16 @@ async function getNextAiringByMalIds(malIds: number[]): Promise<Record<number, A
             return {};
         }
 
-        const result: Record<number, AiringInfo> = {};
+        const result: Record<number, { nextAiringEpisode?: AiringInfo; season?: MediaSeason; seasonYear?: number }> =
+            {};
 
         for (const media of response.data.Page.media) {
-            if (media.idMal !== null && media.nextAiringEpisode) {
-                result[media.idMal] = media.nextAiringEpisode;
+            if (media.idMal !== null) {
+                result[media.idMal] = {
+                    nextAiringEpisode: media.nextAiringEpisode ?? undefined,
+                    season: media.season ?? undefined,
+                    seasonYear: media.seasonYear ?? undefined,
+                };
             }
         }
 
@@ -61,6 +72,8 @@ interface AnilistAiringByIdLookupResponse {
         media: Array<{
             id: number;
             nextAiringEpisode: AiringInfo | null;
+            season: MediaSeason | null;
+            seasonYear: number | null;
         }>;
     };
 }
@@ -74,6 +87,8 @@ query NextAiringByAnilistId($idIn: [Int], $perPage: Int) {
         airingAt
         episode
       }
+      season
+      seasonYear
     }
   }
 }
@@ -84,7 +99,9 @@ query NextAiringByAnilistId($idIn: [Int], $perPage: Int) {
  * AniList crossreference on the source provider (e.g. Kitsu's community mappings frequently
  * lack a MyAnimeList crossreference for newer/niche titles even when an AniList one exists).
  */
-async function getNextAiringByAnilistIds(anilistIds: number[]): Promise<Record<number, AiringInfo>> {
+async function getNextAiringByAnilistIds(
+    anilistIds: number[],
+): Promise<Record<number, { nextAiringEpisode?: AiringInfo; season?: MediaSeason; seasonYear?: number }>> {
     if (anilistIds.length === 0) {
         return {};
     }
@@ -100,12 +117,15 @@ async function getNextAiringByAnilistIds(anilistIds: number[]): Promise<Record<n
             return {};
         }
 
-        const result: Record<number, AiringInfo> = {};
+        const result: Record<number, { nextAiringEpisode?: AiringInfo; season?: MediaSeason; seasonYear?: number }> =
+            {};
 
         for (const media of response.data.Page.media) {
-            if (media.nextAiringEpisode) {
-                result[media.id] = media.nextAiringEpisode;
-            }
+            result[media.id] = {
+                nextAiringEpisode: media.nextAiringEpisode ?? undefined,
+                season: media.season ?? undefined,
+                seasonYear: media.seasonYear ?? undefined,
+            };
         }
 
         return result;
