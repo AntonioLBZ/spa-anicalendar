@@ -33,7 +33,8 @@ const selectAnimeEntry = (raw: MalAnimeListEntry, nextAiringByMalId: Record<numb
         nextAiringEpisode,
         siteUrl: `https://myanimelist.net/anime/${node.id}`,
         endDate: parseEndDate(node.end_date),
-        isAdult: node.nsfw === 'gray' || node.nsfw === 'black',
+        // MAL's 'gray' flag is a fuzzy "might contain fanservice" heuristic (frequently over-applied)
+        isAdult: node.nsfw === 'black',
         season: node.start_season ? SEASON_MAP[node.start_season.season] : undefined,
         genres: node.genres?.map((genre) => genre.name) ?? [],
         progress,
@@ -43,7 +44,7 @@ const selectAnimeEntry = (raw: MalAnimeListEntry, nextAiringByMalId: Record<numb
 
 const selectAnimeEntries = (
     raw: MalAnimeListEntry[],
-    nextAiringByMalId: Record<number, AiringInfo> = {},
+    nextAiringByMalId: Record<number, AiringInfo> = {}
 ): AnimeEntry[] => raw.map((entry) => selectAnimeEntry(entry, nextAiringByMalId));
 
 export { selectAnimeEntries, selectAnimeEntry };

@@ -74,9 +74,9 @@ describe('selectAnimeEntry', () => {
         expect(entry.nextAiringEpisode).toBeUndefined();
     });
 
-    it('maps nsfw white to isAdult false and gray/black to true', () => {
+    it('maps nsfw black to isAdult true and white/gray/undefined to false', () => {
         expect(selectAnimeEntry({ node: baseNode({ nsfw: 'white' }), list_status: baseListStatus() }, NO_AIRING).isAdult).toBe(false);
-        expect(selectAnimeEntry({ node: baseNode({ nsfw: 'gray' }), list_status: baseListStatus() }, NO_AIRING).isAdult).toBe(true);
+        expect(selectAnimeEntry({ node: baseNode({ nsfw: 'gray' }), list_status: baseListStatus() }, NO_AIRING).isAdult).toBe(false);
         expect(selectAnimeEntry({ node: baseNode({ nsfw: 'black' }), list_status: baseListStatus() }, NO_AIRING).isAdult).toBe(true);
         expect(selectAnimeEntry({ node: baseNode({ nsfw: undefined }), list_status: baseListStatus() }, NO_AIRING).isAdult).toBe(false);
     });
