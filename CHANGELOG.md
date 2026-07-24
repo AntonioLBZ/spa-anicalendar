@@ -1,5 +1,11 @@
 # spa-anicalendar
 
+## 1.1.0
+
+### Minor Changes
+
+- d4538c7: [feature/planning-list] Implement Planning view
+
 ## 1.0.0
 
 ### Major Changes
