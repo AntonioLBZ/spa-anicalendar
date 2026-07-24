@@ -14,6 +14,7 @@ import { getCalendarStats } from '@/lib/airing';
 import { Link as NavLink } from '@/lib/i18n/navigation';
 
 import { useAiringData } from './use-airing-data';
+import { useSyncProviderWithUrl } from './use-sync-provider-with-url';
 
 import '../page.css';
 
@@ -23,6 +24,7 @@ export default function AiringPage() {
     const rawUser = Array.isArray(params.user) ? params.user[0] : params.user;
     const userName = rawUser ? decodeURIComponent(rawUser) : null;
 
+    useSyncProviderWithUrl();
     const airing = useAiringData(userName);
     const { contentFilter, provider } = useSettingsContext();
 

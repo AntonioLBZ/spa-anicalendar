@@ -1,6 +1,6 @@
 'use client';
 
-import { useSyncExternalStore, useEffect, useMemo, useCallback, type ReactNode } from 'react';
+import { useSyncExternalStore, useLayoutEffect, useMemo, useCallback, type ReactNode } from 'react';
 
 import { createContext } from '@/lib/context';
 import { createPersistedStore } from '@/lib/create-persisted-store';
@@ -49,21 +49,34 @@ const [SettingsContext, useSettingsContext] = createContext<SettingsContextValue
 
 const SettingsProvider = (props: { children: ReactNode }) => {
     const { children } = props;
-    const settings = useSyncExternalStore(settingsStore.subscribe, settingsStore.getSnapshot, settingsStore.getServerSnapshot);
+    const settings = useSyncExternalStore(
+        settingsStore.subscribe,
+        settingsStore.getSnapshot,
+        settingsStore.getServerSnapshot
+    );
 
     const resolvedTheme = useResolvedTheme();
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         settingsStore.hydrate();
     }, []);
 
     const setProvider = useCallback((v: Provider) => settingsStore.set((s) => ({ ...s, provider: v })), []);
     const setTheme = useCallback((v: ThemeMode) => settingsStore.set((s) => ({ ...s, theme: v })), []);
-    const setContentFilter = useCallback((v: ContentFilter) => settingsStore.set((s) => ({ ...s, contentFilter: v })), []);
-    const setEmptyDaysMode = useCallback((v: EmptyDaysMode) => settingsStore.set((s) => ({ ...s, emptyDaysMode: v })), []);
+    const setContentFilter = useCallback(
+        (v: ContentFilter) => settingsStore.set((s) => ({ ...s, contentFilter: v })),
+        []
+    );
+    const setEmptyDaysMode = useCallback(
+        (v: EmptyDaysMode) => settingsStore.set((s) => ({ ...s, emptyDaysMode: v })),
+        []
+    );
     const setWeekStartDay = useCallback((v: WeekStartDay) => settingsStore.set((s) => ({ ...s, weekStartDay: v })), []);
     const setTimeFormat = useCallback((v: TimeFormat) => settingsStore.set((s) => ({ ...s, timeFormat: v })), []);
-    const setCalendarLayout = useCallback((v: CalendarLayout) => settingsStore.set((s) => ({ ...s, calendarLayout: v })), []);
+    const setCalendarLayout = useCallback(
+        (v: CalendarLayout) => settingsStore.set((s) => ({ ...s, calendarLayout: v })),
+        []
+    );
 
     const value = useMemo<SettingsContextValue>(
         () => ({
