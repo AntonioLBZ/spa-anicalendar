@@ -19,7 +19,7 @@ async function GET(request: Request, { params }: { params: Promise<{ username: s
     const status = requestedStatus !== null && ALLOWED_STATUSES.has(requestedStatus) ? requestedStatus : DEFAULT_STATUS;
 
     return fetchMalUpstream(
-        `/users/${encodeURIComponent(username)}/animelist?status=${status}&nsfw=true&fields=${ANIMELIST_FIELDS}&limit=1000`,
+        `/users/${encodeURIComponent(username)}/animelist?status=${status}&sort=list_updated_at&nsfw=true&fields=${ANIMELIST_FIELDS}&limit=1000`,
     );
 }
 

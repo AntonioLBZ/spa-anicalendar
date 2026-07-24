@@ -143,4 +143,13 @@ describe('GET /api/mal/animelist/[username]', () => {
         const [url] = fetchMock.mock.calls[0];
         expect(url).toContain('status=watching');
     });
+
+    it('sorts by most recently updated in the user list', async () => {
+        fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ data: [] }), { status: 200 }));
+
+        await GET(new Request('http://localhost/api/mal/animelist/lanzorzx'), params('lanzorzx'));
+
+        const [url] = fetchMock.mock.calls[0];
+        expect(url).toContain('sort=list_updated_at');
+    });
 });
