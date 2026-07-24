@@ -19,6 +19,11 @@ const CalendarToolbar = (props: CalendarToolbarProps) => {
                     {copy.nextEpisodeStat && <span className="calendar-toolbar__stat">{copy.nextEpisodeStat}</span>}
                 </div>
                 <div className="calendar-toolbar__controls">
+                    {state.isEditMode && actions.onToggleAll && (
+                        <Button variant="secondary" size="s" onPress={actions.onToggleAll}>
+                            {copy.toggleAll}
+                        </Button>
+                    )}
                     {state.isEditMode ? (
                         <>
                             <Button variant="secondary" size="s" onPress={actions.onCancel}>
@@ -32,13 +37,6 @@ const CalendarToolbar = (props: CalendarToolbarProps) => {
                         <Button variant="secondary" size="s" onPress={actions.onEnter}>
                             {copy.edit}
                         </Button>
-                    )}
-                    {state.isEditMode && actions.onToggleAll && (
-                        <div className="calendar-toolbar__bulk-actions">
-                            <Button variant="secondary" size="s" onPress={actions.onToggleAll}>
-                                {copy.toggleAll}
-                            </Button>
-                        </div>
                     )}
                 </div>
             </div>
