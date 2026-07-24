@@ -186,19 +186,13 @@ describe('selectAnimeEntry', () => {
         ];
 
         subtypeTests.forEach(([subtype, expectedFormat]) => {
-            const entry = selectAnimeEntry(
-                denormalized({ anime: baseAnime({ subtype: subtype as any }) }),
-                NO_AIRING,
-            );
+            const entry = selectAnimeEntry(denormalized({ anime: baseAnime({ subtype }) }), NO_AIRING);
             expect(entry.format).toBe(expectedFormat);
         });
     });
 
     it('maps unknown subtype to undefined without throwing', () => {
-        const entry = selectAnimeEntry(
-            denormalized({ anime: baseAnime({ subtype: 'unknown_subtype' as any }) }),
-            NO_AIRING,
-        );
+        const entry = selectAnimeEntry(denormalized({ anime: baseAnime({ subtype: 'unknown_subtype' }) }), NO_AIRING);
         expect(entry.format).toBeUndefined();
     });
 

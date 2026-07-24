@@ -169,9 +169,7 @@ const startedInCurrentSeason = (entry: AnimeEntry, now: Date = new Date()): bool
 
 /**
  * True iff the entry's `endDate` is fully resolved (day/month/year all present) and falls in the
- * current season. Runs unconditionally whenever `endDate` is usable — it must NOT be gated by
- * whether `entry.season` is present, or 2-cour shows (which always have `season` set by
- * AniList/MAL) would never be checked for finishing in a later season than they started.
+ * current season.
  */
 const finishedInCurrentSeason = (entry: AnimeEntry, now: Date = new Date()): boolean => {
     const { day, month, year } = entry.endDate;

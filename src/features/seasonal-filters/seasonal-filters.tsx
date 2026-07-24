@@ -40,9 +40,7 @@ const SeasonalFiltersTrigger = () => {
             formats: formats.length === FORMAT_OPTIONS.length ? [] : formats,
             topN: Number(data.get('topN')),
             onlyNewSeason: data.get('onlyNewSeason') === 'on',
-            // Only the user-present branch reflects submitted userList checkboxes — without a
-            // user the section isn't rendered, so the previously persisted value is carried over
-            // unchanged rather than reset or omitted (setFilters replaces the whole object).
+            // Without a user the userList section isn't rendered, so keep the persisted value.
             userList: user
                 ? {
                       watching: data.get('userListWatching') === 'on',

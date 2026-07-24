@@ -11,8 +11,7 @@ const STATUS_MAP: Record<string, MediaStatus> = {
     tba: 'NOT_YET_RELEASED',
 };
 
-// entry.attributes.status is the LIBRARY-membership status (which requested list this came
-// from), distinct from anime.attributes.status (the anime's own airing status, mapped above).
+// entry.attributes.status is the library-membership status (which requested list this came from).
 const LIST_STATUS_MAP: Record<string, MediaListEntryStatus> = {
     current: 'WATCHING',
     planned: 'PLANNING',
@@ -34,23 +33,33 @@ interface DenormalizedEntry {
     malId: number | undefined;
 }
 
+type WrappedAiring = { nextAiringEpisode?: AiringInfo; season?: MediaSeason; seasonYear?: number };
+type MalAiringLookupValue = AiringInfo | WrappedAiring;
+
+// Older callers/tests pass a raw AiringInfo (no season data); newer ones pass the wrapped shape.
+function isWrappedAiring(value: MalAiringLookupValue): value is WrappedAiring {
+    return !('airingAt' in value);
+}
+
 const selectAnimeEntry = (
     { entry, anime, categories, malId }: DenormalizedEntry,
-    nextAiringByMalId: Record<number, AiringInfo | { nextAiringEpisode?: AiringInfo; season?: MediaSeason; seasonYear?: number }> = {},
-    nextAiringByAnilistId: Record<number, { nextAiringEpisode?: AiringInfo; season?: MediaSeason; seasonYear?: number }> = {},
+    nextAiringByMalId: Record<number, MalAiringLookupValue> = {},
+    nextAiringByAnilistId: Record<number, WrappedAiring> = {},
     anilistIdByAnimeId: Map<string, number> = new Map(),
 ): AnimeEntry => {
     const isCurrentlyAiring = anime.attributes.status === 'current';
-    const nextAiringEpisode = isCurrentlyAiring && malId !== undefined ? (nextAiringByMalId[malId] as any)?.nextAiringEpisode : undefined;
+    const malLookup = malId !== undefined ? nextAiringByMalId[malId] : undefined;
+    const nextAiringEpisode =
+        isCurrentlyAiring && malLookup !== undefined && isWrappedAiring(malLookup) ? malLookup.nextAiringEpisode : undefined;
 
-    // Get backfilled season/seasonYear from lookup results
     let season: MediaSeason | undefined;
     let seasonYear: number | undefined;
 
-    if (malId !== undefined && nextAiringByMalId[malId]) {
-        const lookupData = nextAiringByMalId[malId] as any;
-        season = lookupData.season;
-        seasonYear = lookupData.seasonYear;
+    if (malLookup !== undefined) {
+        if (isWrappedAiring(malLookup)) {
+            season = malLookup.season;
+            seasonYear = malLookup.seasonYear;
+        }
     } else {
         const anilistId = anilistIdByAnimeId.get(anime.id);
         if (anilistId !== undefined && nextAiringByAnilistId[anilistId]) {
@@ -83,8 +92,8 @@ const selectAnimeEntry = (
 
 const selectAnimeEntries = (
     entries: DenormalizedEntry[],
-    nextAiringByMalId: Record<number, AiringInfo | { nextAiringEpisode?: AiringInfo; season?: MediaSeason; seasonYear?: number }> = {},
-    nextAiringByAnilistId: Record<number, { nextAiringEpisode?: AiringInfo; season?: MediaSeason; seasonYear?: number }> = {},
+    nextAiringByMalId: Record<number, MalAiringLookupValue> = {},
+    nextAiringByAnilistId: Record<number, WrappedAiring> = {},
     anilistIdByAnimeId: Map<string, number> = new Map(),
 ): AnimeEntry[] => entries.map((entry) => selectAnimeEntry(entry, nextAiringByMalId, nextAiringByAnilistId, anilistIdByAnimeId));
 

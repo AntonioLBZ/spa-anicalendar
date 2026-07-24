@@ -206,7 +206,7 @@ describe('selectAnimeEntry', () => {
 
         mediaTypeTests.forEach(([mediaType, expectedFormat]) => {
             const entry = selectAnimeEntry(
-                { node: baseNode({ media_type: mediaType as any }), list_status: baseListStatus() },
+                { node: baseNode({ media_type: mediaType }), list_status: baseListStatus() },
                 NO_AIRING,
             );
             expect(entry.format).toBe(expectedFormat);
@@ -215,7 +215,7 @@ describe('selectAnimeEntry', () => {
 
     it('maps unknown media_type to undefined without throwing', () => {
         const entry = selectAnimeEntry(
-            { node: baseNode({ media_type: 'unknown_type' as any }), list_status: baseListStatus() },
+            { node: baseNode({ media_type: 'unknown_type' }), list_status: baseListStatus() },
             NO_AIRING,
         );
         expect(entry.format).toBeUndefined();

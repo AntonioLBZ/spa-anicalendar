@@ -14,16 +14,9 @@ const statusInMap: Record<MediaListEntryStatus, AnilistMediaListStatus[]> = {
 
 const NO_FILTERS: MediaListFilters = { formats: [], onlyNewSeason: false };
 
-// "Watching" must show the entire current/repeating list unconditionally, so it's always fetched
-// in full. "Planning" backlogs can be enormous (hundreds of entries) with almost none of it
-// relevant to a weekly calendar, and AniList's mediaList query has no way to filter by the
-// underlying media's season/status/format server-side — but its media catalog query does. So for
-// planning we first fetch a bounded candidate id set (this season's roster + anything currently
-// releasing, regardless of season, both narrowed by the selected formats) from the catalog, then
-// scope the planning list fetch down to just those ids via mediaId_in, instead of pulling the
-// user's entire planning list. When onlyNewSeason is on, the "currently releasing regardless of
-// season" query is skipped: it would only surface releases outside the current season, which the
-// onlyNewSeason filter rejects anyway, so it's a subset of the season-roster query already made.
+// AniList's mediaList query can't filter by the underlying media's season/status/format, so
+// planning entries are narrowed via a candidate media id set from the catalog query instead of
+// pulling the user's entire (potentially huge) planning list.
 async function fetchPlanningEntries(userId: number, filters: MediaListFilters): Promise<AnimeEntry[]> {
     const { season, seasonYear } = getCurrentSeason();
     const { formats, onlyNewSeason } = filters;

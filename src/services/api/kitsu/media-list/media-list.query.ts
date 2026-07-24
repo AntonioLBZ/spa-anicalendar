@@ -13,8 +13,7 @@ import type {
 } from './media-list.types';
 import type { AnimeEntry, MediaFormat, MediaListEntryStatus, User } from '@/services/models';
 
-// Reverse of media-list.selector.ts's FORMAT_MAP — our MediaFormat back to Kitsu's own subtype
-// enum. TV_SHORT has no Kitsu equivalent, so it's intentionally omitted (never matches anything).
+// MediaFormat to Kitsu's own subtype enum. TV_SHORT has no Kitsu equivalent.
 const FORMAT_TO_KITSU_SUBTYPE: Partial<Record<MediaFormat, string>> = {
     TV: 'TV',
     MOVIE: 'movie',
@@ -45,22 +44,40 @@ function getExternalIdForAnime(
     return mapping ? Number(mapping.attributes.externalId) : undefined;
 }
 
-// Kitsu's library-entries endpoint caps page[limit] at 20 — a real "planning" backlog (hundreds
-// of entries) needs to be paged through via the JSON:API `links.next` URL, or entries silently go
-// missing past the first page (the same class of bug already fixed for AniList). Cap the loop as
-// a safety net against a runaway/misbehaving API.
+interface KitsuPage {
+    links?: { next?: string };
+}
+
+// Kitsu's JSON:API pagination follows `links.next` (a full URL) until exhausted or maxPages.
+async function paginateByCursor<TResponse extends KitsuPage>(
+    initialUrl: string,
+    maxPages: number,
+    fetchPage: (url: string) => Promise<TResponse>,
+): Promise<TResponse[]> {
+    const responses: TResponse[] = [];
+    let nextUrl: string | undefined = initialUrl;
+    let page = 0;
+
+    while (nextUrl && page < maxPages) {
+        const response = await fetchPage(nextUrl);
+        responses.push(response);
+        nextUrl = response.links?.next;
+        page += 1;
+    }
+
+    return responses;
+}
+
+// Kitsu's library-entries endpoint caps page[limit] at 20, so large lists must be paged through
+// via the JSON:API `links.next` URL. MAX_PAGES is a safety net against a runaway/misbehaving API.
 const PAGE_LIMIT = 20;
-const MAX_PAGES = 40; // 40 * 20 = 800, comfortably above any real user's list size
+const MAX_PAGES = 40;
 
 async function getMediaList(
     user: User,
     statuses: MediaListEntryStatus[] = ['WATCHING'],
     animeIdIn?: number[],
 ): Promise<AnimeEntry[]> {
-    // A `planning` list can be enormous with almost none of it relevant to a weekly calendar —
-    // when the caller already narrowed the request to a bounded candidate set (see
-    // getCandidateAnimeIds below), skip the request entirely if that set is empty, rather than
-    // issuing a query Kitsu would answer with zero results anyway.
     if (animeIdIn && animeIdIn.length === 0) {
         return [];
     }
@@ -73,20 +90,11 @@ async function getMediaList(
     const kitsuStatuses = statuses.map((s) => kitsuStatusMap[s]).join(',');
     const animeIdFilter = animeIdIn ? `&filter[anime_id]=${animeIdIn.join(',')}` : '';
 
-    const data: KitsuLibraryEntriesResponse['data'] = [];
-    const included: NonNullable<KitsuLibraryEntriesResponse['included']> = [];
-    let nextUrl: string | undefined =
-        `/library-entries?filter[user_id]=${user.id}&filter[kind]=anime&filter[status]=${kitsuStatuses}${animeIdFilter}&include=anime,anime.mappings,anime.categories&page[limit]=${PAGE_LIMIT}`;
-    let page = 0;
+    const initialUrl = `/library-entries?filter[user_id]=${user.id}&filter[kind]=anime&filter[status]=${kitsuStatuses}${animeIdFilter}&include=anime,anime.mappings,anime.categories&page[limit]=${PAGE_LIMIT}`;
 
-    while (nextUrl && page < MAX_PAGES) {
-        const response: KitsuLibraryEntriesResponse = await kitsuFetch<KitsuLibraryEntriesResponse>(nextUrl);
-
-        data.push(...response.data);
-        included.push(...(response.included ?? []));
-        nextUrl = response.links?.next;
-        page += 1;
-    }
+    const responses = await paginateByCursor(initialUrl, MAX_PAGES, (url) => kitsuFetch<KitsuLibraryEntriesResponse>(url));
+    const data = responses.flatMap((response) => response.data);
+    const included = responses.flatMap((response) => response.included ?? []);
 
     const animeById = new Map(included.filter((r): r is KitsuAnimeResource => r.type === 'anime').map((r) => [r.id, r]));
     const mappingById = new Map(included.filter((r): r is KitsuMapping => r.type === 'mappings').map((r) => [r.id, r]));
@@ -107,10 +115,6 @@ async function getMediaList(
         return [{ entry, anime, categories, malId }];
     });
 
-    // Build lookup maps from ALL denormalized entries (not just currently-airing), so season/seasonYear
-    // backfill covers FINISHED and PLANNING entries too. Keep nextAiringEpisode sourced separately.
-    // Now that Kitsu's list is paginated in full, these id sets can comfortably exceed AniList's
-    // Page.perPage cap of 50 — getNextAiringByMalIds/getNextAiringByAnilistIds chunk internally.
     const malIds = denormalized.map(({ malId }) => malId).filter((malId): malId is number => malId !== undefined);
 
     // Kitsu's crowdsourced MAL crossreference is frequently missing for newer/niche titles even
@@ -130,19 +134,16 @@ async function getMediaList(
 
     const entries = selectAnimeEntries(denormalized, nextAiringByMalId, nextAiringByAnilistId, anilistIdByAnimeId);
 
-    // Merge backfilled season/seasonYear from AniList lookup, but keep nextAiringEpisode from currentlyAiring only
     const currentlyAiring = denormalized.filter(({ anime }) => anime.attributes.status === 'current');
     const currentlyAiringIds = new Set(currentlyAiring.map(({ anime }) => anime.id));
 
     return entries.map((item, index) => {
         const isCurrentlyAiring = currentlyAiringIds.has(denormalized[index].anime.id);
 
-        // Keep nextAiringEpisode only if currently airing
         if (!isCurrentlyAiring && item.nextAiringEpisode) {
             return { ...item, nextAiringEpisode: undefined };
         }
 
-        // Fallback nextAiringEpisode to AniList if not already set
         if (!item.nextAiringEpisode && isCurrentlyAiring) {
             const anilistId = anilistIdByAnimeId.get(denormalized[index].anime.id);
             const fallbackAiring = anilistId !== undefined ? nextAiringByAnilistId[anilistId]?.nextAiringEpisode : undefined;
@@ -155,17 +156,10 @@ async function getMediaList(
     });
 }
 
-// Lightweight id-only lookup against Kitsu's public anime catalog (/anime), which DOES support
-// season/seasonYear/status/subtype filtering server-side (unlike /library-entries, which has no
-// such filter on the underlying anime — confirmed live: filter[season]/filter[seasonYear]/
-// filter[status]/filter[subtype] all work on /anime). Used to build a bounded filter[anime_id]
-// candidate set for the "planning" fetch (confirmed live: /library-entries accepts
-// filter[anime_id]=id1,id2,... to scope the user's own list), instead of paging through an entire,
-// potentially huge planning backlog. Kitsu's own page[limit] cap is 20 (confirmed live: values
-// above 20 return 400), so this is capped at CANDIDATE_MAX_PAGES pages sorted by popularity —
-// same tradeoff already accepted for AniList's equivalent query, just in Kitsu's own id space
-// (Kitsu ids don't correspond to AniList ids, so AniList's candidate ids can't be reused here).
-const CANDIDATE_MAX_PAGES = 2; // 2 * 20 = 40 candidates cap
+// Id-only lookup against Kitsu's public anime catalog, which supports season/status/subtype
+// filtering server-side (unlike /library-entries). Used to build a bounded candidate id set for
+// the "planning" fetch. Sorted by popularity, capped at CANDIDATE_MAX_PAGES pages.
+const CANDIDATE_MAX_PAGES = 5;
 
 async function getCandidateAnimeIds(params: GetCandidateAnimeIdsParams): Promise<number[]> {
     const filters = [
@@ -180,19 +174,11 @@ async function getCandidateAnimeIds(params: GetCandidateAnimeIdsParams): Promise
             : undefined,
     ].filter((f): f is string => f !== undefined);
 
-    const ids: number[] = [];
-    let nextUrl: string | undefined = `/anime?${filters.join('&')}&sort=popularityRank&page[limit]=${PAGE_LIMIT}`;
-    let page = 0;
+    const initialUrl = `/anime?${filters.join('&')}&sort=popularityRank&page[limit]=${PAGE_LIMIT}`;
 
-    while (nextUrl && page < CANDIDATE_MAX_PAGES) {
-        const response: KitsuCandidateAnimeResponse = await kitsuFetch<KitsuCandidateAnimeResponse>(nextUrl);
+    const responses = await paginateByCursor(initialUrl, CANDIDATE_MAX_PAGES, (url) => kitsuFetch<KitsuCandidateAnimeResponse>(url));
 
-        ids.push(...response.data.map((anime) => Number(anime.id)));
-        nextUrl = response.links?.next;
-        page += 1;
-    }
-
-    return ids;
+    return responses.flatMap((response) => response.data.map((anime) => Number(anime.id)));
 }
 
 export { getMediaList, getCandidateAnimeIds };

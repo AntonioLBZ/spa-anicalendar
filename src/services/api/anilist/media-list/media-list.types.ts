@@ -81,9 +81,7 @@ interface GetMediaListParams {
     userId: number;
     type?: AnilistMediaType;
     statusIn?: AnilistMediaListStatus[];
-    /** Restrict results to media whose id is in this list. Used to scope a "planning" fetch down
-     * to a small candidate set (this season's roster + currently-releasing media) instead of
-     * pulling an entire, potentially huge planning backlog. Omit to fetch unrestricted (e.g. watching). */
+    /** Restrict results to media whose id is in this list. Omit to fetch unrestricted. */
     mediaIdIn?: number[];
     sort?: AnilistMediaListSort[];
 }

@@ -11,8 +11,7 @@ const MAL_STATUS_MAP: Record<MediaListEntryStatus, string> = {
 };
 
 async function getMediaList(userName: string, statuses: MediaListEntryStatus[] = ['WATCHING']): Promise<AnimeEntry[]> {
-    // MAL's status query param accepts only one value per request, so fetch once per requested
-    // status and merge, rather than one combined request (unlike Kitsu's combined filter[status]).
+    // MAL's status query param accepts only one value per request.
     const malStatuses = statuses.map((status) => MAL_STATUS_MAP[status]);
 
     const responses = await Promise.all(

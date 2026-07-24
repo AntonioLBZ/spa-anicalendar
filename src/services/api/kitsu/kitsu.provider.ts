@@ -8,14 +8,9 @@ import type { AnimeEntry, User } from '@/services/models';
 
 const NO_FILTERS: MediaListFilters = { formats: [], onlyNewSeason: false };
 
-// Same rationale as AniList's fetchPlanningEntries: a "planning" backlog can be large (hundreds
-// of entries) with almost none of it relevant to a weekly calendar, and Kitsu's library-entries
-// filter has no way to filter by the underlying anime's season/format server-side — but its own
-// anime catalog (/anime) does. So we first fetch a bounded candidate id set (this season's roster
-// + anything currently airing, regardless of season, both narrowed by the selected formats) from
-// that catalog, then scope the planning fetch down to just those ids via filter[anime_id], instead
-// of paging through the user's entire planning list. Kitsu's own ids, not AniList's — the two
-// providers' candidate-id sets are not interchangeable.
+// Kitsu's library-entries filter can't filter by the underlying anime's season/format, so
+// planning entries are narrowed via a candidate anime id set from the anime catalog instead of
+// paging through the user's entire (potentially huge) planning list.
 async function fetchPlanningEntries(user: User, filters: MediaListFilters): Promise<AnimeEntry[]> {
     const { season, seasonYear } = getCurrentSeason();
     const { formats, onlyNewSeason } = filters;

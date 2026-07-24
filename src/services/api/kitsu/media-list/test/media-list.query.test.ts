@@ -301,7 +301,7 @@ describe('getCandidateAnimeIds (Kitsu)', () => {
         expect(typeof call === 'string' && call.includes('page[limit]=20')).toBe(true);
     });
 
-    it('caps pagination at 2 pages (40 candidates) even if links.next keeps being present', async () => {
+    it('caps pagination at 5 pages (100 candidates) even if links.next keeps being present', async () => {
         fetchMock.mockImplementation(
             async () =>
                 new Response(
@@ -315,7 +315,7 @@ describe('getCandidateAnimeIds (Kitsu)', () => {
 
         await getCandidateAnimeIds({ status: 'current' });
 
-        expect(fetchMock).toHaveBeenCalledTimes(2);
+        expect(fetchMock).toHaveBeenCalledTimes(5);
     });
 
     it('sends filter[subtype] mapped from MediaFormat, only when formats are provided', async () => {

@@ -1,9 +1,7 @@
 import type { AnilistMediaListEntry } from './media-list.types';
 import type { AnimeEntry, MediaFormat, MediaListEntryStatus, MediaSeason, MediaStatus } from '@/services/models';
 
-// The mediaList entry's own status (distinct from media.status/the anime's airing status) —
-// tells us which requested list (watching vs planning) this entry actually came from, so
-// filterAiringEntries can apply the right inclusion rule per origin, not per airing status.
+// The mediaList entry's own status — which requested list (watching vs planning) it came from.
 const LIST_STATUS_MAP: Record<string, MediaListEntryStatus> = {
     CURRENT: 'WATCHING',
     REPEATING: 'WATCHING',

@@ -9,8 +9,7 @@ const STATUS_MAP: Record<string, MediaStatus> = {
     not_yet_aired: 'NOT_YET_RELEASED',
 };
 
-// list_status.status is the LIBRARY-membership status (which requested list this came from),
-// distinct from node.status (the anime's own airing status, mapped above via STATUS_MAP).
+// list_status.status is the library-membership status (which requested list this came from).
 const LIST_STATUS_MAP: Record<string, MediaListEntryStatus> = {
     watching: 'WATCHING',
     plan_to_watch: 'PLANNING',
