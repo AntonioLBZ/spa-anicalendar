@@ -1,4 +1,4 @@
-import type { ContentFilter } from '@/contexts/settings-context';
+import type { ContentFilter } from '@/contexts/seasonal-filters-context';
 import type { AnimeEntry } from '@/services';
 
 const filterByContent = (entries: AnimeEntry[], contentFilter: ContentFilter): AnimeEntry[] => {

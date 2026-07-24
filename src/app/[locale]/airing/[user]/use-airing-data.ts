@@ -1,15 +1,19 @@
 import { notFound } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
-import { useSettingsContext } from '@/contexts/settings-context';
+import { useSeasonalFilters } from '@/contexts';
 import { useUserContext } from '@/contexts/user-context';
 import { useRouter } from '@/lib/i18n/navigation';
 import { isUserNotFoundError, useMediaList, useUser } from '@/services';
 
-const useAiringData = (userName: string | null) => {
+import { buildRequestedStatuses, filterAiringEntries } from './use-airing-data.filters';
+
+import type { Provider } from '@/services/api/api.types';
+
+const useAiringData = (userName: string | null, provider: Provider) => {
     const router = useRouter();
-    const { provider } = useSettingsContext();
     const { setUser } = useUserContext();
+    const { filters } = useSeasonalFilters();
 
     useEffect(() => {
         if (!userName?.trim()) {
@@ -30,7 +34,12 @@ const useAiringData = (userName: string | null) => {
         return () => setUser?.(undefined);
     }, [setUser]);
 
-    const mediaListQuery = useMediaList(provider, userQuery.data);
+    const requestedStatuses = useMemo(() => buildRequestedStatuses(filters.userList), [filters.userList]);
+
+    const mediaListQuery = useMediaList(provider, userQuery.data, requestedStatuses, {
+        formats: filters.formats,
+        onlyNewSeason: filters.onlyNewSeason,
+    });
 
     const queryError = userQuery.error ?? mediaListQuery.error ?? null;
 
@@ -38,7 +47,10 @@ const useAiringData = (userName: string | null) => {
         notFound();
     }
 
-    const entries = mediaListQuery.data ?? [];
+    const entries = useMemo(
+        () => filterAiringEntries(mediaListQuery.data ?? [], { formats: filters.formats, onlyNewSeason: filters.onlyNewSeason }),
+        [mediaListQuery.data, filters.onlyNewSeason, filters.formats],
+    );
 
     const retry = () => {
         if (userQuery.error) {
@@ -63,3 +75,4 @@ const useAiringData = (userName: string | null) => {
 };
 
 export { useAiringData };
+export { buildRequestedStatuses, filterAiringEntries } from './use-airing-data.filters';

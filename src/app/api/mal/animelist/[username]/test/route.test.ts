@@ -109,4 +109,47 @@ describe('GET /api/mal/animelist/[username]', () => {
         expect(response.status).toBe(502);
         expect(console.error).toHaveBeenCalled();
     });
+
+    it('forwards an allowlisted status param to the MAL upstream URL', async () => {
+        fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ data: [] }), { status: 200 }));
+
+        await GET(
+            new Request('http://localhost/api/mal/animelist/lanzorzx?status=plan_to_watch'),
+            params('lanzorzx'),
+        );
+
+        const [url] = fetchMock.mock.calls[0];
+        expect(url).toContain('status=plan_to_watch');
+    });
+
+    it('ignores a non-allowlisted status value and falls back to watching', async () => {
+        fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ data: [] }), { status: 200 }));
+
+        await GET(
+            new Request('http://localhost/api/mal/animelist/lanzorzx?status=completed'),
+            params('lanzorzx'),
+        );
+
+        const [url] = fetchMock.mock.calls[0];
+        expect(url).toContain('status=watching');
+        expect(url).not.toContain('status=completed');
+    });
+
+    it('defaults to watching when no status param is supplied', async () => {
+        fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ data: [] }), { status: 200 }));
+
+        await GET(new Request('http://localhost/api/mal/animelist/lanzorzx'), params('lanzorzx'));
+
+        const [url] = fetchMock.mock.calls[0];
+        expect(url).toContain('status=watching');
+    });
+
+    it('sorts by most recently updated in the user list', async () => {
+        fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ data: [] }), { status: 200 }));
+
+        await GET(new Request('http://localhost/api/mal/animelist/lanzorzx'), params('lanzorzx'));
+
+        const [url] = fetchMock.mock.calls[0];
+        expect(url).toContain('sort=list_updated_at');
+    });
 });

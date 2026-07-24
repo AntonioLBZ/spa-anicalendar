@@ -5,14 +5,16 @@ import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 
 import { Button, ErrorState, Link } from '@/components';
-import { useSettingsContext } from '@/contexts/settings-context';
+import { useSeasonalFilters } from '@/contexts';
 import { CalendarToolbar } from '@/features/calendar-toolbar';
 import { useEntryVisibility } from '@/features/entry-visibility';
+import { SeasonalFiltersTrigger } from '@/features/seasonal-filters';
 import { filterByContent, filterByHidden, WeeklyCalendar } from '@/features/weekly-calendar';
 import { getCalendarStats } from '@/lib/airing';
 import { Link as NavLink } from '@/lib/i18n/navigation';
 
 import { useAiringData } from './use-airing-data';
+import { useSyncProviderWithUrl } from './use-sync-provider-with-url';
 
 import '../page.css';
 
@@ -22,13 +24,14 @@ export default function AiringPage() {
     const rawUser = Array.isArray(params.user) ? params.user[0] : params.user;
     const userName = rawUser ? decodeURIComponent(rawUser) : null;
 
-    const airing = useAiringData(userName);
-    const { contentFilter, provider } = useSettingsContext();
+    const provider = useSyncProviderWithUrl();
+    const airing = useAiringData(userName, provider);
+    const { filters } = useSeasonalFilters();
 
     const allIds = useMemo(() => airing.data.entries.map((entry) => entry.id), [airing.data.entries]);
     const editableEntries = useMemo(
-        () => filterByContent(airing.data.entries, contentFilter),
-        [airing.data.entries, contentFilter]
+        () => filterByContent(airing.data.entries, filters.contentFilter),
+        [airing.data.entries, filters.contentFilter]
     );
     const editableIds = useMemo(() => editableEntries.map((entry) => entry.id), [editableEntries]);
 
@@ -78,6 +81,7 @@ export default function AiringPage() {
                     isEditMode={visibility.state.isEditMode}
                     hiddenIds={visibility.data.hiddenIds}
                     onToggleEntry={visibility.actions.toggleDraftHidden}
+                    sectionHeaderAction={<SeasonalFiltersTrigger />}
                 />
             </div>
         </main>

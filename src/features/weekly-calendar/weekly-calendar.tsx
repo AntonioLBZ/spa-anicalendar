@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import React, { useMemo } from 'react';
 
 import { Divider } from '@/components';
+import { useSeasonalFilters } from '@/contexts';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { AnimeCard } from '@/features/anime-card';
 import { getAiringDay, getAiringMinuteOfDay, getNextAiringEntryId, getTodayIndex } from '@/lib/airing';
@@ -63,14 +64,15 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
         emptyMessage,
         sectionHeaderAction,
     } = props;
-    const { contentFilter, emptyDaysMode, weekStartDay, calendarLayout } = useSettingsContext();
+    const { emptyDaysMode, weekStartDay, calendarLayout } = useSettingsContext();
+    const { filters } = useSeasonalFilters();
     const layoutMode = useLayoutMode();
     const t = useTranslations('weeklyCalendar');
 
     const filtered = useMemo(() => {
-        const byContent = filterByContent(entries, contentFilter);
+        const byContent = filterByContent(entries, filters.contentFilter);
         return isEditMode ? byContent : filterByHidden(byContent, hiddenIds);
-    }, [entries, contentFilter, isEditMode, hiddenIds]);
+    }, [entries, filters.contentFilter, isEditMode, hiddenIds]);
     const nextAiringEntryId = useMemo(() => getNextAiringEntryId(filtered), [filtered]);
     const todayIndex = getTodayIndex(weekStartDay);
     const { days, noAiring } = useMemo(() => groupByAiringDay(filtered, weekStartDay), [filtered, weekStartDay]);

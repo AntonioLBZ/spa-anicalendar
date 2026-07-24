@@ -18,6 +18,7 @@ const eslintConfig = [
             },
         },
         rules: {
+            '@typescript-eslint/no-explicit-any': 'error',
             'sort-imports': 'off',
             'import/order': [
                 'error',

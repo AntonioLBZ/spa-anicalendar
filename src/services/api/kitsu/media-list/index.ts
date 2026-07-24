@@ -1,1 +1,1 @@
-export { getMediaList } from './media-list.query';
+export { getCandidateAnimeIds, getMediaList } from './media-list.query';

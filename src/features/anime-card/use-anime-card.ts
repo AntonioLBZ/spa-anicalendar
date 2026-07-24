@@ -45,6 +45,7 @@ const useAnimeCard = (props: AnimeCardProps) => {
     const pendingCount = showWatchStatus && hasProgress && nextEp ? nextEp.episode - entry.progress! - 1 : -1;
     const statusMeta = STATUS_META_MAP[entry.status] ?? DEFAULT_STATUS_META;
     const countdown = nextEp ? getTimeUntilAiring(nextEp.airingAt) : null;
+    const isPlanning = entry.listStatus === 'PLANNING';
 
     let progressText: string | null = null;
     if (hasProgress) {
@@ -67,6 +68,7 @@ const useAnimeCard = (props: AnimeCardProps) => {
             isHidden,
             isExpanded,
             isNextAiring,
+            isPlanning,
             hasProgress,
             showStatus: !hideStatus,
             statusVariant: statusMeta.variant,
@@ -87,6 +89,7 @@ const useAnimeCard = (props: AnimeCardProps) => {
             countdown: countdownText,
             status: t(`status.${statusMeta.key}`),
             next: t('next'),
+            planning: t('planning'),
             toggleDetails: t('toggleDetails'),
         },
         actions: {

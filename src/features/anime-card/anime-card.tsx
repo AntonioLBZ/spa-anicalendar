@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { CheckMarkIcon, InfoIcon, Pill, ToggleButton } from '@/components';
+import { BookmarkIcon, CheckMarkIcon, InfoIcon, Pill, ToggleButton } from '@/components';
 
 import './anime-card.css';
 
@@ -19,6 +19,11 @@ const AnimeCard = (props: AnimeCardProps) => {
         <div className={state.cardClassName} {...hoverProps}>
             <Image className="card__image" src={entry.coverImageUrl} alt={entry.title} fill />
             {state.isNextAiring && <Pill className="card__next-airing">{copy.next}</Pill>}
+            {state.isPlanning && (
+                <span className="card__planning-badge" role="img" title={copy.planning} aria-label={copy.planning}>
+                    <BookmarkIcon />
+                </span>
+            )}
             <div className="card__overlay">
                 {state.hasProgress && (
                     <span className="card__progress" title={copy.progressAria ?? undefined}>

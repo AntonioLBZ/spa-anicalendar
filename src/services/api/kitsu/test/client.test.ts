@@ -20,7 +20,7 @@ describe('kitsuFetch', () => {
         const result = await kitsuFetch('/users?filter[name]=someone');
 
         expect(result).toEqual({ data: [] });
-        expect(fetchMock).toHaveBeenCalledWith('https://kitsu.io/api/edge/users?filter[name]=someone');
+        expect(fetchMock).toHaveBeenCalledWith('https://kitsu.app/api/edge/users?filter[name]=someone');
     });
 
     it('throws KitsuUserNotFoundError on 404', async () => {

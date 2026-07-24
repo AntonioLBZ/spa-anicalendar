@@ -79,7 +79,9 @@ describe('selectAnimeEntry', () => {
         // Kitsu anime id (10001) is deliberately different from its mapped MAL id (42) — these are
         // independent id namespaces and must not be conflated (see media-list.query.ts:getMalIdsForAnime).
         const anime = baseAnime({ status: 'current' }, '10001');
-        const entry = selectAnimeEntry(denormalized({ anime, malId: 42 }), { 42: { airingAt: 1784124000, episode: 11 } });
+        const entry = selectAnimeEntry(denormalized({ anime, malId: 42 }), {
+            42: { nextAiringEpisode: { airingAt: 1784124000, episode: 11 }, season: 'FALL', seasonYear: 2024 },
+        });
 
         expect(entry.nextAiringEpisode).toEqual({ airingAt: 1784124000, episode: 11 });
     });
@@ -169,7 +171,50 @@ describe('selectAnimeEntry', () => {
 
     it('builds siteUrl from the anime slug', () => {
         expect(selectAnimeEntry(denormalized({ anime: baseAnime({ slug: 'my-anime' }) }), NO_AIRING).siteUrl).toBe(
-            'https://kitsu.io/anime/my-anime',
+            'https://kitsu.app/anime/my-anime',
         );
+    });
+
+    it('maps each subtype value to the correct format enum', () => {
+        const subtypeTests: Array<[string, string]> = [
+            ['TV', 'TV'],
+            ['movie', 'MOVIE'],
+            ['OVA', 'OVA'],
+            ['ONA', 'ONA'],
+            ['special', 'SPECIAL'],
+            ['music', 'MUSIC'],
+        ];
+
+        subtypeTests.forEach(([subtype, expectedFormat]) => {
+            const entry = selectAnimeEntry(denormalized({ anime: baseAnime({ subtype }) }), NO_AIRING);
+            expect(entry.format).toBe(expectedFormat);
+        });
+    });
+
+    it('maps unknown subtype to undefined without throwing', () => {
+        const entry = selectAnimeEntry(denormalized({ anime: baseAnime({ subtype: 'unknown_subtype' }) }), NO_AIRING);
+        expect(entry.format).toBeUndefined();
+    });
+
+    it('maps null subtype to undefined', () => {
+        const entry = selectAnimeEntry(denormalized({ anime: baseAnime({ subtype: null }) }), NO_AIRING);
+        expect(entry.format).toBeUndefined();
+    });
+
+    describe('listStatus mapping (which requested list this entry came from)', () => {
+        it('maps current (library status) to WATCHING', () => {
+            const entry = selectAnimeEntry(denormalized({ entry: baseEntry({ status: 'current' }) }), NO_AIRING);
+            expect(entry.listStatus).toBe('WATCHING');
+        });
+
+        it('maps planned to PLANNING', () => {
+            const entry = selectAnimeEntry(denormalized({ entry: baseEntry({ status: 'planned' }) }), NO_AIRING);
+            expect(entry.listStatus).toBe('PLANNING');
+        });
+
+        it('leaves listStatus undefined for an unmapped library status', () => {
+            const entry = selectAnimeEntry(denormalized({ entry: baseEntry({ status: 'completed' }) }), NO_AIRING);
+            expect(entry.listStatus).toBeUndefined();
+        });
     });
 });

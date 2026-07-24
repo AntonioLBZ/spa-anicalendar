@@ -7,7 +7,7 @@ const selectUser = (raw: KitsuUserResource): User => ({
     id: Number(raw.id),
     name: raw.attributes.name,
     avatarUrl: raw.attributes.avatar?.medium ?? raw.attributes.avatar?.original ?? DEFAULT_AVATAR_URL,
-    siteUrl: `https://kitsu.io/users/${raw.attributes.slug}`,
+    siteUrl: `https://kitsu.app/users/${raw.id}`,
 });
 
 export { selectUser };

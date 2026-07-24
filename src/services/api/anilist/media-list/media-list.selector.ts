@@ -1,5 +1,12 @@
 import type { AnilistMediaListEntry } from './media-list.types';
-import type { AnimeEntry, MediaSeason, MediaStatus } from '@/services/models';
+import type { AnimeEntry, MediaFormat, MediaListEntryStatus, MediaSeason, MediaStatus } from '@/services/models';
+
+// The mediaList entry's own status — which requested list (watching vs planning) it came from.
+const LIST_STATUS_MAP: Record<string, MediaListEntryStatus> = {
+    CURRENT: 'WATCHING',
+    REPEATING: 'WATCHING',
+    PLANNING: 'PLANNING',
+};
 
 const selectAnimeEntry = (raw: AnilistMediaListEntry): AnimeEntry => ({
     id: raw.id,
@@ -19,6 +26,9 @@ const selectAnimeEntry = (raw: AnilistMediaListEntry): AnimeEntry => ({
     },
     isAdult: raw.media.isAdult,
     season: (raw.media.season as MediaSeason | null) ?? undefined,
+    seasonYear: raw.media.seasonYear ?? undefined,
+    format: (raw.media.format as MediaFormat | null) ?? undefined,
+    listStatus: LIST_STATUS_MAP[raw.status],
     genres: raw.media.genres,
     progress: raw.progress,
     repeat: raw.repeat,

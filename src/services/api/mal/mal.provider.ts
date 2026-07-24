@@ -5,7 +5,7 @@ import type { ApiProvider } from '../api.types';
 
 const malProvider: ApiProvider = {
     getUserByName,
-    getMediaList: (user) => getMediaList(user.name),
+    getMediaList: (user, statuses) => getMediaList(user.name, statuses),
 };
 
 export { malProvider };

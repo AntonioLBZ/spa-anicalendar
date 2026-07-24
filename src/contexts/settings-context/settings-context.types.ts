@@ -1,6 +1,5 @@
 import type { Provider } from '@/services/api/api.types';
 
-type ContentFilter = 'sfw' | 'plus16' | 'plus18';
 type EmptyDaysMode = 'show' | 'hide';
 type ThemeMode = 'system' | 'light' | 'dark';
 type ResolvedThemeMode = Exclude<ThemeMode, 'system'>;
@@ -14,8 +13,6 @@ interface SettingsContextValue {
     theme: ThemeMode;
     resolvedTheme: ResolvedThemeMode;
     setTheme: (theme: ThemeMode) => void;
-    contentFilter: ContentFilter;
-    setContentFilter: (filter: ContentFilter) => void;
     emptyDaysMode: EmptyDaysMode;
     setEmptyDaysMode: (mode: EmptyDaysMode) => void;
     weekStartDay: WeekStartDay;
@@ -26,13 +23,4 @@ interface SettingsContextValue {
     setCalendarLayout: (layout: CalendarLayout) => void;
 }
 
-export type {
-    ContentFilter,
-    EmptyDaysMode,
-    ThemeMode,
-    WeekStartDay,
-    TimeFormat,
-    CalendarLayout,
-    SettingsContextValue,
-    ResolvedThemeMode,
-};
+export type { EmptyDaysMode, ThemeMode, WeekStartDay, TimeFormat, CalendarLayout, SettingsContextValue, ResolvedThemeMode };
