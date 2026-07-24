@@ -71,6 +71,7 @@ describe('SeasonalFiltersTrigger', () => {
                 topN: 25,
                 onlyNewSeason: true,
                 userList: { watching: true, planning: false },
+                contentFilter: 'sfw',
             });
         });
     });
@@ -97,6 +98,7 @@ describe('SeasonalFiltersTrigger', () => {
                 topN: 50,
                 onlyNewSeason: false,
                 userList: { watching: true, planning: false },
+                contentFilter: 'sfw',
             });
         });
     });

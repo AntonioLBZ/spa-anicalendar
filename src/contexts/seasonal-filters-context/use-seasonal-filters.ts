@@ -13,6 +13,7 @@ const SEASONAL_FILTERS_DEFAULTS: SeasonalFiltersState = {
     topN: 50,
     onlyNewSeason: false,
     userList: { watching: true, planning: false },
+    contentFilter: 'sfw',
 };
 
 const seasonalFiltersStore = createPersistedStore<SeasonalFiltersState>(

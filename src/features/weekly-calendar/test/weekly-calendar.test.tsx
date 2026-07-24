@@ -35,7 +35,6 @@ const STORAGE_KEY = 'anicalendar-settings';
 const DEFAULT_STORED_SETTINGS = {
     provider: 'anilist',
     theme: 'system',
-    contentFilter: 'sfw',
     emptyDaysMode: 'show',
     weekStartDay: 'monday',
     timeFormat: '24h',

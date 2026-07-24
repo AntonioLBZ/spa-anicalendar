@@ -5,21 +5,13 @@ import { useTranslations } from 'next-intl';
 import { Button, DismissIcon, Divider, Drawer, DrawerTrigger, GearIcon, Radio, Section } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import {
-    CONTENT_FILTER_OPTIONS,
     EMPTY_DAYS_OPTIONS,
     TIME_FORMAT_OPTIONS,
     WEEK_START_OPTIONS,
     CALENDAR_LAYOUT_OPTIONS,
 } from '@/contexts/settings-context/options';
 
-import type {
-    ContentFilter,
-    EmptyDaysMode,
-    ThemeMode,
-    WeekStartDay,
-    TimeFormat,
-    CalendarLayout,
-} from '@/contexts/settings-context';
+import type { EmptyDaysMode, ThemeMode, WeekStartDay, TimeFormat, CalendarLayout } from '@/contexts/settings-context';
 
 import './settings.css';
 
@@ -28,8 +20,6 @@ const Settings = () => {
     const {
         theme,
         setTheme,
-        contentFilter,
-        setContentFilter,
         emptyDaysMode,
         setEmptyDaysMode,
         weekStartDay,
@@ -63,21 +53,6 @@ const Settings = () => {
                             <Radio.Option value="system">{t('theme.system')}</Radio.Option>
                             <Radio.Option value="dark">{t('theme.dark')}</Radio.Option>
                             <Radio.Option value="light">{t('theme.light')}</Radio.Option>
-                        </Radio.Group>
-                    </Section.Root>
-                    <Divider />
-                    <Section.Root>
-                        <Section.Title>{t('sections.content')}</Section.Title>
-                        <Radio.Group
-                            aria-label={t('sections.content')}
-                            value={contentFilter}
-                            onChange={(v) => setContentFilter(v as ContentFilter)}
-                        >
-                            {CONTENT_FILTER_OPTIONS.map((value) => (
-                                <Radio.Option key={value} value={value}>
-                                    {t(`content.${value}`)}
-                                </Radio.Option>
-                            ))}
                         </Radio.Group>
                     </Section.Root>
                     <Divider />

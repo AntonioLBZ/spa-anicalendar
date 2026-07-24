@@ -1,10 +1,8 @@
-import type { ContentFilter, EmptyDaysMode, TimeFormat, WeekStartDay, CalendarLayout } from '@/contexts';
+import type { EmptyDaysMode, TimeFormat, WeekStartDay, CalendarLayout } from '@/contexts';
 import type { Provider } from '@/services';
 
 // Labels for these are rendered via next-intl in settings.tsx (namespace `settings`),
 // keyed by each value — these arrays only define the set/order of choices.
-const CONTENT_FILTER_OPTIONS: ContentFilter[] = ['sfw', 'plus16', 'plus18'];
-
 const EMPTY_DAYS_OPTIONS: EmptyDaysMode[] = ['show', 'hide'];
 
 const CALENDAR_LAYOUT_OPTIONS: CalendarLayout[] = ['auto', 'grid', 'list'];
@@ -27,11 +25,4 @@ const enabledFromEnv = process.env.NEXT_PUBLIC_ENABLED_PROVIDERS?.split(',')
 const enabledProviders = new Set<Provider>(enabledFromEnv ?? DEFAULT_ENABLED);
 const SOURCE_OPTIONS = ALL_SOURCE_OPTIONS.filter((o) => enabledProviders.has(o.value));
 
-export {
-    CONTENT_FILTER_OPTIONS,
-    EMPTY_DAYS_OPTIONS,
-    WEEK_START_OPTIONS,
-    TIME_FORMAT_OPTIONS,
-    SOURCE_OPTIONS,
-    CALENDAR_LAYOUT_OPTIONS,
-};
+export { EMPTY_DAYS_OPTIONS, WEEK_START_OPTIONS, TIME_FORMAT_OPTIONS, SOURCE_OPTIONS, CALENDAR_LAYOUT_OPTIONS };

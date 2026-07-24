@@ -45,6 +45,12 @@
 		"seasonalEmptyList": "No currently airing anime found this season."
 	},
 	"seasonalFilters": {
+		"contentLabel": "Content",
+		"content": {
+			"sfw": "SFW",
+			"plus16": "+16",
+			"plus18": "+18"
+		},
 		"formatLabel": "Format",
 		"format": {
 			"TV": "TV",
@@ -92,7 +98,6 @@
 		"close": "Close settings",
 		"sections": {
 			"theme": "Theme",
-			"content": "Content",
 			"layout": "Layout",
 			"emptyDays": "Empty days",
 			"weekStart": "Week start",
@@ -102,11 +107,6 @@
 			"system": "System",
 			"dark": "Dark",
 			"light": "Light"
-		},
-		"content": {
-			"sfw": "SFW",
-			"plus16": "+16",
-			"plus18": "+18"
 		},
 		"layout": {
 			"auto": "Auto",

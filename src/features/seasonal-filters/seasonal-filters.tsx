@@ -17,10 +17,11 @@ import {
 import { useSeasonalFilters } from '@/contexts';
 import { useUserContext } from '@/contexts/user-context';
 
-import { FORMAT_OPTIONS, TOP_N_OPTIONS, USER_LIST_OPTIONS } from './seasonal-filters.options';
+import { CONTENT_FILTER_OPTIONS, FORMAT_OPTIONS, TOP_N_OPTIONS, USER_LIST_OPTIONS } from './seasonal-filters.options';
 
 import './seasonal-filters.css';
 
+import type { ContentFilter } from '@/contexts';
 import type { MediaFormat } from '@/services';
 import type { FormEvent } from 'react';
 
@@ -47,6 +48,7 @@ const SeasonalFiltersTrigger = () => {
                       planning: data.get('userListPlanning') === 'on',
                   }
                 : filters.userList,
+            contentFilter: data.get('contentFilter') as ContentFilter,
         });
     };
 
@@ -64,6 +66,21 @@ const SeasonalFiltersTrigger = () => {
                 </Drawer.Header>
                 <Drawer.Body>
                     <Form className="seasonal-filters" onSubmit={handleSubmit}>
+                        <Section.Root>
+                            <Section.Title>{t('contentLabel')}</Section.Title>
+                            <Radio.Group
+                                name="contentFilter"
+                                aria-label={t('contentLabel')}
+                                defaultValue={filters.contentFilter}
+                            >
+                                {CONTENT_FILTER_OPTIONS.map((value) => (
+                                    <Radio.Option key={value} value={value}>
+                                        {t(`content.${value}`)}
+                                    </Radio.Option>
+                                ))}
+                            </Radio.Group>
+                        </Section.Root>
+                        <Divider />
                         <Section.Root>
                             <Section.Title>{t('formatLabel')}</Section.Title>
                             <Checkbox.Group name="formats" aria-label={t('formatLabel')} defaultValue={selectedFormats}>

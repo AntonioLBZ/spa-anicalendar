@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 
 import { Button, ErrorState, Link } from '@/components';
-import { useSettingsContext } from '@/contexts/settings-context';
+import { useSeasonalFilters } from '@/contexts';
 import { CalendarToolbar } from '@/features/calendar-toolbar';
 import { useEntryVisibility } from '@/features/entry-visibility';
 import { SeasonalFiltersTrigger } from '@/features/seasonal-filters';
@@ -19,12 +19,12 @@ import './page.css';
 export default function SeasonalAiringPage() {
     const t = useTranslations('airing');
     const airing = useSeasonalAiringData();
-    const { contentFilter } = useSettingsContext();
+    const { filters } = useSeasonalFilters();
 
     const allIds = useMemo(() => airing.data.entries.map((entry) => entry.id), [airing.data.entries]);
     const editableEntries = useMemo(
-        () => filterByContent(airing.data.entries, contentFilter),
-        [airing.data.entries, contentFilter]
+        () => filterByContent(airing.data.entries, filters.contentFilter),
+        [airing.data.entries, filters.contentFilter]
     );
     const editableIds = useMemo(() => editableEntries.map((entry) => entry.id), [editableEntries]);
 

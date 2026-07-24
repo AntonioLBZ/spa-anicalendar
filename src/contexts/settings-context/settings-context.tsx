@@ -8,7 +8,6 @@ import { createPersistedStore } from '@/lib/create-persisted-store';
 import { useResolvedTheme } from '../../lib/use-theme';
 
 import type {
-    ContentFilter,
     EmptyDaysMode,
     ThemeMode,
     WeekStartDay,
@@ -23,7 +22,6 @@ const STORAGE_KEY = 'anicalendar-settings';
 type SettingsState = {
     provider: Provider;
     theme: ThemeMode;
-    contentFilter: ContentFilter;
     emptyDaysMode: EmptyDaysMode;
     weekStartDay: WeekStartDay;
     timeFormat: TimeFormat;
@@ -33,7 +31,6 @@ type SettingsState = {
 const DEFAULTS: SettingsState = {
     provider: 'anilist',
     theme: 'system',
-    contentFilter: 'sfw',
     emptyDaysMode: 'show',
     weekStartDay: 'monday',
     timeFormat: '24h',
@@ -63,10 +60,6 @@ const SettingsProvider = (props: { children: ReactNode }) => {
 
     const setProvider = useCallback((v: Provider) => settingsStore.set((s) => ({ ...s, provider: v })), []);
     const setTheme = useCallback((v: ThemeMode) => settingsStore.set((s) => ({ ...s, theme: v })), []);
-    const setContentFilter = useCallback(
-        (v: ContentFilter) => settingsStore.set((s) => ({ ...s, contentFilter: v })),
-        []
-    );
     const setEmptyDaysMode = useCallback(
         (v: EmptyDaysMode) => settingsStore.set((s) => ({ ...s, emptyDaysMode: v })),
         []
@@ -85,8 +78,6 @@ const SettingsProvider = (props: { children: ReactNode }) => {
             theme: settings.theme,
             resolvedTheme: resolvedTheme(settings.theme),
             setTheme,
-            contentFilter: settings.contentFilter,
-            setContentFilter,
             emptyDaysMode: settings.emptyDaysMode,
             setEmptyDaysMode,
             weekStartDay: settings.weekStartDay,
@@ -100,7 +91,6 @@ const SettingsProvider = (props: { children: ReactNode }) => {
             settings,
             setProvider,
             setTheme,
-            setContentFilter,
             resolvedTheme,
             setEmptyDaysMode,
             setWeekStartDay,
