@@ -171,7 +171,7 @@ describe('selectAnimeEntry', () => {
 
     it('builds siteUrl from the anime slug', () => {
         expect(selectAnimeEntry(denormalized({ anime: baseAnime({ slug: 'my-anime' }) }), NO_AIRING).siteUrl).toBe(
-            'https://kitsu.io/anime/my-anime',
+            'https://kitsu.app/anime/my-anime',
         );
     });
 

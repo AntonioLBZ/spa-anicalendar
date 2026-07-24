@@ -12,16 +12,15 @@ import type { Provider } from '@/services/api/api.types';
 const isValidProvider = (value: string | null): value is Provider =>
     SOURCE_OPTIONS.some((option) => option.value === value);
 
-/** Syncs the `provider` URL query param with the persisted settings provider. */
+/** Syncs the `provider` URL query param with the settings provider and returns the effective provider. */
 const useSyncProviderWithUrl = () => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
     const { provider, setProvider } = useSettingsContext();
+    const urlProvider = searchParams.get('provider');
 
     useEffect(() => {
-        const urlProvider = searchParams.get('provider');
-
         if (isValidProvider(urlProvider)) {
             if (urlProvider !== provider) setProvider(urlProvider);
             return;
@@ -30,7 +29,9 @@ const useSyncProviderWithUrl = () => {
         const params = new URLSearchParams(searchParams);
         params.set('provider', provider);
         router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-    }, [searchParams, provider, setProvider, router, pathname]);
+    }, [urlProvider, searchParams, provider, setProvider, router, pathname]);
+
+    return isValidProvider(urlProvider) ? urlProvider : provider;
 };
 
 export { useSyncProviderWithUrl };

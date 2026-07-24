@@ -24,9 +24,9 @@ export default function AiringPage() {
     const rawUser = Array.isArray(params.user) ? params.user[0] : params.user;
     const userName = rawUser ? decodeURIComponent(rawUser) : null;
 
-    useSyncProviderWithUrl();
-    const airing = useAiringData(userName);
-    const { contentFilter, provider } = useSettingsContext();
+    const provider = useSyncProviderWithUrl();
+    const airing = useAiringData(userName, provider);
+    const { contentFilter } = useSettingsContext();
 
     const allIds = useMemo(() => airing.data.entries.map((entry) => entry.id), [airing.data.entries]);
     const editableEntries = useMemo(

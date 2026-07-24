@@ -202,13 +202,13 @@ describe('Kitsu getMediaList', () => {
         fetchMock
             .mockResolvedValueOnce(
                 new Response(
-                    JSON.stringify({ ...page(20, 1), links: { next: 'https://kitsu.io/api/edge/library-entries?page[offset]=20' } }),
+                    JSON.stringify({ ...page(20, 1), links: { next: 'https://kitsu.app/api/edge/library-entries?page[offset]=20' } }),
                     { status: 200 },
                 ),
             )
             .mockResolvedValueOnce(
                 new Response(
-                    JSON.stringify({ ...page(20, 21), links: { next: 'https://kitsu.io/api/edge/library-entries?page[offset]=40' } }),
+                    JSON.stringify({ ...page(20, 21), links: { next: 'https://kitsu.app/api/edge/library-entries?page[offset]=40' } }),
                     { status: 200 },
                 ),
             )
@@ -220,8 +220,8 @@ describe('Kitsu getMediaList', () => {
         expect(fetchMock).toHaveBeenCalledTimes(3);
         expect(entries).toHaveLength(45);
         // The 2nd/3rd requests must follow the absolute links.next URL verbatim, not re-derive it
-        expect(fetchMock.mock.calls[1][0]).toBe('https://kitsu.io/api/edge/library-entries?page[offset]=20');
-        expect(fetchMock.mock.calls[2][0]).toBe('https://kitsu.io/api/edge/library-entries?page[offset]=40');
+        expect(fetchMock.mock.calls[1][0]).toBe('https://kitsu.app/api/edge/library-entries?page[offset]=20');
+        expect(fetchMock.mock.calls[2][0]).toBe('https://kitsu.app/api/edge/library-entries?page[offset]=40');
     });
 
     it('stops paging once the safety cap is reached, even if links.next keeps being present', async () => {
@@ -238,7 +238,7 @@ describe('Kitsu getMediaList', () => {
                             },
                         ],
                         included: [],
-                        links: { next: 'https://kitsu.io/api/edge/library-entries?page[offset]=999' },
+                        links: { next: 'https://kitsu.app/api/edge/library-entries?page[offset]=999' },
                     }),
                     { status: 200 },
                 ),
@@ -307,7 +307,7 @@ describe('getCandidateAnimeIds (Kitsu)', () => {
                 new Response(
                     JSON.stringify({
                         data: [{ type: 'anime', id: '1' }],
-                        links: { next: 'https://kitsu.io/api/edge/anime?page[offset]=999' },
+                        links: { next: 'https://kitsu.app/api/edge/anime?page[offset]=999' },
                     }),
                     { status: 200 },
                 ),

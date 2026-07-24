@@ -77,7 +77,7 @@ const selectAnimeEntry = (
         duration: anime.attributes.episodeLength ?? undefined,
         status: STATUS_MAP[anime.attributes.status] ?? 'NOT_YET_RELEASED',
         nextAiringEpisode,
-        siteUrl: `https://kitsu.io/anime/${anime.attributes.slug}`,
+        siteUrl: `https://kitsu.app/anime/${anime.attributes.slug}`,
         endDate: parseEndDate(anime.attributes.endDate),
         isAdult: anime.attributes.ageRating === 'R18',
         season,

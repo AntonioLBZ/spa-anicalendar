@@ -2,16 +2,16 @@ import { notFound } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 
 import { useSeasonalFilters } from '@/contexts';
-import { useSettingsContext } from '@/contexts/settings-context';
 import { useUserContext } from '@/contexts/user-context';
 import { useRouter } from '@/lib/i18n/navigation';
 import { isUserNotFoundError, useMediaList, useUser } from '@/services';
 
 import { buildRequestedStatuses, filterAiringEntries } from './use-airing-data.filters';
 
-const useAiringData = (userName: string | null) => {
+import type { Provider } from '@/services/api/api.types';
+
+const useAiringData = (userName: string | null, provider: Provider) => {
     const router = useRouter();
-    const { provider } = useSettingsContext();
     const { setUser } = useUserContext();
     const { filters } = useSeasonalFilters();
 
