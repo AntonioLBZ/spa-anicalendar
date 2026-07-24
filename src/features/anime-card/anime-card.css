@@ -62,10 +62,33 @@
     border-color: var(--color-accent);
 }
 
+.card__planning-badge {
+    align-items: center;
+    color: var(--color-content-bright);
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    position: absolute;
+    right: var(--size-50);
+    top: 0;
+    z-index: 1;
+}
+
+.card__planning-badge > * {
+    color: var(--color-content-bg-primary);
+    height: auto;
+    justify-content: center;
+    width: var(--size-125);
+}
+
 .card__next-airing {
     position: absolute;
     right: var(--size-37);
     top: var(--size-37);
+}
+
+.card:has(.card__planning-badge) .card__next-airing {
+    top: var(--size-150);
 }
 
 .card__info-btn {

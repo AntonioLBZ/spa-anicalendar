@@ -68,6 +68,7 @@
 	"animeCard": {
 		"toggleDetails": "Mostrar detalles",
 		"next": "Siguiente",
+		"planning": "Pendiente",
 		"behind": "{count} pdte.",
 		"caughtUp": "¡Al día!",
 		"unknown": "desconocido",

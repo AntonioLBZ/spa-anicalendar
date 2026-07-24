@@ -68,6 +68,7 @@
 	"animeCard": {
 		"toggleDetails": "Show details",
 		"next": "Next",
+		"planning": "Plan to watch",
 		"behind": "{count} behind",
 		"caughtUp": "Caught up!",
 		"unknown": "unknown",
