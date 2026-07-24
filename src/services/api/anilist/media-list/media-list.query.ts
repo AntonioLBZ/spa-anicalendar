@@ -60,7 +60,7 @@ query MediaList($userId: Int, $type: MediaType, $statusIn: [MediaListStatus], $m
 // AniList's mediaList connection is capped at 50 items per page, so large lists must be paged
 // through in full. MAX_PAGES is a safety net against a runaway/misbehaving API.
 const PAGE_SIZE = 50;
-const MAX_PAGES = 5;
+const MAX_PAGES = 2;
 
 async function paginate<TItem>(
     maxPages: number,

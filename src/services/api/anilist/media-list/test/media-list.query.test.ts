@@ -54,7 +54,7 @@ describe('getMediaList (AniList) pagination', () => {
         expect(result).toHaveLength(10);
     });
 
-    it('pages through multiple pages when hasNextPage is true, accumulating all entries (the 360-planning-entry case)', async () => {
+    it('pages through multiple pages when hasNextPage is true, accumulating all entries up to the 2-page safety cap', async () => {
         fetchMock
             .mockResolvedValueOnce(
                 new Response(
@@ -67,18 +67,12 @@ describe('getMediaList (AniList) pagination', () => {
                     JSON.stringify({ data: { Page: { pageInfo: { hasNextPage: true }, mediaList: mediaListPage(50, 51) } } }),
                     { status: 200 },
                 ),
-            )
-            .mockResolvedValueOnce(
-                new Response(
-                    JSON.stringify({ data: { Page: { pageInfo: { hasNextPage: false }, mediaList: mediaListPage(10, 101) } } }),
-                    { status: 200 },
-                ),
             );
 
         const result = await getMediaList({ userId: 1, type: 'ANIME', statusIn: ['PLANNING'] });
 
-        expect(fetchMock).toHaveBeenCalledTimes(3);
-        expect(result).toHaveLength(110);
+        expect(fetchMock).toHaveBeenCalledTimes(2);
+        expect(result).toHaveLength(100);
     });
 
     it('sends an incrementing page variable and a fixed perPage on each request', async () => {

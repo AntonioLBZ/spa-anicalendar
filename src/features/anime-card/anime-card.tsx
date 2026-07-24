@@ -20,7 +20,7 @@ const AnimeCard = (props: AnimeCardProps) => {
             <Image className="card__image" src={entry.coverImageUrl} alt={entry.title} fill />
             {state.isNextAiring && <Pill className="card__next-airing">{copy.next}</Pill>}
             {state.isPlanning && (
-                <span className="card__planning-badge" title={copy.planning} aria-label={copy.planning}>
+                <span className="card__planning-badge" role="img" title={copy.planning} aria-label={copy.planning}>
                     <BookmarkIcon />
                 </span>
             )}

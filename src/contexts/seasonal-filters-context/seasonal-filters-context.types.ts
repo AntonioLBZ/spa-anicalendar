@@ -3,10 +3,10 @@ import type { MediaFormat } from '@/services';
 type SeasonalFiltersState = {
     /** Explicitly selected formats. Empty array means "all formats". */
     formats: MediaFormat[];
-    /** Top N most popular, with no User */
+    /** Anonymous browsing only. */
     topN: number;
     onlyNewSeason: boolean;
-    /** Only rendered/applied, with user. */
+    /** Signed-in browsing only. */
     userList: { watching: boolean; planning: boolean };
 };
 
