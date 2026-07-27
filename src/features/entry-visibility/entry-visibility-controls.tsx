@@ -10,7 +10,7 @@ import type { EntryVisibilityControlsProps } from './entry-visibility.types';
 
 const EntryVisibilityControls = (props: EntryVisibilityControlsProps) => {
     const { isEditMode, onEnter, onSave, onCancel, isAllHidden = false, onToggleAll } = props;
-    const t = useTranslations('calendarToolbar');
+    const t = useTranslations('entryVisibility');
 
     if (!isEditMode) {
         return (

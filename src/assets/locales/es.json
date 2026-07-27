@@ -127,15 +127,19 @@
 		}
 	},
 	"calendarToolbar": {
-		"edit": "Gestionar visibilidad",
-		"save": "Guardar",
-		"cancel": "Cancelar",
 		"hiddenCount": "Animes ocultados: {count}.",
 		"pendingEpisodes": "Episodios pendientes: <b>{count}</b>",
 		"pendingEpisodesWithTime": "Episodios pendientes: <b>{count}</b> (<b>{time}</b>)",
 		"nextEpisodeIn": "Próximo episodio en <b>{time}</b>",
 		"editHint": "Haz clic en <icon></icon> para ocultar un anime — solo cambia lo que se muestra en este calendario, tu lista no se modifica.",
 		"editSeasonalHint": "Haz clic en <icon></icon> para ocultar algún anime del calendario.",
+		"exploreSeason": "Explora esta temporada",
+		"exploreNextSeason": "Explora la próxima temporada"
+	},
+	"entryVisibility": {
+		"edit": "Gestionar visibilidad",
+		"save": "Guardar",
+		"cancel": "Cancelar",
 		"hideAll": "Ocultar todos",
 		"showAll": "Mostrar todos"
 	},

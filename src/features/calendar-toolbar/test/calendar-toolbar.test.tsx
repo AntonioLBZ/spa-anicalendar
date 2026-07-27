@@ -12,6 +12,14 @@ const { useUserContext } = vi.hoisted(() => ({ useUserContext: vi.fn() }));
 
 vi.mock('@/contexts/user-context', () => ({ useUserContext }));
 
+vi.mock('@/lib/i18n/navigation', () => ({
+    Link: ({ href, children, ...rest }: { href: unknown; children: React.ReactNode }) => (
+        <a href={typeof href === 'string' ? href : JSON.stringify(href)} {...rest}>
+            {children}
+        </a>
+    ),
+}));
+
 const stats: CalendarStats = {
     pendingEpisodes: 4,
     pendingMinutes: 96,
@@ -41,5 +49,26 @@ describe('CalendarToolbar showPendingStats', () => {
 
         expect(screen.queryByText(/Episodes pending/)).not.toBeInTheDocument();
         expect(screen.getByText(/Next episode in/)).toBeInTheDocument();
+    });
+});
+
+describe('CalendarToolbar showExploreLinks', () => {
+    it('renders no explore links by default', () => {
+        render(<CalendarToolbar stats={stats} isEditMode={false} hiddenCount={0} />, { wrapper: Wrapper });
+
+        expect(screen.queryByRole('link', { name: 'Explore this season' })).not.toBeInTheDocument();
+        expect(screen.queryByRole('link', { name: 'Explore next season' })).not.toBeInTheDocument();
+    });
+
+    it('renders links to the current and next season when showExploreLinks is set', () => {
+        render(<CalendarToolbar stats={stats} isEditMode={false} hiddenCount={0} showExploreLinks />, {
+            wrapper: Wrapper,
+        });
+
+        expect(screen.getByRole('link', { name: 'Explore this season' })).toHaveAttribute('href', '/airing');
+        expect(screen.getByRole('link', { name: 'Explore next season' })).toHaveAttribute(
+            'href',
+            '/airing/next-season'
+        );
     });
 });

@@ -69,6 +69,7 @@ export default function AiringPage() {
                     stats={stats}
                     isEditMode={visibility.state.isEditMode}
                     hiddenCount={visibility.data.hiddenCount}
+                    showExploreLinks
                 />
                 <WeeklyCalendar
                     entries={airing.data.entries}

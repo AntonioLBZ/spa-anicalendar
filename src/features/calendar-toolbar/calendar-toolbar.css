@@ -8,6 +8,21 @@
     padding: var(--size-75) var(--size-100);
 }
 
+.calendar-toolbar__row {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--size-100);
+    justify-content: space-between;
+}
+
+.calendar-toolbar__explore-links {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--size-75);
+}
+
 .calendar-toolbar__hint {
     color: var(--color-content-secondary);
     margin: 0;
