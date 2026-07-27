@@ -180,6 +180,10 @@
     color: var(--color-warning);
 }
 
+.card__week-skip {
+    color: var(--color-warning);
+}
+
 .card__on-date {
     color: var(--color-accent);
 }

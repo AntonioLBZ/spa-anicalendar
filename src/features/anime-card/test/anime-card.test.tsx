@@ -100,6 +100,26 @@ describe('AnimeCard title visibility', () => {
     });
 });
 
+describe('AnimeCard week skip', () => {
+    it('shows a week-skip suffix when the next episode airs beyond the current calendar week', () => {
+        const farFuture = Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60;
+        render(<AnimeCard entry={{ ...entry, nextAiringEpisode: { airingAt: farFuture, episode: 4 } }} />, {
+            wrapper: Wrapper,
+        });
+
+        expect(screen.getByText(/\+ \d+ weeks?/)).toBeInTheDocument();
+    });
+
+    it('omits the week-skip suffix when the next episode airs later this week', () => {
+        const soon = Math.floor(Date.now() / 1000) + 60 * 60;
+        render(<AnimeCard entry={{ ...entry, nextAiringEpisode: { airingAt: soon, episode: 4 } }} />, {
+            wrapper: Wrapper,
+        });
+
+        expect(screen.queryByText(/\+ \d+ weeks?/)).not.toBeInTheDocument();
+    });
+});
+
 describe('AnimeCard showWatchStatus', () => {
     it('shows the "Ep X/Y" badge using episodes-aired progress, but omits behind/caught-up, when showWatchStatus is false', () => {
         // Anonymous/seasonal entries: progress holds "episodes aired so far" (see seasonal.selector.ts),

@@ -87,6 +87,7 @@
 		"episodeProgressUnknown": "Ep {progress}/?",
 		"episodeProgressAria": "Episode {progress} of {total}",
 		"aired": "Aired",
+		"airingTimeWeekSkip": "{time} <weeks>+ {count, plural, one {# week} other {# weeks}}</weeks>",
 		"countdownDays": "{days}d {hours}h",
 		"countdownHours": "{hours}h {minutes}m",
 		"countdownMinutes": "{minutes}m",

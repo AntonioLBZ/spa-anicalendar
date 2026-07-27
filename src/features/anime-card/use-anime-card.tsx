@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useHover } from 'react-aria';
 
 import { useSettingsContext } from '@/contexts/settings-context';
-import { formatCountdown, getLocalAiringTime, getTimeUntilAiring } from '@/lib/airing';
+import { formatCountdown, getLocalAiringTime, getTimeUntilAiring, getWeeksUntilAiring } from '@/lib/airing';
 
 import type { AnimeCardProps } from './anime-card.types';
 
@@ -31,7 +31,7 @@ const useAnimeCard = (props: AnimeCardProps) => {
         showProgress = true,
         showWatchStatus = true,
     } = props;
-    const { timeFormat } = useSettingsContext();
+    const { timeFormat, weekStartDay } = useSettingsContext();
     const t = useTranslations('animeCard');
     const titleId = `anime-title-${entry.id}`;
     const detailsId = `anime-details-${entry.id}`;
@@ -59,7 +59,19 @@ const useAnimeCard = (props: AnimeCardProps) => {
         : null;
     const behindText = pendingCount > 0 ? t('behind', { count: pendingCount }) : null;
     const caughtUpText = pendingCount === 0 ? t('caughtUp') : null;
-    const airingTimeText = nextEp ? getLocalAiringTime(nextEp.airingAt, timeFormat) : null;
+    const weeksAhead = nextEp ? getWeeksUntilAiring(nextEp.airingAt, weekStartDay) : 0;
+    let airingTimeText: React.ReactNode = null;
+    if (nextEp) {
+        const localTime = getLocalAiringTime(nextEp.airingAt, timeFormat);
+        airingTimeText =
+            weeksAhead > 0
+                ? t.rich('airingTimeWeekSkip', {
+                      time: localTime,
+                      count: weeksAhead,
+                      weeks: (chunks) => <span className="card__week-skip">{chunks}</span>,
+                  })
+                : localTime;
+    }
     const countdownText = countdown && formatCountdown(t, countdown);
 
     return {
