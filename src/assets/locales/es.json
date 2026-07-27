@@ -134,8 +134,8 @@
 		"pendingEpisodes": "Episodios pendientes: <b>{count}</b>",
 		"pendingEpisodesWithTime": "Episodios pendientes: <b>{count}</b> (<b>{time}</b>)",
 		"nextEpisodeIn": "Próximo episodio en <b>{time}</b>",
-		"editHint": "Ocultar un anime aquí solo cambia lo que se muestra en este calendario — tu lista no se modifica.",
-		"editSeasonalHint": "Usa \"Gestionar visibilidad\" para ocultar algún anime del calendario.",
+		"editHint": "Haz clic en <icon></icon> para ocultar un anime — solo cambia lo que se muestra en este calendario, tu lista no se modifica.",
+		"editSeasonalHint": "Haz clic en <icon></icon> para ocultar algún anime del calendario.",
 		"hideAll": "Ocultar todos",
 		"showAll": "Mostrar todos"
 	},

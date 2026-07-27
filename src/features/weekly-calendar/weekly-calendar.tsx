@@ -7,6 +7,8 @@ import { Divider } from '@/components';
 import { useSeasonalFilters } from '@/contexts';
 import { useSettingsContext } from '@/contexts/settings-context';
 import { AnimeCard } from '@/features/anime-card';
+import { EntryVisibilityControls } from '@/features/entry-visibility';
+import { SeasonalFiltersTrigger } from '@/features/seasonal-filters';
 import { getAiringDay, getAiringMinuteOfDay, getNextAiringEntryId, getTodayIndex } from '@/lib/airing';
 import { useLayoutMode } from '@/lib/use-layout-mode';
 
@@ -62,7 +64,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
         showProgress = true,
         showWatchStatus = true,
         emptyMessage,
-        sectionHeaderAction,
+        visibility,
     } = props;
     const { emptyDaysMode, weekStartDay, calendarLayout } = useSettingsContext();
     const { filters } = useSeasonalFilters();
@@ -77,12 +79,19 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
     const todayIndex = getTodayIndex(weekStartDay);
     const { days, noAiring } = useMemo(() => groupByAiringDay(filtered, weekStartDay), [filtered, weekStartDay]);
 
+    const headerActions = visibility && (
+        <div className="weekly-calendar__header-actions">
+            <EntryVisibilityControls {...visibility} />
+            {!visibility.isEditMode && <SeasonalFiltersTrigger />}
+        </div>
+    );
+
     if (filtered.length === 0) {
         return (
             <div className="weekly-calendar body-l">
                 <div className="weekly-calendar__section-header label-l">
                     {t('sectionHeader')}
-                    {sectionHeaderAction}
+                    {headerActions}
                 </div>
                 <div className="weekly-calendar__empty">{emptyMessage ?? t('emptyList')}</div>
             </div>
@@ -107,7 +116,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
             <div className="weekly-calendar__section">
                 <div className="weekly-calendar__section-header label-l">
                     {t('sectionHeader')}
-                    {sectionHeaderAction}
+                    {headerActions}
                 </div>
                 <div className={containerClsx} role="list" aria-label={t('sectionHeader')}>
                     {visibleDays.map(([dayIndex, entries]) => (

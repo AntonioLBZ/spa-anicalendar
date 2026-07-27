@@ -1,6 +1,7 @@
 export { BookmarkIcon } from './bookmark-icon';
 export { CheckMarkIcon } from './check-mark-icon';
 export { DismissIcon } from './dismiss-icon';
+export { EyeIcon } from './eye-icon';
 export { FilterIcon } from './filter-icon';
 export { GearIcon } from './gear-icon';
 export { InfoIcon } from './info-icon';

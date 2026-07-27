@@ -1,4 +1,5 @@
 import type { CalendarLayout, WeekStartDay } from '@/contexts/settings-context';
+import type { EntryVisibilityControlsProps } from '@/features/entry-visibility';
 import type { AnimeEntry } from '@/services';
 
 /** `calendarLayout` with `'auto'` resolved away — the concrete layout actually being rendered. */
@@ -19,8 +20,8 @@ type WeeklyCalendarProps = {
     showWatchStatus?: boolean;
     /** Overrides the default "No anime in your watching list" empty-state copy, which is inaccurate outside a per-user list. */
     emptyMessage?: string;
-    /** Rendered at the right edge of the main section header row (e.g. a seasonal filters trigger). */
-    sectionHeaderAction?: React.ReactNode;
+    /** Edit-mode visibility controls + the seasonal filters trigger, rendered together at the right edge of the section header. Omit to hide both (e.g. no visibility management for this view). */
+    visibility?: EntryVisibilityControlsProps;
 };
 
 type WeeklyCalendarDayProps = {

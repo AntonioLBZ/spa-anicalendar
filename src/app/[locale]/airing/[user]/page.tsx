@@ -8,7 +8,6 @@ import { Button, ErrorState, Link } from '@/components';
 import { useSeasonalFilters } from '@/contexts';
 import { CalendarToolbar } from '@/features/calendar-toolbar';
 import { useEntryVisibility } from '@/features/entry-visibility';
-import { SeasonalFiltersTrigger } from '@/features/seasonal-filters';
 import { filterByContent, filterByHidden, WeeklyCalendar } from '@/features/weekly-calendar';
 import { getCalendarStats } from '@/lib/airing';
 import { Link as NavLink } from '@/lib/i18n/navigation';
@@ -70,18 +69,20 @@ export default function AiringPage() {
                     stats={stats}
                     isEditMode={visibility.state.isEditMode}
                     hiddenCount={visibility.data.hiddenCount}
-                    onEnter={visibility.actions.enterEditMode}
-                    onSave={visibility.actions.saveEditMode}
-                    onCancel={visibility.actions.cancelEditMode}
-                    isAllHidden={visibility.state.isAllHidden}
-                    onToggleAll={visibility.actions.toggleAll}
                 />
                 <WeeklyCalendar
                     entries={airing.data.entries}
                     isEditMode={visibility.state.isEditMode}
                     hiddenIds={visibility.data.hiddenIds}
                     onToggleEntry={visibility.actions.toggleDraftHidden}
-                    sectionHeaderAction={<SeasonalFiltersTrigger />}
+                    visibility={{
+                        isEditMode: visibility.state.isEditMode,
+                        onEnter: visibility.actions.enterEditMode,
+                        onSave: visibility.actions.saveEditMode,
+                        onCancel: visibility.actions.cancelEditMode,
+                        isAllHidden: visibility.state.isAllHidden,
+                        onToggleAll: visibility.actions.toggleAll,
+                    }}
                 />
             </div>
         </main>

@@ -1,2 +1,3 @@
+export { EntryVisibilityControls } from './entry-visibility-controls';
 export { useEntryVisibility } from './use-entry-visibility';
-export type { EntryVisibilityParams } from './entry-visibility.types';
+export type { EntryVisibilityParams, EntryVisibilityControlsProps } from './entry-visibility.types';
