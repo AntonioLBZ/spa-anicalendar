@@ -42,10 +42,13 @@ query Seasonal($season: MediaSeason, $seasonYear: Int, $type: MediaType, $format
 const ANILIST_MAX_PER_PAGE = 50;
 
 async function getSeasonalMedia(params: GetSeasonalMediaParams): Promise<AnimeEntry[]> {
+    const isNextSeason = params.which === 'next';
+    const scopeToSeason = isNextSeason || (params.onlyNewSeason ?? false);
+
     const variables: AnilistSeasonalVariables = {
-        ...((params.onlyNewSeason ?? false) ? { season: params.season, seasonYear: params.seasonYear } : {}),
+        ...(scopeToSeason ? { season: params.season, seasonYear: params.seasonYear } : {}),
         type: 'ANIME',
-        status: 'RELEASING',
+        status: isNextSeason ? 'NOT_YET_RELEASED' : 'RELEASING',
         sort: ['POPULARITY_DESC'],
         perPage: Math.min(params.perPage ?? ANILIST_MAX_PER_PAGE, ANILIST_MAX_PER_PAGE),
         ...(params.formats && params.formats.length > 0 ? { format_in: params.formats } : {}),

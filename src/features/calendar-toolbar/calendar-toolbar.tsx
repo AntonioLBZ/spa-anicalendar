@@ -1,6 +1,9 @@
 'use client';
 
-import { Button } from '@/components';
+import { useTranslations } from 'next-intl';
+
+import { Link } from '@/components';
+import { Link as NavLink } from '@/lib/i18n/navigation';
 
 import './calendar-toolbar.css';
 
@@ -9,7 +12,9 @@ import { useCalendarToolbar } from './use-calendar-toolbar';
 import type { CalendarToolbarProps } from './calendar-toolbar.types';
 
 const CalendarToolbar = (props: CalendarToolbarProps) => {
-    const { state, copy, actions } = useCalendarToolbar(props);
+    const { showCurrentSeasonLink, showNextSeasonLink } = props;
+    const { state, copy } = useCalendarToolbar(props);
+    const t = useTranslations('calendarToolbar');
 
     return (
         <div className="calendar-toolbar">
@@ -18,27 +23,20 @@ const CalendarToolbar = (props: CalendarToolbarProps) => {
                     {copy.pendingStat && <span className="calendar-toolbar__stat">{copy.pendingStat}</span>}
                     {copy.nextEpisodeStat && <span className="calendar-toolbar__stat">{copy.nextEpisodeStat}</span>}
                 </div>
-                <div className="calendar-toolbar__controls">
-                    {state.isEditMode && actions.onToggleAll && (
-                        <Button variant="secondary" size="s" onPress={actions.onToggleAll}>
-                            {copy.toggleAll}
-                        </Button>
-                    )}
-                    {state.isEditMode ? (
-                        <>
-                            <Button variant="secondary" size="s" onPress={actions.onCancel}>
-                                {copy.cancel}
-                            </Button>
-                            <Button variant="primary" size="s" onPress={actions.onSave}>
-                                {copy.save}
-                            </Button>
-                        </>
-                    ) : (
-                        <Button variant="secondary" size="s" onPress={actions.onEnter}>
-                            {copy.edit}
-                        </Button>
-                    )}
-                </div>
+                {(showCurrentSeasonLink || showNextSeasonLink) && (
+                    <div className="calendar-toolbar__explore-links">
+                        {showCurrentSeasonLink && (
+                            <Link as={NavLink} variant="secondary" size="s" href="/airing">
+                                {t('exploreSeason')}
+                            </Link>
+                        )}
+                        {showNextSeasonLink && (
+                            <Link as={NavLink} variant="secondary" size="s" href="/airing/next-season">
+                                {t('exploreNextSeason')}
+                            </Link>
+                        )}
+                    </div>
+                )}
             </div>
             <p className="calendar-toolbar__hint body-s">
                 {copy.hint} {state.isEditMode && <span className="calendar-toolbar__count">{copy.hiddenCount}</span>}

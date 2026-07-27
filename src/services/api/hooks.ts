@@ -42,6 +42,7 @@ const useSeasonalMedia = (params: GetSeasonalMediaParams) => {
         queryKey: [
             'seasonal',
             'anilist',
+            params.which ?? 'current',
             params.season,
             params.seasonYear,
             params.onlyNewSeason ?? false,

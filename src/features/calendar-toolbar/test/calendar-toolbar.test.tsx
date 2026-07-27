@@ -12,6 +12,14 @@ const { useUserContext } = vi.hoisted(() => ({ useUserContext: vi.fn() }));
 
 vi.mock('@/contexts/user-context', () => ({ useUserContext }));
 
+vi.mock('@/lib/i18n/navigation', () => ({
+    Link: ({ href, children, ...rest }: { href: unknown; children: React.ReactNode }) => (
+        <a href={typeof href === 'string' ? href : JSON.stringify(href)} {...rest}>
+            {children}
+        </a>
+    ),
+}));
+
 const stats: CalendarStats = {
     pendingEpisodes: 4,
     pendingMinutes: 96,
@@ -19,8 +27,6 @@ const stats: CalendarStats = {
 };
 
 const fakeUser: User = { id: 1, name: 'kanade', avatarUrl: '', siteUrl: '' };
-
-const noop = () => {};
 
 beforeEach(() => {
     useUserContext.mockReturnValue({ user: fakeUser });
@@ -30,17 +36,7 @@ describe('CalendarToolbar showPendingStats', () => {
     it('shows the pending stat when there is a signed-in user, keeping the next-airing stat', () => {
         useUserContext.mockReturnValue({ user: fakeUser });
 
-        render(
-            <CalendarToolbar
-                stats={stats}
-                isEditMode={false}
-                hiddenCount={0}
-                onEnter={noop}
-                onSave={noop}
-                onCancel={noop}
-            />,
-            { wrapper: Wrapper }
-        );
+        render(<CalendarToolbar stats={stats} isEditMode={false} hiddenCount={0} />, { wrapper: Wrapper });
 
         expect(screen.getByText(/Episodes pending/)).toBeInTheDocument();
         expect(screen.getByText(/Next episode in/)).toBeInTheDocument();
@@ -49,93 +45,55 @@ describe('CalendarToolbar showPendingStats', () => {
     it('hides the pending stat when there is no user (seasonal browsing), but keeps the next-airing stat', () => {
         useUserContext.mockReturnValue({ user: undefined });
 
-        render(
-            <CalendarToolbar
-                stats={stats}
-                isEditMode={false}
-                hiddenCount={0}
-                onEnter={noop}
-                onSave={noop}
-                onCancel={noop}
-            />,
-            { wrapper: Wrapper }
-        );
+        render(<CalendarToolbar stats={stats} isEditMode={false} hiddenCount={0} />, { wrapper: Wrapper });
 
         expect(screen.queryByText(/Episodes pending/)).not.toBeInTheDocument();
         expect(screen.getByText(/Next episode in/)).toBeInTheDocument();
     });
 });
 
-describe('CalendarToolbar bulk actions', () => {
-    it('renders no "hide/show all" button when not in edit mode, even if a handler is provided', () => {
+describe('CalendarToolbar explore links', () => {
+    it('renders no explore links by default', () => {
+        render(<CalendarToolbar stats={stats} isEditMode={false} hiddenCount={0} />, { wrapper: Wrapper });
+
+        expect(screen.queryByRole('link', { name: 'Explore this season' })).not.toBeInTheDocument();
+        expect(screen.queryByRole('link', { name: 'Explore next season' })).not.toBeInTheDocument();
+    });
+
+    it('renders only the current-season link when showCurrentSeasonLink is set', () => {
+        render(<CalendarToolbar stats={stats} isEditMode={false} hiddenCount={0} showCurrentSeasonLink />, {
+            wrapper: Wrapper,
+        });
+
+        expect(screen.getByRole('link', { name: 'Explore this season' })).toHaveAttribute('href', '/airing');
+        expect(screen.queryByRole('link', { name: 'Explore next season' })).not.toBeInTheDocument();
+    });
+
+    it('renders only the next-season link when showNextSeasonLink is set', () => {
+        render(<CalendarToolbar stats={stats} isEditMode={false} hiddenCount={0} showNextSeasonLink />, {
+            wrapper: Wrapper,
+        });
+
+        expect(screen.queryByRole('link', { name: 'Explore this season' })).not.toBeInTheDocument();
+        expect(screen.getByRole('link', { name: 'Explore next season' })).toHaveAttribute(
+            'href',
+            '/airing/next-season'
+        );
+    });
+
+    it('renders both links when both flags are set', () => {
         render(
             <CalendarToolbar
                 stats={stats}
                 isEditMode={false}
                 hiddenCount={0}
-                onEnter={noop}
-                onSave={noop}
-                onCancel={noop}
-                onToggleAll={noop}
+                showCurrentSeasonLink
+                showNextSeasonLink
             />,
             { wrapper: Wrapper }
         );
 
-        expect(screen.queryByText('Hide all')).not.toBeInTheDocument();
-    });
-
-    it('renders "Hide all" (not "Show all") when not everything is hidden yet', () => {
-        render(
-            <CalendarToolbar
-                stats={stats}
-                isEditMode
-                hiddenCount={0}
-                onEnter={noop}
-                onSave={noop}
-                onCancel={noop}
-                onToggleAll={noop}
-                isAllHidden={false}
-            />,
-            { wrapper: Wrapper }
-        );
-
-        expect(screen.getByText('Hide all')).toBeInTheDocument();
-        expect(screen.queryByText('Show all')).not.toBeInTheDocument();
-    });
-
-    it('renders "Show all" when isAllHidden is true', () => {
-        render(
-            <CalendarToolbar
-                stats={stats}
-                isEditMode
-                hiddenCount={5}
-                onEnter={noop}
-                onSave={noop}
-                onCancel={noop}
-                onToggleAll={noop}
-                isAllHidden
-            />,
-            { wrapper: Wrapper }
-        );
-
-        expect(screen.getByText('Show all')).toBeInTheDocument();
-        expect(screen.queryByText('Hide all')).not.toBeInTheDocument();
-    });
-
-    it('renders no bulk-actions row at all when no handler is provided', () => {
-        render(
-            <CalendarToolbar
-                stats={stats}
-                isEditMode
-                hiddenCount={0}
-                onEnter={noop}
-                onSave={noop}
-                onCancel={noop}
-            />,
-            { wrapper: Wrapper }
-        );
-
-        expect(screen.queryByText('Hide all')).not.toBeInTheDocument();
-        expect(screen.queryByText('Show all')).not.toBeInTheDocument();
+        expect(screen.getByRole('link', { name: 'Explore this season' })).toBeInTheDocument();
+        expect(screen.getByRole('link', { name: 'Explore next season' })).toBeInTheDocument();
     });
 });

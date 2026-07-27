@@ -8,6 +8,7 @@ import { MemoryStorage } from '@/lib/test/memory-storage';
 import { SeasonalFiltersTrigger } from '../seasonal-filters';
 
 import type { User } from '@/services';
+import type { ComponentProps } from 'react';
 
 const { useUserContext } = vi.hoisted(() => ({ useUserContext: vi.fn() }));
 
@@ -20,8 +21,11 @@ const fakeUser: User = { id: 1, name: 'kanade', avatarUrl: '', siteUrl: '' };
 
 const getStoredFilters = () => JSON.parse(memoryStorage.getItem(STORAGE_KEY) ?? '{}');
 
-const openDrawer = async (user: ReturnType<typeof userEvent.setup>) => {
-    render(<SeasonalFiltersTrigger />, { wrapper: Wrapper });
+const openDrawer = async (
+    user: ReturnType<typeof userEvent.setup>,
+    props: ComponentProps<typeof SeasonalFiltersTrigger> = {}
+) => {
+    render(<SeasonalFiltersTrigger {...props} />, { wrapper: Wrapper });
     await user.click(screen.getByRole('button', { name: 'Seasonal filters' }));
     return within(await screen.findByRole('dialog'));
 };
@@ -214,5 +218,36 @@ describe('SeasonalFiltersTrigger user_list section', () => {
 
         expect(dialog.getByRole('checkbox', { name: 'Watching' })).toBeChecked();
         expect(dialog.getByRole('checkbox', { name: 'Planning' })).not.toBeChecked();
+    });
+});
+
+describe('SeasonalFiltersTrigger hideNewSeasonFilter', () => {
+    it('renders the "new this season only" checkbox by default', async () => {
+        const user = userEvent.setup();
+        const dialog = await openDrawer(user);
+
+        expect(dialog.getByRole('checkbox', { name: 'New this season only' })).toBeInTheDocument();
+    });
+
+    it('hides the checkbox and keeps the previously persisted value on submit', async () => {
+        memoryStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify({
+                formats: [],
+                topN: 50,
+                onlyNewSeason: true,
+                userList: { watching: true, planning: false },
+            })
+        );
+        const user = userEvent.setup();
+        const dialog = await openDrawer(user, { hideNewSeasonFilter: true });
+
+        expect(dialog.queryByRole('checkbox', { name: 'New this season only' })).not.toBeInTheDocument();
+
+        await user.click(dialog.getByRole('button', { name: 'Search' }));
+
+        await waitFor(() => {
+            expect(getStoredFilters().onlyNewSeason).toBe(true);
+        });
     });
 });

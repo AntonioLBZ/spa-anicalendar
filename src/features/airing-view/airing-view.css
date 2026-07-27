@@ -1,4 +1,4 @@
-.airing-page {
+.airing-view {
     background-color: var(--color-bg-primary);
     color: var(--color-content-primary);
     display: flex;
@@ -6,13 +6,13 @@
     justify-content: center;
 }
 
-.airing-page__content {
+.airing-view__content {
     max-width: var(--content-max-width);
     padding-inline: var(--content-padding-inline);
     width: 100%;
 }
 
-.airing-page__disclosure {
+.airing-view__disclosure {
     color: var(--color-content-secondary);
     margin-block-end: var(--size-50);
 }

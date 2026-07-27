@@ -1,0 +1,6 @@
+.entry-visibility-controls {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--size-75);
+}

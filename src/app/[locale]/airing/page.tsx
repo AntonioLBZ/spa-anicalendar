@@ -1,83 +1,26 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useMemo } from 'react';
 
-import { Button, ErrorState, Link } from '@/components';
-import { useSeasonalFilters } from '@/contexts';
-import { CalendarToolbar } from '@/features/calendar-toolbar';
-import { useEntryVisibility } from '@/features/entry-visibility';
-import { SeasonalFiltersTrigger } from '@/features/seasonal-filters';
-import { filterByContent, filterByHidden, WeeklyCalendar } from '@/features/weekly-calendar';
-import { getCalendarStats } from '@/lib/airing';
-import { Link as NavLink } from '@/lib/i18n/navigation';
+import { AiringView } from '@/features/airing-view';
 
 import { useSeasonalAiringData } from './use-seasonal-airing-data';
 
-import './page.css';
-
 export default function SeasonalAiringPage() {
     const t = useTranslations('airing');
-    const airing = useSeasonalAiringData();
-    const { filters } = useSeasonalFilters();
-
-    const allIds = useMemo(() => airing.data.entries.map((entry) => entry.id), [airing.data.entries]);
-    const editableEntries = useMemo(
-        () => filterByContent(airing.data.entries, filters.contentFilter),
-        [airing.data.entries, filters.contentFilter]
-    );
-    const editableIds = useMemo(() => editableEntries.map((entry) => entry.id), [editableEntries]);
-
-    const visibility = useEntryVisibility({ scope: 'seasonal', allIds, editableIds });
-
-    const stats = useMemo(() => {
-        const visibleEntries = filterByHidden(editableEntries, visibility.data.hiddenIds);
-        return getCalendarStats(visibleEntries);
-    }, [editableEntries, visibility.data.hiddenIds]);
-
-    if (airing.state.error) {
-        return (
-            <main className="airing-page">
-                <ErrorState.Root>
-                    <ErrorState.Title>{t('errorTitle')}</ErrorState.Title>
-                    <ErrorState.Subtitle>{t('errorSubtitle')}</ErrorState.Subtitle>
-                    <ErrorState.Actions>
-                        <Button onPress={airing.actions.retry}>{t('retry')}</Button>
-                        <Link as={NavLink} variant="primary" href="/">
-                            {t('backHome')}
-                        </Link>
-                    </ErrorState.Actions>
-                </ErrorState.Root>
-            </main>
-        );
-    }
+    const airing = useSeasonalAiringData('current');
 
     return (
-        <main className="airing-page">
-            <div className="airing-page__content">
-                <p className="airing-page__disclosure body-s">
-                    {t('seasonalDisclosure', { count: airing.data.filters.topN })}
-                </p>
-                <CalendarToolbar
-                    stats={stats}
-                    isEditMode={visibility.state.isEditMode}
-                    hiddenCount={visibility.data.hiddenCount}
-                    onEnter={visibility.actions.enterEditMode}
-                    onSave={visibility.actions.saveEditMode}
-                    onCancel={visibility.actions.cancelEditMode}
-                    isAllHidden={visibility.state.isAllHidden}
-                    onToggleAll={visibility.actions.toggleAll}
-                />
-                <WeeklyCalendar
-                    entries={airing.data.entries}
-                    isEditMode={visibility.state.isEditMode}
-                    hiddenIds={visibility.data.hiddenIds}
-                    onToggleEntry={visibility.actions.toggleDraftHidden}
-                    showWatchStatus={false}
-                    emptyMessage={t('seasonalEmptyList')}
-                    sectionHeaderAction={<SeasonalFiltersTrigger />}
-                />
-            </div>
-        </main>
+        <AiringView
+            entries={airing.data.entries}
+            error={airing.state.error}
+            onRetry={airing.actions.retry}
+            scope={airing.data.scope}
+            disclosure={t('seasonalDisclosure', { count: airing.data.filters.topN })}
+            emptyMessage={t('seasonalEmptyList')}
+            noAiringLabel={t('noAirDateLabel')}
+            showWatchStatus={false}
+            showNextSeasonLink
+        />
     );
 }

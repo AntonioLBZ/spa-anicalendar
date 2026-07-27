@@ -1,16 +1,16 @@
 import type { CalendarStats } from '@/lib/airing';
 
 type CalendarToolbarProps = {
+    /** Pending/next-airing stats. */
     stats: CalendarStats;
+    /** Whether visibility edit mode is active. */
     isEditMode: boolean;
+    /** Number of hidden entries. */
     hiddenCount: number;
-    onEnter: () => void;
-    onSave: () => void;
-    onCancel: () => void;
-    /** Whether every eligible entry is currently hidden in the edit-mode draft — drives the "hide all"/"show all" toggle label. */
-    isAllHidden?: boolean;
-    /** Toggles all eligible entries between fully hidden and fully visible in the edit-mode draft. Omit to hide the button. */
-    onToggleAll?: () => void;
+    /** Shows the "explore current season" link. */
+    showCurrentSeasonLink?: boolean;
+    /** Shows the "explore next season" link. */
+    showNextSeasonLink?: boolean;
 };
 
 export type { CalendarToolbarProps };

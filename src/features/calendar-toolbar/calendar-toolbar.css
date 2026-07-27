@@ -11,15 +11,26 @@
 .calendar-toolbar__row {
     align-items: center;
     display: flex;
+    flex-wrap: wrap;
     gap: var(--size-100);
     justify-content: space-between;
 }
 
+.calendar-toolbar__explore-links {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--size-75);
+}
+
 .calendar-toolbar__hint {
     color: var(--color-content-secondary);
-    display: flex;
-    flex-direction: column;
     margin: 0;
+}
+
+.calendar-toolbar__hint-icon {
+    margin-inline: var(--size-25);
+    vertical-align: middle;
 }
 
 .calendar-toolbar__count {
@@ -35,23 +46,4 @@
 
 .calendar-toolbar__stat > * {
     color: var(--color-content-primary);
-}
-
-.calendar-toolbar__controls {
-    align-items: center;
-    display: flex;
-    flex-shrink: 0;
-    gap: var(--size-75);
-    justify-content: flex-end;
-}
-
-@media (width <= 1024px) {
-    .calendar-toolbar__row {
-        align-items: stretch;
-        flex-direction: column;
-    }
-
-    .calendar-toolbar__controls {
-        justify-content: flex-start;
-    }
 }

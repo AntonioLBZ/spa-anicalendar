@@ -14,8 +14,9 @@
 		"errorGeneric": "Something went wrong. Please try again.",
 		"go": "Search",
 		"apiProviderLabel": "API provider",
-		"noUsernameLead": "Don't have a username? Explore what's airing this season.",
-		"browseSeason": "Browse season"
+		"noUsernameLead": "No username? Explore what's airing this season or what's coming next season.",
+		"browseSeason": "Browse season",
+		"browseNextSeason": "Browse next season"
 	},
 	"footer": {
 		"languageSwitcherLabel": "Language",
@@ -42,7 +43,11 @@
 		"retry": "Retry",
 		"backHome": "Back home",
 		"seasonalDisclosure": "Showing the top {count} most popular anime airing this season.",
-		"seasonalEmptyList": "No currently airing anime found this season."
+		"seasonalEmptyList": "No currently airing anime found this season.",
+		"nextSeasonDisclosure": "Showing the {count} most popular anime airing next season.",
+		"nextSeasonEmptyList": "No anime found for next season.",
+		"finishedLabel": "Finished",
+		"noAirDateLabel": "No air date yet"
 	},
 	"seasonalFilters": {
 		"contentLabel": "Content",
@@ -82,6 +87,7 @@
 		"episodeProgressUnknown": "Ep {progress}/?",
 		"episodeProgressAria": "Episode {progress} of {total}",
 		"aired": "Aired",
+		"airingTimeWeekSkip": "{time} <weeks>+ {count, plural, one {# week} other {# weeks}}</weeks>",
 		"countdownDays": "{days}d {hours}h",
 		"countdownHours": "{hours}h {minutes}m",
 		"countdownMinutes": "{minutes}m",
@@ -127,15 +133,19 @@
 		}
 	},
 	"calendarToolbar": {
-		"edit": "Manage visibility",
-		"save": "Save",
-		"cancel": "Cancel",
 		"hiddenCount": "Hidden anime: {count}.",
 		"pendingEpisodes": "Episodes pending: <b>{count}</b>",
 		"pendingEpisodesWithTime": "Episodes pending: <b>{count}</b> (<b>{time}</b>)",
 		"nextEpisodeIn": "Next episode in <b>{time}</b>",
-		"editHint": "Hiding anime here only changes what's shown in this calendar — your list stays untouched.",
-		"editSeasonalHint": "Use \"Manage visibility\" to hide anime from the calendar.",
+		"editHint": "Click <icon></icon> to hide anime — it only changes what's shown in this calendar, your list stays untouched.",
+		"editSeasonalHint": "Click <icon></icon> to hide anime from the calendar.",
+		"exploreSeason": "Explore this season",
+		"exploreNextSeason": "Explore next season"
+	},
+	"entryVisibility": {
+		"edit": "Manage visibility",
+		"save": "Save",
+		"cancel": "Cancel",
 		"hideAll": "Hide all",
 		"showAll": "Show all"
 	},

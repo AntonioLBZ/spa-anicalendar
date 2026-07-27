@@ -14,8 +14,9 @@
 		"errorGeneric": "Algo salió mal. Inténtalo de nuevo.",
 		"go": "Buscar",
 		"apiProviderLabel": "Proveedor de API",
-		"noUsernameLead": "¿No tienes usuario? Explora lo que está en emisión esta temporada.",
-		"browseSeason": "Ver temporada"
+		"noUsernameLead": "¿No tienes usuario? Explora lo que está en emisión esta temporada o lo que se estrenará en la siguiente.",
+		"browseSeason": "Ver temporada",
+		"browseNextSeason": "Ver próxima temporada"
 	},
 	"footer": {
 		"languageSwitcherLabel": "Idioma",
@@ -42,7 +43,11 @@
 		"retry": "Reintentar",
 		"backHome": "Volver al inicio",
 		"seasonalDisclosure": "Mostrando los {count} animes más populares en emisión esta temporada.",
-		"seasonalEmptyList": "No se han encontrado animes en emisión esta temporada."
+		"seasonalEmptyList": "No se han encontrado animes en emisión esta temporada.",
+		"nextSeasonDisclosure": "Mostrando los {count} animes más populares que se emitirán la próxima temporada.",
+		"nextSeasonEmptyList": "No se han encontrado animes para la próxima temporada.",
+		"finishedLabel": "Finalizados",
+		"noAirDateLabel": "Sin fecha de emisión"
 	},
 	"seasonalFilters": {
 		"contentLabel": "Contenido",
@@ -82,6 +87,7 @@
 		"episodeProgressUnknown": "Ep {progress}/?",
 		"episodeProgressAria": "Episodio {progress} de {total}",
 		"aired": "Emitido",
+		"airingTimeWeekSkip": "{time} <weeks>+ {count, plural, one {# semana} other {# semanas}}</weeks>",
 		"countdownDays": "{days}d {hours}h",
 		"countdownHours": "{hours}h {minutes}m",
 		"countdownMinutes": "{minutes}m",
@@ -127,15 +133,19 @@
 		}
 	},
 	"calendarToolbar": {
-		"edit": "Gestionar visibilidad",
-		"save": "Guardar",
-		"cancel": "Cancelar",
 		"hiddenCount": "Animes ocultados: {count}.",
 		"pendingEpisodes": "Episodios pendientes: <b>{count}</b>",
 		"pendingEpisodesWithTime": "Episodios pendientes: <b>{count}</b> (<b>{time}</b>)",
 		"nextEpisodeIn": "Próximo episodio en <b>{time}</b>",
-		"editHint": "Ocultar un anime aquí solo cambia lo que se muestra en este calendario — tu lista no se modifica.",
-		"editSeasonalHint": "Usa \"Gestionar visibilidad\" para ocultar algún anime del calendario.",
+		"editHint": "Haz clic en <icon></icon> para ocultar un anime — solo cambia lo que se muestra en este calendario, tu lista no se modifica.",
+		"editSeasonalHint": "Haz clic en <icon></icon> para ocultar algún anime del calendario.",
+		"exploreSeason": "Explora esta temporada",
+		"exploreNextSeason": "Explora la próxima temporada"
+	},
+	"entryVisibility": {
+		"edit": "Gestionar visibilidad",
+		"save": "Guardar",
+		"cancel": "Cancelar",
 		"hideAll": "Ocultar todos",
 		"showAll": "Mostrar todos"
 	},

@@ -35,6 +35,13 @@
     justify-content: space-between;
 }
 
+.weekly-calendar__header-actions {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--size-75);
+}
+
 .weekly-calendar__section-entries {
     display: grid;
     gap: var(--size-100);
