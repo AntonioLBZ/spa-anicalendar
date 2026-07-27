@@ -75,9 +75,14 @@ export default function HomePage() {
             </Form>
             <Divider className="home__divider" />
             <p className="home__title body-l">{t('noUsernameLead')}</p>
-            <Link as={NavLink} variant="secondary" href="/airing">
-                {t('browseSeason')}
-            </Link>
+            <div className="home__season-links">
+                <Link as={NavLink} variant="secondary" href="/airing">
+                    {t('browseSeason')}
+                </Link>
+                <Link as={NavLink} variant="secondary" href="/airing/next-season">
+                    {t('browseNextSeason')}
+                </Link>
+            </div>
         </main>
     );
 }

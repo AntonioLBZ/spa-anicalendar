@@ -65,6 +65,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
         showWatchStatus = true,
         emptyMessage,
         visibility,
+        hideNewSeasonFilter,
     } = props;
     const { emptyDaysMode, weekStartDay, calendarLayout } = useSettingsContext();
     const { filters } = useSeasonalFilters();
@@ -82,7 +83,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
     const headerActions = visibility && (
         <div className="weekly-calendar__header-actions">
             <EntryVisibilityControls {...visibility} />
-            {!visibility.isEditMode && <SeasonalFiltersTrigger />}
+            {!visibility.isEditMode && <SeasonalFiltersTrigger hideNewSeasonFilter={hideNewSeasonFilter} />}
         </div>
     );
 

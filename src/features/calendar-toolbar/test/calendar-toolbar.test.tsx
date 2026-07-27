@@ -52,7 +52,7 @@ describe('CalendarToolbar showPendingStats', () => {
     });
 });
 
-describe('CalendarToolbar showExploreLinks', () => {
+describe('CalendarToolbar explore links', () => {
     it('renders no explore links by default', () => {
         render(<CalendarToolbar stats={stats} isEditMode={false} hiddenCount={0} />, { wrapper: Wrapper });
 
@@ -60,15 +60,40 @@ describe('CalendarToolbar showExploreLinks', () => {
         expect(screen.queryByRole('link', { name: 'Explore next season' })).not.toBeInTheDocument();
     });
 
-    it('renders links to the current and next season when showExploreLinks is set', () => {
-        render(<CalendarToolbar stats={stats} isEditMode={false} hiddenCount={0} showExploreLinks />, {
+    it('renders only the current-season link when showCurrentSeasonLink is set', () => {
+        render(<CalendarToolbar stats={stats} isEditMode={false} hiddenCount={0} showCurrentSeasonLink />, {
             wrapper: Wrapper,
         });
 
         expect(screen.getByRole('link', { name: 'Explore this season' })).toHaveAttribute('href', '/airing');
+        expect(screen.queryByRole('link', { name: 'Explore next season' })).not.toBeInTheDocument();
+    });
+
+    it('renders only the next-season link when showNextSeasonLink is set', () => {
+        render(<CalendarToolbar stats={stats} isEditMode={false} hiddenCount={0} showNextSeasonLink />, {
+            wrapper: Wrapper,
+        });
+
+        expect(screen.queryByRole('link', { name: 'Explore this season' })).not.toBeInTheDocument();
         expect(screen.getByRole('link', { name: 'Explore next season' })).toHaveAttribute(
             'href',
             '/airing/next-season'
         );
+    });
+
+    it('renders both links when both flags are set', () => {
+        render(
+            <CalendarToolbar
+                stats={stats}
+                isEditMode={false}
+                hiddenCount={0}
+                showCurrentSeasonLink
+                showNextSeasonLink
+            />,
+            { wrapper: Wrapper }
+        );
+
+        expect(screen.getByRole('link', { name: 'Explore this season' })).toBeInTheDocument();
+        expect(screen.getByRole('link', { name: 'Explore next season' })).toBeInTheDocument();
     });
 });

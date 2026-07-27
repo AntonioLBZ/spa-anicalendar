@@ -47,10 +47,14 @@ interface GetSeasonalMediaParams {
      * @default 50
      */
     perPage?: number;
-    /** When true, only anime that premiered in the current season are included. When false, every currently-releasing anime is included (e.g. long-running or holdover series).
+    /** Only include anime premiering this season, excluding holdovers.
      * @default false
      */
     onlyNewSeason?: boolean;
+    /** RELEASING anime for 'current', NOT_YET_RELEASED for 'next'.
+     * @default 'current'
+     */
+    which?: 'current' | 'next';
 }
 
 export type {

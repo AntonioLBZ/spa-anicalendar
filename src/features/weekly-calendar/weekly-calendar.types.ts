@@ -22,6 +22,8 @@ type WeeklyCalendarProps = {
     emptyMessage?: string;
     /** Edit-mode visibility controls + the seasonal filters trigger, rendered together at the right edge of the section header. Omit to hide both (e.g. no visibility management for this view). */
     visibility?: EntryVisibilityControlsProps;
+    /** Hides the seasonal filters' "only this season's premieres" checkbox. */
+    hideNewSeasonFilter?: boolean;
 };
 
 type WeeklyCalendarDayProps = {

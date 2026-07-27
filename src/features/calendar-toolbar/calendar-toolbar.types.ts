@@ -7,8 +7,10 @@ type CalendarToolbarProps = {
     isEditMode: boolean;
     /** Number of hidden entries. */
     hiddenCount: number;
-    /** Shows the current/next season explore links. */
-    showExploreLinks?: boolean;
+    /** Shows the "explore current season" link. */
+    showCurrentSeasonLink?: boolean;
+    /** Shows the "explore next season" link. */
+    showNextSeasonLink?: boolean;
 };
 
 export type { CalendarToolbarProps };

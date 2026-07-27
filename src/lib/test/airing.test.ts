@@ -7,6 +7,7 @@ import {
     getCalendarStats,
     getCurrentSeason,
     getNextAiringEntryId,
+    getNextSeason,
     isFinishedInCurrentSeason,
     startedInCurrentSeason,
 } from '../airing';
@@ -104,6 +105,24 @@ describe('getCurrentSeason', () => {
 
     it('maps September-November to FALL', () => {
         expect(getCurrentSeason(new Date(2026, 9, 1))).toEqual({ season: 'FALL', seasonYear: 2026 });
+    });
+});
+
+describe('getNextSeason', () => {
+    it('returns SPRING of the same year after WINTER', () => {
+        expect(getNextSeason(new Date(2026, 0, 1))).toEqual({ season: 'SPRING', seasonYear: 2026 });
+    });
+
+    it('returns SUMMER of the same year after SPRING', () => {
+        expect(getNextSeason(new Date(2026, 3, 1))).toEqual({ season: 'SUMMER', seasonYear: 2026 });
+    });
+
+    it('returns FALL of the same year after SUMMER', () => {
+        expect(getNextSeason(new Date(2026, 6, 1))).toEqual({ season: 'FALL', seasonYear: 2026 });
+    });
+
+    it('rolls over to WINTER of the following year after FALL', () => {
+        expect(getNextSeason(new Date(2026, 9, 1))).toEqual({ season: 'WINTER', seasonYear: 2027 });
     });
 });
 

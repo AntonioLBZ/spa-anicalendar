@@ -156,6 +156,21 @@ const deriveSeasonFromDate = (date: Date): { season: MediaSeason; seasonYear: nu
  */
 const getCurrentSeason = (date: Date = new Date()): { season: MediaSeason; seasonYear: number } => deriveSeasonFromDate(date);
 
+const SEASON_ORDER: MediaSeason[] = ['WINTER', 'SPRING', 'SUMMER', 'FALL'];
+
+/**
+ * Returns the AniList season and year following the current one for a given date (defaults to now).
+ */
+const getNextSeason = (date: Date = new Date()): { season: MediaSeason; seasonYear: number } => {
+    const current = getCurrentSeason(date);
+    const nextIndex = (SEASON_ORDER.indexOf(current.season) + 1) % SEASON_ORDER.length;
+
+    return {
+        season: SEASON_ORDER[nextIndex],
+        seasonYear: nextIndex === 0 ? current.seasonYear + 1 : current.seasonYear,
+    };
+};
+
 /**
  * True iff the entry's own `season`/`seasonYear` (when the media originally started airing)
  * matches the current season.
@@ -233,6 +248,7 @@ export {
     getCalendarStats,
     formatCountdown,
     getCurrentSeason,
+    getNextSeason,
     deriveSeasonFromDate,
     startedInCurrentSeason,
     finishedInCurrentSeason,

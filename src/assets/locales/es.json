@@ -14,8 +14,9 @@
 		"errorGeneric": "Algo salió mal. Inténtalo de nuevo.",
 		"go": "Buscar",
 		"apiProviderLabel": "Proveedor de API",
-		"noUsernameLead": "¿No tienes usuario? Explora lo que está en emisión esta temporada.",
-		"browseSeason": "Ver temporada"
+		"noUsernameLead": "¿No tienes usuario? Explora lo que está en emisión esta temporada o lo que se estrenará en la siguiente.",
+		"browseSeason": "Ver temporada",
+		"browseNextSeason": "Ver próxima temporada"
 	},
 	"footer": {
 		"languageSwitcherLabel": "Idioma",
@@ -42,7 +43,9 @@
 		"retry": "Reintentar",
 		"backHome": "Volver al inicio",
 		"seasonalDisclosure": "Mostrando los {count} animes más populares en emisión esta temporada.",
-		"seasonalEmptyList": "No se han encontrado animes en emisión esta temporada."
+		"seasonalEmptyList": "No se han encontrado animes en emisión esta temporada.",
+		"nextSeasonDisclosure": "Mostrando los {count} animes más populares que se emitirán la próxima temporada.",
+		"nextSeasonEmptyList": "No se han encontrado animes para la próxima temporada."
 	},
 	"seasonalFilters": {
 		"contentLabel": "Contenido",

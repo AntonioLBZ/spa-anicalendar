@@ -71,6 +71,26 @@ describe('getSeasonalMedia', () => {
         expect(secondBody.variables.seasonYear).toBe(2026);
     });
 
+    it('queries NOT_YET_RELEASED and always scopes to season/seasonYear when which is "next"', async () => {
+        fetchMock.mockImplementation(
+            async () => new Response(JSON.stringify({ data: { Page: { media: [] } } }), { status: 200 })
+        );
+
+        await getSeasonalMedia({ season: 'WINTER', seasonYear: 2027, which: 'next' });
+        const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+        expect(body.variables.status).toBe('NOT_YET_RELEASED');
+        expect(body.variables.season).toBe('WINTER');
+        expect(body.variables.seasonYear).toBe(2027);
+    });
+
+    it('queries RELEASING when which is "current" or omitted', async () => {
+        fetchMock.mockResolvedValue(new Response(JSON.stringify({ data: { Page: { media: [] } } }), { status: 200 }));
+
+        await getSeasonalMedia({ season: 'FALL', seasonYear: 2026 });
+        const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+        expect(body.variables.status).toBe('RELEASING');
+    });
+
     it('clamps perPage to the AniList max of 50', async () => {
         fetchMock.mockResolvedValue(new Response(JSON.stringify({ data: { Page: { media: [] } } }), { status: 200 }));
 

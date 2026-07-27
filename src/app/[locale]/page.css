@@ -41,3 +41,15 @@
     max-width: var(--size-4000);
     width: 100%;
 }
+
+.home__season-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--size-75);
+    justify-content: center;
+}
+
+.home__season-links > .button-link {
+    flex: 1;
+    text-align: center;
+}

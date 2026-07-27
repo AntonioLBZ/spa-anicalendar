@@ -12,7 +12,7 @@ import { useCalendarToolbar } from './use-calendar-toolbar';
 import type { CalendarToolbarProps } from './calendar-toolbar.types';
 
 const CalendarToolbar = (props: CalendarToolbarProps) => {
-    const { showExploreLinks } = props;
+    const { showCurrentSeasonLink, showNextSeasonLink } = props;
     const { state, copy } = useCalendarToolbar(props);
     const t = useTranslations('calendarToolbar');
 
@@ -23,14 +23,18 @@ const CalendarToolbar = (props: CalendarToolbarProps) => {
                     {copy.pendingStat && <span className="calendar-toolbar__stat">{copy.pendingStat}</span>}
                     {copy.nextEpisodeStat && <span className="calendar-toolbar__stat">{copy.nextEpisodeStat}</span>}
                 </div>
-                {showExploreLinks && (
+                {(showCurrentSeasonLink || showNextSeasonLink) && (
                     <div className="calendar-toolbar__explore-links">
-                        <Link as={NavLink} variant="secondary" size="s" href="/airing">
-                            {t('exploreSeason')}
-                        </Link>
-                        <Link as={NavLink} variant="secondary" size="s" href="/airing/next-season">
-                            {t('exploreNextSeason')}
-                        </Link>
+                        {showCurrentSeasonLink && (
+                            <Link as={NavLink} variant="secondary" size="s" href="/airing">
+                                {t('exploreSeason')}
+                            </Link>
+                        )}
+                        {showNextSeasonLink && (
+                            <Link as={NavLink} variant="secondary" size="s" href="/airing/next-season">
+                                {t('exploreNextSeason')}
+                            </Link>
+                        )}
                     </div>
                 )}
             </div>

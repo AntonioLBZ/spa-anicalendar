@@ -25,7 +25,13 @@ import type { ContentFilter } from '@/contexts';
 import type { MediaFormat } from '@/services';
 import type { FormEvent } from 'react';
 
-const SeasonalFiltersTrigger = () => {
+type SeasonalFiltersTriggerProps = {
+    /** Hides the "only this season's premieres" checkbox — meaningless when results are already scoped to a single season (e.g. next season browsing). */
+    hideNewSeasonFilter?: boolean;
+};
+
+const SeasonalFiltersTrigger = (props: SeasonalFiltersTriggerProps) => {
+    const { hideNewSeasonFilter } = props;
     const t = useTranslations('seasonalFilters');
     const { filters, setFilters } = useSeasonalFilters();
     const { user } = useUserContext();
@@ -40,7 +46,7 @@ const SeasonalFiltersTrigger = () => {
         setFilters({
             formats: formats.length === FORMAT_OPTIONS.length ? [] : formats,
             topN: Number(data.get('topN')),
-            onlyNewSeason: data.get('onlyNewSeason') === 'on',
+            onlyNewSeason: hideNewSeasonFilter ? filters.onlyNewSeason : data.get('onlyNewSeason') === 'on',
             // Without a user the userList section isn't rendered, so keep the persisted value.
             userList: user
                 ? {
@@ -119,13 +125,17 @@ const SeasonalFiltersTrigger = () => {
                                 </>
                             )}
                         </Section.Root>
-                        <Divider />
-                        <Section.Root>
-                            <Section.Title>{t('newSeasonLabel')}</Section.Title>
-                            <Checkbox.Option name="onlyNewSeason" defaultSelected={filters.onlyNewSeason}>
-                                {t('onlyNewSeason')}
-                            </Checkbox.Option>
-                        </Section.Root>
+                        {!hideNewSeasonFilter && (
+                            <>
+                                <Divider />
+                                <Section.Root>
+                                    <Section.Title>{t('newSeasonLabel')}</Section.Title>
+                                    <Checkbox.Option name="onlyNewSeason" defaultSelected={filters.onlyNewSeason}>
+                                        {t('onlyNewSeason')}
+                                    </Checkbox.Option>
+                                </Section.Root>
+                            </>
+                        )}
                         <Button
                             type="submit"
                             variant="primary"
