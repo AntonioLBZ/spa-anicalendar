@@ -64,6 +64,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
         showProgress = true,
         showWatchStatus = true,
         emptyMessage,
+        noAiringLabel,
         visibility,
         hideNewSeasonFilter,
     } = props;
@@ -142,7 +143,9 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
                 <>
                     <Divider size="l" />
                     <div className="weekly-calendar__section">
-                        <div className="weekly-calendar__section-header label-l">{t('noUpcoming')}</div>
+                        <div className="weekly-calendar__section-header label-l">
+                            {noAiringLabel ?? t('noUpcoming')}
+                        </div>
                         <div className="weekly-calendar__section-entries">
                             {noAiring.map((entry) => (
                                 <AnimeCard

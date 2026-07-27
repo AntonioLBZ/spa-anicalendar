@@ -70,6 +70,7 @@ const useAnimeCard = (props: AnimeCardProps) => {
             isNextAiring,
             isPlanning,
             hasProgress,
+            alwaysShowTitle: !nextEp,
             showStatus: !hideStatus,
             statusVariant: statusMeta.variant,
             cardClassName: clsx(

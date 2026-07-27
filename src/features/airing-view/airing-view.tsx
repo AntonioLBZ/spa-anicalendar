@@ -1,5 +1,3 @@
-'use client';
-
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 
@@ -11,24 +9,9 @@ import { filterByContent, filterByHidden, WeeklyCalendar } from '@/features/week
 import { getCalendarStats } from '@/lib/airing';
 import { Link as NavLink } from '@/lib/i18n/navigation';
 
-import './page.css';
+import './airing-view.css';
 
-import type { AnimeEntry } from '@/services';
-
-type AiringViewProps = {
-    entries: AnimeEntry[];
-    error: unknown;
-    onRetry: () => void;
-    /** Entry-visibility storage scope; must be unique per data source. */
-    scope: string;
-    disclosure?: React.ReactNode;
-    emptyMessage?: string;
-    /** @default true */
-    showWatchStatus?: boolean;
-    showCurrentSeasonLink?: boolean;
-    showNextSeasonLink?: boolean;
-    hideNewSeasonFilter?: boolean;
-};
+import type { AiringViewProps } from './airing-view.types';
 
 const AiringView = (props: AiringViewProps) => {
     const {
@@ -38,6 +21,7 @@ const AiringView = (props: AiringViewProps) => {
         scope,
         disclosure,
         emptyMessage,
+        noAiringLabel,
         showWatchStatus = true,
         showCurrentSeasonLink,
         showNextSeasonLink,
@@ -62,7 +46,7 @@ const AiringView = (props: AiringViewProps) => {
 
     if (error) {
         return (
-            <main className="airing-page">
+            <main className="airing-view">
                 <ErrorState.Root>
                     <ErrorState.Title>{t('errorTitle')}</ErrorState.Title>
                     <ErrorState.Subtitle>{t('errorSubtitle')}</ErrorState.Subtitle>
@@ -78,9 +62,9 @@ const AiringView = (props: AiringViewProps) => {
     }
 
     return (
-        <main className="airing-page">
-            <div className="airing-page__content">
-                {disclosure && <p className="airing-page__disclosure body-s">{disclosure}</p>}
+        <main className="airing-view">
+            <div className="airing-view__content">
+                {disclosure && <p className="airing-view__disclosure body-s">{disclosure}</p>}
                 <CalendarToolbar
                     stats={stats}
                     isEditMode={visibility.state.isEditMode}
@@ -95,6 +79,7 @@ const AiringView = (props: AiringViewProps) => {
                     onToggleEntry={visibility.actions.toggleDraftHidden}
                     showWatchStatus={showWatchStatus}
                     emptyMessage={emptyMessage}
+                    noAiringLabel={noAiringLabel}
                     hideNewSeasonFilter={hideNewSeasonFilter}
                     visibility={{
                         isEditMode: visibility.state.isEditMode,

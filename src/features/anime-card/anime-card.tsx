@@ -35,11 +35,18 @@ const AnimeCard = (props: AnimeCardProps) => {
                     {copy.caughtUp && <span className="card__on-date">{copy.caughtUp}</span>}
                     {copy.airingTime && <span>{copy.airingTime}</span>}
                 </span>
+                {state.alwaysShowTitle && (
+                    <span className="card__title label-s" id={ids.titleId}>
+                        {entry.title}
+                    </span>
+                )}
                 <div className="card__hover-content" id={ids.detailsId}>
                     <div className="card__hover-inner">
-                        <span className="card__title label-s" id={ids.titleId}>
-                            {entry.title}
-                        </span>
+                        {!state.alwaysShowTitle && (
+                            <span className="card__title label-s" id={ids.titleId}>
+                                {entry.title}
+                            </span>
+                        )}
                         {copy.countdown && <span className="card__airing-countdown">{copy.countdown}</span>}
                         {state.showStatus && (
                             <span className={`card__status label-s card__status--${state.statusVariant}`} role="status">

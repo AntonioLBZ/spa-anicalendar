@@ -45,7 +45,9 @@
 		"seasonalDisclosure": "Mostrando los {count} animes más populares en emisión esta temporada.",
 		"seasonalEmptyList": "No se han encontrado animes en emisión esta temporada.",
 		"nextSeasonDisclosure": "Mostrando los {count} animes más populares que se emitirán la próxima temporada.",
-		"nextSeasonEmptyList": "No se han encontrado animes para la próxima temporada."
+		"nextSeasonEmptyList": "No se han encontrado animes para la próxima temporada.",
+		"finishedLabel": "Finalizados",
+		"noAirDateLabel": "Sin fecha de emisión"
 	},
 	"seasonalFilters": {
 		"contentLabel": "Contenido",

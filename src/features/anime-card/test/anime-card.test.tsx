@@ -79,6 +79,27 @@ describe('AnimeCard showProgress', () => {
     });
 });
 
+describe('AnimeCard title visibility', () => {
+    it('renders the title outside the hover content when there is no next airing episode', () => {
+        const { container } = render(<AnimeCard entry={{ ...entry, nextAiringEpisode: undefined }} />, {
+            wrapper: Wrapper,
+        });
+
+        const title = screen.getByText('Test Anime');
+        expect(container.querySelector('.card__hover-content')?.contains(title)).toBe(false);
+    });
+
+    it('renders the title inside the hover content when there is a next airing episode', () => {
+        const { container } = render(
+            <AnimeCard entry={{ ...entry, nextAiringEpisode: { airingAt: 1700000000, episode: 4 } }} />,
+            { wrapper: Wrapper }
+        );
+
+        const title = screen.getByText('Test Anime');
+        expect(container.querySelector('.card__hover-content')?.contains(title)).toBe(true);
+    });
+});
+
 describe('AnimeCard showWatchStatus', () => {
     it('shows the "Ep X/Y" badge using episodes-aired progress, but omits behind/caught-up, when showWatchStatus is false', () => {
         // Anonymous/seasonal entries: progress holds "episodes aired so far" (see seasonal.selector.ts),

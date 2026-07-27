@@ -2,7 +2,8 @@
 
 import { useTranslations } from 'next-intl';
 
-import { AiringView } from './airing-view';
+import { AiringView } from '@/features/airing-view';
+
 import { useSeasonalAiringData } from './use-seasonal-airing-data';
 
 export default function SeasonalAiringPage() {
@@ -17,6 +18,7 @@ export default function SeasonalAiringPage() {
             scope={airing.data.scope}
             disclosure={t('seasonalDisclosure', { count: airing.data.filters.topN })}
             emptyMessage={t('seasonalEmptyList')}
+            noAiringLabel={t('noAirDateLabel')}
             showWatchStatus={false}
             showNextSeasonLink
         />
