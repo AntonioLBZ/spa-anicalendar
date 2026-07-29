@@ -7,8 +7,8 @@
 }
 
 .button--size-s {
-    height: var(--size-250);
-    padding-inline: var(--size-75);
+    height: var(--size-200);
+    padding-inline: var(--size-50);
     position: relative;
 }
 
