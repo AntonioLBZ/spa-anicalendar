@@ -7,12 +7,13 @@ import { Suspense, type ReactNode } from 'react';
 
 import { Footer } from '@/features/footer';
 import { Header } from '@/features/header';
+import { BRAND_BACKGROUND } from '@/lib/brand';
 import { inter } from '@/lib/fonts';
 import { routing } from '@/lib/i18n/routing';
 
 import { Providers } from '../providers';
 
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 
 import '@/assets/themes.css';
 import '@/assets/typography.css';
@@ -28,6 +29,10 @@ const generateMetadata = async (props: { params: Promise<{ locale: string }> }):
         title: t('title'),
         description: t('description'),
     };
+};
+
+const viewport: Viewport = {
+    themeColor: BRAND_BACKGROUND,
 };
 
 export default async function LocaleLayout(props: { children: ReactNode; params: Promise<{ locale: string }> }) {
@@ -58,4 +63,4 @@ export default async function LocaleLayout(props: { children: ReactNode; params:
     );
 }
 
-export { generateStaticParams, generateMetadata };
+export { generateStaticParams, generateMetadata, viewport };

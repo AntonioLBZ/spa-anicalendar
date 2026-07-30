@@ -1,0 +1,4 @@
+const BRAND_BACKGROUND = '#0a1625';
+const BRAND_ACCENT = '#3b82f6';
+
+export { BRAND_ACCENT, BRAND_BACKGROUND };
