@@ -23,3 +23,7 @@
     flex-direction: row;
     gap: var(--size-100);
 }
+
+.error-state__actions > * {
+    flex: 1;
+}
