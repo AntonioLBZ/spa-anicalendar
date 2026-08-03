@@ -6,7 +6,7 @@ const manifest = (): MetadataRoute.Manifest => ({
     name: 'Anicalendar',
     short_name: 'Anicalendar',
     description: 'Weekly anime calendar powered by AniList, MyAnimeList and Kitsu.',
-    start_url: '/en',
+    start_url: '/',
     display: 'standalone',
     background_color: BRAND_BACKGROUND,
     theme_color: BRAND_BACKGROUND,

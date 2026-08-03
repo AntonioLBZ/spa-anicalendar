@@ -26,6 +26,7 @@ type SettingsState = {
     weekStartDay: WeekStartDay;
     timeFormat: TimeFormat;
     calendarLayout: CalendarLayout;
+    lastUsername: string;
 };
 
 const DEFAULTS: SettingsState = {
@@ -35,6 +36,7 @@ const DEFAULTS: SettingsState = {
     weekStartDay: 'monday',
     timeFormat: '24h',
     calendarLayout: 'auto',
+    lastUsername: '',
 };
 
 const settingsStore = createPersistedStore<SettingsState>(STORAGE_KEY, DEFAULTS, (defaults, saved) => ({
@@ -70,6 +72,7 @@ const SettingsProvider = (props: { children: ReactNode }) => {
         (v: CalendarLayout) => settingsStore.set((s) => ({ ...s, calendarLayout: v })),
         []
     );
+    const setLastUsername = useCallback((v: string) => settingsStore.set((s) => ({ ...s, lastUsername: v })), []);
 
     const value = useMemo<SettingsContextValue>(
         () => ({
@@ -86,6 +89,8 @@ const SettingsProvider = (props: { children: ReactNode }) => {
             setTimeFormat,
             calendarLayout: settings.calendarLayout,
             setCalendarLayout,
+            lastUsername: settings.lastUsername,
+            setLastUsername,
         }),
         [
             settings,
@@ -96,6 +101,7 @@ const SettingsProvider = (props: { children: ReactNode }) => {
             setWeekStartDay,
             setTimeFormat,
             setCalendarLayout,
+            setLastUsername,
         ]
     );
 

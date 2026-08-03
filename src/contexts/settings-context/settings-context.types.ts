@@ -10,6 +10,8 @@ type CalendarLayout = 'auto' | 'grid' | 'list';
 interface SettingsContextValue {
     provider: Provider;
     setProvider: (provider: Provider) => void;
+    lastUsername: string;
+    setLastUsername: (username: string) => void;
     theme: ThemeMode;
     resolvedTheme: ResolvedThemeMode;
     setTheme: (theme: ThemeMode) => void;

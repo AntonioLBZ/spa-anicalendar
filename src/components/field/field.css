@@ -49,6 +49,17 @@
     border-color: var(--color-danger);
 }
 
+.field__control:has(.field__clear) .field__input {
+    padding-inline-end: var(--size-250);
+}
+
+.field__clear {
+    position: absolute;
+    right: var(--size-50);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 .field__error {
     color: var(--color-danger);
     display: block;

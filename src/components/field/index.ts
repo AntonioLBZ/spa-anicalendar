@@ -1,4 +1,5 @@
 import { FieldRoot } from './field';
+import { FieldClear } from './field-clear';
 import { FieldControl } from './field-control';
 import { FieldError } from './field-error';
 import { FieldHelper } from './field-helper';
@@ -12,6 +13,7 @@ const Field = {
     Label: FieldLabel,
     Error: FieldError,
     Helper: FieldHelper,
+    Clear: FieldClear,
 };
 
 export { Field };
@@ -22,4 +24,5 @@ export type {
     FieldLabelProps,
     FieldErrorProps,
     FieldHelperProps,
+    FieldClearProps,
 } from './field.types';
