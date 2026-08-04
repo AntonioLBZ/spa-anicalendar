@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
+import de from '../de.json';
 import en from '../en.json';
 import es from '../es.json';
+import fr from '../fr.json';
+
+const locales = { en, es, fr, de };
 
 function collectKeyPaths(obj: unknown, prefix = ''): string[] {
     if (typeof obj !== 'object' || obj === null) return [prefix];
@@ -12,19 +16,18 @@ function collectKeyPaths(obj: unknown, prefix = ''): string[] {
 }
 
 describe('locale key parity', () => {
-    it('en.json and es.json expose exactly the same set of keys', () => {
-        const enKeys = collectKeyPaths(en).sort();
-        const esKeys = collectKeyPaths(es).sort();
+    const enKeys = collectKeyPaths(en).sort();
 
-        expect(esKeys).toEqual(enKeys);
-    });
+    it.each(Object.entries(locales).filter(([name]) => name !== 'en'))(
+        'en.json and %s.json expose exactly the same set of keys',
+        (_name, messages) => {
+            expect(collectKeyPaths(messages).sort()).toEqual(enKeys);
+        }
+    );
 
-    it('both locales contain the anonymous-mode keys', () => {
-        expect(en.home.browseSeason).toBeTruthy();
-        expect(es.home.browseSeason).toBeTruthy();
-        expect(en.airing.seasonalDisclosure).toBeTruthy();
-        expect(es.airing.seasonalDisclosure).toBeTruthy();
-        expect(en.airing.seasonalEmptyList).toBeTruthy();
-        expect(es.airing.seasonalEmptyList).toBeTruthy();
+    it.each(Object.entries(locales))('%s contains the anonymous-mode keys', (_name, messages) => {
+        expect(messages.home.browseSeason).toBeTruthy();
+        expect(messages.airing.seasonalDisclosure).toBeTruthy();
+        expect(messages.airing.seasonalEmptyList).toBeTruthy();
     });
 });

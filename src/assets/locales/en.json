@@ -23,7 +23,9 @@
         "languageSwitcherLabel": "Language",
         "locale": {
             "en": "English",
-            "es": "Español"
+            "es": "Español",
+            "fr": "Français",
+            "de": "Deutsch"
         },
         "contactLabel": "Contact",
         "contact": {
