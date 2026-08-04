@@ -1,0 +1,29 @@
+src/assets/locales/de.json
+  s_d7f10ac51ab15f::t_9c2b3e190c5fcd 1-183
+src/assets/locales/en.json
+  s_d7f10ac51ab15f::t_f90b0b9905284b 26-28
+src/assets/locales/es.json
+  s_d7f10ac51ab15f::t_b916d0f8da5a54 26-28
+src/assets/locales/fr.json
+  s_d7f10ac51ab15f::t_5d6d0e91666001 1-183
+src/assets/locales/test/locales.test.ts
+  s_d7f10ac51ab15f::t_15254a9903b6dc 3,6-8,19,21-26,28-31
+src/lib/i18n/routing.ts
+  s_d7f10ac51ab15f::t_3e3710b817e52e 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "bf0d9c85b3dac2daa32c6915eafa050872aa2cfe",
+  "prompts": {},
+  "sessions": {
+    "s_d7f10ac51ab15f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ef9ffcd2-88e2-4b6a-b3fd-a304817a4489",
+        "model": "unknown"
+      },
+      "human_author": "AntonioLBZ <antoniolb@ext.inditex.com>"
+    }
+  }
+}
