@@ -1,5 +1,11 @@
 # spa-anicalendar
 
+## 1.2.0
+
+### Minor Changes
+
+- 107fbbd: [feature/langs] Include FR and DE
+
 ## 1.1.0
 
 ### Minor Changes
