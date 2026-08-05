@@ -19,7 +19,7 @@
 .calendar-toolbar__explore-links {
     align-items: center;
     display: flex;
-    flex-shrink: 0;
+    flex-wrap: wrap;
     gap: var(--size-75);
 }
 

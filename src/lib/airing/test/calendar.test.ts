@@ -28,26 +28,24 @@ describe('getWeeksUntilAiring', () => {
     const now = new Date(2026, 0, 7, 12, 0, 0);
     const toUnix = (date: Date) => Math.floor(date.getTime() / 1000);
 
-    it('returns 0 for an airing time later this week', () => {
+    it('returns 0 for an airing time later this calendar week', () => {
         const airingAt = toUnix(new Date(2026, 0, 9, 18, 0, 0));
-        expect(getWeeksUntilAiring(airingAt, 'monday', now)).toBe(0);
+        expect(getWeeksUntilAiring(airingAt, now)).toBe(0);
     });
 
-    it('returns 1 for an airing time exactly one week out (a skipped week)', () => {
+    it('returns 0 when exactly 7 days away, even if it falls in the next calendar week', () => {
+        // Wednesday -> next Wednesday is a calendar-week skip, but only 7 days out.
+        const airingAt = toUnix(new Date(2026, 0, 14, 18, 0, 0));
+        expect(getWeeksUntilAiring(airingAt, now)).toBe(0);
+    });
+
+    it('returns 1 when more than 7 days away', () => {
         const airingAt = toUnix(new Date(2026, 0, 16, 18, 0, 0));
-        expect(getWeeksUntilAiring(airingAt, 'monday', now)).toBe(1);
+        expect(getWeeksUntilAiring(airingAt, now)).toBe(1);
     });
 
     it('returns 2 for an airing time two weeks out', () => {
         const airingAt = toUnix(new Date(2026, 0, 23, 18, 0, 0));
-        expect(getWeeksUntilAiring(airingAt, 'monday', now)).toBe(2);
-    });
-
-    it('respects a Sunday week start', () => {
-        // Sunday 2026-01-04 through Saturday 2026-01-10 is "this week" when weeks start on Sunday.
-        const sameWeek = toUnix(new Date(2026, 0, 10, 18, 0, 0));
-        const nextWeek = toUnix(new Date(2026, 0, 11, 18, 0, 0));
-        expect(getWeeksUntilAiring(sameWeek, 'sunday', now)).toBe(0);
-        expect(getWeeksUntilAiring(nextWeek, 'sunday', now)).toBe(1);
+        expect(getWeeksUntilAiring(airingAt, now)).toBe(2);
     });
 });

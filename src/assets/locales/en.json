@@ -1,180 +1,183 @@
 {
-	"metadata": {
-		"title": "Anicalendar",
-		"description": "Weekly anime calendar powered by AniList, MyAnimeList and Kitsu."
-	},
-	"header": {
-		"brand": "Anicalendar"
-	},
-	"home": {
-		"title": "Enter your username to see your weekly airing schedule.",
-		"subtitle": "We only use your public data and don't make any changes to your account.",
-		"usernameLabel": "Username",
-		"errorUserNotFound": "User not found. Please check that your profile is public.",
-		"errorGeneric": "Something went wrong. Please try again.",
-		"go": "Search",
-		"apiProviderLabel": "API provider",
-		"noUsernameLead": "No username? Explore what's airing this season or what's coming next season.",
-		"browseSeason": "Browse season",
-		"browseNextSeason": "Browse next season"
-	},
-	"footer": {
-		"languageSwitcherLabel": "Language",
-		"locale": {
-			"en": "English",
-			"es": "Español"
-		},
-		"contactLabel": "Contact",
-		"contact": {
-			"github": "GitHub",
-			"anilist": "AniList",
-			"linkedin": "LinkedIn",
-			"issues": "Report an issue"
-		}
-	},
-	"notFound": {
-		"title": "Page not found",
-		"subtitle": "The page you're looking for doesn't exist or was moved.",
-		"backHome": "Back home"
-	},
-	"airing": {
-		"errorTitle": "Something went wrong",
-		"errorSubtitle": "We couldn't load this schedule. The provider might be having issues.",
-		"retry": "Retry",
-		"backHome": "Back home",
-		"seasonalDisclosure": "Showing the top {count} most popular anime airing this season.",
-		"seasonalEmptyList": "No currently airing anime found this season.",
-		"nextSeasonDisclosure": "Showing the {count} most popular anime airing next season.",
-		"nextSeasonEmptyList": "No anime found for next season.",
-		"finishedLabel": "Finished",
-		"noAirDateLabel": "No air date yet"
-	},
-	"seasonalFilters": {
-		"contentLabel": "Content",
-		"content": {
-			"sfw": "SFW",
-			"plus16": "+16",
-			"plus18": "+18"
-		},
-		"formatLabel": "Format",
-		"format": {
-			"TV": "TV",
-			"TV_SHORT": "TV Short",
-			"MOVIE": "Movie",
-			"SPECIAL": "Special",
-			"OVA": "OVA",
-			"ONA": "ONA",
-			"MUSIC": "Music"
-		},
-		"topLabel": "Top",
-		"userListLabel": "My list",
-		"watching": "Watching",
-		"planning": "Planning",
-		"newSeasonLabel": "New releases",
-		"onlyNewSeason": "New this season only",
-		"search": "Search",
-		"title": "Seasonal filters",
-		"close": "Close seasonal filters"
-	},
-	"animeCard": {
-		"toggleDetails": "Show details",
-		"next": "Next",
-		"planning": "Plan to watch",
-		"behind": "{count} behind",
-		"caughtUp": "Caught up!",
-		"unknown": "unknown",
-		"episodeProgress": "Ep {progress}/{total}",
-		"episodeProgressUnknown": "Ep {progress}/?",
-		"episodeProgressAria": "Episode {progress} of {total}",
-		"aired": "Aired",
-		"airingTimeWeekSkip": "{time} <weeks>+ {count, plural, one {# week} other {# weeks}}</weeks>",
-		"countdownDays": "{days}d {hours}h",
-		"countdownHours": "{hours}h {minutes}m",
-		"countdownMinutes": "{minutes}m",
-		"status": {
-			"releasing": "Releasing",
-			"finished": "Finished",
-			"hiatus": "Hiatus",
-			"cancelled": "Cancelled",
-			"notYetReleased": "Not yet released"
-		}
-	},
-	"settings": {
-		"title": "Settings",
-		"close": "Close settings",
-		"sections": {
-			"theme": "Theme",
-			"layout": "Layout",
-			"emptyDays": "Empty days",
-			"weekStart": "Week start",
-			"timeFormat": "Time format"
-		},
-		"theme": {
-			"system": "System",
-			"dark": "Dark",
-			"light": "Light"
-		},
-		"layout": {
-			"auto": "Auto",
-			"grid": "Grid",
-			"list": "List"
-		},
-		"emptyDays": {
-			"show": "Show",
-			"hide": "Hide"
-		},
-		"weekStart": {
-			"monday": "Monday",
-			"sunday": "Sunday"
-		},
-		"timeFormat": {
-			"24h": "24h",
-			"12h": "12h"
-		}
-	},
-	"calendarToolbar": {
-		"hiddenCount": "Hidden anime: {count}.",
-		"pendingEpisodes": "Episodes pending: <b>{count}</b>",
-		"pendingEpisodesWithTime": "Episodes pending: <b>{count}</b> (<b>{time}</b>)",
-		"nextEpisodeIn": "Next episode in <b>{time}</b>",
-		"editHint": "Click <icon></icon> to hide anime — it only changes what's shown in this calendar, your list stays untouched.",
-		"editSeasonalHint": "Click <icon></icon> to hide anime from the calendar.",
-		"exploreSeason": "Explore this season",
-		"exploreNextSeason": "Explore next season"
-	},
-	"entryVisibility": {
-		"edit": "Manage visibility",
-		"save": "Save",
-		"cancel": "Cancel",
-		"hideAll": "Hide all",
-		"showAll": "Show all"
-	},
-	"weeklyCalendar": {
-		"emptyList": "No anime in your watching list.",
-		"sectionHeader": "Weekly anime schedule",
-		"noUpcoming": "No upcoming episodes",
-		"today": "Today",
-		"noEpisodes": "No episodes",
-		"entriesCount": "Anime: {count}",
-		"days": {
-			"long": {
-				"monday": "Monday",
-				"tuesday": "Tuesday",
-				"wednesday": "Wednesday",
-				"thursday": "Thursday",
-				"friday": "Friday",
-				"saturday": "Saturday",
-				"sunday": "Sunday"
-			},
-			"short": {
-				"monday": "M",
-				"tuesday": "T",
-				"wednesday": "W",
-				"thursday": "T",
-				"friday": "F",
-				"saturday": "S",
-				"sunday": "S"
-			}
-		}
-	}
+    "metadata": {
+        "title": "Anicalendar",
+        "description": "Weekly anime calendar powered by AniList, MyAnimeList and Kitsu."
+    },
+    "header": {
+        "brand": "Anicalendar"
+    },
+    "home": {
+        "title": "Enter your username to see your weekly airing schedule.",
+        "subtitle": "We only use your public data and don't make any changes to your account.",
+        "usernameLabel": "Username",
+        "clearUsername": "Clear",
+        "errorUserNotFound": "User not found. Please check that your profile is public.",
+        "errorGeneric": "Something went wrong. Please try again.",
+        "go": "Search",
+        "apiProviderLabel": "API provider",
+        "noUsernameLead": "No username? Explore what's airing this season or what's coming next season.",
+        "browseSeason": "Browse season",
+        "browseNextSeason": "Browse next season"
+    },
+    "footer": {
+        "languageSwitcherLabel": "Language",
+        "locale": {
+            "en": "English",
+            "es": "Español",
+            "fr": "Français",
+            "de": "Deutsch"
+        },
+        "contactLabel": "Contact",
+        "contact": {
+            "github": "GitHub",
+            "anilist": "AniList",
+            "linkedin": "LinkedIn",
+            "issues": "Report an issue"
+        }
+    },
+    "notFound": {
+        "title": "Page not found",
+        "subtitle": "The page you're looking for doesn't exist or was moved.",
+        "backHome": "Back home"
+    },
+    "airing": {
+        "errorTitle": "Something went wrong",
+        "errorSubtitle": "We couldn't load this schedule. The provider might be having issues.",
+        "retry": "Retry",
+        "backHome": "Back home",
+        "seasonalDisclosure": "Showing the top {count} most popular anime airing this season.",
+        "seasonalEmptyList": "No currently airing anime found this season.",
+        "nextSeasonDisclosure": "Showing the {count} most popular anime airing next season.",
+        "nextSeasonEmptyList": "No anime found for next season.",
+        "finishedLabel": "Finished",
+        "noAirDateLabel": "No air date yet"
+    },
+    "seasonalFilters": {
+        "contentLabel": "Content",
+        "content": {
+            "sfw": "SFW",
+            "plus16": "+16",
+            "plus18": "+18"
+        },
+        "formatLabel": "Format",
+        "format": {
+            "TV": "TV",
+            "TV_SHORT": "TV Short",
+            "MOVIE": "Movie",
+            "SPECIAL": "Special",
+            "OVA": "OVA",
+            "ONA": "ONA",
+            "MUSIC": "Music"
+        },
+        "topLabel": "Top",
+        "userListLabel": "My list",
+        "watching": "Watching",
+        "planning": "Planning",
+        "newSeasonLabel": "New releases",
+        "onlyNewSeason": "New this season only",
+        "search": "Search",
+        "title": "Seasonal filters",
+        "close": "Close seasonal filters"
+    },
+    "animeCard": {
+        "toggleDetails": "Show details",
+        "next": "Next",
+        "planning": "Plan to watch",
+        "behind": "{count} behind",
+        "caughtUp": "Caught up!",
+        "unknown": "unknown",
+        "episodeProgress": "Ep {progress}/{total}",
+        "episodeProgressUnknown": "Ep {progress}/?",
+        "episodeProgressAria": "Episode {progress} of {total}",
+        "aired": "Aired",
+        "airingTimeWeekSkip": "{time} <weeks>+ {count, plural, one {# week} other {# weeks}}</weeks>",
+        "countdownDays": "{days}d {hours}h",
+        "countdownHours": "{hours}h {minutes}m",
+        "countdownMinutes": "{minutes}m",
+        "status": {
+            "releasing": "Releasing",
+            "finished": "Finished",
+            "hiatus": "Hiatus",
+            "cancelled": "Cancelled",
+            "notYetReleased": "Not yet released"
+        }
+    },
+    "settings": {
+        "title": "Settings",
+        "close": "Close settings",
+        "sections": {
+            "theme": "Theme",
+            "layout": "Layout",
+            "emptyDays": "Empty days",
+            "weekStart": "Week start",
+            "timeFormat": "Time format"
+        },
+        "theme": {
+            "system": "System",
+            "dark": "Dark",
+            "light": "Light"
+        },
+        "layout": {
+            "auto": "Auto",
+            "grid": "Grid",
+            "list": "List"
+        },
+        "emptyDays": {
+            "show": "Show",
+            "hide": "Hide"
+        },
+        "weekStart": {
+            "monday": "Monday",
+            "sunday": "Sunday"
+        },
+        "timeFormat": {
+            "24h": "24h",
+            "12h": "12h"
+        }
+    },
+    "calendarToolbar": {
+        "hiddenCount": "Hidden anime: {count}.",
+        "pendingEpisodes": "Episodes pending: <b>{count}</b>",
+        "pendingEpisodesWithTime": "Episodes pending: <b>{count}</b> (<b>{time}</b>)",
+        "nextEpisodeIn": "Next episode in <b>{time}</b>",
+        "editHint": "Click <icon></icon> to hide anime — it only changes what's shown in this calendar, your list stays untouched.",
+        "editSeasonalHint": "Click <icon></icon> to hide anime from the calendar.",
+        "exploreSeason": "Explore this season",
+        "exploreNextSeason": "Explore next season"
+    },
+    "entryVisibility": {
+        "edit": "Manage visibility",
+        "save": "Save",
+        "cancel": "Cancel",
+        "hideAll": "Hide all",
+        "showAll": "Show all"
+    },
+    "weeklyCalendar": {
+        "emptyList": "No anime in your watching list.",
+        "sectionHeader": "Weekly anime schedule",
+        "noUpcoming": "No upcoming episodes",
+        "today": "Today",
+        "noEpisodes": "No episodes",
+        "entriesCount": "Anime: {count}",
+        "days": {
+            "long": {
+                "monday": "Monday",
+                "tuesday": "Tuesday",
+                "wednesday": "Wednesday",
+                "thursday": "Thursday",
+                "friday": "Friday",
+                "saturday": "Saturday",
+                "sunday": "Sunday"
+            },
+            "short": {
+                "monday": "M",
+                "tuesday": "T",
+                "wednesday": "W",
+                "thursday": "T",
+                "friday": "F",
+                "saturday": "S",
+                "sunday": "S"
+            }
+        }
+    }
 }

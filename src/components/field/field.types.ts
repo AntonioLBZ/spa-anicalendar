@@ -1,3 +1,4 @@
+import type { ButtonProps } from '../button';
 import type {
     FieldErrorProps as AriaFieldErrorProps,
     InputProps as AriaInputProps,
@@ -30,6 +31,10 @@ type FieldHelperProps = Omit<AriaTextProps, 'slot'> & {
     ref?: React.Ref<HTMLElement>;
 };
 
+type FieldClearProps = Omit<ButtonProps, 'type' | 'variant' | 'size' | 'onPress'> & {
+    'aria-label': string;
+};
+
 export type {
     FieldRootProps,
     FieldInputProps,
@@ -37,4 +42,5 @@ export type {
     FieldErrorProps,
     FieldControlProps,
     FieldHelperProps,
+    FieldClearProps,
 };

@@ -49,18 +49,33 @@ import { Field } from '@/components';
 
 `Field.Helper` is always visible (no `isInvalid` gate) and is wired via `aria-describedby` the same way `Field.Error` is. `Field.Error` and `Field.Helper` can both be present — react-aria concatenates their IDs into a single `aria-describedby`.
 
+## With a clear button
+
+```tsx
+<Field.Root value={userName} onChange={setUserName}>
+    <Field.Control>
+        <Field.Input />
+        <Field.Label>AniList username</Field.Label>
+        <Field.Clear aria-label="Clear" />
+    </Field.Control>
+</Field.Root>
+```
+
+`Field.Clear` reads the current value straight from `Field.Root`'s controlled `value`/`onChange` (via internal context) — no wiring needed at the call site beyond an `aria-label` (it's icon-only). It renders `null` while the value is empty, and calls `onChange('')` on press. Because it depends on that context, `Field.Root` must be controlled (`value` + `onChange`); it's a no-op with `defaultValue`-only usage.
+
 ## Composition rules
 
 `Field.Root`'s only children should be:
 
-1. **One `Field.Control`**, itself containing `Field.Input` + `Field.Label` (in that order — CSS relies on the adjacent-sibling selector `.field__input + .field__label`).
+1. **One `Field.Control`**, itself containing `Field.Input` + `Field.Label` (in that order — CSS relies on the adjacent-sibling selector `.field__input + .field__label`) + an optional `Field.Clear` last.
 2. Any number of `Field.Error` / `Field.Helper`, **as siblings of `Field.Control`, never inside it**.
 
 ```
 Field.Root
 ├── Field.Control
 │   ├── Field.Input
-│   └── Field.Label
+│   ├── Field.Label
+│   └── Field.Clear  (optional)
 ├── Field.Error      (optional, isInvalid-gated)
 └── Field.Helper     (optional, always visible)
 ```
@@ -80,3 +95,5 @@ Putting `Field.Error`/`Field.Helper` **inside** `Field.Control` breaks the float
 **`Field.Error`** — all `FieldErrorProps`. Renders only while `Field.Root`'s `isInvalid` is `true`.
 
 **`Field.Helper`** — all `TextProps` except `slot` (fixed internally to `"description"`).
+
+**`Field.Clear`** — all `ButtonProps` except `type`/`variant`/`size`/`onPress` (fixed internally), plus a required `aria-label`.

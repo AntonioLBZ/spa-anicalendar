@@ -39,23 +39,14 @@ const getTodayIndex = (weekStartDay: WeekStartDay = 'monday'): number => {
     return jsDay === 0 ? 6 : jsDay - 1;
 };
 
-/** Full calendar weeks ahead `airingAt` falls, relative to the current week (0 = this week). */
-const getWeeksUntilAiring = (
-    airingAt: number,
-    weekStartDay: WeekStartDay = 'monday',
-    now: Date = new Date()
-): number => {
-    const jsDay = now.getDay();
-    let todayIndex = jsDay;
-    if (weekStartDay !== 'sunday') {
-        todayIndex = jsDay === 0 ? 6 : jsDay - 1;
-    }
+/** Full weeks ahead `airingAt` falls, based on real elapsed days from today (0 unless more than 7 days away). */
+const getWeeksUntilAiring = (airingAt: number, now: Date = new Date()): number => {
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const airingDate = new Date(airingAt * 1000);
+    const airingDay = new Date(airingDate.getFullYear(), airingDate.getMonth(), airingDate.getDate());
 
-    const weekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - todayIndex);
-    weekStart.setHours(0, 0, 0, 0);
-
-    const diffDays = Math.floor((airingAt * 1000 - weekStart.getTime()) / (24 * 60 * 60 * 1000));
-    return Math.max(0, Math.floor(diffDays / 7));
+    const diffDays = Math.round((airingDay.getTime() - today.getTime()) / (24 * 60 * 60 * 1000));
+    return diffDays > 7 ? Math.floor(diffDays / 7) : 0;
 };
 
 export { getAiringDay, getAiringMinuteOfDay, getDayKey, getTodayIndex, getWeeksUntilAiring };

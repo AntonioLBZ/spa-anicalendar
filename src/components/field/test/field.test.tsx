@@ -76,6 +76,39 @@ describe('Field', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1);
     });
 
+    it('hides Field.Clear when the field is empty', () => {
+        render(
+            <Field.Root value="" onChange={() => {}}>
+                <Field.Control>
+                    <Field.Input />
+                    <Field.Label>Username</Field.Label>
+                    <Field.Clear aria-label="Clear" />
+                </Field.Control>
+            </Field.Root>,
+        );
+
+        expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument();
+    });
+
+    it('clears the value when Field.Clear is pressed', async () => {
+        const onChange = vi.fn();
+        const user = userEvent.setup();
+
+        render(
+            <Field.Root value="antoniolbz" onChange={onChange}>
+                <Field.Control>
+                    <Field.Input />
+                    <Field.Label>Username</Field.Label>
+                    <Field.Clear aria-label="Clear" />
+                </Field.Control>
+            </Field.Root>,
+        );
+
+        await user.click(screen.getByRole('button', { name: 'Clear' }));
+
+        expect(onChange).toHaveBeenCalledWith('');
+    });
+
     it('fixes Field.Helper to the description slot', () => {
         render(
             <Field.Root>

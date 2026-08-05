@@ -2,5 +2,5 @@
     align-items: center;
     display: flex;
     flex-shrink: 0;
-    gap: var(--size-75);
+    gap: var(--size-50);
 }

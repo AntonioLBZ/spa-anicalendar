@@ -32,6 +32,8 @@
     align-items: center;
     color: var(--color-content-primary);
     display: flex;
+    flex-wrap: wrap;
+    gap: var(--size-75);
     justify-content: space-between;
 }
 

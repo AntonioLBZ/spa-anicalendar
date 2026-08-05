@@ -1,0 +1,183 @@
+{
+    "metadata": {
+        "title": "Anicalendar",
+        "description": "Wöchentlicher Anime-Kalender mit AniList, MyAnimeList und Kitsu."
+    },
+    "header": {
+        "brand": "Anicalendar"
+    },
+    "home": {
+        "title": "Gib deinen Benutzernamen ein, um deinen wöchentlichen Sendeplan zu sehen.",
+        "subtitle": "Wir nutzen nur deine öffentlichen Daten und ändern nichts an deinem Konto.",
+        "usernameLabel": "Benutzername",
+        "clearUsername": "Leeren",
+        "errorUserNotFound": "Benutzer nicht gefunden. Prüfe, ob dein Profil öffentlich ist.",
+        "errorGeneric": "Etwas ist schiefgelaufen. Bitte versuch es erneut.",
+        "go": "Suchen",
+        "apiProviderLabel": "API-Anbieter",
+        "noUsernameLead": "Kein Benutzername? Entdecke, was diese Saison oder nächste Saison läuft.",
+        "browseSeason": "Saison ansehen",
+        "browseNextSeason": "Nächste Saison ansehen"
+    },
+    "footer": {
+        "languageSwitcherLabel": "Sprache",
+        "locale": {
+            "en": "English",
+            "es": "Español",
+            "fr": "Français",
+            "de": "Deutsch"
+        },
+        "contactLabel": "Kontakt",
+        "contact": {
+            "github": "GitHub",
+            "anilist": "AniList",
+            "linkedin": "LinkedIn",
+            "issues": "Problem melden"
+        }
+    },
+    "notFound": {
+        "title": "Seite nicht gefunden",
+        "subtitle": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
+        "backHome": "Zurück zur Startseite"
+    },
+    "airing": {
+        "errorTitle": "Etwas ist schiefgelaufen",
+        "errorSubtitle": "Der Sendeplan konnte nicht geladen werden. Der Anbieter hat vielleicht Probleme.",
+        "retry": "Erneut versuchen",
+        "backHome": "Zurück zur Startseite",
+        "seasonalDisclosure": "Die {count} beliebtesten Animes, die diese Saison laufen.",
+        "seasonalEmptyList": "Keine laufenden Animes für diese Saison gefunden.",
+        "nextSeasonDisclosure": "Die {count} beliebtesten Animes, die nächste Saison laufen.",
+        "nextSeasonEmptyList": "Keine Animes für die nächste Saison gefunden.",
+        "finishedLabel": "Abgeschlossen",
+        "noAirDateLabel": "Noch kein Sendetermin"
+    },
+    "seasonalFilters": {
+        "contentLabel": "Inhalt",
+        "content": {
+            "sfw": "SFW",
+            "plus16": "+16",
+            "plus18": "+18"
+        },
+        "formatLabel": "Format",
+        "format": {
+            "TV": "TV",
+            "TV_SHORT": "TV Short",
+            "MOVIE": "Film",
+            "SPECIAL": "Special",
+            "OVA": "OVA",
+            "ONA": "ONA",
+            "MUSIC": "Musik"
+        },
+        "topLabel": "Top",
+        "userListLabel": "Meine Liste",
+        "watching": "Wird geschaut",
+        "planning": "Geplant",
+        "newSeasonLabel": "Neuerscheinungen",
+        "onlyNewSeason": "Nur Neuerscheinungen dieser Saison",
+        "search": "Suchen",
+        "title": "Saisonfilter",
+        "close": "Saisonfilter schließen"
+    },
+    "animeCard": {
+        "toggleDetails": "Details anzeigen",
+        "next": "Weiter",
+        "planning": "Geplant",
+        "behind": "{count} im Rückstand",
+        "caughtUp": "Aktuell!",
+        "unknown": "unbekannt",
+        "episodeProgress": "Fo {progress}/{total}",
+        "episodeProgressUnknown": "Fo {progress}/?",
+        "episodeProgressAria": "Folge {progress} von {total}",
+        "aired": "Ausgestrahlt",
+        "airingTimeWeekSkip": "{time} <weeks>+ {count, plural, one {# Woche} other {# Wochen}}</weeks>",
+        "countdownDays": "{days}T {hours}Std",
+        "countdownHours": "{hours}Std {minutes}Min",
+        "countdownMinutes": "{minutes}Min",
+        "status": {
+            "releasing": "Läuft",
+            "finished": "Abgeschlossen",
+            "hiatus": "Pause",
+            "cancelled": "Abgesetzt",
+            "notYetReleased": "Noch nicht ausgestrahlt"
+        }
+    },
+    "settings": {
+        "title": "Einstellungen",
+        "close": "Einstellungen schließen",
+        "sections": {
+            "theme": "Design",
+            "layout": "Ansicht",
+            "emptyDays": "Leere Tage",
+            "weekStart": "Wochenstart",
+            "timeFormat": "Zeitformat"
+        },
+        "theme": {
+            "system": "System",
+            "dark": "Dunkel",
+            "light": "Hell"
+        },
+        "layout": {
+            "auto": "Auto",
+            "grid": "Raster",
+            "list": "Liste"
+        },
+        "emptyDays": {
+            "show": "Anzeigen",
+            "hide": "Ausblenden"
+        },
+        "weekStart": {
+            "monday": "Montag",
+            "sunday": "Sonntag"
+        },
+        "timeFormat": {
+            "24h": "24h",
+            "12h": "12h"
+        }
+    },
+    "calendarToolbar": {
+        "hiddenCount": "Ausgeblendete Animes: {count}.",
+        "pendingEpisodes": "Ausstehende Folgen: <b>{count}</b>",
+        "pendingEpisodesWithTime": "Ausstehende Folgen: <b>{count}</b> (<b>{time}</b>)",
+        "nextEpisodeIn": "Nächste Folge in <b>{time}</b>",
+        "editHint": "Klick auf <icon></icon>, um einen Anime auszublenden — das ändert nur die Anzeige hier, deine Liste bleibt unverändert.",
+        "editSeasonalHint": "Klick auf <icon></icon>, um einen Anime aus dem Kalender auszublenden.",
+        "exploreSeason": "Diese Saison entdecken",
+        "exploreNextSeason": "Nächste Saison entdecken"
+    },
+    "entryVisibility": {
+        "edit": "Sichtbarkeit verwalten",
+        "save": "Speichern",
+        "cancel": "Abbrechen",
+        "hideAll": "Alle ausblenden",
+        "showAll": "Alle anzeigen"
+    },
+    "weeklyCalendar": {
+        "emptyList": "Keine Animes in deiner Watchlist.",
+        "sectionHeader": "Wöchentlicher Anime-Sendeplan",
+        "noUpcoming": "Keine kommenden Folgen",
+        "today": "Heute",
+        "noEpisodes": "Keine Folgen",
+        "entriesCount": "Animes: {count}",
+        "days": {
+            "long": {
+                "monday": "Montag",
+                "tuesday": "Dienstag",
+                "wednesday": "Mittwoch",
+                "thursday": "Donnerstag",
+                "friday": "Freitag",
+                "saturday": "Samstag",
+                "sunday": "Sonntag"
+            },
+            "short": {
+                "monday": "M",
+                "tuesday": "D",
+                "wednesday": "M",
+                "thursday": "D",
+                "friday": "F",
+                "saturday": "S",
+                "sunday": "S"
+            }
+        }
+    }
+}

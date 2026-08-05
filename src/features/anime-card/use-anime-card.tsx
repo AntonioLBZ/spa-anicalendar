@@ -31,7 +31,7 @@ const useAnimeCard = (props: AnimeCardProps) => {
         showProgress = true,
         showWatchStatus = true,
     } = props;
-    const { timeFormat, weekStartDay } = useSettingsContext();
+    const { timeFormat } = useSettingsContext();
     const t = useTranslations('animeCard');
     const titleId = `anime-title-${entry.id}`;
     const detailsId = `anime-details-${entry.id}`;
@@ -59,7 +59,7 @@ const useAnimeCard = (props: AnimeCardProps) => {
         : null;
     const behindText = pendingCount > 0 ? t('behind', { count: pendingCount }) : null;
     const caughtUpText = pendingCount === 0 ? t('caughtUp') : null;
-    const weeksAhead = nextEp ? getWeeksUntilAiring(nextEp.airingAt, weekStartDay) : 0;
+    const weeksAhead = nextEp ? getWeeksUntilAiring(nextEp.airingAt) : 0;
     let airingTimeText: React.ReactNode = null;
     if (nextEp) {
         const localTime = getLocalAiringTime(nextEp.airingAt, timeFormat);

@@ -15,12 +15,18 @@ import './page.css';
 
 export default function HomePage() {
     const t = useTranslations('home');
-    const [userName, setUserName] = useState('');
+    const { provider, setProvider, lastUsername, setLastUsername } = useSettingsContext();
+    const [userName, setUserName] = useState(lastUsername);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
     const queryClient = useQueryClient();
-    const { provider, setProvider } = useSettingsContext();
+
+    const [prevLastUsername, setPrevLastUsername] = useState(lastUsername);
+    if (lastUsername !== prevLastUsername) {
+        setPrevLastUsername(lastUsername);
+        setUserName((prev) => prev || lastUsername);
+    }
 
     const validationErrors = useMemo(() => (errorMessage ? { username: errorMessage } : undefined), [errorMessage]);
 
@@ -41,6 +47,7 @@ export default function HomePage() {
                 queryKey: userQueryKey(provider, trimmed),
                 queryFn: () => api.getUserByName(trimmed),
             });
+            setLastUsername(trimmed);
             router.push(`/airing/${encodeURIComponent(trimmed)}`);
         } catch (error) {
             setErrorMessage(isUserNotFoundError(error) ? t('errorUserNotFound') : t('errorGeneric'));
@@ -65,6 +72,7 @@ export default function HomePage() {
                         <Field.Control>
                             <Field.Input />
                             <Field.Label>{t('usernameLabel')}</Field.Label>
+                            <Field.Clear aria-label={t('clearUsername')} />
                         </Field.Control>
                         <Field.Error />
                     </Field.Root>
