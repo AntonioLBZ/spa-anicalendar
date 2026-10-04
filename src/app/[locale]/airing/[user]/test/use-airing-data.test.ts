@@ -135,10 +135,11 @@ describe('useAiringData exported functions', () => {
             });
 
             it('keeps a planning-sourced FINISHED entry that finished in the current season', () => {
+                const today = new Date();
                 const entry = createEntry({
                     listStatus: 'PLANNING',
                     status: 'FINISHED',
-                    endDate: { year: currentSeasonYear, month: 6, day: 10 },
+                    endDate: { year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() },
                 });
                 const filtered = filterAiringEntries([entry], { formats: [], onlyNewSeason: false });
                 expect(filtered).toContainEqual(entry);

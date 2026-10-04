@@ -19,7 +19,12 @@ const SEASONAL_FILTERS_DEFAULTS: SeasonalFiltersState = {
 const seasonalFiltersStore = createPersistedStore<SeasonalFiltersState>(
     STORAGE_KEY,
     SEASONAL_FILTERS_DEFAULTS,
-    (defaults, saved) => ({ ...defaults, ...saved })
+    (defaults, saved) => {
+        const topN = Number(saved.topN);
+        const validTopN =
+            Number.isInteger(topN) && topN > 0 && topN <= 50 ? topN : defaults.topN;
+        return { ...defaults, ...saved, topN: validTopN };
+    }
 );
 
 const useSeasonalFilters = () => {
@@ -38,4 +43,4 @@ const useSeasonalFilters = () => {
     return { filters, setFilters };
 };
 
-export { useSeasonalFilters };
+export { useSeasonalFilters, seasonalFiltersStore };
