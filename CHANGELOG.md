@@ -1,5 +1,11 @@
 # spa-anicalendar
 
+## 1.3.0
+
+### Minor Changes
+
+- f8cbf7d: [feature/visual-refresh] Visual refresh with AniList identity and motion
+
 ## 1.2.0
 
 ### Minor Changes
