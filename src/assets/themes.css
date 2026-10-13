@@ -50,10 +50,10 @@
     --size-border-focus-offset: var(--size-12);
 
     /* Radius */
-    --radius-xs: var(--size-25); /* chips, pills */
-    --radius-s: var(--size-37); /* controls: buttons, inputs, options */
-    --radius-m: var(--size-62); /* cards */
-    --radius-l: var(--size-100); /* surfaces: toolbar, day columns, panels */
+    --radius-xs: var(--size-25); /* chips, pills, option toggles */
+    --radius-s: var(--size-37); /* buttons, inputs, cards, day columns */
+    --radius-m: var(--size-50); /* toolbar, drawer panels */
+    --radius-l: var(--size-100); /* large standalone surfaces (home form) */
     --radius-full: 9999px;
 
     /* Avatar */
@@ -75,17 +75,8 @@
     --ease-enter: cubic-bezier(0.05, 0.7, 0.1, 1);
     --ease-exit: cubic-bezier(0.3, 0, 0.8, 0.15);
 
-    /* Palette — AniList blue (#3DB4F2) scale */
-    --blue-400: rgb(61 180 242);
-    --blue-500: rgb(30 150 220);
-    --blue-600: rgb(14 135 204);
-    --blue-700: rgb(3 98 155);
-    --navy-900: rgb(10 22 37);
-
     /* Theme-independent colors */
     --color-content-bright: rgb(237 241 245 / 90%);
-    --color-content-on-accent: var(--navy-900);
-    --color-accent-on-media: var(--blue-400);
     --color-warning: rgb(245 158 11);
     --color-status-releasing: rgb(34 197 94);
     --color-status-finished: rgb(59 130 246);
@@ -113,14 +104,125 @@
 
 /** Colors */
 
+/*
+ * Accent schemes (Settings → Accent color), applied via `data-accent` on <html>/<body>.
+ * Each scheme defines its fill plus the per-theme shades the theme blocks below map onto
+ * semantic tokens. `default` is the original blue; the rest are AniList's profile colors,
+ * adjusted where needed so text on/with them keeps ≥4.5:1 contrast.
+ */
+:root,
+[data-accent='default'] {
+    --accent-fill: rgb(53 119 255);
+    --accent-fill-strong: rgb(37 99 235);
+    --accent-on-fill: rgb(255 255 255);
+    --accent-text-dark: rgb(59 130 246);
+    --accent-text-light: rgb(59 130 246);
+    --accent-focus-dark: rgb(53 119 255);
+    --accent-focus-light: rgb(53 119 255);
+    --accent-highlight-dark: rgb(0 98 255 / 18.5%);
+    --accent-highlight-light: rgb(59 131 246 / 15%);
+    --accent-on-media: rgb(59 130 246);
+}
+
+[data-accent='anilist'] {
+    --accent-fill: rgb(61 180 242);
+    --accent-fill-strong: rgb(58 171 230);
+    --accent-on-fill: rgb(10 22 37);
+    --accent-text-dark: rgb(61 180 242);
+    --accent-text-light: rgb(39 115 155);
+    --accent-focus-dark: rgb(61 180 242);
+    --accent-focus-light: rgb(49 146 196);
+    --accent-highlight-dark: rgb(61 180 242 / 15%);
+    --accent-highlight-light: rgb(61 180 242 / 15%);
+    --accent-on-media: rgb(61 180 242);
+}
+
+[data-accent='purple'] {
+    --accent-fill: rgb(192 99 255);
+    --accent-fill-strong: rgb(177 91 235);
+    --accent-on-fill: rgb(10 22 37);
+    --accent-text-dark: rgb(192 99 255);
+    --accent-text-light: rgb(148 76 196);
+    --accent-focus-dark: rgb(192 99 255);
+    --accent-focus-light: rgb(186 96 247);
+    --accent-highlight-dark: rgb(192 99 255 / 15%);
+    --accent-highlight-light: rgb(192 99 255 / 15%);
+    --accent-on-media: rgb(192 99 255);
+}
+
+[data-accent='pink'] {
+    --accent-fill: rgb(252 157 214);
+    --accent-fill-strong: rgb(242 151 205);
+    --accent-on-fill: rgb(10 22 37);
+    --accent-text-dark: rgb(252 157 214);
+    --accent-text-light: rgb(146 91 124);
+    --accent-focus-dark: rgb(252 157 214);
+    --accent-focus-light: rgb(186 116 158);
+    --accent-highlight-dark: rgb(252 157 214 / 15%);
+    --accent-highlight-light: rgb(252 157 214 / 15%);
+    --accent-on-media: rgb(252 157 214);
+}
+
+[data-accent='orange'] {
+    --accent-fill: rgb(239 136 26);
+    --accent-fill-strong: rgb(225 128 24);
+    --accent-on-fill: rgb(10 22 37);
+    --accent-text-dark: rgb(239 136 26);
+    --accent-text-light: rgb(163 92 18);
+    --accent-focus-dark: rgb(239 136 26);
+    --accent-focus-light: rgb(203 116 22);
+    --accent-highlight-dark: rgb(239 136 26 / 15%);
+    --accent-highlight-light: rgb(239 136 26 / 15%);
+    --accent-on-media: rgb(239 136 26);
+}
+
+[data-accent='red'] {
+    --accent-fill: rgb(223 50 50);
+    --accent-fill-strong: rgb(198 44 44);
+    --accent-on-fill: rgb(255 255 255);
+    --accent-text-dark: rgb(230 88 88);
+    --accent-text-light: rgb(207 47 47);
+    --accent-focus-dark: rgb(225 51 51);
+    --accent-focus-light: rgb(225 51 51);
+    --accent-highlight-dark: rgb(223 50 50 / 15%);
+    --accent-highlight-light: rgb(223 50 50 / 15%);
+    --accent-on-media: rgb(229 75 75);
+}
+
+[data-accent='green'] {
+    --accent-fill: rgb(76 202 81);
+    --accent-fill-strong: rgb(72 192 77);
+    --accent-on-fill: rgb(10 22 37);
+    --accent-text-dark: rgb(76 202 81);
+    --accent-text-light: rgb(47 125 50);
+    --accent-focus-dark: rgb(76 202 81);
+    --accent-focus-light: rgb(59 158 63);
+    --accent-highlight-dark: rgb(76 202 81 / 15%);
+    --accent-highlight-light: rgb(76 202 81 / 15%);
+    --accent-on-media: rgb(76 202 81);
+}
+
+[data-accent='gray'] {
+    --accent-fill: rgb(100 119 144);
+    --accent-fill-strong: rgb(88 105 127);
+    --accent-on-fill: rgb(255 255 255);
+    --accent-text-dark: rgb(120 138 160);
+    --accent-text-light: rgb(93 111 133);
+    --accent-focus-dark: rgb(103 123 148);
+    --accent-focus-light: rgb(103 123 148);
+    --accent-highlight-dark: rgb(100 119 144 / 15%);
+    --accent-highlight-light: rgb(100 119 144 / 15%);
+    --accent-on-media: rgb(114 132 155);
+}
+
 [data-theme='dark'] {
     /* Background */
-    --color-bg-primary: var(--navy-900);
+    --color-bg-primary: rgb(10 22 37);
     --color-bg-primary-hover: rgb(14 26 41);
     --color-bg-secondary: rgb(21 34 50);
     --color-bg-secondary-hover: rgb(30 44 62);
     --color-bg-overlay: rgb(31 38 49 / 70%);
-    --color-bg-highlight: rgb(61 180 242 / 15%);
+    --color-bg-highlight: var(--accent-highlight-dark);
 
     /* Content */
     --color-content-primary: rgb(255 255 255);
@@ -128,7 +230,7 @@
 
     /* Borders */
     --color-border: rgb(255 255 255 / 12%);
-    --color-border-focus: var(--blue-400);
+    --color-border-focus: var(--accent-focus-dark);
 
     /* Elevation */
     --shadow-1: 0 1px 2px rgb(0 0 0 / 30%), 0 4px 12px rgb(0 0 0 / 20%);
@@ -138,9 +240,11 @@
     --color-danger: rgb(248 113 113);
 
     /* Accent */
-    --color-accent: var(--blue-400);
-    --color-bg-accent: var(--blue-400);
-    --color-bg-accent-hover: var(--blue-500);
+    --color-accent: var(--accent-text-dark);
+    --color-bg-accent: var(--accent-fill);
+    --color-bg-accent-strong: var(--accent-fill-strong);
+    --color-content-on-accent: var(--accent-on-fill);
+    --color-accent-on-media: var(--accent-on-media);
 
     color-scheme: dark;
 }
@@ -152,7 +256,7 @@
     --color-bg-primary-hover: rgb(223 234 250);
     --color-bg-secondary-hover: rgb(236 243 255);
     --color-bg-overlay: rgb(49 56 64 / 40%);
-    --color-bg-highlight: rgb(61 180 242 / 15%);
+    --color-bg-highlight: var(--accent-highlight-light);
 
     /* Content */
     --color-content-primary: rgb(75 93 113);
@@ -160,7 +264,7 @@
 
     /* Borders */
     --color-border: rgb(216 224 232);
-    --color-border-focus: var(--blue-600);
+    --color-border-focus: var(--accent-focus-light);
 
     /* Elevation (blue-tinted, AniList-style) */
     --shadow-1: 0 1px 2px rgb(103 132 187 / 8%), 0 4px 14px rgb(103 132 187 / 12%);
@@ -170,9 +274,11 @@
     --color-danger: rgb(200 30 30);
 
     /* Accent */
-    --color-accent: var(--blue-700);
-    --color-bg-accent: var(--blue-400);
-    --color-bg-accent-hover: var(--blue-500);
+    --color-accent: var(--accent-text-light);
+    --color-bg-accent: var(--accent-fill);
+    --color-bg-accent-strong: var(--accent-fill-strong);
+    --color-content-on-accent: var(--accent-on-fill);
+    --color-accent-on-media: var(--accent-on-media);
 
     color-scheme: light;
 }

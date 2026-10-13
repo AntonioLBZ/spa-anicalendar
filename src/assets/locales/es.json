@@ -107,6 +107,7 @@
         "close": "Cerrar ajustes",
         "sections": {
             "theme": "Tema",
+            "accent": "Color de acento",
             "layout": "Diseño",
             "emptyDays": "Días vacíos",
             "weekStart": "Inicio de semana",
@@ -116,6 +117,16 @@
             "system": "Sistema",
             "dark": "Oscuro",
             "light": "Claro"
+        },
+        "accent": {
+            "default": "Por defecto",
+            "anilist": "AniList",
+            "purple": "Morado",
+            "pink": "Rosa",
+            "orange": "Naranja",
+            "red": "Rojo",
+            "green": "Verde",
+            "gray": "Gris"
         },
         "layout": {
             "auto": "Auto",

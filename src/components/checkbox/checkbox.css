@@ -8,7 +8,7 @@
     align-items: center;
     background-color: var(--color-bg-primary);
     border: var(--size-12) solid var(--color-bg-primary);
-    border-radius: var(--radius-s);
+    border-radius: var(--radius-xs);
     color: var(--color-content-primary);
     cursor: pointer;
     display: flex;
@@ -46,8 +46,8 @@
 }
 
 .checkbox[data-selected][data-hovered] {
-    background-color: var(--color-bg-accent-hover);
-    border-color: var(--color-bg-accent-hover);
+    background-color: var(--color-bg-accent-strong);
+    border-color: var(--color-bg-accent-strong);
 }
 
 .checkbox[data-disabled] {

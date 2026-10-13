@@ -13,7 +13,7 @@
     align-items: center;
     background-color: var(--color-bg-primary);
     border: var(--size-12) solid var(--color-bg-primary);
-    border-radius: var(--radius-s);
+    border-radius: var(--radius-xs);
     color: var(--color-content-secondary);
     cursor: pointer;
     display: flex;
@@ -49,8 +49,8 @@
 }
 
 .radio-option[data-selected][data-hovered] {
-    background-color: var(--color-bg-accent-hover);
-    border-color: var(--color-bg-accent-hover);
+    background-color: var(--color-bg-accent-strong);
+    border-color: var(--color-bg-accent-strong);
 }
 
 .radio-option[data-focus-visible] {

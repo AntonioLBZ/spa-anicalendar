@@ -5,13 +5,21 @@ import { useTranslations } from 'next-intl';
 import { Button, DismissIcon, Divider, Drawer, DrawerTrigger, GearIcon, Radio, Section } from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import {
+    ACCENT_COLOR_OPTIONS,
     EMPTY_DAYS_OPTIONS,
     TIME_FORMAT_OPTIONS,
     WEEK_START_OPTIONS,
     CALENDAR_LAYOUT_OPTIONS,
 } from '@/contexts/settings-context/options';
 
-import type { EmptyDaysMode, ThemeMode, WeekStartDay, TimeFormat, CalendarLayout } from '@/contexts/settings-context';
+import type {
+    AccentColor,
+    EmptyDaysMode,
+    ThemeMode,
+    WeekStartDay,
+    TimeFormat,
+    CalendarLayout,
+} from '@/contexts/settings-context';
 
 import './settings.css';
 
@@ -20,6 +28,8 @@ const Settings = () => {
     const {
         theme,
         setTheme,
+        accentColor,
+        setAccentColor,
         emptyDaysMode,
         setEmptyDaysMode,
         weekStartDay,
@@ -53,6 +63,24 @@ const Settings = () => {
                             <Radio.Option value="system">{t('theme.system')}</Radio.Option>
                             <Radio.Option value="dark">{t('theme.dark')}</Radio.Option>
                             <Radio.Option value="light">{t('theme.light')}</Radio.Option>
+                        </Radio.Group>
+                    </Section.Root>
+                    <Divider />
+                    <Section.Root>
+                        <Section.Title>{t('sections.accent')}</Section.Title>
+                        <Radio.Group
+                            aria-label={t('sections.accent')}
+                            className="settings__accent-group"
+                            value={accentColor}
+                            onChange={(v) => setAccentColor(v as AccentColor)}
+                        >
+                            {ACCENT_COLOR_OPTIONS.map((value) => (
+                                <Radio.Option key={value} value={value} className="settings__accent-option">
+                                    {/* `data-accent` scopes the swatch to its own scheme's fill */}
+                                    <span className="settings__swatch" data-accent={value} aria-hidden="true" />
+                                    {t(`accent.${value}`)}
+                                </Radio.Option>
+                            ))}
                         </Radio.Group>
                     </Section.Root>
                     <Divider />

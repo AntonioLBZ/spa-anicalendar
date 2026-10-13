@@ -1,5 +1,5 @@
 .pill {
-    background-color: var(--color-bg-accent);
+    background-color: var(--color-bg-accent-strong);
     border-radius: var(--radius-xs);
     color: var(--color-content-on-accent);
     min-width: 0;

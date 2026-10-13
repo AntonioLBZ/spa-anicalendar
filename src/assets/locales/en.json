@@ -107,6 +107,7 @@
         "close": "Close settings",
         "sections": {
             "theme": "Theme",
+            "accent": "Accent color",
             "layout": "Layout",
             "emptyDays": "Empty days",
             "weekStart": "Week start",
@@ -116,6 +117,16 @@
             "system": "System",
             "dark": "Dark",
             "light": "Light"
+        },
+        "accent": {
+            "default": "Default",
+            "anilist": "AniList",
+            "purple": "Purple",
+            "pink": "Pink",
+            "orange": "Orange",
+            "red": "Red",
+            "green": "Green",
+            "gray": "Gray"
         },
         "layout": {
             "auto": "Auto",

@@ -62,6 +62,31 @@ describe('Settings', () => {
         expect(listOption).toBeChecked();
     });
 
+    it('renders the Accent color options with Default selected', async () => {
+        const user = userEvent.setup();
+        const dialog = await openSettings(user);
+
+        const group = await dialog.findByRole('radiogroup', { name: 'Accent color' });
+        const options = within(group).getAllByRole('radio');
+        expect(options).toHaveLength(8);
+        expect(dialog.getByRole('radio', { name: 'Default' })).toBeChecked();
+        expect(dialog.getByRole('radio', { name: 'AniList' })).not.toBeChecked();
+    });
+
+    it('updates accentColor in storage when an Accent color option is clicked', async () => {
+        const user = userEvent.setup();
+        const dialog = await openSettings(user);
+
+        const purpleOption = await dialog.findByRole('radio', { name: 'Purple' });
+        await user.click(purpleOption);
+
+        await waitFor(() => {
+            const stored = JSON.parse(memoryStorage.getItem(STORAGE_KEY) ?? '{}');
+            expect(stored.accentColor).toBe('purple');
+        });
+        expect(purpleOption).toBeChecked();
+    });
+
     it('closes on Escape', async () => {
         const user = userEvent.setup();
         await openSettings(user);

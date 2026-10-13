@@ -1,7 +1,7 @@
 .card {
     aspect-ratio: 5 / 7;
     background-color: var(--color-bg-secondary);
-    border-radius: var(--radius-m);
+    border-radius: var(--radius-s);
     color: var(--color-content-bright);
     display: block;
     max-width: var(--size-1300);

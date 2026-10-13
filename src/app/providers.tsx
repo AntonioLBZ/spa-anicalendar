@@ -8,14 +8,15 @@ import { queryClient } from '@/lib/query-client';
 
 const ThemedBody = (props: { children: ReactNode }) => {
     const { children } = props;
-    const { resolvedTheme: theme } = useSettingsContext();
+    const { resolvedTheme: theme, accentColor } = useSettingsContext();
 
     useEffect(() => {
         document.documentElement.dataset.theme = theme;
-    }, [theme]);
+        document.documentElement.dataset.accent = accentColor;
+    }, [theme, accentColor]);
 
     return (
-        <body data-theme={theme} suppressHydrationWarning>
+        <body data-theme={theme} data-accent={accentColor} suppressHydrationWarning>
             {children}
         </body>
     );

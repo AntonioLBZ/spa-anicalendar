@@ -107,6 +107,7 @@
         "close": "Einstellungen schließen",
         "sections": {
             "theme": "Design",
+            "accent": "Akzentfarbe",
             "layout": "Ansicht",
             "emptyDays": "Leere Tage",
             "weekStart": "Wochenstart",
@@ -116,6 +117,16 @@
             "system": "System",
             "dark": "Dunkel",
             "light": "Hell"
+        },
+        "accent": {
+            "default": "Standard",
+            "anilist": "AniList",
+            "purple": "Lila",
+            "pink": "Rosa",
+            "orange": "Orange",
+            "red": "Rot",
+            "green": "Grün",
+            "gray": "Grau"
         },
         "layout": {
             "auto": "Auto",

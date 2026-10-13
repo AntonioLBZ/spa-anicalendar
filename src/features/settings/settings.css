@@ -18,3 +18,22 @@
 .settings__body {
     gap: var(--size-125);
 }
+
+.radio-option-group.settings__accent-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.radio-option.settings__accent-option {
+    gap: var(--size-50);
+    justify-content: flex-start;
+}
+
+.settings__swatch {
+    background-color: var(--accent-fill);
+    border: var(--size-12) solid currentcolor;
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+    height: var(--size-100);
+    width: var(--size-100);
+}

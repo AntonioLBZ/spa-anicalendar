@@ -3,6 +3,7 @@ import type { Provider } from '@/services/api/api.types';
 type EmptyDaysMode = 'show' | 'hide';
 type ThemeMode = 'system' | 'light' | 'dark';
 type ResolvedThemeMode = Exclude<ThemeMode, 'system'>;
+type AccentColor = 'default' | 'anilist' | 'purple' | 'pink' | 'orange' | 'red' | 'green' | 'gray';
 type WeekStartDay = 'monday' | 'sunday';
 type TimeFormat = '12h' | '24h';
 type CalendarLayout = 'auto' | 'grid' | 'list';
@@ -15,6 +16,8 @@ interface SettingsContextValue {
     theme: ThemeMode;
     resolvedTheme: ResolvedThemeMode;
     setTheme: (theme: ThemeMode) => void;
+    accentColor: AccentColor;
+    setAccentColor: (accent: AccentColor) => void;
     emptyDaysMode: EmptyDaysMode;
     setEmptyDaysMode: (mode: EmptyDaysMode) => void;
     weekStartDay: WeekStartDay;
@@ -25,4 +28,13 @@ interface SettingsContextValue {
     setCalendarLayout: (layout: CalendarLayout) => void;
 }
 
-export type { EmptyDaysMode, ThemeMode, WeekStartDay, TimeFormat, CalendarLayout, SettingsContextValue, ResolvedThemeMode };
+export type {
+    EmptyDaysMode,
+    ThemeMode,
+    AccentColor,
+    WeekStartDay,
+    TimeFormat,
+    CalendarLayout,
+    SettingsContextValue,
+    ResolvedThemeMode,
+};

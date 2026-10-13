@@ -31,8 +31,8 @@
 }
 
 .button--primary {
-    --button-hover-bg: var(--color-bg-accent-hover);
-    --button-pressed-bg: var(--color-bg-accent-hover);
+    --button-hover-bg: var(--color-bg-accent-strong);
+    --button-pressed-bg: var(--color-bg-accent-strong);
     --button-hover-color: var(--color-content-on-accent);
 
     background-color: var(--color-bg-accent);
