@@ -1,6 +1,8 @@
+/* Frosted: content scrolling underneath shows through, blurred */
 .header {
     align-items: center;
-    background-color: var(--color-bg-secondary);
+    backdrop-filter: blur(var(--size-75)) saturate(1.4);
+    background-color: color-mix(in srgb, var(--color-bg-secondary) 82%, transparent);
     color: var(--color-content-primary);
     display: flex;
     justify-content: center;
@@ -8,12 +10,19 @@
     padding-block: 0;
     position: sticky;
     top: 0;
-    transition: transform var(--duration-slow) var(--ease-standard);
+    transition:
+        transform var(--duration-slow) var(--ease-standard),
+        box-shadow var(--duration-base) var(--ease-standard);
     width: 100%;
     z-index: 10;
 }
 
+.header--scrolled {
+    box-shadow: var(--shadow-2);
+}
+
 .header--hidden {
+    box-shadow: none;
     transform: translateY(-100%);
 }
 
@@ -28,14 +37,43 @@
 }
 
 .header__nav {
+    align-items: center;
     color: var(--color-content-primary);
     display: flex;
     flex: 1;
-    gap: var(--size-100);
+    gap: var(--size-50);
     grid-column: 2;
     justify-content: center;
     margin-inline: auto;
     text-decoration: none;
+}
+
+.brand-logo {
+    flex-shrink: 0;
+    height: var(--size-175);
+    width: var(--size-175);
+}
+
+.brand-logo__body {
+    fill: var(--color-bg-primary);
+    stroke: var(--color-bg-accent);
+    stroke-width: 2;
+}
+
+.brand-logo__ring {
+    fill: var(--color-bg-accent);
+}
+
+.brand-logo__rule {
+    stroke: var(--color-bg-accent);
+    stroke-width: 1.5;
+}
+
+.brand-logo__letter {
+    fill: var(--color-bg-accent);
+    font-family: var(--font-overpass), sans-serif;
+    font-size: 14px;
+    font-weight: 800;
 }
 
 .header__actions {

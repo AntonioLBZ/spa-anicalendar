@@ -11,6 +11,7 @@
         "intro": "Entre ton pseudo pour voir ton calendrier hebdomadaire de diffusion.",
         "privacy": "On utilise uniquement tes données publiques, sans rien modifier sur ton compte.",
         "usernameLabel": "Nom d'utilisateur",
+        "providerUsernameLabel": "Nom d'utilisateur {provider}",
         "clearUsername": "Effacer",
         "errorUserNotFound": "Utilisateur introuvable. Vérifie que ton profil est public.",
         "errorGeneric": "Une erreur est survenue. Réessaie.",

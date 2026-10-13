@@ -4,6 +4,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { useLayoutEffect, type ReactNode } from 'react';
 
 import { SettingsProvider, UserContextProvider, useSettingsContext } from '@/contexts';
+import { THEME_COLORS } from '@/lib/brand';
 import { queryClient } from '@/lib/query-client';
 
 const ThemedBody = (props: { children: ReactNode }) => {
@@ -14,6 +15,10 @@ const ThemedBody = (props: { children: ReactNode }) => {
     useLayoutEffect(() => {
         document.documentElement.dataset.theme = theme;
         document.documentElement.dataset.accent = accentColor;
+        // Both media-scoped tags, so a theme picked in settings wins over the system's
+        document
+            .querySelectorAll('meta[name="theme-color"]')
+            .forEach((meta) => meta.setAttribute('content', THEME_COLORS[theme]));
     }, [theme, accentColor]);
 
     return (

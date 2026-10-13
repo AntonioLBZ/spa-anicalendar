@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 
 const SCROLL_THRESHOLD = 8;
 
-const useAutoHideHeader = (headerRef: React.RefObject<HTMLElement | null>): boolean => {
+/** Hides the header while scrolling down and reports whether the page is scrolled at all (for its shadow). */
+const useAutoHideHeader = (headerRef: React.RefObject<HTMLElement | null>) => {
     const [isHidden, setIsHidden] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
     const lastScrollY = useRef(0);
     const ticking = useRef(false);
 
@@ -14,6 +16,7 @@ const useAutoHideHeader = (headerRef: React.RefObject<HTMLElement | null>): bool
 
         const update = () => {
             const scrollY = window.scrollY;
+            setIsScrolled(scrollY > 0);
             const diff = scrollY - lastScrollY.current;
             const headerHeight = headerRef.current?.offsetHeight ?? 0;
 
@@ -34,11 +37,16 @@ const useAutoHideHeader = (headerRef: React.RefObject<HTMLElement | null>): bool
             }
         };
 
+        // Pages restored mid-scroll start with the shadow
+        const initialFrame = requestAnimationFrame(update);
         window.addEventListener('scroll', onScroll, { passive: true });
-        return () => window.removeEventListener('scroll', onScroll);
+        return () => {
+            cancelAnimationFrame(initialFrame);
+            window.removeEventListener('scroll', onScroll);
+        };
     }, [headerRef]);
 
-    return isHidden;
+    return { isHidden, isScrolled };
 };
 
 export { useAutoHideHeader };

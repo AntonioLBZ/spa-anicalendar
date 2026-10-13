@@ -1,10 +1,14 @@
+/* Isolated so the cover mosaic stays behind the content but in front of the page background */
 .home {
     align-items: center;
     display: flex;
     flex: 1;
     flex-direction: column;
     gap: var(--size-250);
+    isolation: isolate;
+    overflow-x: clip;
     padding: var(--size-600) var(--size-100);
+    position: relative;
 }
 
 .home__intro {
@@ -71,7 +75,10 @@
     justify-content: center;
 }
 
+/* Never wraps a label: side by side at a shared minimum width, stacked full-width when that doesn't fit */
 .home__season-links > .button-link {
-    flex: 1;
+    flex: 1 1 auto;
+    min-width: var(--size-1300);
     text-align: center;
+    white-space: nowrap;
 }

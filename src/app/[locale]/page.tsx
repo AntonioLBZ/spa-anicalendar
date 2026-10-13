@@ -8,10 +8,16 @@ import { Form } from 'react-aria-components';
 import { Button, Divider, Field, Link, Radio } from '@/components';
 import { useSettingsContext } from '@/contexts';
 import { SOURCE_OPTIONS } from '@/contexts/settings-context/options';
+import { CoverMosaic } from '@/features/cover-mosaic';
 import { Link as NavLink, useRouter } from '@/lib/i18n/navigation';
 import { getProvider, isUserNotFoundError, userQueryKey } from '@/services';
 
+import { useSeasonalAiringData } from './airing/use-seasonal-airing-data';
+
 import './page.css';
+
+// With a single provider there's nothing to choose, so the field names it instead
+const hasProviderChoice = SOURCE_OPTIONS.length > 1;
 
 export default function HomePage() {
     const t = useTranslations('home');
@@ -21,6 +27,8 @@ export default function HomePage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
     const queryClient = useQueryClient();
+    // Same query as the season page, so "Browse season" opens already loaded
+    const season = useSeasonalAiringData('current');
 
     const [prevLastUsername, setPrevLastUsername] = useState(lastUsername);
     if (lastUsername !== prevLastUsername) {
@@ -57,23 +65,30 @@ export default function HomePage() {
 
     return (
         <main className="home">
+            <CoverMosaic entries={season.data.entries} />
             <div className="home__intro">
                 <h1 className="home__title display-m">{t('headline')}</h1>
                 <p className="home__intro-text body-l">{t('intro')}</p>
             </div>
             <Form className="home__form" validationErrors={validationErrors} onSubmit={handleSubmit}>
-                <Radio.Group aria-label={t('apiProviderLabel')} value={provider} onChange={setProvider}>
-                    {SOURCE_OPTIONS.map((option) => (
-                        <Radio.Option key={option.value} value={option.value}>
-                            {option.label}
-                        </Radio.Option>
-                    ))}
-                </Radio.Group>
+                {hasProviderChoice && (
+                    <Radio.Group aria-label={t('apiProviderLabel')} value={provider} onChange={setProvider}>
+                        {SOURCE_OPTIONS.map((option) => (
+                            <Radio.Option key={option.value} value={option.value}>
+                                {option.label}
+                            </Radio.Option>
+                        ))}
+                    </Radio.Group>
+                )}
                 <div className="home__input-group">
                     <Field.Root name="username" value={userName} onChange={handleUserNameChange}>
                         <Field.Control>
                             <Field.Input />
-                            <Field.Label>{t('usernameLabel')}</Field.Label>
+                            <Field.Label>
+                                {hasProviderChoice
+                                    ? t('usernameLabel')
+                                    : t('providerUsernameLabel', { provider: SOURCE_OPTIONS[0].label })}
+                            </Field.Label>
                             <Field.Clear aria-label={t('clearUsername')} />
                         </Field.Control>
                         <Field.Error />

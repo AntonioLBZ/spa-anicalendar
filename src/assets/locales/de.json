@@ -11,6 +11,7 @@
         "intro": "Gib deinen Benutzernamen ein, um deinen wöchentlichen Sendeplan zu sehen.",
         "privacy": "Wir nutzen nur deine öffentlichen Daten und ändern nichts an deinem Konto.",
         "usernameLabel": "Benutzername",
+        "providerUsernameLabel": "{provider}-Benutzername",
         "clearUsername": "Leeren",
         "errorUserNotFound": "Benutzer nicht gefunden. Prüfe, ob dein Profil öffentlich ist.",
         "errorGeneric": "Etwas ist schiefgelaufen. Bitte versuch es erneut.",

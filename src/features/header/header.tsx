@@ -10,6 +10,7 @@ import { useSettingsContext } from '@/contexts/settings-context';
 import { useUserContext } from '@/contexts/user-context';
 import { Settings } from '@/features/settings';
 
+import { BrandLogo } from './brand-logo';
 import { ProviderBadge } from './provider-badge';
 import { useAutoHideHeader } from './use-auto-hide-header';
 
@@ -21,9 +22,9 @@ const Header = () => {
     const t = useTranslations('header');
     const locale = useLocale();
     const headerRef = useRef<HTMLElement>(null);
-    const isHidden = useAutoHideHeader(headerRef);
+    const { isHidden, isScrolled } = useAutoHideHeader(headerRef);
 
-    const headerClsx = clsx('header', isHidden && 'header--hidden');
+    const headerClsx = clsx('header', isHidden && 'header--hidden', isScrolled && 'header--scrolled');
 
     return (
         <header ref={headerRef} className={headerClsx}>
@@ -44,7 +45,8 @@ const Header = () => {
                     </Link>
                 )}
                 {/* react-aria-components' Link is not next-intl-aware; compose the locale into the href */}
-                <Link className="header__nav title-l" href={`/${locale}`}>
+                <Link className="header__nav title-m" href={`/${locale}`}>
+                    <BrandLogo />
                     {t('brand')}
                 </Link>
                 <div className="header__actions">

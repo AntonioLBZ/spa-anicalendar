@@ -11,6 +11,7 @@
         "intro": "Enter your username to see your weekly airing schedule.",
         "privacy": "We only use your public data and don't make any changes to your account.",
         "usernameLabel": "Username",
+        "providerUsernameLabel": "{provider} username",
         "clearUsername": "Clear",
         "errorUserNotFound": "User not found. Please check that your profile is public.",
         "errorGeneric": "Something went wrong. Please try again.",
