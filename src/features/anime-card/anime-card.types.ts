@@ -15,6 +15,10 @@ type AnimeCardProps = {
     onToggle?: () => void;
     /** Whether this is the single entry with the soonest upcoming airing time, across the visible calendar. */
     isNextAiring?: boolean;
+    /** Whether today's episode has already aired (the entry sits in today's column, its next episode a week away); dims the card.
+     * @default false
+     */
+    hasAiredToday?: boolean;
     /** Whether to render the "Ep X/Y" progress badge, when `entry.progress` is set. In seasonal mode `entry.progress` holds episodes aired so far rather than a user's watch count, so the badge is still meaningful.
      * @default true
      */

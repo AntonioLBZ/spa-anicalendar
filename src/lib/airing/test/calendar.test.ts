@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { getAiringMinuteOfDay, getWeeksUntilAiring } from '../calendar';
+import { getAiringMinuteOfDay, getWeeksUntilAiring, isAiringToday } from '../calendar';
 
 describe('getAiringMinuteOfDay', () => {
     it('returns the local minute-of-day for a timestamp', () => {
@@ -47,5 +47,20 @@ describe('getWeeksUntilAiring', () => {
     it('returns 2 for an airing time two weeks out', () => {
         const airingAt = toUnix(new Date(2026, 0, 23, 18, 0, 0));
         expect(getWeeksUntilAiring(airingAt, now)).toBe(2);
+    });
+});
+
+describe('isAiringToday', () => {
+    // Wednesday 2026-01-07, 15:00.
+    const now = new Date(2026, 0, 7, 15, 0, 0);
+    const toUnix = (date: Date) => Math.floor(date.getTime() / 1000);
+
+    it('is true for any time on the same local date, earlier or later than now', () => {
+        expect(isAiringToday(toUnix(new Date(2026, 0, 7, 23, 30)), now)).toBe(true);
+        expect(isAiringToday(toUnix(new Date(2026, 0, 7, 0, 5)), now)).toBe(true);
+    });
+
+    it("is false for the same weekday next week, i.e. an episode that already aired today", () => {
+        expect(isAiringToday(toUnix(new Date(2026, 0, 14, 10, 0)), now)).toBe(false);
     });
 });

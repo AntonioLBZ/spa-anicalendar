@@ -42,11 +42,16 @@
 }
 
 .day__entries {
+    height: 100%;
+}
+
+/* Lays out the day's cards; in rows it's also the scroller, so its fade never touches the column's own surface.
+ * The top padding fits a hovered card's rise (lift plus half its growth, under 8px at the largest card size) */
+.day__track {
     display: flex;
     flex-direction: column;
     gap: var(--size-50);
-    height: 100%;
-    padding: var(--size-37) var(--size-50) var(--size-150);
+    padding: var(--size-62) var(--size-50) var(--size-150);
 }
 
 .day__skeleton-card {
@@ -100,16 +105,31 @@
 }
 
 .day--row .day__entries {
-    flex-direction: row;
     height: auto;
-    overflow-x: auto;
-    padding: var(--size-100) var(--size-150);
-    scrollbar-color: var(--color-content-secondary) transparent;
-    scrollbar-width: thin;
     width: 100%;
 }
 
-.day--row .day__entries > * {
+.day--row .day__track {
+    flex-direction: row;
+
+    /* Cards slide out of view through a fade inside the side padding, hinting at more without covering any at rest */
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        rgb(0 0 0 / 100%) var(--size-150),
+        rgb(0 0 0 / 100%) calc(100% - var(--size-150)),
+        transparent
+    );
+    overflow-x: auto;
+    padding: var(--size-100) var(--size-150);
+    scroll-padding-inline: var(--size-150);
+    scroll-snap-type: x proximity;
+    scrollbar-color: var(--color-content-secondary) transparent;
+    scrollbar-width: thin;
+}
+
+.day--row .day__track > * {
     flex: 0 0 auto;
     min-width: var(--size-800);
+    scroll-snap-align: start;
 }

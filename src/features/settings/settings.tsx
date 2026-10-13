@@ -21,6 +21,7 @@ import {
     WEEK_START_OPTIONS,
     CALENDAR_LAYOUT_OPTIONS,
 } from '@/contexts/settings-context/options';
+import { useLayoutMode } from '@/lib/use-layout-mode';
 
 import type {
     AccentColor,
@@ -35,6 +36,7 @@ import './settings.css';
 
 const Settings = () => {
     const t = useTranslations('settings');
+    const layoutMode = useLayoutMode();
     const {
         theme,
         setTheme,
@@ -56,7 +58,7 @@ const Settings = () => {
             <Button className="settings__trigger" aria-label={t('title')} size="s" variant="ghost">
                 <GearIcon />
             </Button>
-            <Drawer.Root placement="right" className="settings">
+            <Drawer.Root placement={layoutMode === 'mobile' ? 'bottom' : 'right'} className="settings">
                 <Drawer.Header>
                     <span>{t('title')}</span>
                     <Button className="settings__close" aria-label={t('close')} slot="close" size="s" variant="ghost">

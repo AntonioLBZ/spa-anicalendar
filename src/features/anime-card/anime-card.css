@@ -20,7 +20,8 @@
         box-shadow var(--duration-base) var(--ease-standard);
 }
 
-/* Floats towards the viewer: transform only, so the calendar layout never shifts */
+/* Floats towards the viewer: transform only, so the calendar layout never shifts. The day column's top padding
+ * leaves room for the rise of its first card */
 .card--hovered,
 .card:has(.card__hit-area:focus-visible) {
     box-shadow: var(--shadow-3);
@@ -32,6 +33,7 @@
 .card__image {
     opacity: 0;
     transition:
+        filter var(--duration-base) var(--ease-standard),
         opacity var(--duration-slow) var(--ease-standard),
         transform var(--duration-slow) var(--ease-standard);
 }
@@ -50,6 +52,11 @@
 
 .card:has(.card__hit-area:focus-visible) .card__image {
     transform: scale(1.02);
+}
+
+/* Already aired today: receded so what's still to come stands out, until hovered or focused */
+.card--aired:not(.card--hovered, :has(.card__hit-area:focus-visible)) .card__image {
+    filter: saturate(0.35) brightness(0.6);
 }
 
 .card__hit-area {
@@ -196,19 +203,29 @@
     text-overflow: ellipsis;
 }
 
+/* Eased scrim: a soft fade above the text (no visible band edge), then dark enough under it to read on any cover */
 .card__overlay {
-    background: linear-gradient(to top, rgb(0 0 0 / 85%) 0%, rgb(0 0 0 / 60%) 85%, transparent 100%);
-    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent 0,
+        rgb(0 0 0 / 12%) calc(var(--size-200) * 0.3),
+        rgb(0 0 0 / 35%) calc(var(--size-200) * 0.6),
+        rgb(0 0 0 / 62%) var(--size-200),
+        rgb(0 0 0 / 85%) 100%
+    );
+
+    /* 1px past the card's edges (clipped by it) so no sliver of cover shows at fractional sizes */
+    bottom: -1px;
     display: flex;
     flex-direction: column;
 
     /* Fixed-width digits so airing times and countdowns line up across cards */
     font-variant-numeric: tabular-nums;
     gap: var(--size-25);
-    left: 0;
-    padding: var(--size-100) var(--size-50) var(--size-50);
+    left: -1px;
+    padding: var(--size-200) calc(var(--size-50) + 1px) calc(var(--size-50) + 1px);
     position: absolute;
-    right: 0;
+    right: -1px;
 }
 
 .card__hover-content {

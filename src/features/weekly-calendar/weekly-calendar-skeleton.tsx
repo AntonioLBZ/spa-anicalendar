@@ -27,9 +27,11 @@ const WeeklyCalendarSkeleton = (props: WeeklyCalendarSkeletonProps) => {
                             <div className="day__name">{t(`days.long.${getDayKey(dayIndex, weekStartDay)}`)}</div>
                         </div>
                         <div className="day__entries">
-                            {Array.from({ length: cardCount }, (_, cardIndex) => (
-                                <div key={cardIndex} className="day__skeleton-card" />
-                            ))}
+                            <div className="day__track">
+                                {Array.from({ length: cardCount }, (_, cardIndex) => (
+                                    <div key={cardIndex} className="day__skeleton-card" />
+                                ))}
+                            </div>
                         </div>
                     </div>
                 );

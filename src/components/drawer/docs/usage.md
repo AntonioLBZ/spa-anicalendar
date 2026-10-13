@@ -35,7 +35,7 @@ const layoutMode = useLayoutMode();
 <Drawer.Root placement={layoutMode === 'mobile' ? 'bottom' : 'right'}>...</Drawer.Root>
 ```
 
-Default: `placement="right"`. Seasonal Filters switches to `bottom` on phones; Settings stays on the right.
+Default: `placement="right"`. Seasonal Filters and Settings switch to `bottom` on phones.
 
 ## Motion
 

@@ -1,4 +1,11 @@
-export { getAiringDay, getAiringMinuteOfDay, getDayKey, getTodayIndex, getWeeksUntilAiring } from './calendar';
+export {
+    getAiringDay,
+    getAiringMinuteOfDay,
+    getDayKey,
+    getTodayIndex,
+    getWeeksUntilAiring,
+    isAiringToday,
+} from './calendar';
 export type { DayKey } from './calendar';
 
 export { getLocalAiringTime, getTimeUntilAiring, formatCountdown } from './countdown';

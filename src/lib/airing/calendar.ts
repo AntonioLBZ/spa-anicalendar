@@ -49,5 +49,15 @@ const getWeeksUntilAiring = (airingAt: number, now: Date = new Date()): number =
     return diffDays > 7 ? Math.floor(diffDays / 7) : 0;
 };
 
-export { getAiringDay, getAiringMinuteOfDay, getDayKey, getTodayIndex, getWeeksUntilAiring };
+/** Whether `airingAt` is on today's local date. An entry in today's column whose next episode isn't has already aired today. */
+const isAiringToday = (airingAt: number, now: Date = new Date()): boolean => {
+    const airingDate = new Date(airingAt * 1000);
+    return (
+        airingDate.getFullYear() === now.getFullYear() &&
+        airingDate.getMonth() === now.getMonth() &&
+        airingDate.getDate() === now.getDate()
+    );
+};
+
+export { getAiringDay, getAiringMinuteOfDay, getDayKey, getTodayIndex, getWeeksUntilAiring, isAiringToday };
 export type { DayKey };

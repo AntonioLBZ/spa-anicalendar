@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 
 import { Pill } from '@/components';
 import { AnimeCard } from '@/features/anime-card';
-import { getDayKey } from '@/lib/airing';
+import { getDayKey, isAiringToday } from '@/lib/airing';
 
 import { WeeklyCalendarDayProps } from './weekly-calendar.types';
 
@@ -39,24 +39,31 @@ const WeeklyCalendarDay = ({
                 <div className="day__count body-s">{t('entriesCount', { count: entries.length })}</div>
             </div>
             <div className="day__entries">
-                {!isEmpty ? (
-                    entries.map((entry, index) => (
-                        <AnimeCard
-                            key={entry.id}
-                            entry={entry}
-                            enterIndex={enterOffset + index}
-                            hideStatus
-                            isEditMode={isEditMode}
-                            isHidden={hiddenIds.includes(entry.id)}
-                            onToggle={() => onToggleEntry?.(entry.id)}
-                            isNextAiring={entry.id === nextAiringEntryId}
-                            showProgress={showProgress}
-                            showWatchStatus={showWatchStatus}
-                        />
-                    ))
-                ) : (
-                    <div className="day__empty body-m">{t('noEpisodes')}</div>
-                )}
+                <div className="day__track">
+                    {!isEmpty ? (
+                        entries.map((entry, index) => (
+                            <AnimeCard
+                                key={entry.id}
+                                entry={entry}
+                                enterIndex={enterOffset + index}
+                                hideStatus
+                                isEditMode={isEditMode}
+                                isHidden={hiddenIds.includes(entry.id)}
+                                onToggle={() => onToggleEntry?.(entry.id)}
+                                isNextAiring={entry.id === nextAiringEntryId}
+                                hasAiredToday={
+                                    isToday &&
+                                    !!entry.nextAiringEpisode &&
+                                    !isAiringToday(entry.nextAiringEpisode.airingAt)
+                                }
+                                showProgress={showProgress}
+                                showWatchStatus={showWatchStatus}
+                            />
+                        ))
+                    ) : (
+                        <div className="day__empty body-m">{t('noEpisodes')}</div>
+                    )}
+                </div>
             </div>
         </div>
     );

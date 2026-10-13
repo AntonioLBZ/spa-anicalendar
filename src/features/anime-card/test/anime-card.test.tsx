@@ -169,6 +169,14 @@ describe('AnimeCard motion states', () => {
         expect(getCard(container).style.getPropertyValue('--card-cover-color')).toBe('');
     });
 
+    it("recedes the card once today's episode has aired", () => {
+        const { container, rerender } = render(<AnimeCard entry={entry} hasAiredToday />, { wrapper: Wrapper });
+        expect(getCard(container)).toHaveClass('card--aired');
+
+        rerender(<AnimeCard entry={entry} />);
+        expect(getCard(container)).not.toHaveClass('card--aired');
+    });
+
     it('flags the next-airing card only during the last hour before airing', () => {
         const now = Math.floor(Date.now() / 1000);
         const soon = { ...entry, nextAiringEpisode: { airingAt: now + 30 * 60, episode: 4 } };

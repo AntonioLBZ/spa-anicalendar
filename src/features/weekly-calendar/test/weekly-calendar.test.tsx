@@ -2,6 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { SettingsProvider } from '@/contexts';
+import { getTodayIndex } from '@/lib/airing';
 import { IntlTestWrapper } from '@/lib/test/intl-wrapper';
 import { MemoryStorage } from '@/lib/test/memory-storage';
 
@@ -156,5 +157,21 @@ describe('WeeklyCalendar loading state', () => {
 
         expect(await screen.findByText('Nothing here')).toBeInTheDocument();
         expect(screen.queryByRole('status')).not.toBeInTheDocument();
+    });
+});
+
+describe("WeeklyCalendar today's column", () => {
+    it('dims entries whose episode already aired today, and only in that column', async () => {
+        setStoredSettings({ calendarLayout: 'grid' });
+        const todayIndex = getTodayIndex('monday');
+        // The mocked airing day is the timestamp itself, so these episodes are long past, not later today
+        const entries = [makeEntry(1, todayIndex), makeEntry(2, (todayIndex + 1) % 7)];
+
+        render(<WeeklyCalendar entries={entries} />, { wrapper: Wrapper });
+
+        const airedToday = (await screen.findByText('Anime 1')).closest('.card');
+        const otherDay = screen.getByText('Anime 2').closest('.card');
+        expect(airedToday).toHaveClass('card--aired');
+        expect(otherDay).not.toHaveClass('card--aired');
     });
 });

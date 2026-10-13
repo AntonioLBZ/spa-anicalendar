@@ -32,6 +32,7 @@ const useAnimeCard = (props: AnimeCardProps) => {
         isHidden = false,
         onToggle,
         isNextAiring = false,
+        hasAiredToday = false,
         showProgress = true,
         showWatchStatus = true,
         enterIndex = 0,
@@ -99,7 +100,8 @@ const useAnimeCard = (props: AnimeCardProps) => {
                 isHovered && 'card--hovered',
                 isEditMode && 'card--edit-mode',
                 isImageLoaded && 'card--image-loaded',
-                isAiringSoon && 'card--airing-soon'
+                isAiringSoon && 'card--airing-soon',
+                hasAiredToday && 'card--aired'
             ),
             cardStyle: {
                 '--card-index': Math.min(enterIndex, MAX_ENTER_INDEX),
