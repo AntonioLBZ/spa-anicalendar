@@ -132,3 +132,29 @@ describe('WeeklyCalendar layout', () => {
         });
     });
 });
+
+describe('WeeklyCalendar loading state', () => {
+    it('announces loading and shows a placeholder schedule instead of the empty message', async () => {
+        setStoredSettings({ calendarLayout: 'grid' });
+
+        const { container } = render(<WeeklyCalendar entries={[]} isLoading emptyMessage="Nothing here" />, {
+            wrapper: Wrapper,
+        });
+
+        expect(await screen.findByRole('status')).toHaveTextContent('Loading schedule…');
+        expect(screen.queryByText('Nothing here')).not.toBeInTheDocument();
+        expect(screen.queryByRole('list')).not.toBeInTheDocument();
+        expect(container.querySelector('.weekly-calendar')).toHaveAttribute('aria-busy', 'true');
+        expect(container.querySelectorAll('.day')).toHaveLength(7);
+        expect(container.querySelectorAll('.day__skeleton-card').length).toBeGreaterThan(0);
+    });
+
+    it('shows the empty message once loading finishes with no entries', async () => {
+        setStoredSettings({ calendarLayout: 'grid' });
+
+        render(<WeeklyCalendar entries={[]} isLoading={false} emptyMessage="Nothing here" />, { wrapper: Wrapper });
+
+        expect(await screen.findByText('Nothing here')).toBeInTheDocument();
+        expect(screen.queryByRole('status')).not.toBeInTheDocument();
+    });
+});

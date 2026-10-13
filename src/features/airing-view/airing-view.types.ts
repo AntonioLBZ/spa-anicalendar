@@ -3,6 +3,8 @@ import type { AnimeEntry } from '@/services';
 type AiringViewProps = {
     /** Entries to display. */
     entries: AnimeEntry[];
+    /** Whether entries are still being fetched; shows a placeholder schedule instead of the empty state. */
+    isLoading?: boolean;
     error: unknown;
     onRetry: () => void;
     /** Entry-visibility storage scope; must be unique per data source. */

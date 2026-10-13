@@ -154,6 +154,7 @@
     },
     "weeklyCalendar": {
         "emptyList": "No anime in your watching list.",
+        "loading": "Loading schedule…",
         "sectionHeader": "Weekly anime schedule",
         "noUpcoming": "No upcoming episodes",
         "today": "Today",

@@ -16,6 +16,7 @@ import type { AiringViewProps } from './airing-view.types';
 const AiringView = (props: AiringViewProps) => {
     const {
         entries,
+        isLoading,
         error,
         onRetry,
         scope,
@@ -74,6 +75,7 @@ const AiringView = (props: AiringViewProps) => {
                 />
                 <WeeklyCalendar
                     entries={entries}
+                    isLoading={isLoading}
                     isEditMode={visibility.state.isEditMode}
                     hiddenIds={visibility.data.hiddenIds}
                     onToggleEntry={visibility.actions.toggleDraftHidden}

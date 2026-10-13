@@ -151,9 +151,12 @@
 }
 
 .card__hover-content {
-    animation: card-slide-down 0.25s ease forwards;
     display: grid;
     grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+        grid-template-rows 0.25s ease,
+        opacity 0.25s ease;
 }
 
 .card__hover-inner {
@@ -163,6 +166,7 @@
     height: fit-content;
     overflow: hidden;
     transform: translateY(20%);
+    transition: transform 0.25s ease;
 }
 
 .card__pending {
@@ -228,7 +232,8 @@
 .card--expanded .card__hover-content,
 .card--hovered .card__hover-content,
 .card:has(.card__hit-area:focus-visible) .card__hover-content {
-    animation: card-slide-up 0.25s ease forwards;
+    grid-template-rows: 1fr;
+    opacity: 1;
 }
 
 .card--expanded .card__hover-inner,
@@ -237,26 +242,9 @@
     transform: translateY(0%);
 }
 
-@keyframes card-slide-up {
-    from {
-        grid-template-rows: 0fr;
-        opacity: 0;
-    }
-
-    to {
-        grid-template-rows: 1fr;
-        opacity: 1;
-    }
-}
-
-@keyframes card-slide-down {
-    from {
-        grid-template-rows: 1fr;
-        opacity: 1;
-    }
-
-    to {
-        grid-template-rows: 0fr;
-        opacity: 0;
+@media (prefers-reduced-motion: reduce) {
+    .card__hover-content,
+    .card__hover-inner {
+        transition: none;
     }
 }

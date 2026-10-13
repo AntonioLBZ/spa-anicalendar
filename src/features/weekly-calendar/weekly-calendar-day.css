@@ -46,6 +46,14 @@
     padding: var(--size-37) var(--size-50) var(--size-150);
 }
 
+.day__skeleton-card {
+    aspect-ratio: 5 / 7;
+    background-color: var(--color-bg-primary);
+    border-radius: var(--size-37);
+    max-width: var(--size-1300);
+    min-width: var(--size-500);
+}
+
 .day__empty {
     color: var(--color-content-secondary);
     padding: var(--size-50);
@@ -68,6 +76,8 @@
     height: auto;
     overflow-x: auto;
     padding: var(--size-100) var(--size-150);
+    scrollbar-color: var(--color-content-secondary) transparent;
+    scrollbar-width: thin;
     width: 100%;
 }
 

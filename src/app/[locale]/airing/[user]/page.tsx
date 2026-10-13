@@ -20,6 +20,7 @@ export default function AiringPage() {
     return (
         <AiringView
             entries={airing.data.entries}
+            isLoading={airing.state.isLoading}
             error={airing.state.error}
             onRetry={airing.actions.retry}
             scope={`${provider}:${userName ?? 'unknown'}`}

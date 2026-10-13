@@ -91,7 +91,7 @@
     --color-content-bg-primary: rgb(53 119 255);
 
     /* Borders */
-    --color-border: rgb(255 255 255);
+    --color-border: rgb(255 255 255 / 12%);
     --color-border-focus: rgb(53 119 255);
 
     /* Elevation */
@@ -111,6 +111,8 @@
     --color-accent: rgb(59 130 246);
     --color-bg-accent: rgb(37 99 235);
     --color-content-on-accent: rgb(255 255 255);
+
+    color-scheme: dark;
 }
 
 [data-theme='light'] {
@@ -149,11 +151,21 @@
     --color-accent: rgb(59 130 246);
     --color-bg-accent: rgb(37 99 235);
     --color-content-on-accent: rgb(255 255 255);
+
+    color-scheme: light;
 }
 
 body {
     all: unset;
     font-family: var(--font-inter), sans-serif;
+}
+
+/* Form controls don't inherit the page font by default */
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
 }
 
 .theme-root {

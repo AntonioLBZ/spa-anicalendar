@@ -15,6 +15,7 @@ import { useLayoutMode } from '@/lib/use-layout-mode';
 import { filterByContent, filterByHidden } from './filters';
 import { WeeklyCalendarDay } from './weekly-calendar-day';
 import { getGridConfigForLayout } from './weekly-calendar-layout';
+import { WeeklyCalendarSkeleton } from './weekly-calendar-skeleton';
 
 import './weekly-calendar.css';
 
@@ -58,6 +59,7 @@ const groupByAiringDay = (
 const WeeklyCalendar = (props: WeeklyCalendarProps) => {
     const {
         entries,
+        isLoading = false,
         isEditMode = false,
         hiddenIds = [],
         onToggleEntry,
@@ -88,6 +90,29 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
         </div>
     );
 
+    const resolvedLayout: ResolvedCalendarLayout =
+        calendarLayout === 'auto' ? (layoutMode === 'desktop' ? 'grid' : 'list') : calendarLayout;
+    const isVertical = resolvedLayout === 'list';
+    const getGridStyle = (columns: number) =>
+        isVertical ? undefined : (getGridConfigForLayout(layoutMode, columns).cssVariables as React.CSSProperties);
+
+    if (isLoading) {
+        return (
+            <div className="weekly-calendar body-l" style={getGridStyle(7)} aria-busy="true">
+                <div className="weekly-calendar__section">
+                    <div className="weekly-calendar__section-header label-l">
+                        {t('sectionHeader')}
+                        {headerActions}
+                    </div>
+                    <span className="weekly-calendar__status" role="status">
+                        {t('loading')}
+                    </span>
+                    <WeeklyCalendarSkeleton layout={resolvedLayout} weekStartDay={weekStartDay} todayIndex={todayIndex} />
+                </div>
+            </div>
+        );
+    }
+
     if (filtered.length === 0) {
         return (
             <div className="weekly-calendar body-l">
@@ -104,13 +129,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
 
     const visibleDays = Object.entries(days).filter(([, entries]) => !(hideEmptyDays && entries.length === 0));
 
-    const resolvedLayout: ResolvedCalendarLayout =
-        calendarLayout === 'auto' ? (layoutMode === 'desktop' ? 'grid' : 'list') : calendarLayout;
-    const isVertical = resolvedLayout === 'list';
-
-    const style = isVertical
-        ? undefined
-        : (getGridConfigForLayout(layoutMode, visibleDays.length).cssVariables as React.CSSProperties);
+    const style = getGridStyle(visibleDays.length);
     const containerClsx = isVertical ? 'weekly-calendar__list' : 'weekly-calendar__grid';
 
     return (

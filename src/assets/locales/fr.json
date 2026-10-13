@@ -154,6 +154,7 @@
     },
     "weeklyCalendar": {
         "emptyList": "Aucun anime dans ta liste en cours.",
+        "loading": "Chargement du calendrier…",
         "sectionHeader": "Calendrier hebdomadaire d'anime",
         "noUpcoming": "Aucun épisode à venir",
         "today": "Aujourd'hui",
