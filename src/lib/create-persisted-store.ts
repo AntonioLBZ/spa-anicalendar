@@ -19,32 +19,25 @@ const createPersistedStore = <T>(
 ): PersistedStore<T> => {
     let listeners: Array<() => void> = [];
     let current = defaults;
+    let hydrated = false;
 
-    const notify = () => listeners.forEach((listener) => listener());
+    const notify = () => listeners.forEach((l) => l());
+
+    const ensureHydrated = () => {
+        if (hydrated) return;
+        hydrated = true;
+        try {
+            const saved = typeof window !== 'undefined' ? window.localStorage.getItem(key) : null;
+            if (saved) current = merge(defaults, JSON.parse(saved));
+        } catch {}
+    };
 
     return {
-        getSnapshot: () => current,
+        getSnapshot: () => { ensureHydrated(); return current; },
         getServerSnapshot: () => defaults,
-        subscribe: (listener) => {
-            listeners = [...listeners, listener];
-            return () => {
-                listeners = listeners.filter((l) => l !== listener);
-            };
-        },
-        set: (next) => {
-            current = typeof next === 'function' ? (next as (prev: T) => T)(current) : next;
-            localStorage.setItem(key, JSON.stringify(current));
-            notify();
-        },
-        hydrate: () => {
-            try {
-                const saved = localStorage.getItem(key);
-                if (saved) {
-                    current = merge(defaults, JSON.parse(saved));
-                    notify();
-                }
-            } catch {}
-        },
+        subscribe: (listener) => { listeners = [...listeners, listener]; return () => { listeners = listeners.filter((l) => l !== listener); }; },
+        set: (next) => { ensureHydrated(); current = typeof next === 'function' ? (next as (prev: T) => T)(current) : next; localStorage.setItem(key, JSON.stringify(current)); notify(); },
+        hydrate: () => { ensureHydrated(); try { const saved = localStorage.getItem(key); if (saved) { current = merge(defaults, JSON.parse(saved)); notify(); } } catch {} },
     };
 };
 

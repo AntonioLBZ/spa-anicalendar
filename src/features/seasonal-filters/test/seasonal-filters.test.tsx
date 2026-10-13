@@ -251,3 +251,37 @@ describe('SeasonalFiltersTrigger hideNewSeasonFilter', () => {
         });
     });
 });
+
+describe('SeasonalFiltersTrigger topN resilience', () => {
+    it.each([
+        [0, 'zero (from Number(null) when no radio selected)'],
+        [-5, 'negative'],
+        [100, 'above AniList max (50)'],
+        ['abc', 'non-numeric string'],
+        [25.5, 'float'],
+    ])('recovers invalid stored topN (%s) to default', async (invalidTopN, _description) => {
+        memoryStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify({
+                formats: [],
+                topN: invalidTopN,
+                onlyNewSeason: false,
+                userList: { watching: true, planning: false },
+                contentFilter: 'sfw',
+            })
+        );
+        const user = userEvent.setup();
+        const dialog = await openDrawer(user);
+
+        expect(dialog.getByRole('radio', { name: '50' })).toBeChecked();
+        expect(dialog.getByRole('radio', { name: '25' })).not.toBeChecked();
+        expect(dialog.getByRole('radio', { name: '10' })).not.toBeChecked();
+
+        // Submitting the now-valid selection rewrites a clean value.
+        await user.click(dialog.getByRole('button', { name: 'Search' }));
+
+        await waitFor(() => {
+            expect(getStoredFilters().topN).toBe(50);
+        });
+    });
+});

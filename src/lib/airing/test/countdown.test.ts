@@ -9,10 +9,11 @@ describe('getLocalAiringTime', () => {
         expect(getLocalAiringTime(timestamp)).toContain('14:05');
     });
 
-    it('formats in 12h notation with AM/PM when timeFormat is "12h"', () => {
+    // Day-period marker is locale-dependent (PM, p. m., 午後…), so only the hour is asserted
+    it('formats in 12h notation when timeFormat is "12h"', () => {
         const result = getLocalAiringTime(timestamp, '12h');
         expect(result).not.toContain('14:');
-        expect(result.toUpperCase()).toContain('PM');
+        expect(result).toContain('02:05');
     });
 });
 

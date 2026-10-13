@@ -14,7 +14,7 @@ import {
     Radio,
     Section,
 } from '@/components';
-import { useSeasonalFilters } from '@/contexts';
+import { useSeasonalFilters, seasonalFiltersStore } from '@/contexts';
 import { useUserContext } from '@/contexts/user-context';
 
 import { CONTENT_FILTER_OPTIONS, FORMAT_OPTIONS, TOP_N_OPTIONS, USER_LIST_OPTIONS } from './seasonal-filters.options';
@@ -42,18 +42,19 @@ const SeasonalFiltersTrigger = (props: SeasonalFiltersTriggerProps) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const formats = data.getAll('formats') as MediaFormat[];
+        const topN = Number(data.get('topN'));
+
+        // Fresh snapshot avoids stale closure if another tab updated storage.
+        const currentFilters = seasonalFiltersStore.getSnapshot();
 
         setFilters({
             formats: formats.length === FORMAT_OPTIONS.length ? [] : formats,
-            topN: Number(data.get('topN')),
-            onlyNewSeason: hideNewSeasonFilter ? filters.onlyNewSeason : data.get('onlyNewSeason') === 'on',
-            // Without a user the userList section isn't rendered, so keep the persisted value.
+            // No radio checked -> Number(null) === 0; keep last valid value.
+            topN: TOP_N_OPTIONS.includes(topN) ? topN : currentFilters.topN,
+            onlyNewSeason: hideNewSeasonFilter ? currentFilters.onlyNewSeason : data.get('onlyNewSeason') === 'on',
             userList: user
-                ? {
-                      watching: data.get('userListWatching') === 'on',
-                      planning: data.get('userListPlanning') === 'on',
-                  }
-                : filters.userList,
+                ? { watching: data.get('userListWatching') === 'on', planning: data.get('userListPlanning') === 'on' }
+                : currentFilters.userList,
             contentFilter: data.get('contentFilter') as ContentFilter,
         });
     };
