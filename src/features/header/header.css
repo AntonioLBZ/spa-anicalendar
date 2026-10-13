@@ -48,6 +48,12 @@
     text-decoration: none;
 }
 
+/* Overpass sets capitals above the middle of the line, and the name has no descenders to balance them:
+ * lowered onto the calendar's center */
+.header__brand {
+    translate: 0 0.15em;
+}
+
 .brand-logo {
     flex-shrink: 0;
     height: var(--size-175);

@@ -47,7 +47,7 @@ const Header = () => {
                 {/* react-aria-components' Link is not next-intl-aware; compose the locale into the href */}
                 <Link className="header__nav title-m" href={`/${locale}`}>
                     <BrandLogo />
-                    {t('brand')}
+                    <span className="header__brand">{t('brand')}</span>
                 </Link>
                 <div className="header__actions">
                     <Settings />
