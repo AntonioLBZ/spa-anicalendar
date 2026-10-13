@@ -63,11 +63,11 @@
     color: var(--color-content-on-accent);
 }
 
+/* Ribbon hanging from the top edge: scheme fill, light outline and drop shadow keep it legible on any cover */
 .card__planning-badge {
-    align-items: center;
-    color: var(--color-content-bright);
+    color: var(--color-bg-accent);
     display: flex;
-    justify-content: center;
+    filter: drop-shadow(0 2px 3px rgb(0 0 0 / 55%));
     pointer-events: none;
     position: absolute;
     right: var(--size-50);
@@ -75,11 +75,16 @@
     z-index: 1;
 }
 
-.card__planning-badge > * {
-    color: var(--color-accent-on-media);
+.card__planning-badge > svg {
     height: auto;
-    justify-content: center;
-    width: var(--size-125);
+    overflow: visible;
+    width: var(--size-150);
+}
+
+.card__planning-badge path {
+    stroke: var(--color-content-bright);
+    stroke-width: 1.5px;
+    vector-effect: non-scaling-stroke;
 }
 
 .card__next-airing {
@@ -89,7 +94,7 @@
 }
 
 .card:has(.card__planning-badge) .card__next-airing {
-    top: var(--size-150);
+    top: var(--size-200);
 }
 
 .card__info-btn {
