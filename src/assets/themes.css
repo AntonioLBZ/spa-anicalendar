@@ -239,6 +239,7 @@
     /* Elevation */
     --shadow-1: 0 1px 2px rgb(0 0 0 / 30%), 0 4px 12px rgb(0 0 0 / 20%);
     --shadow-2: 0 4px 8px rgb(0 0 0 / 30%), 0 16px 32px rgb(0 0 0 / 40%);
+    --shadow-3: 0 8px 16px rgb(0 0 0 / 35%), 0 24px 48px rgb(0 0 0 / 50%);
 
     /* Feedback */
     --color-danger: rgb(248 113 113);
@@ -275,6 +276,7 @@
     /* Elevation (blue-tinted, AniList-style) */
     --shadow-1: 0 1px 2px rgb(103 132 187 / 8%), 0 4px 14px rgb(103 132 187 / 12%);
     --shadow-2: 0 4px 4px rgb(103 132 187 / 5%), 0 14px 30px rgb(103 132 187 / 18%);
+    --shadow-3: 0 6px 12px rgb(103 132 187 / 12%), 0 22px 44px rgb(103 132 187 / 28%);
 
     /* Feedback */
     --color-danger: rgb(200 30 30);

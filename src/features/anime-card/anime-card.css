@@ -18,9 +18,12 @@
         box-shadow var(--duration-base) var(--ease-standard);
 }
 
-.card--hovered {
-    box-shadow: var(--shadow-2);
-    transform: translateY(calc(-1 * var(--size-12)));
+/* Floats towards the viewer: transform only, so the calendar layout never shifts */
+.card--hovered,
+.card:has(.card__hit-area:focus-visible) {
+    box-shadow: var(--shadow-3);
+    transform: translateY(calc(-1 * var(--size-12))) scale(1.04);
+    z-index: 1;
 }
 
 /* Covers fade in once loaded instead of popping in line by line */
@@ -36,7 +39,7 @@
 }
 
 .card--hovered .card__image {
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
 .card--edit-mode.card--image-loaded .card__image {
@@ -44,7 +47,7 @@
 }
 
 .card:has(.card__hit-area:focus-visible) .card__image {
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
 .card__hit-area {
