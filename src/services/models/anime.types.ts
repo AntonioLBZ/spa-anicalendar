@@ -24,6 +24,8 @@ interface AnimeEntry {
     mediaId: number;
     title: string;
     coverImageUrl: string;
+    /** Dominant color of the cover as hex (from AniList), shown while the image loads. */
+    coverColor?: string;
     /** Total manga chapters when complete. Only relevant if this entry is a manga. */
     chapters?: number;
     /** Total episodes when complete. Absent while still unknown/unannounced. */

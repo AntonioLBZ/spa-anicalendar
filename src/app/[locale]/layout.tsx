@@ -8,7 +8,7 @@ import { Suspense, type ReactNode } from 'react';
 import { Footer } from '@/features/footer';
 import { Header } from '@/features/header';
 import { BRAND_BACKGROUND } from '@/lib/brand';
-import { inter } from '@/lib/fonts';
+import { inter, overpass } from '@/lib/fonts';
 import { routing } from '@/lib/i18n/routing';
 
 import { Providers } from '../providers';
@@ -47,7 +47,7 @@ export default async function LocaleLayout(props: { children: ReactNode; params:
 
     return (
         // <body> is rendered inside <Providers> (see ThemedBody in providers.tsx)
-        <html lang={locale} className={inter.variable}>
+        <html lang={locale} className={`${inter.variable} ${overpass.variable}`}>
             <NextIntlClientProvider>
                 <Providers>
                     <Header />

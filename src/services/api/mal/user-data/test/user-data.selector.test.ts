@@ -12,6 +12,12 @@ describe('selectUser', () => {
         expect(user.avatarUrl).toBe(DEFAULT_AVATAR_URL);
     });
 
+    it('uses the avatar read from the public profile page, when there is one', () => {
+        const user = selectUser({ name: 'lanzorzx', avatarUrl: 'https://cdn.myanimelist.net/s/common/userimages/a.jpg' });
+
+        expect(user.avatarUrl).toBe('https://cdn.myanimelist.net/s/common/userimages/a.jpg');
+    });
+
     it('derives a stable, non-negative integer id from the name', () => {
         const first = selectUser({ name: 'lanzorzx' });
         const second = selectUser({ name: 'lanzorzx' });

@@ -8,7 +8,12 @@ const GET_USER_BY_NAME = `
 query GetUserByName($name: String) {
   User(name: $name) {
     avatar {
+      large
       medium
+    }
+    bannerImage
+    options {
+      profileColor
     }
     name
     id

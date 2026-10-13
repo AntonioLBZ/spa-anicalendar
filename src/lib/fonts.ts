@@ -1,17 +1,10 @@
-import localFont from 'next/font/local';
+import { Inter, Overpass } from 'next/font/google';
 
 // TODO(i18n-ja): CJK font family (next/font, loaded per-locale) needed here when 'ja' is added to locales
-const inter = localFont({
-    src: [
-        { path: '../assets/fonts/Inter_18pt-Regular.ttf', weight: '400', style: 'normal' },
-        { path: '../assets/fonts/Inter_18pt-Italic.ttf', weight: '400', style: 'italic' },
-        { path: '../assets/fonts/Inter_18pt-SemiBold.ttf', weight: '600', style: 'normal' },
-        { path: '../assets/fonts/Inter_18pt-SemiBoldItalic.ttf', weight: '600', style: 'italic' },
-        { path: '../assets/fonts/Inter_18pt-Bold.ttf', weight: '700', style: 'normal' },
-        { path: '../assets/fonts/Inter_18pt-BoldItalic.ttf', weight: '700', style: 'italic' },
-    ],
-    variable: '--font-inter',
-    display: 'swap',
-});
+// Variable fonts; only Latin is preloaded, other scripts (romaji macrons in latin-ext) load on first use
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 
-export { inter };
+// AniList's typeface, for the brand, titles and the home headline
+const overpass = Overpass({ subsets: ['latin'], variable: '--font-overpass', display: 'swap' });
+
+export { inter, overpass };

@@ -8,9 +8,9 @@ import { queryClient } from '@/lib/query-client';
 
 const ThemedBody = (props: { children: ReactNode }) => {
     const { children } = props;
-    const { resolvedTheme: theme, accentColor } = useSettingsContext();
+    const { resolvedTheme: theme, resolvedAccentColor: accentColor } = useSettingsContext();
 
-    // Layout effect so <html> updates in the same commit as <body> (theme changes run inside a View Transition)
+    // Layout effect so <html> updates in the same commit as <body>, before paint
     useLayoutEffect(() => {
         document.documentElement.dataset.theme = theme;
         document.documentElement.dataset.accent = accentColor;

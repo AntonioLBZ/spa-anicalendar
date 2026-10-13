@@ -7,8 +7,9 @@
         "brand": "Anicalendar"
     },
     "home": {
-        "title": "Gib deinen Benutzernamen ein, um deinen wöchentlichen Sendeplan zu sehen.",
-        "subtitle": "Wir nutzen nur deine öffentlichen Daten und ändern nichts an deinem Konto.",
+        "headline": "Deine Anime-Woche auf einen Blick",
+        "intro": "Gib deinen Benutzernamen ein, um deinen wöchentlichen Sendeplan zu sehen.",
+        "privacy": "Wir nutzen nur deine öffentlichen Daten und ändern nichts an deinem Konto.",
         "usernameLabel": "Benutzername",
         "clearUsername": "Leeren",
         "errorUserNotFound": "Benutzer nicht gefunden. Prüfe, ob dein Profil öffentlich ist.",
@@ -127,6 +128,7 @@
             "light": "Hell"
         },
         "accent": {
+            "profile": "AniList-Profil",
             "default": "Ozean",
             "anilist": "Himmel",
             "purple": "Glyzinie",
@@ -199,5 +201,8 @@
                 "sunday": "S"
             }
         }
+    },
+    "profileBanner": {
+        "viewProfile": "Profil auf {provider} ansehen"
     }
 }

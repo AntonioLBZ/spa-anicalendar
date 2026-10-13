@@ -25,6 +25,7 @@
     color: var(--color-content-primary);
     display: flex;
     flex-flow: column nowrap;
+    font-variant-numeric: tabular-nums;
     gap: var(--size-25);
     padding: var(--size-75) var(--size-50) var(--size-25);
 }

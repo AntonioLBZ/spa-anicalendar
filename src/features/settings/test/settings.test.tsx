@@ -62,15 +62,25 @@ describe('Settings', () => {
         expect(listOption).toBeChecked();
     });
 
-    it('renders the Color scheme options with Ocean (the original blue) selected', async () => {
+    it('renders the Color scheme options with the AniList profile one selected', async () => {
         const user = userEvent.setup();
         const dialog = await openSettings(user);
 
         const group = await dialog.findByRole('radiogroup', { name: 'Color scheme' });
         const options = within(group).getAllByRole('radio');
-        expect(options).toHaveLength(8);
-        expect(dialog.getByRole('radio', { name: 'Ocean' })).toBeChecked();
-        expect(dialog.getByRole('radio', { name: 'Sky' })).not.toBeChecked();
+        expect(options).toHaveLength(9);
+        expect(dialog.getByRole('radio', { name: 'AniList profile' })).toBeChecked();
+        expect(dialog.getByRole('radio', { name: 'Ocean' })).not.toBeChecked();
+    });
+
+    it("previews the last viewed profile's scheme on the AniList profile swatch", async () => {
+        memoryStorage.setItem(STORAGE_KEY, JSON.stringify({ accentColor: 'profile', profileAccentColor: 'green' }));
+        const user = userEvent.setup();
+        const dialog = await openSettings(user);
+
+        const option = await dialog.findByRole('radio', { name: 'AniList profile' });
+        const swatch = option.closest('label')?.querySelector('.settings__swatch');
+        expect(swatch).toHaveAttribute('data-accent', 'green');
     });
 
     it('updates accentColor in storage when a Color scheme option is clicked', async () => {

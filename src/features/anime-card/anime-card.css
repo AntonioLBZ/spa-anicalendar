@@ -3,7 +3,9 @@
     animation: card-enter var(--duration-slow) var(--ease-enter) backwards;
     animation-delay: calc(var(--card-index, 0) * 35ms);
     aspect-ratio: 5 / 7;
-    background-color: var(--color-bg-secondary);
+
+    /* The cover's dominant color stands in for it until the image loads */
+    background-color: var(--card-cover-color, var(--color-bg-secondary));
     border-radius: var(--radius-s);
     color: var(--color-content-bright);
     display: block;
@@ -199,6 +201,9 @@
     bottom: 0;
     display: flex;
     flex-direction: column;
+
+    /* Fixed-width digits so airing times and countdowns line up across cards */
+    font-variant-numeric: tabular-nums;
     gap: var(--size-25);
     left: 0;
     padding: var(--size-100) var(--size-50) var(--size-50);

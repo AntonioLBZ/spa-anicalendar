@@ -3,7 +3,12 @@ interface KitsuUserResource {
     attributes: {
         name: string;
         avatar: {
+            large?: string;
             medium?: string;
+            original?: string;
+        } | null;
+        coverImage?: {
+            large?: string;
             original?: string;
         } | null;
     };

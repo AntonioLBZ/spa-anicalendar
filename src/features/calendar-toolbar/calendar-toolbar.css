@@ -42,6 +42,7 @@
     color: var(--color-content-secondary);
     display: flex;
     flex-wrap: wrap;
+    font-variant-numeric: tabular-nums;
     gap: var(--size-25) var(--size-150);
 }
 

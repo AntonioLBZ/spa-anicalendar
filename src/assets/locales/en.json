@@ -7,8 +7,9 @@
         "brand": "Anicalendar"
     },
     "home": {
-        "title": "Enter your username to see your weekly airing schedule.",
-        "subtitle": "We only use your public data and don't make any changes to your account.",
+        "headline": "Your anime week at a glance",
+        "intro": "Enter your username to see your weekly airing schedule.",
+        "privacy": "We only use your public data and don't make any changes to your account.",
         "usernameLabel": "Username",
         "clearUsername": "Clear",
         "errorUserNotFound": "User not found. Please check that your profile is public.",
@@ -127,6 +128,7 @@
             "light": "Light"
         },
         "accent": {
+            "profile": "AniList profile",
             "default": "Ocean",
             "anilist": "Sky",
             "purple": "Wisteria",
@@ -199,5 +201,8 @@
                 "sunday": "S"
             }
         }
+    },
+    "profileBanner": {
+        "viewProfile": "View profile on {provider}"
     }
 }

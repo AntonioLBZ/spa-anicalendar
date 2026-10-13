@@ -25,6 +25,7 @@ query MediaList($userId: Int, $type: MediaType, $statusIn: [MediaListStatus], $m
         coverImage {
           medium
           large
+          color
         }
         chapters
         episodes

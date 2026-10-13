@@ -1,3 +1,4 @@
+export { accentFromProfileColor } from './profile-accent';
 export { SettingsProvider, useSettingsContext } from './settings-context';
 export type {
     AccentColor,
@@ -7,4 +8,5 @@ export type {
     TimeFormat,
     CalendarLayout,
     SettingsContextValue,
+    ResolvedAccentColor,
 } from './settings-context.types';

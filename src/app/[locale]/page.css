@@ -7,17 +7,38 @@
     padding: var(--size-600) var(--size-100);
 }
 
+.home__intro {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-75);
+    text-align: center;
+}
+
 .home__title {
+    color: var(--color-content-primary);
+    margin: 0;
+    text-wrap: balance;
+}
+
+.home__intro-text {
+    color: var(--color-content-secondary);
+    margin: 0;
+    max-width: var(--size-4000);
+    text-wrap: balance;
+}
+
+.home__lead {
     color: var(--color-content-primary);
     margin: 0;
     text-align: center;
 }
 
-.home__subtitle {
+.home__privacy {
     color: var(--color-content-secondary);
     margin: 0;
-    max-width: var(--size-3000);
     text-align: center;
+    text-wrap: balance;
 }
 
 .home__form {

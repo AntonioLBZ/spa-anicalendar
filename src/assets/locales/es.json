@@ -7,8 +7,9 @@
         "brand": "Anicalendar"
     },
     "home": {
-        "title": "Introduce tu nombre de usuario para ver tu calendario semanal de emisiones.",
-        "subtitle": "Trabajamos únicamente con tus datos públicos y no hacemos modificaciones en tu cuenta.",
+        "headline": "Tu semana de anime, de un vistazo",
+        "intro": "Introduce tu nombre de usuario para ver tu calendario semanal de emisiones.",
+        "privacy": "Trabajamos únicamente con tus datos públicos y no hacemos modificaciones en tu cuenta.",
         "usernameLabel": "Nombre de usuario",
         "clearUsername": "Limpiar",
         "errorUserNotFound": "Usuario no encontrado. Comprueba que tu perfil sea público.",
@@ -127,6 +128,7 @@
             "light": "Claro"
         },
         "accent": {
+            "profile": "Perfil de AniList",
             "default": "Océano",
             "anilist": "Cielo",
             "purple": "Glicinia",
@@ -199,5 +201,8 @@
                 "sunday": "D"
             }
         }
+    },
+    "profileBanner": {
+        "viewProfile": "Ver perfil en {provider}"
     }
 }

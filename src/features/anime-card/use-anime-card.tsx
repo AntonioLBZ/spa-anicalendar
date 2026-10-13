@@ -101,7 +101,10 @@ const useAnimeCard = (props: AnimeCardProps) => {
                 isImageLoaded && 'card--image-loaded',
                 isAiringSoon && 'card--airing-soon'
             ),
-            cardStyle: { '--card-index': Math.min(enterIndex, MAX_ENTER_INDEX) } as CSSProperties,
+            cardStyle: {
+                '--card-index': Math.min(enterIndex, MAX_ENTER_INDEX),
+                '--card-cover-color': entry.coverColor,
+            } as CSSProperties,
             selectBadgeClassName: clsx('card__select-badge', !isHidden && 'card__select-badge--checked'),
         },
         copy: {

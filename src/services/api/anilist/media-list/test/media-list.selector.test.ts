@@ -9,7 +9,7 @@ function baseEntry(overrides: Partial<AnilistMediaListEntry> = {}): AnilistMedia
         id: 1,
         status: 'CURRENT',
         media: {
-            coverImage: { medium: 'medium.jpg', large: 'large.jpg' },
+            coverImage: { medium: 'medium.jpg', large: 'large.jpg', color: '#e4a15d' },
             chapters: null,
             episodes: 12,
             duration: 24,
@@ -44,6 +44,17 @@ describe('selectAnimeEntries', () => {
         ]);
 
         expect(entry.seasonYear).toBeUndefined();
+    });
+
+    it("maps the cover's dominant color, leaving it undefined when AniList has none", () => {
+        const media = baseEntry().media;
+        const [withColor, withoutColor] = selectAnimeEntries([
+            baseEntry(),
+            baseEntry({ media: { ...media, coverImage: { ...media.coverImage, color: null } } }),
+        ]);
+
+        expect(withColor.coverColor).toBe('#e4a15d');
+        expect(withoutColor.coverColor).toBeUndefined();
     });
 
     describe('listStatus mapping (which requested list this entry came from)', () => {

@@ -11,6 +11,8 @@ type AiringViewProps = {
     filteredOutCount?: number;
     /** Entry-visibility storage scope; must be unique per data source. */
     scope: string;
+    /** Rendered above the toolbar, e.g. the viewed user's profile banner. */
+    banner?: React.ReactNode;
     disclosure?: React.ReactNode;
     /** Empty-state copy override. */
     emptyMessage?: string;

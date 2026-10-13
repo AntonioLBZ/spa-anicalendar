@@ -30,8 +30,14 @@ describe('getNextAiringByMalIds', () => {
                     data: {
                         Page: {
                             media: [
-                                { idMal: 21, nextAiringEpisode: { airingAt: 1784470560, episode: 1170 }, season: 'FALL', seasonYear: 2024 },
-                                { idMal: 20, nextAiringEpisode: null, season: null, seasonYear: null },
+                                {
+                                    idMal: 21,
+                                    nextAiringEpisode: { airingAt: 1784470560, episode: 1170 },
+                                    season: 'FALL',
+                                    seasonYear: 2024,
+                                    coverImage: { color: '#e4a15d' },
+                                },
+                                { idMal: 20, nextAiringEpisode: null, season: null, seasonYear: null, coverImage: { color: null } },
                             ],
                         },
                     },
@@ -43,8 +49,13 @@ describe('getNextAiringByMalIds', () => {
         const result = await getNextAiringByMalIds([21, 20]);
 
         expect(result).toEqual({
-            20: { nextAiringEpisode: undefined, season: undefined, seasonYear: undefined },
-            21: { nextAiringEpisode: { airingAt: 1784470560, episode: 1170 }, season: 'FALL', seasonYear: 2024 },
+            20: { nextAiringEpisode: undefined, season: undefined, seasonYear: undefined, coverColor: undefined },
+            21: {
+                nextAiringEpisode: { airingAt: 1784470560, episode: 1170 },
+                season: 'FALL',
+                seasonYear: 2024,
+                coverColor: '#e4a15d',
+            },
         });
     });
 

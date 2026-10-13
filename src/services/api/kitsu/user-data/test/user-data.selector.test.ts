@@ -24,6 +24,23 @@ describe('selectUser', () => {
         expect(user.avatarUrl).toBe('https://media.kitsu.io/users/avatars/42/medium.jpg');
     });
 
+    it('prefers the large avatar and maps the profile cover image to the banner', () => {
+        const raw: KitsuUserResource = {
+            id: '42',
+            attributes: {
+                name: 'lanzorzx',
+                avatar: { large: 'avatar-large.jpg', medium: 'avatar-medium.jpg' },
+                coverImage: { large: 'cover-large.jpg', original: 'cover-original.jpeg' },
+            },
+        };
+
+        const user = selectUser(raw);
+
+        expect(user.avatarUrl).toBe('avatar-large.jpg');
+        expect(user.bannerUrl).toBe('cover-large.jpg');
+        expect(selectUser({ id: '1', attributes: { name: 'x', avatar: null } }).bannerUrl).toBeUndefined();
+    });
+
     it('converts the JSON:API string id to a number', () => {
         const raw: KitsuUserResource = {
             id: '123',

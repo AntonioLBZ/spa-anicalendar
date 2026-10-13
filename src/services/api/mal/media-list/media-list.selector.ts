@@ -31,7 +31,10 @@ const FORMAT_MAP: Record<string, MediaFormat> = {
     music: 'MUSIC',
 };
 
-type MalAiringLookup = Record<number, { nextAiringEpisode?: AiringInfo; season?: MediaSeason; seasonYear?: number }>;
+type MalAiringLookup = Record<
+    number,
+    { nextAiringEpisode?: AiringInfo; season?: MediaSeason; seasonYear?: number; coverColor?: string }
+>;
 
 const selectAnimeEntry = (raw: MalAnimeListEntry, nextAiringByMalId: MalAiringLookup): AnimeEntry => {
     const { node, list_status: listStatus } = raw;
@@ -45,6 +48,7 @@ const selectAnimeEntry = (raw: MalAnimeListEntry, nextAiringByMalId: MalAiringLo
         mediaId: node.id,
         title: node.title,
         coverImageUrl: node.main_picture?.large ?? node.main_picture?.medium ?? '',
+        coverColor: nextAiringByMalId[node.id]?.coverColor,
         episodes: node.num_episodes || undefined,
         duration: node.average_episode_duration ? Math.round(node.average_episode_duration / 60) : undefined,
         status: STATUS_MAP[node.status],

@@ -5,8 +5,19 @@ import type { Provider } from '@/services';
 // keyed by each value — these arrays only define the set/order of choices.
 const EMPTY_DAYS_OPTIONS: EmptyDaysMode[] = ['show', 'hide'];
 
-// `default` is the original blue; the rest are AniList's profile colors (see `themes.css`).
-const ACCENT_COLOR_OPTIONS: AccentColor[] = ['default', 'anilist', 'purple', 'pink', 'orange', 'red', 'green', 'gray'];
+// `profile` follows the viewed AniList profile; `default` is the original blue; the rest are AniList's
+// profile colors (see `themes.css`).
+const ACCENT_COLOR_OPTIONS: AccentColor[] = [
+    'profile',
+    'default',
+    'anilist',
+    'purple',
+    'pink',
+    'orange',
+    'red',
+    'green',
+    'gray',
+];
 
 const CALENDAR_LAYOUT_OPTIONS: CalendarLayout[] = ['auto', 'grid', 'list'];
 
@@ -19,6 +30,11 @@ const ALL_SOURCE_OPTIONS: { value: Provider; label: string }[] = [
     { value: 'myanimelist', label: 'MyAnimeList' },
     { value: 'kitsu', label: 'Kitsu' },
 ];
+
+const PROVIDER_LABELS = Object.fromEntries(ALL_SOURCE_OPTIONS.map((o) => [o.value, o.label])) as Record<
+    Provider,
+    string
+>;
 
 // Complete list: anilist,kitsu,myanimelist
 const DEFAULT_ENABLED: Provider[] = ['anilist'];
@@ -34,5 +50,6 @@ export {
     WEEK_START_OPTIONS,
     TIME_FORMAT_OPTIONS,
     SOURCE_OPTIONS,
+    PROVIDER_LABELS,
     CALENDAR_LAYOUT_OPTIONS,
 };

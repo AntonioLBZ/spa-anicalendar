@@ -13,6 +13,7 @@ const selectAnimeEntry = (raw: AnilistMediaListEntry): AnimeEntry => ({
     mediaId: raw.mediaId,
     title: raw.media.title.userPreferred,
     coverImageUrl: raw.media.coverImage.large,
+    coverColor: raw.media.coverImage.color ?? undefined,
     chapters: raw.media.chapters ?? undefined,
     episodes: raw.media.episodes ?? undefined,
     duration: raw.media.duration ?? undefined,

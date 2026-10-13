@@ -159,6 +159,16 @@ describe('AnimeCard motion states', () => {
         expect(getCard(container).style.getPropertyValue('--card-index')).toBe('12');
     });
 
+    it("paints the cover's dominant color behind the image, when the provider has one", () => {
+        const { container, rerender } = render(<AnimeCard entry={{ ...entry, coverColor: '#e4a15d' }} />, {
+            wrapper: Wrapper,
+        });
+        expect(getCard(container).style.getPropertyValue('--card-cover-color')).toBe('#e4a15d');
+
+        rerender(<AnimeCard entry={entry} />);
+        expect(getCard(container).style.getPropertyValue('--card-cover-color')).toBe('');
+    });
+
     it('flags the next-airing card only during the last hour before airing', () => {
         const now = Math.floor(Date.now() / 1000);
         const soon = { ...entry, nextAiringEpisode: { airingAt: now + 30 * 60, episode: 4 } };

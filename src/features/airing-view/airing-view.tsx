@@ -22,6 +22,7 @@ const AiringView = (props: AiringViewProps) => {
         onRetry,
         filteredOutCount = 0,
         scope,
+        banner,
         disclosure,
         emptyMessage,
         noAiringLabel,
@@ -67,6 +68,7 @@ const AiringView = (props: AiringViewProps) => {
     return (
         <main className="airing-view">
             <div className="airing-view__content">
+                {banner}
                 {disclosure && <p className="airing-view__disclosure body-s">{disclosure}</p>}
                 <CalendarToolbar
                     stats={stats}

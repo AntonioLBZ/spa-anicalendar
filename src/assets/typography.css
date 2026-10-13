@@ -42,8 +42,18 @@
     line-height: 1.2;
 }
 
+/* Display: the home headline */
+.display-m {
+    font-family: var(--font-overpass), sans-serif;
+    font-size: clamp(var(--size-175), 1rem + 2.5vw, var(--size-250));
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+}
+
 /* Title */
 .title-l {
+    font-family: var(--font-overpass), sans-serif;
     font-size: var(--size-150);
     font-weight: 700;
     letter-spacing: normal;
@@ -51,6 +61,7 @@
 }
 
 .title-m {
+    font-family: var(--font-overpass), sans-serif;
     font-size: var(--size-125);
     font-weight: 700;
     letter-spacing: normal;

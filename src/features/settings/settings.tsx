@@ -40,6 +40,7 @@ const Settings = () => {
         setTheme,
         accentColor,
         setAccentColor,
+        profileAccentColor,
         emptyDaysMode,
         setEmptyDaysMode,
         weekStartDay,
@@ -89,7 +90,11 @@ const Settings = () => {
                                     {({ isSelected }) => (
                                         <>
                                             {/* `data-accent` scopes the swatch to its own scheme's shades */}
-                                            <span className="settings__swatch" data-accent={value} aria-hidden="true">
+                                            <span
+                                                className="settings__swatch"
+                                                data-accent={value === 'profile' ? (profileAccentColor ?? 'default') : value}
+                                                aria-hidden="true"
+                                            >
                                                 {isSelected && <CheckMarkIcon className="settings__swatch-check" />}
                                             </span>
                                             {t(`accent.${value}`)}

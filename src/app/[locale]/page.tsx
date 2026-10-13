@@ -57,8 +57,10 @@ export default function HomePage() {
 
     return (
         <main className="home">
-            <p className="home__title body-l">{t('title')}</p>
-            <p className="home__subtitle body-m">{t('subtitle')}</p>
+            <div className="home__intro">
+                <h1 className="home__title display-m">{t('headline')}</h1>
+                <p className="home__intro-text body-l">{t('intro')}</p>
+            </div>
             <Form className="home__form" validationErrors={validationErrors} onSubmit={handleSubmit}>
                 <Radio.Group aria-label={t('apiProviderLabel')} value={provider} onChange={setProvider}>
                     {SOURCE_OPTIONS.map((option) => (
@@ -80,9 +82,10 @@ export default function HomePage() {
                         {t('go')}
                     </Button>
                 </div>
+                <p className="home__privacy body-s">{t('privacy')}</p>
             </Form>
             <Divider className="home__divider" />
-            <p className="home__title body-l">{t('noUsernameLead')}</p>
+            <p className="home__lead body-l">{t('noUsernameLead')}</p>
             <div className="home__season-links">
                 <Link as={NavLink} variant="secondary" href="/airing">
                     {t('browseSeason')}

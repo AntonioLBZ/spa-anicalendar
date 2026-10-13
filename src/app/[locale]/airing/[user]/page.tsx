@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 import { AiringView } from '@/features/airing-view';
+import { ProfileBanner } from '@/features/profile-banner';
 
 import { useAiringData } from './use-airing-data';
 import { useSyncProviderWithUrl } from './use-sync-provider-with-url';
@@ -25,6 +26,7 @@ export default function AiringPage() {
             onRetry={airing.actions.retry}
             filteredOutCount={airing.data.filteredOutCount}
             scope={`${provider}:${userName ?? 'unknown'}`}
+            banner={<ProfileBanner user={airing.data.user} provider={provider} />}
             noAiringLabel={t('finishedLabel')}
             showCurrentSeasonLink
             showNextSeasonLink

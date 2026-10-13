@@ -7,7 +7,7 @@ import type { AnilistSeasonalMedia } from '../seasonal.types';
 function baseMedia(overrides: Partial<AnilistSeasonalMedia> = {}): AnilistSeasonalMedia {
     return {
         id: 42,
-        coverImage: { medium: 'medium.jpg', large: 'large.jpg' },
+        coverImage: { medium: 'medium.jpg', large: 'large.jpg', color: '#e4a15d' },
         chapters: null,
         episodes: 12,
         duration: 24,
@@ -51,6 +51,7 @@ describe('selectSeasonalEntries', () => {
 
         expect(entry.title).toBe('Test Anime');
         expect(entry.coverImageUrl).toBe('large.jpg');
+        expect(entry.coverColor).toBe('#e4a15d');
         expect(entry.status).toBe('RELEASING');
         expect(entry.nextAiringEpisode).toEqual({ airingAt: 1700000000, episode: 5 });
         expect(entry.isAdult).toBe(false);

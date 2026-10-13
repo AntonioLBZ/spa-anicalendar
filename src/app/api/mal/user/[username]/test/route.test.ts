@@ -6,6 +6,23 @@ function params(username: string): { params: Promise<{ username: string }> } {
     return { params: Promise.resolve({ username }) };
 }
 
+const AVATAR_URL = 'https://cdn.myanimelist.net/s/common/userimages/53c8d209_225w?s=943761f1';
+const PROFILE_HTML = `<div class="user-profile"><div class="user-image mb8">
+    <img class="lazyload" data-src="${AVATAR_URL}"></div></div>`;
+
+const isProfilePage = (url: string) => url.startsWith('https://myanimelist.net/profile/');
+const apiCalls = (fetchMock: ReturnType<typeof vi.fn>) =>
+    fetchMock.mock.calls.filter(([url]) => !isProfilePage(url));
+
+/** Answers the MAL API probe with `api` and the public profile page with `profile`. */
+function mockMal(
+    fetchMock: ReturnType<typeof vi.fn>,
+    api: () => Response,
+    profile: () => Response | Promise<never> = () => new Response(PROFILE_HTML, { status: 200 })
+) {
+    fetchMock.mockImplementation((url: string) => (isProfilePage(url) ? profile() : Promise.resolve(api())));
+}
+
 describe('GET /api/mal/user/[username]', () => {
     const originalClientId = process.env.MAL_CLIENT_ID;
     let fetchMock: ReturnType<typeof vi.fn>;
@@ -23,20 +40,33 @@ describe('GET /api/mal/user/[username]', () => {
         vi.restoreAllMocks();
     });
 
-    it('returns a locally-constructed profile when the existence probe succeeds', async () => {
-        fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ data: [] }), { status: 200 }));
+    it('returns a locally-constructed profile with the avatar from the public profile page', async () => {
+        mockMal(fetchMock, () => new Response(JSON.stringify({ data: [] }), { status: 200 }));
 
         const response = await GET(new Request('http://localhost/api/mal/user/lanzorzx'), params('lanzorzx'));
 
         expect(response.status).toBe(200);
         const body = await response.json();
-        expect(body).toEqual({ name: 'lanzorzx' });
+        expect(body).toEqual({ name: 'lanzorzx', avatarUrl: AVATAR_URL });
         expect(JSON.stringify(body)).not.toContain('test-client-id');
 
-        expect(fetchMock).toHaveBeenCalledTimes(1);
-        const [url, options] = fetchMock.mock.calls[0];
+        expect(apiCalls(fetchMock)).toHaveLength(1);
+        const [url, options] = apiCalls(fetchMock)[0];
         expect(url).toContain('/users/lanzorzx/animelist');
         expect(options.headers['X-MAL-Client-ID']).toBe('test-client-id');
+    });
+
+    it('leaves the avatar out when the profile page has none or cannot be read', async () => {
+        const ok = () => new Response(JSON.stringify({ data: [] }), { status: 200 });
+
+        mockMal(fetchMock, ok, () => new Response('<div class="user-image mb8"></div>', { status: 200 }));
+        const withoutAvatar = await GET(new Request('http://localhost/api/mal/user/lanzorzx'), params('lanzorzx'));
+        expect(await withoutAvatar.json()).toEqual({ name: 'lanzorzx' });
+
+        mockMal(fetchMock, ok, () => Promise.reject(new Error('timeout')));
+        const unreadable = await GET(new Request('http://localhost/api/mal/user/lanzorzx'), params('lanzorzx'));
+        expect(unreadable.status).toBe(200);
+        expect(await unreadable.json()).toEqual({ name: 'lanzorzx' });
     });
 
     it('rejects a blank username with 400', async () => {
@@ -59,12 +89,12 @@ describe('GET /api/mal/user/[username]', () => {
         const response = await GET(new Request('http://localhost/api/mal/user/lanzorzx'), params('lanzorzx'));
 
         expect(response.status).toBe(500);
-        expect(fetchMock).not.toHaveBeenCalled();
+        expect(apiCalls(fetchMock)).toHaveLength(0);
         expect(console.error).toHaveBeenCalled();
     });
 
     it('maps upstream 404 to a distinguishable "user not found" response', async () => {
-        fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ error: 'not_found' }), { status: 404 }));
+        mockMal(fetchMock, () => new Response(JSON.stringify({ error: 'not_found' }), { status: 404 }));
 
         const response = await GET(
             new Request('http://localhost/api/mal/user/__definitely_not_a_real_mal_user_zzz__'),
@@ -77,9 +107,7 @@ describe('GET /api/mal/user/[username]', () => {
     });
 
     it('propagates upstream 429 with Retry-After', async () => {
-        fetchMock.mockResolvedValueOnce(
-            new Response(null, { status: 429, headers: { 'Retry-After': '30' } }),
-        );
+        mockMal(fetchMock, () => new Response(null, { status: 429, headers: { 'Retry-After': '30' } }));
 
         const response = await GET(new Request('http://localhost/api/mal/user/lanzorzx'), params('lanzorzx'));
 
@@ -88,7 +116,7 @@ describe('GET /api/mal/user/[username]', () => {
     });
 
     it('maps upstream 401/403 to 502', async () => {
-        fetchMock.mockResolvedValueOnce(new Response(null, { status: 401 }));
+        mockMal(fetchMock, () => new Response(null, { status: 401 }));
 
         const response = await GET(new Request('http://localhost/api/mal/user/lanzorzx'), params('lanzorzx'));
 

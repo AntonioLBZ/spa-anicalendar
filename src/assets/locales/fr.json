@@ -7,8 +7,9 @@
         "brand": "Anicalendar"
     },
     "home": {
-        "title": "Entre ton pseudo pour voir ton calendrier hebdomadaire de diffusion.",
-        "subtitle": "On utilise uniquement tes données publiques, sans rien modifier sur ton compte.",
+        "headline": "Votre semaine d'anime en un coup d'œil",
+        "intro": "Entre ton pseudo pour voir ton calendrier hebdomadaire de diffusion.",
+        "privacy": "On utilise uniquement tes données publiques, sans rien modifier sur ton compte.",
         "usernameLabel": "Nom d'utilisateur",
         "clearUsername": "Effacer",
         "errorUserNotFound": "Utilisateur introuvable. Vérifie que ton profil est public.",
@@ -127,6 +128,7 @@
             "light": "Clair"
         },
         "accent": {
+            "profile": "Profil AniList",
             "default": "Océan",
             "anilist": "Ciel",
             "purple": "Glycine",
@@ -199,5 +201,8 @@
                 "sunday": "D"
             }
         }
+    },
+    "profileBanner": {
+        "viewProfile": "Voir le profil sur {provider}"
     }
 }
