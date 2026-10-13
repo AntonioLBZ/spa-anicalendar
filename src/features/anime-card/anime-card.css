@@ -1,13 +1,69 @@
 .card {
+    /* `backwards` (not `both`) so the hover transform still applies once the entrance has finished */
+    animation: card-enter var(--duration-slow) var(--ease-enter) backwards;
+    animation-delay: calc(var(--card-index, 0) * 35ms);
     aspect-ratio: 5 / 7;
-    background-color: var(--color-bg-secondary);
-    border-radius: var(--size-37);
+
+    /* The cover's dominant color stands in for it until the image loads */
+    background-color: var(--card-cover-color, var(--color-bg-secondary));
+    border-radius: var(--radius-s);
     color: var(--color-content-bright);
     display: block;
+    isolation: isolate;
     max-width: var(--size-1300);
     min-width: var(--size-500);
     overflow: hidden;
     position: relative;
+    transition:
+        opacity var(--duration-base) var(--ease-standard),
+        transform var(--duration-base) var(--ease-standard),
+        box-shadow var(--duration-base) var(--ease-standard),
+        background-color 0s linear var(--duration-slow);
+}
+
+/* Once the cover has faded in, black behind it: browsers antialias the rounded edge of the card's background and
+ * of its clipped contents separately, so a sliver of the background shows along the edge, under the scrim too */
+.card--image-loaded {
+    background-color: rgb(0 0 0);
+}
+
+/* Floats towards the viewer: transform only, so the calendar layout never shifts. The day column's top padding
+ * leaves room for the rise of its first card */
+.card--hovered,
+.card:has(.card__hit-area:focus-visible) {
+    box-shadow: var(--shadow-3);
+    transform: translateY(calc(-1 * var(--size-12))) scale(1.04);
+    z-index: 1;
+}
+
+/* Covers fade in once loaded instead of popping in line by line */
+.card__image {
+    opacity: 0;
+    transition:
+        filter var(--duration-base) var(--ease-standard),
+        opacity var(--duration-slow) var(--ease-standard),
+        transform var(--duration-slow) var(--ease-standard);
+}
+
+.card--image-loaded .card__image {
+    opacity: 1;
+}
+
+.card--hovered .card__image {
+    transform: scale(1.02);
+}
+
+.card--edit-mode.card--image-loaded .card__image {
+    opacity: 0.85;
+}
+
+.card:has(.card__hit-area:focus-visible) .card__image {
+    transform: scale(1.02);
+}
+
+/* Already aired today: receded so what's still to come stands out, until hovered or focused */
+.card--aired:not(.card--hovered, :has(.card__hit-area:focus-visible)) .card__image {
+    filter: saturate(0.35) brightness(0.6);
 }
 
 .card__hit-area {
@@ -22,10 +78,6 @@
 .card__hit-area:focus-visible {
     outline: var(--size-12) solid var(--color-border-focus);
     outline-offset: calc(-1 * var(--size-12));
-}
-
-.card--edit-mode .card__image {
-    opacity: 0.85;
 }
 
 .card--edit-mode::before {
@@ -44,7 +96,7 @@
     align-items: center;
     background: rgb(0 0 0 / 50%);
     border: var(--size-6) solid var(--color-content-bright);
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     color: var(--color-content-bright);
     display: flex;
     height: var(--size-175);
@@ -53,32 +105,47 @@
     pointer-events: none;
     position: absolute;
     top: var(--size-12);
+    transition:
+        background-color var(--duration-fast) var(--ease-standard),
+        border-color var(--duration-fast) var(--ease-standard);
     width: var(--size-175);
     z-index: 1;
 }
 
-.card__select-badge--checked {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
+.card__select-badge > svg {
+    animation: check-pop var(--duration-base) var(--ease-enter);
 }
 
+.card__select-badge--checked {
+    background: var(--color-bg-accent);
+    border-color: var(--color-bg-accent);
+    color: var(--color-content-on-accent);
+}
+
+/* Ribbon hanging from the top edge: scheme fill, light outline and drop shadow keep it legible on any cover.
+ * Raised past the card's top edge so the card's `overflow: hidden` clips the outline's top side and rounded
+ * corners, leaving the outline only where the ribbon overlaps the cover. */
 .card__planning-badge {
-    align-items: center;
-    color: var(--color-content-bright);
+    color: var(--color-bg-accent);
     display: flex;
-    justify-content: center;
+    filter: drop-shadow(0 2px 3px rgb(0 0 0 / 55%));
     pointer-events: none;
     position: absolute;
     right: var(--size-50);
-    top: 0;
+    top: calc(-1 * var(--size-17));
     z-index: 1;
 }
 
-.card__planning-badge > * {
-    color: var(--color-content-bg-primary);
+.card__planning-badge > svg {
     height: auto;
-    justify-content: center;
-    width: var(--size-125);
+    overflow: visible;
+    width: var(--size-150);
+}
+
+.card__planning-badge path {
+    stroke: var(--color-content-bright);
+    stroke-width: 1.5px;
+    vector-effect: non-scaling-stroke;
 }
 
 .card__next-airing {
@@ -87,15 +154,20 @@
     top: var(--size-37);
 }
 
+/* Soft ring on the "next" pill during the last hour before the episode airs */
+.card--airing-soon .card__next-airing {
+    animation: next-airing-pulse 2.4s var(--ease-standard) infinite;
+}
+
 .card:has(.card__planning-badge) .card__next-airing {
-    top: var(--size-150);
+    top: var(--size-200);
 }
 
 .card__info-btn {
     align-items: center;
     background: rgb(0 0 0 / 50%);
     border: none;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     color: var(--color-content-bright);
     cursor: pointer;
     display: flex;
@@ -138,22 +210,39 @@
     text-overflow: ellipsis;
 }
 
+/* Eased scrim: a soft fade above the text (no visible band edge), then dark enough under it to read on any cover */
 .card__overlay {
-    background: linear-gradient(to top, rgb(0 0 0 / 85%) 0%, rgb(0 0 0 / 60%) 85%, transparent 100%);
-    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent 0,
+        rgb(0 0 0 / 12%) calc(var(--size-200) * 0.3),
+        rgb(0 0 0 / 35%) calc(var(--size-200) * 0.6),
+        rgb(0 0 0 / 62%) var(--size-200),
+        rgb(0 0 0 / 85%) 100%
+    );
+
+    /* 1px past the card's edges (clipped by it), so at fractional sizes the scrim reaches the clipped edge as fully
+     * as the cover does */
+    bottom: -1px;
     display: flex;
     flex-direction: column;
+
+    /* Fixed-width digits so airing times and countdowns line up across cards */
+    font-variant-numeric: tabular-nums;
     gap: var(--size-25);
-    left: 0;
-    padding: var(--size-100) var(--size-50) var(--size-50);
+    left: -1px;
+    padding: var(--size-200) calc(var(--size-50) + 1px) calc(var(--size-50) + 1px);
     position: absolute;
-    right: 0;
+    right: -1px;
 }
 
 .card__hover-content {
-    animation: card-slide-down 0.25s ease forwards;
     display: grid;
     grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+        grid-template-rows var(--duration-base) var(--ease-standard),
+        opacity var(--duration-base) var(--ease-standard);
 }
 
 .card__hover-inner {
@@ -163,6 +252,7 @@
     height: fit-content;
     overflow: hidden;
     transform: translateY(20%);
+    transition: transform var(--duration-base) var(--ease-standard);
 }
 
 .card__pending {
@@ -185,15 +275,15 @@
 }
 
 .card__on-date {
-    color: var(--color-accent);
+    color: var(--color-accent-on-media);
 }
 
 .card__airing-countdown {
-    color: var(--color-accent);
+    color: var(--color-accent-on-media);
 }
 
 .card__status {
-    border-radius: var(--size-17);
+    border-radius: var(--radius-xs);
     margin-inline-start: calc(-1 * var(--size-25));
     padding: var(--size-6) var(--size-25);
     text-transform: uppercase;
@@ -201,34 +291,35 @@
 }
 
 .card__status--releasing {
-    background-color: rgb(34 197 94 / 15%);
+    background-color: color-mix(in srgb, var(--color-status-releasing) 15%, transparent);
     color: var(--color-status-releasing);
 }
 
 .card__status--finished {
-    background-color: rgb(59 130 246 / 15%);
+    background-color: color-mix(in srgb, var(--color-status-finished) 15%, transparent);
     color: var(--color-status-finished);
 }
 
 .card__status--hiatus {
-    background-color: rgb(245 158 11 / 15%);
+    background-color: color-mix(in srgb, var(--color-status-hiatus) 15%, transparent);
     color: var(--color-status-hiatus);
 }
 
 .card__status--cancelled {
-    background-color: rgb(239 68 68 / 15%);
+    background-color: color-mix(in srgb, var(--color-status-cancelled) 15%, transparent);
     color: var(--color-status-cancelled);
 }
 
 .card__status--upcoming {
-    background-color: rgb(168 85 247 / 15%);
+    background-color: color-mix(in srgb, var(--color-status-upcoming) 15%, transparent);
     color: var(--color-status-upcoming);
 }
 
 .card--expanded .card__hover-content,
 .card--hovered .card__hover-content,
 .card:has(.card__hit-area:focus-visible) .card__hover-content {
-    animation: card-slide-up 0.25s ease forwards;
+    grid-template-rows: 1fr;
+    opacity: 1;
 }
 
 .card--expanded .card__hover-inner,
@@ -237,26 +328,34 @@
     transform: translateY(0%);
 }
 
-@keyframes card-slide-up {
+@keyframes card-enter {
     from {
-        grid-template-rows: 0fr;
         opacity: 0;
-    }
-
-    to {
-        grid-template-rows: 1fr;
-        opacity: 1;
+        transform: translateY(var(--size-50)) scale(0.98);
     }
 }
 
-@keyframes card-slide-down {
+@keyframes check-pop {
     from {
-        grid-template-rows: 1fr;
-        opacity: 1;
+        opacity: 0;
+        transform: scale(0.4);
+    }
+}
+
+@keyframes next-airing-pulse {
+    0% {
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-bg-accent-strong) 70%, transparent);
     }
 
-    to {
-        grid-template-rows: 0fr;
-        opacity: 0;
+    70%,
+    100% {
+        box-shadow: 0 0 0 var(--size-75) transparent;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card,
+    .card--airing-soon .card__next-airing {
+        animation: none;
     }
 }

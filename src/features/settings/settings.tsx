@@ -2,24 +2,47 @@
 
 import { useTranslations } from 'next-intl';
 
-import { Button, DismissIcon, Divider, Drawer, DrawerTrigger, GearIcon, Radio, Section } from '@/components';
+import {
+    Button,
+    CheckMarkIcon,
+    DismissIcon,
+    Divider,
+    Drawer,
+    DrawerTrigger,
+    GearIcon,
+    Radio,
+    Section,
+} from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import {
+    ACCENT_COLOR_OPTIONS,
     EMPTY_DAYS_OPTIONS,
     TIME_FORMAT_OPTIONS,
     WEEK_START_OPTIONS,
     CALENDAR_LAYOUT_OPTIONS,
 } from '@/contexts/settings-context/options';
+import { useLayoutMode } from '@/lib/use-layout-mode';
 
-import type { EmptyDaysMode, ThemeMode, WeekStartDay, TimeFormat, CalendarLayout } from '@/contexts/settings-context';
+import type {
+    AccentColor,
+    EmptyDaysMode,
+    ThemeMode,
+    WeekStartDay,
+    TimeFormat,
+    CalendarLayout,
+} from '@/contexts/settings-context';
 
 import './settings.css';
 
 const Settings = () => {
     const t = useTranslations('settings');
+    const layoutMode = useLayoutMode();
     const {
         theme,
         setTheme,
+        accentColor,
+        setAccentColor,
+        profileAccentColor,
         emptyDaysMode,
         setEmptyDaysMode,
         weekStartDay,
@@ -35,7 +58,7 @@ const Settings = () => {
             <Button className="settings__trigger" aria-label={t('title')} size="s" variant="ghost">
                 <GearIcon />
             </Button>
-            <Drawer.Root placement="right" className="settings">
+            <Drawer.Root placement={layoutMode === 'mobile' ? 'bottom' : 'right'} className="settings">
                 <Drawer.Header>
                     <span>{t('title')}</span>
                     <Button className="settings__close" aria-label={t('close')} slot="close" size="s" variant="ghost">
@@ -53,6 +76,34 @@ const Settings = () => {
                             <Radio.Option value="system">{t('theme.system')}</Radio.Option>
                             <Radio.Option value="dark">{t('theme.dark')}</Radio.Option>
                             <Radio.Option value="light">{t('theme.light')}</Radio.Option>
+                        </Radio.Group>
+                    </Section.Root>
+                    <Divider />
+                    <Section.Root>
+                        <Section.Title>{t('sections.accent')}</Section.Title>
+                        <Radio.Group
+                            aria-label={t('sections.accent')}
+                            className="settings__scheme-group"
+                            value={accentColor}
+                            onChange={(v) => setAccentColor(v as AccentColor)}
+                        >
+                            {ACCENT_COLOR_OPTIONS.map((value) => (
+                                <Radio.Option key={value} value={value} className="settings__scheme-option">
+                                    {({ isSelected }) => (
+                                        <>
+                                            {/* `data-accent` scopes the swatch to its own scheme's shades */}
+                                            <span
+                                                className="settings__swatch"
+                                                data-accent={value === 'profile' ? (profileAccentColor ?? 'default') : value}
+                                                aria-hidden="true"
+                                            >
+                                                {isSelected && <CheckMarkIcon className="settings__swatch-check" />}
+                                            </span>
+                                            {t(`accent.${value}`)}
+                                        </>
+                                    )}
+                                </Radio.Option>
+                            ))}
                         </Radio.Group>
                     </Section.Root>
                     <Divider />

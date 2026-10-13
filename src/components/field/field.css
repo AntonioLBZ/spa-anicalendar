@@ -10,12 +10,12 @@
 .field__input {
     background-color: var(--color-bg-secondary);
     border: var(--size-6) solid var(--color-border);
-    border-radius: var(--size-border-radius);
+    border-radius: var(--radius-s);
     color: var(--color-content-primary);
     height: var(--size-300);
     outline: none;
     padding: var(--size-75) var(--size-75);
-    transition: border-color 0.15s;
+    transition: border-color var(--duration-fast) var(--ease-standard);
     width: 100%;
 }
 
@@ -32,17 +32,17 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    transform-origin: left center;
     transition:
-        top 0.15s,
-        font-size 0.15s,
-        color 0.15s;
+        transform var(--duration-fast) var(--ease-standard),
+        color var(--duration-fast) var(--ease-standard);
 }
 
+/* Floats onto the top border: up by half the input height, scaled 16px → 12px. Transform-only, so no reflow. */
 .field__input[data-focused] + .field__label,
 .field__input:not(:placeholder-shown) + .field__label {
     color: var(--color-accent);
-    font-size: 12px;
-    top: 0;
+    transform: translateY(calc(-50% - var(--size-150))) scale(0.75);
 }
 
 .field__input[data-invalid] {

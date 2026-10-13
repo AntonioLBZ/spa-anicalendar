@@ -1,21 +1,28 @@
 'use client';
 
 import { QueryClientProvider } from '@tanstack/react-query';
-import { useEffect, type ReactNode } from 'react';
+import { useLayoutEffect, type ReactNode } from 'react';
 
 import { SettingsProvider, UserContextProvider, useSettingsContext } from '@/contexts';
+import { THEME_COLORS } from '@/lib/brand';
 import { queryClient } from '@/lib/query-client';
 
 const ThemedBody = (props: { children: ReactNode }) => {
     const { children } = props;
-    const { resolvedTheme: theme } = useSettingsContext();
+    const { resolvedTheme: theme, resolvedAccentColor: accentColor } = useSettingsContext();
 
-    useEffect(() => {
+    // Layout effect so <html> updates in the same commit as <body>, before paint
+    useLayoutEffect(() => {
         document.documentElement.dataset.theme = theme;
-    }, [theme]);
+        document.documentElement.dataset.accent = accentColor;
+        // Both media-scoped tags, so a theme picked in settings wins over the system's
+        document
+            .querySelectorAll('meta[name="theme-color"]')
+            .forEach((meta) => meta.setAttribute('content', THEME_COLORS[theme]));
+    }, [theme, accentColor]);
 
     return (
-        <body data-theme={theme} suppressHydrationWarning>
+        <body data-theme={theme} data-accent={accentColor} suppressHydrationWarning>
             {children}
         </body>
     );

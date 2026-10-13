@@ -7,9 +7,11 @@
         "brand": "Anicalendar"
     },
     "home": {
-        "title": "Enter your username to see your weekly airing schedule.",
-        "subtitle": "We only use your public data and don't make any changes to your account.",
+        "headline": "Your anime week at a glance",
+        "intro": "Enter your username to see your weekly airing schedule.",
+        "privacy": "We only use your public data and don't make any changes to your account.",
         "usernameLabel": "Username",
+        "providerUsernameLabel": "{provider} username",
         "clearUsername": "Clear",
         "errorUserNotFound": "User not found. Please check that your profile is public.",
         "errorGeneric": "Something went wrong. Please try again.",
@@ -51,6 +53,14 @@
         "nextSeasonEmptyList": "No anime found for next season.",
         "finishedLabel": "Finished",
         "noAirDateLabel": "No air date yet"
+    },
+    "hiddenEntriesNotice": {
+        "message": "<b>{summary}</b>: {reasons}.",
+        "summary": "{count, plural, one {# anime is hidden} other {# anime are hidden}} by your visibility settings",
+        "content": "{count} by the {filter} content filter",
+        "manual": "{count} hidden manually",
+        "listFilters": "{count} by the format or new-season filters",
+        "dismiss": "Dismiss notice"
     },
     "seasonalFilters": {
         "contentLabel": "Content",
@@ -107,6 +117,7 @@
         "close": "Close settings",
         "sections": {
             "theme": "Theme",
+            "accent": "Color scheme",
             "layout": "Layout",
             "emptyDays": "Empty days",
             "weekStart": "Week start",
@@ -116,6 +127,17 @@
             "system": "System",
             "dark": "Dark",
             "light": "Light"
+        },
+        "accent": {
+            "profile": "AniList profile",
+            "default": "Ocean",
+            "anilist": "Sky",
+            "purple": "Wisteria",
+            "pink": "Sakura",
+            "orange": "Sunset",
+            "red": "Ember",
+            "green": "Bamboo",
+            "gray": "Rain"
         },
         "layout": {
             "auto": "Auto",
@@ -154,6 +176,7 @@
     },
     "weeklyCalendar": {
         "emptyList": "No anime in your watching list.",
+        "loading": "Loading schedule…",
         "sectionHeader": "Weekly anime schedule",
         "noUpcoming": "No upcoming episodes",
         "today": "Today",
@@ -179,5 +202,8 @@
                 "sunday": "S"
             }
         }
+    },
+    "profileBanner": {
+        "viewProfile": "View profile on {provider}"
     }
 }

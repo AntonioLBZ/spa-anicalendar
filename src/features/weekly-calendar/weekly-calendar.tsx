@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 
 import { Divider } from '@/components';
 import { useSeasonalFilters } from '@/contexts';
@@ -15,6 +15,7 @@ import { useLayoutMode } from '@/lib/use-layout-mode';
 import { filterByContent, filterByHidden } from './filters';
 import { WeeklyCalendarDay } from './weekly-calendar-day';
 import { getGridConfigForLayout } from './weekly-calendar-layout';
+import { WeeklyCalendarSkeleton } from './weekly-calendar-skeleton';
 
 import './weekly-calendar.css';
 
@@ -58,6 +59,7 @@ const groupByAiringDay = (
 const WeeklyCalendar = (props: WeeklyCalendarProps) => {
     const {
         entries,
+        isLoading = false,
         isEditMode = false,
         hiddenIds = [],
         onToggleEntry,
@@ -80,6 +82,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
     const nextAiringEntryId = useMemo(() => getNextAiringEntryId(filtered), [filtered]);
     const todayIndex = getTodayIndex(weekStartDay);
     const { days, noAiring } = useMemo(() => groupByAiringDay(filtered, weekStartDay), [filtered, weekStartDay]);
+    const hasScrolledToToday = useRef(false);
 
     const headerActions = visibility && (
         <div className="weekly-calendar__header-actions">
@@ -87,6 +90,48 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
             {!visibility.isEditMode && <SeasonalFiltersTrigger hideNewSeasonFilter={hideNewSeasonFilter} />}
         </div>
     );
+
+    const resolvedLayout: ResolvedCalendarLayout =
+        calendarLayout === 'auto' ? (layoutMode === 'desktop' ? 'grid' : 'list') : calendarLayout;
+    const isVertical = resolvedLayout === 'list';
+    const getGridStyle = (columns: number) =>
+        isVertical ? undefined : (getGridConfigForLayout(layoutMode, columns).cssVariables as React.CSSProperties);
+
+    const hideEmptyDays = emptyDaysMode === 'hide';
+    const visibleDays = Object.entries(days).filter(([, entries]) => !(hideEmptyDays && entries.length === 0));
+    const firstVisibleDay = visibleDays.length > 0 ? Number(visibleDays[0][0]) : null;
+    const isTodayVisible = visibleDays.some(([dayIndex]) => Number(dayIndex) === todayIndex);
+
+    // In the stacked list, today can sit several rows down: bring it into view once, when the data first
+    // arrives, unless it's already the first row or the user has started scrolling.
+    useEffect(() => {
+        if (hasScrolledToToday.current || isLoading || !isVertical || filtered.length === 0) return;
+        hasScrolledToToday.current = true;
+
+        if (!isTodayVisible || firstVisibleDay === todayIndex || window.scrollY > 0) return;
+
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        document
+            .getElementById(`day-${todayIndex}`)
+            ?.parentElement?.scrollIntoView?.({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    }, [isLoading, isVertical, filtered.length, isTodayVisible, firstVisibleDay, todayIndex]);
+
+    if (isLoading) {
+        return (
+            <div className="weekly-calendar body-l" style={getGridStyle(7)} aria-busy="true">
+                <div className="weekly-calendar__section">
+                    <div className="weekly-calendar__section-header label-l">
+                        {t('sectionHeader')}
+                        {headerActions}
+                    </div>
+                    <span className="weekly-calendar__status" role="status">
+                        {t('loading')}
+                    </span>
+                    <WeeklyCalendarSkeleton layout={resolvedLayout} weekStartDay={weekStartDay} todayIndex={todayIndex} />
+                </div>
+            </div>
+        );
+    }
 
     if (filtered.length === 0) {
         return (
@@ -100,17 +145,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
         );
     }
 
-    const hideEmptyDays = emptyDaysMode === 'hide';
-
-    const visibleDays = Object.entries(days).filter(([, entries]) => !(hideEmptyDays && entries.length === 0));
-
-    const resolvedLayout: ResolvedCalendarLayout =
-        calendarLayout === 'auto' ? (layoutMode === 'desktop' ? 'grid' : 'list') : calendarLayout;
-    const isVertical = resolvedLayout === 'list';
-
-    const style = isVertical
-        ? undefined
-        : (getGridConfigForLayout(layoutMode, visibleDays.length).cssVariables as React.CSSProperties);
+    const style = getGridStyle(visibleDays.length);
     const containerClsx = isVertical ? 'weekly-calendar__list' : 'weekly-calendar__grid';
 
     return (
@@ -121,9 +156,10 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
                     {headerActions}
                 </div>
                 <div className={containerClsx} role="list" aria-label={t('sectionHeader')}>
-                    {visibleDays.map(([dayIndex, entries]) => (
+                    {visibleDays.map(([dayIndex, entries], position) => (
                         <WeeklyCalendarDay
                             key={dayIndex}
+                            enterOffset={position}
                             dayIndex={Number(dayIndex)}
                             entries={entries}
                             isToday={Number(dayIndex) === todayIndex}
@@ -147,10 +183,11 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
                             {noAiringLabel ?? t('noUpcoming')}
                         </div>
                         <div className="weekly-calendar__section-entries">
-                            {noAiring.map((entry) => (
+                            {noAiring.map((entry, index) => (
                                 <AnimeCard
                                     key={entry.id}
                                     entry={entry}
+                                    enterIndex={index}
                                     isEditMode={isEditMode}
                                     isHidden={hiddenIds.includes(entry.id)}
                                     onToggle={() => onToggleEntry?.(entry.id)}

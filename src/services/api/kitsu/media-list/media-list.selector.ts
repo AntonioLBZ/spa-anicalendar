@@ -33,7 +33,7 @@ interface DenormalizedEntry {
     malId: number | undefined;
 }
 
-type WrappedAiring = { nextAiringEpisode?: AiringInfo; season?: MediaSeason; seasonYear?: number };
+type WrappedAiring = { nextAiringEpisode?: AiringInfo; season?: MediaSeason; seasonYear?: number; coverColor?: string };
 type MalAiringLookupValue = AiringInfo | WrappedAiring;
 
 // Older callers/tests pass a raw AiringInfo (no season data); newer ones pass the wrapped shape.
@@ -54,17 +54,20 @@ const selectAnimeEntry = (
 
     let season: MediaSeason | undefined;
     let seasonYear: number | undefined;
+    let coverColor: string | undefined;
 
     if (malLookup !== undefined) {
         if (isWrappedAiring(malLookup)) {
             season = malLookup.season;
             seasonYear = malLookup.seasonYear;
+            coverColor = malLookup.coverColor;
         }
     } else {
         const anilistId = anilistIdByAnimeId.get(anime.id);
         if (anilistId !== undefined && nextAiringByAnilistId[anilistId]) {
             season = nextAiringByAnilistId[anilistId].season;
             seasonYear = nextAiringByAnilistId[anilistId].seasonYear;
+            coverColor = nextAiringByAnilistId[anilistId].coverColor;
         }
     }
 
@@ -73,6 +76,7 @@ const selectAnimeEntry = (
         mediaId: Number(anime.id),
         title: anime.attributes.canonicalTitle,
         coverImageUrl: anime.attributes.posterImage?.large ?? anime.attributes.posterImage?.medium ?? '',
+        coverColor,
         episodes: anime.attributes.episodeCount ?? undefined,
         duration: anime.attributes.episodeLength ?? undefined,
         status: STATUS_MAP[anime.attributes.status] ?? 'NOT_YET_RELEASED',

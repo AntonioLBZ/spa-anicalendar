@@ -16,7 +16,7 @@ function hashUsername(name: string): number {
 const selectUser = (raw: MalUserResponse): User => ({
     id: hashUsername(raw.name),
     name: raw.name,
-    avatarUrl: DEFAULT_AVATAR_URL,
+    avatarUrl: raw.avatarUrl ?? DEFAULT_AVATAR_URL,
     siteUrl: `https://myanimelist.net/profile/${raw.name}`,
 });
 

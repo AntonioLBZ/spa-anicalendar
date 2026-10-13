@@ -6,6 +6,7 @@ const selectSeasonalEntry = (media: AnilistSeasonalMedia): AnimeEntry => ({
     mediaId: media.id,
     title: media.title.userPreferred,
     coverImageUrl: media.coverImage.large,
+    coverColor: media.coverImage.color ?? undefined,
     chapters: media.chapters ?? undefined,
     episodes: media.episodes ?? undefined,
     duration: media.duration ?? undefined,

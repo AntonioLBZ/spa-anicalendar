@@ -86,6 +86,20 @@ describe('selectAnimeEntry', () => {
         expect(entry.nextAiringEpisode).toEqual({ airingAt: 1784124000, episode: 11 });
     });
 
+    it("takes the cover's dominant color from the AniList lookup, by MAL id or by the AniList id fallback", () => {
+        const byMal = selectAnimeEntry(denormalized({ malId: 42 }), { 42: { coverColor: '#e4a15d' } });
+        const byAnilist = selectAnimeEntry(
+            denormalized({ anime: baseAnime({}, '10001') }),
+            NO_AIRING,
+            { 7: { coverColor: '#1a2b3c' } },
+            new Map([['10001', 7]]),
+        );
+
+        expect(byMal.coverColor).toBe('#e4a15d');
+        expect(byAnilist.coverColor).toBe('#1a2b3c');
+        expect(selectAnimeEntry(denormalized(), NO_AIRING).coverColor).toBeUndefined();
+    });
+
     it('omits nextAiringEpisode when current but there is no resolved MAL id for this anime', () => {
         const anime = baseAnime({ status: 'current' }, '10001');
         const entry = selectAnimeEntry(denormalized({ anime, malId: undefined }), { 42: { airingAt: 1784124000, episode: 11 } });

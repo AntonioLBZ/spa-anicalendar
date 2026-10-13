@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 
@@ -138,5 +138,57 @@ describe('AnimeCard showWatchStatus', () => {
         });
 
         expect(screen.getByText('Caught up!')).toBeInTheDocument();
+    });
+});
+
+describe('AnimeCard motion states', () => {
+    const getCard = (container: HTMLElement) => container.querySelector('.card') as HTMLElement;
+
+    it('marks the cover as loaded only once the image has loaded', async () => {
+        const { container } = render(<AnimeCard entry={entry} />, { wrapper: Wrapper });
+
+        expect(getCard(container)).not.toHaveClass('card--image-loaded');
+        fireEvent.load(screen.getByRole('img', { name: 'Test Anime' }));
+        // next/image reports the load after decoding, asynchronously
+        await waitFor(() => expect(getCard(container)).toHaveClass('card--image-loaded'));
+    });
+
+    it('caps the entrance stagger index', () => {
+        const { container } = render(<AnimeCard entry={entry} enterIndex={40} />, { wrapper: Wrapper });
+
+        expect(getCard(container).style.getPropertyValue('--card-index')).toBe('12');
+    });
+
+    it("paints the cover's dominant color behind the image, when the provider has one", () => {
+        const { container, rerender } = render(<AnimeCard entry={{ ...entry, coverColor: '#e4a15d' }} />, {
+            wrapper: Wrapper,
+        });
+        expect(getCard(container).style.getPropertyValue('--card-cover-color')).toBe('#e4a15d');
+
+        rerender(<AnimeCard entry={entry} />);
+        expect(getCard(container).style.getPropertyValue('--card-cover-color')).toBe('');
+    });
+
+    it("recedes the card once today's episode has aired", () => {
+        const { container, rerender } = render(<AnimeCard entry={entry} hasAiredToday />, { wrapper: Wrapper });
+        expect(getCard(container)).toHaveClass('card--aired');
+
+        rerender(<AnimeCard entry={entry} />);
+        expect(getCard(container)).not.toHaveClass('card--aired');
+    });
+
+    it('flags the next-airing card only during the last hour before airing', () => {
+        const now = Math.floor(Date.now() / 1000);
+        const soon = { ...entry, nextAiringEpisode: { airingAt: now + 30 * 60, episode: 4 } };
+        const later = { ...entry, nextAiringEpisode: { airingAt: now + 3 * 3600, episode: 4 } };
+
+        const { container, rerender } = render(<AnimeCard entry={soon} isNextAiring />, { wrapper: Wrapper });
+        expect(getCard(container)).toHaveClass('card--airing-soon');
+
+        rerender(<AnimeCard entry={later} isNextAiring />);
+        expect(getCard(container)).not.toHaveClass('card--airing-soon');
+
+        rerender(<AnimeCard entry={soon} />);
+        expect(getCard(container)).not.toHaveClass('card--airing-soon');
     });
 });

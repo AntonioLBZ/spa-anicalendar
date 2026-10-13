@@ -48,7 +48,13 @@
     /* Sizes */
     --size-border-focus: var(--size-12);
     --size-border-focus-offset: var(--size-12);
-    --size-border-radius: var(--size-37);
+
+    /* Radius */
+    --radius-xs: var(--size-25); /* chips, pills, option toggles */
+    --radius-s: var(--size-37); /* buttons, inputs, cards, day columns */
+    --radius-m: var(--size-50); /* toolbar, drawer panels */
+    --radius-l: var(--size-100); /* large standalone surfaces (home form) */
+    --radius-full: 9999px;
 
     /* Avatar */
     --avatar-size-s: var(--size-175);
@@ -61,6 +67,23 @@
     /* Header */
     --header-height: var(--size-350);
 
+    /* Motion */
+    --duration-fast: 120ms;
+    --duration-base: 200ms;
+    --duration-slow: 300ms;
+    --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+    --ease-enter: cubic-bezier(0.05, 0.7, 0.1, 1);
+    --ease-exit: cubic-bezier(0.3, 0, 0.8, 0.15);
+
+    /* Theme-independent colors */
+    --color-content-bright: rgb(237 241 245 / 90%);
+    --color-warning: rgb(245 158 11);
+    --color-status-releasing: rgb(34 197 94);
+    --color-status-finished: rgb(59 130 246);
+    --color-status-hiatus: rgb(245 158 11);
+    --color-status-cancelled: rgb(239 68 68);
+    --color-status-upcoming: rgb(168 85 247);
+
     /* ? Breakpoints:  768px (s) | 1024px (m) | 1440px (l) */
     @media (width <= 1440px) {
         --content-max-width: 1200px;
@@ -71,9 +94,128 @@
         --content-max-width: 100%;
         --content-padding-inline: var(--size-100);
     }
+
+    @media (prefers-reduced-motion: reduce) {
+        --duration-fast: 0ms;
+        --duration-base: 0ms;
+        --duration-slow: 0ms;
+    }
 }
 
 /** Colors */
+
+/*
+ * Color schemes (Settings → Color scheme), applied via `data-accent` on <html>/<body>.
+ * Each scheme defines its fill plus the per-theme shades the theme blocks below map onto
+ * semantic tokens. `default` is the original blue; the rest derive from AniList's profile colors.
+ * Shades are tuned to pass both WCAG 2 (≥4.5:1 for text) and APCA: Lc ≥66 for button/option
+ * labels on the fill, ≥72 for pills on the strong shade and for accent text in the light theme,
+ * ≥62 for accent text on dark surfaces and over cover art.
+ */
+:root,
+[data-accent='default'] {
+    --accent-fill: rgb(49 111 237);
+    --accent-fill-strong: rgb(44 100 213);
+    --accent-on-fill: rgb(255 255 255);
+    --accent-text-dark: rgb(152 186 255);
+    --accent-text-light: rgb(40 90 194);
+    --accent-focus-dark: rgb(53 119 255);
+    --accent-focus-light: rgb(53 119 255);
+    --accent-highlight-dark: rgb(0 98 255 / 18.5%);
+    --accent-highlight-light: rgb(59 131 246 / 15%);
+    --accent-on-media: rgb(148 183 255);
+}
+
+[data-accent='anilist'] {
+    --accent-fill: rgb(106 197 245);
+    --accent-fill-strong: rgb(134 208 247);
+    --accent-on-fill: rgb(10 22 37);
+    --accent-text-dark: rgb(100 195 245);
+    --accent-text-light: rgb(35 103 138);
+    --accent-focus-dark: rgb(61 180 242);
+    --accent-focus-light: rgb(49 146 196);
+    --accent-highlight-dark: rgb(106 197 245 / 15%);
+    --accent-highlight-light: rgb(106 197 245 / 15%);
+    --accent-on-media: rgb(94 193 244);
+}
+
+[data-accent='purple'] {
+    --accent-fill: rgb(159 82 212);
+    --accent-fill-strong: rgb(143 74 191);
+    --accent-on-fill: rgb(255 255 255);
+    --accent-text-dark: rgb(218 163 255);
+    --accent-text-light: rgb(129 66 171);
+    --accent-focus-dark: rgb(192 99 255);
+    --accent-focus-light: rgb(186 96 247);
+    --accent-highlight-dark: rgb(159 82 212 / 15%);
+    --accent-highlight-light: rgb(159 82 212 / 15%);
+    --accent-on-media: rgb(217 160 255);
+}
+
+[data-accent='pink'] {
+    --accent-fill: rgb(252 157 214);
+    --accent-fill-strong: rgb(253 174 221);
+    --accent-on-fill: rgb(10 22 37);
+    --accent-text-dark: rgb(252 157 214);
+    --accent-text-light: rgb(129 80 109);
+    --accent-focus-dark: rgb(252 157 214);
+    --accent-focus-light: rgb(186 116 158);
+    --accent-highlight-dark: rgb(252 157 214 / 15%);
+    --accent-highlight-light: rgb(252 157 214 / 15%);
+    --accent-on-media: rgb(252 157 214);
+}
+
+[data-accent='orange'] {
+    --accent-fill: rgb(244 172 95);
+    --accent-fill-strong: rgb(246 187 124);
+    --accent-on-fill: rgb(10 22 37);
+    --accent-text-dark: rgb(243 169 90);
+    --accent-text-light: rgb(141 80 15);
+    --accent-focus-dark: rgb(239 136 26);
+    --accent-focus-light: rgb(203 116 22);
+    --accent-highlight-dark: rgb(244 172 95 / 15%);
+    --accent-highlight-light: rgb(244 172 95 / 15%);
+    --accent-on-media: rgb(243 167 86);
+}
+
+[data-accent='red'] {
+    --accent-fill: rgb(223 50 50);
+    --accent-fill-strong: rgb(201 45 45);
+    --accent-on-fill: rgb(255 255 255);
+    --accent-text-dark: rgb(242 165 165);
+    --accent-text-light: rgb(178 40 40);
+    --accent-focus-dark: rgb(225 51 51);
+    --accent-focus-light: rgb(225 51 51);
+    --accent-highlight-dark: rgb(223 50 50 / 15%);
+    --accent-highlight-light: rgb(223 50 50 / 15%);
+    --accent-on-media: rgb(242 163 163);
+}
+
+[data-accent='green'] {
+    --accent-fill: rgb(103 210 107);
+    --accent-fill-strong: rgb(129 218 132);
+    --accent-on-fill: rgb(10 22 37);
+    --accent-text-dark: rgb(96 208 100);
+    --accent-text-light: rgb(41 109 44);
+    --accent-focus-dark: rgb(76 202 81);
+    --accent-focus-light: rgb(59 158 63);
+    --accent-highlight-dark: rgb(103 210 107 / 15%);
+    --accent-highlight-light: rgb(103 210 107 / 15%);
+    --accent-on-media: rgb(89 206 93);
+}
+
+[data-accent='gray'] {
+    --accent-fill: rgb(100 119 144);
+    --accent-fill-strong: rgb(90 107 130);
+    --accent-on-fill: rgb(255 255 255);
+    --accent-text-dark: rgb(176 186 199);
+    --accent-text-light: rgb(82 98 118);
+    --accent-focus-dark: rgb(103 123 148);
+    --accent-focus-light: rgb(103 123 148);
+    --accent-highlight-dark: rgb(100 119 144 / 15%);
+    --accent-highlight-light: rgb(100 119 144 / 15%);
+    --accent-on-media: rgb(174 185 198);
+}
 
 [data-theme='dark'] {
     /* Background */
@@ -82,35 +224,34 @@
     --color-bg-secondary: rgb(21 34 50);
     --color-bg-secondary-hover: rgb(30 44 62);
     --color-bg-overlay: rgb(31 38 49 / 70%);
-    --color-bg-highlight: rgb(0 98 255 / 18.5%);
+    --color-bg-highlight: var(--accent-highlight-dark);
+    --color-skeleton: var(--color-bg-primary);
+    --color-skeleton-shine: rgb(30 44 62);
 
     /* Content */
     --color-content-primary: rgb(255 255 255);
     --color-content-secondary: rgb(160 177 197);
-    --color-content-bright: rgb(237 241 245 / 90%);
-    --color-content-bg-primary: rgb(53 119 255);
 
     /* Borders */
-    --color-border: rgb(255 255 255);
-    --color-border-focus: rgb(53 119 255);
+    --color-border: rgb(255 255 255 / 12%);
+    --color-border-focus: var(--accent-focus-dark);
 
     /* Elevation */
-    --color-border-elevation: rgb(8 150 230 / 60%);
-    --color-border-elevation-2: rgb(0 0 0 / 40%);
+    --shadow-1: 0 1px 2px rgb(0 0 0 / 30%), 0 4px 12px rgb(0 0 0 / 20%);
+    --shadow-2: 0 4px 8px rgb(0 0 0 / 30%), 0 16px 32px rgb(0 0 0 / 40%);
+    --shadow-3: 0 8px 16px rgb(0 0 0 / 35%), 0 24px 48px rgb(0 0 0 / 50%);
 
-    /* Colors */
-    --color-warning: rgb(245 158 11);
-    --color-danger: rgb(239 68 68);
-    --color-status-releasing: rgb(34 197 94);
-    --color-status-finished: rgb(59 130 246);
-    --color-status-hiatus: rgb(245 158 11);
-    --color-status-cancelled: rgb(239 68 68);
-    --color-status-upcoming: rgb(168 85 247);
+    /* Feedback */
+    --color-danger: rgb(248 113 113);
 
     /* Accent */
-    --color-accent: rgb(59 130 246);
-    --color-bg-accent: rgb(37 99 235);
-    --color-content-on-accent: rgb(255 255 255);
+    --color-accent: var(--accent-text-dark);
+    --color-bg-accent: var(--accent-fill);
+    --color-bg-accent-strong: var(--accent-fill-strong);
+    --color-content-on-accent: var(--accent-on-fill);
+    --color-accent-on-media: var(--accent-on-media);
+
+    color-scheme: dark;
 }
 
 [data-theme='light'] {
@@ -120,35 +261,34 @@
     --color-bg-primary-hover: rgb(223 234 250);
     --color-bg-secondary-hover: rgb(236 243 255);
     --color-bg-overlay: rgb(49 56 64 / 40%);
-    --color-bg-highlight: rgb(59 131 246 / 15%);
+    --color-bg-highlight: var(--accent-highlight-light);
+    --color-skeleton: var(--color-bg-primary);
+    --color-skeleton-shine: rgb(255 255 255);
 
     /* Content */
     --color-content-primary: rgb(75 93 113);
-    --color-content-secondary: rgb(114 131 145);
-    --color-content-bright: rgb(237 241 245 / 90%);
-    --color-content-bg-primary: rgb(53 119 255);
+    --color-content-secondary: rgb(90 107 124);
 
     /* Borders */
     --color-border: rgb(216 224 232);
-    --color-border-focus: rgb(53 119 255);
+    --color-border-focus: var(--accent-focus-light);
 
-    /* Elevation */
-    --color-border-elevation: rgb(0 0 0 / 6%);
-    --color-border-elevation-2: rgb(0 0 0 / 10%);
+    /* Elevation (blue-tinted, AniList-style) */
+    --shadow-1: 0 1px 2px rgb(103 132 187 / 8%), 0 4px 14px rgb(103 132 187 / 12%);
+    --shadow-2: 0 4px 4px rgb(103 132 187 / 5%), 0 14px 30px rgb(103 132 187 / 18%);
+    --shadow-3: 0 6px 12px rgb(103 132 187 / 12%), 0 22px 44px rgb(103 132 187 / 28%);
 
-    /* Colors */
-    --color-warning: rgb(245 158 11);
-    --color-danger: rgb(239 68 68);
-    --color-status-releasing: rgb(34 197 94);
-    --color-status-finished: rgb(59 130 246);
-    --color-status-hiatus: rgb(245 158 11);
-    --color-status-cancelled: rgb(239 68 68);
-    --color-status-upcoming: rgb(168 85 247);
+    /* Feedback */
+    --color-danger: rgb(200 30 30);
 
     /* Accent */
-    --color-accent: rgb(59 130 246);
-    --color-bg-accent: rgb(37 99 235);
-    --color-content-on-accent: rgb(255 255 255);
+    --color-accent: var(--accent-text-light);
+    --color-bg-accent: var(--accent-fill);
+    --color-bg-accent-strong: var(--accent-fill-strong);
+    --color-content-on-accent: var(--accent-on-fill);
+    --color-accent-on-media: var(--accent-on-media);
+
+    color-scheme: light;
 }
 
 body {
@@ -156,7 +296,22 @@ body {
     font-family: var(--font-inter), sans-serif;
 }
 
-.theme-root {
-    background: var(--color-bg-primary);
-    color: var(--color-content-primary);
+/* Theme and color-scheme changes fade colors instead of snapping (see `lib/color-transition.ts`). It briefly
+ * stands in for components' own transitions, so it also covers the properties they animate. */
+:root[data-color-transition],
+:root[data-color-transition] *,
+:root[data-color-transition] *::before,
+:root[data-color-transition] *::after {
+    transition-duration: var(--duration-slow);
+    transition-property:
+        background-color, border-color, box-shadow, color, fill, opacity, outline-color, stroke, transform;
+    transition-timing-function: var(--ease-standard);
+}
+
+/* Form controls don't inherit the page font by default */
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
 }

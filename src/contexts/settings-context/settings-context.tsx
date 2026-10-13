@@ -2,13 +2,16 @@
 
 import { useSyncExternalStore, useLayoutEffect, useMemo, useCallback, type ReactNode } from 'react';
 
+import { withColorTransition } from '@/lib/color-transition';
 import { createContext } from '@/lib/context';
 import { createPersistedStore } from '@/lib/create-persisted-store';
 
 import { useResolvedTheme } from '../../lib/use-theme';
 
 import type {
+    AccentColor,
     EmptyDaysMode,
+    ResolvedAccentColor,
     ThemeMode,
     WeekStartDay,
     TimeFormat,
@@ -22,6 +25,8 @@ const STORAGE_KEY = 'anicalendar-settings';
 type SettingsState = {
     provider: Provider;
     theme: ThemeMode;
+    accentColor: AccentColor;
+    profileAccentColor: ResolvedAccentColor | null;
     emptyDaysMode: EmptyDaysMode;
     weekStartDay: WeekStartDay;
     timeFormat: TimeFormat;
@@ -32,6 +37,8 @@ type SettingsState = {
 const DEFAULTS: SettingsState = {
     provider: 'anilist',
     theme: 'system',
+    accentColor: 'profile',
+    profileAccentColor: null,
     emptyDaysMode: 'show',
     weekStartDay: 'monday',
     timeFormat: '24h',
@@ -61,7 +68,22 @@ const SettingsProvider = (props: { children: ReactNode }) => {
     }, []);
 
     const setProvider = useCallback((v: Provider) => settingsStore.set((s) => ({ ...s, provider: v })), []);
-    const setTheme = useCallback((v: ThemeMode) => settingsStore.set((s) => ({ ...s, theme: v })), []);
+    const setTheme = useCallback(
+        (v: ThemeMode) => withColorTransition(() => settingsStore.set((s) => ({ ...s, theme: v }))),
+        []
+    );
+    const setAccentColor = useCallback(
+        (v: AccentColor) => withColorTransition(() => settingsStore.set((s) => ({ ...s, accentColor: v }))),
+        []
+    );
+    // Fades only when the change is visible, i.e. while the scheme follows the profile
+    const setProfileAccentColor = useCallback((v: ResolvedAccentColor) => {
+        const { accentColor, profileAccentColor } = settingsStore.getSnapshot();
+        if (profileAccentColor === v) return;
+        const update = () => settingsStore.set((s) => ({ ...s, profileAccentColor: v }));
+        if (accentColor === 'profile') withColorTransition(update);
+        else update();
+    }, []);
     const setEmptyDaysMode = useCallback(
         (v: EmptyDaysMode) => settingsStore.set((s) => ({ ...s, emptyDaysMode: v })),
         []
@@ -81,6 +103,14 @@ const SettingsProvider = (props: { children: ReactNode }) => {
             theme: settings.theme,
             resolvedTheme: resolvedTheme(settings.theme),
             setTheme,
+            accentColor: settings.accentColor,
+            resolvedAccentColor:
+                settings.accentColor === 'profile'
+                    ? (settings.profileAccentColor ?? 'default')
+                    : settings.accentColor,
+            setAccentColor,
+            profileAccentColor: settings.profileAccentColor,
+            setProfileAccentColor,
             emptyDaysMode: settings.emptyDaysMode,
             setEmptyDaysMode,
             weekStartDay: settings.weekStartDay,
@@ -97,6 +127,8 @@ const SettingsProvider = (props: { children: ReactNode }) => {
             setProvider,
             setTheme,
             resolvedTheme,
+            setAccentColor,
+            setProfileAccentColor,
             setEmptyDaysMode,
             setWeekStartDay,
             setTimeFormat,

@@ -5,6 +5,7 @@ import { Button, ErrorState, Link } from '@/components';
 import { useSeasonalFilters } from '@/contexts';
 import { CalendarToolbar } from '@/features/calendar-toolbar';
 import { useEntryVisibility } from '@/features/entry-visibility';
+import { HiddenEntriesNotice } from '@/features/hidden-entries-notice';
 import { filterByContent, filterByHidden, WeeklyCalendar } from '@/features/weekly-calendar';
 import { getCalendarStats } from '@/lib/airing';
 import { Link as NavLink } from '@/lib/i18n/navigation';
@@ -16,9 +17,12 @@ import type { AiringViewProps } from './airing-view.types';
 const AiringView = (props: AiringViewProps) => {
     const {
         entries,
+        isLoading,
         error,
         onRetry,
+        filteredOutCount = 0,
         scope,
+        banner,
         disclosure,
         emptyMessage,
         noAiringLabel,
@@ -64,6 +68,7 @@ const AiringView = (props: AiringViewProps) => {
     return (
         <main className="airing-view">
             <div className="airing-view__content">
+                {banner}
                 {disclosure && <p className="airing-view__disclosure body-s">{disclosure}</p>}
                 <CalendarToolbar
                     stats={stats}
@@ -72,8 +77,20 @@ const AiringView = (props: AiringViewProps) => {
                     showCurrentSeasonLink={showCurrentSeasonLink}
                     showNextSeasonLink={showNextSeasonLink}
                 />
+                {!isLoading && !visibility.state.isEditMode && (
+                    <HiddenEntriesNotice
+                        scope={scope}
+                        contentFilter={filters.contentFilter}
+                        counts={{
+                            content: entries.length - editableEntries.length,
+                            manual: visibility.data.hiddenCount,
+                            listFilters: filteredOutCount,
+                        }}
+                    />
+                )}
                 <WeeklyCalendar
                     entries={entries}
+                    isLoading={isLoading}
                     isEditMode={visibility.state.isEditMode}
                     hiddenIds={visibility.data.hiddenIds}
                     onToggleEntry={visibility.actions.toggleDraftHidden}

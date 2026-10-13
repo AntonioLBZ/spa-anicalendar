@@ -1,5 +1,5 @@
 .link {
-    border-radius: var(--size-25);
+    border-radius: var(--radius-xs);
     color: var(--color-content-primary);
     text-decoration: underline;
 }

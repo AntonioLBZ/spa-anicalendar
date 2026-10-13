@@ -2,17 +2,22 @@ import { notFound } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 
 import { useSeasonalFilters } from '@/contexts';
+import { accentFromProfileColor, useSettingsContext } from '@/contexts/settings-context';
 import { useUserContext } from '@/contexts/user-context';
 import { useRouter } from '@/lib/i18n/navigation';
 import { isUserNotFoundError, useMediaList, useUser } from '@/services';
 
 import { buildRequestedStatuses, filterAiringEntries } from './use-airing-data.filters';
 
+import type { AiringFilters } from './use-airing-data.filters';
 import type { Provider } from '@/services/api/api.types';
+
+const NO_LIST_FILTERS: AiringFilters = { formats: [], onlyNewSeason: false };
 
 const useAiringData = (userName: string | null, provider: Provider) => {
     const router = useRouter();
     const { setUser } = useUserContext();
+    const { setProfileAccentColor } = useSettingsContext();
     const { filters } = useSeasonalFilters();
 
     useEffect(() => {
@@ -24,10 +29,12 @@ const useAiringData = (userName: string | null, provider: Provider) => {
     const userQuery = useUser(provider, userName);
 
     useEffect(() => {
-        if (userQuery.data) {
-            setUser?.(userQuery.data);
-        }
-    }, [userQuery.data, setUser]);
+        if (!userQuery.data) return;
+        setUser?.(userQuery.data);
+
+        const profileAccent = accentFromProfileColor(userQuery.data.profileColor);
+        if (profileAccent) setProfileAccentColor(profileAccent);
+    }, [userQuery.data, setUser, setProfileAccentColor]);
 
     // Clear the header's user on unmount
     useEffect(() => {
@@ -52,6 +59,13 @@ const useAiringData = (userName: string | null, provider: Provider) => {
         [mediaListQuery.data, filters.onlyNewSeason, filters.formats],
     );
 
+    // Only the difference caused by the user's format / new-season choices; entries that are out of
+    // season regardless of filters aren't "hidden", they just don't belong in this schedule.
+    const filteredOutCount = useMemo(
+        () => filterAiringEntries(mediaListQuery.data ?? [], NO_LIST_FILTERS).length - entries.length,
+        [mediaListQuery.data, entries],
+    );
+
     const retry = () => {
         if (userQuery.error) {
             userQuery.refetch();
@@ -66,7 +80,9 @@ const useAiringData = (userName: string | null, provider: Provider) => {
             isLoading: userQuery.isLoading || mediaListQuery.isLoading,
         },
         data: {
+            user: userQuery.data,
             entries,
+            filteredOutCount,
         },
         actions: {
             retry,

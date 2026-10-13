@@ -2,6 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { SettingsProvider } from '@/contexts';
+import { getTodayIndex } from '@/lib/airing';
 import { IntlTestWrapper } from '@/lib/test/intl-wrapper';
 import { MemoryStorage } from '@/lib/test/memory-storage';
 
@@ -130,5 +131,47 @@ describe('WeeklyCalendar layout', () => {
         await waitFor(() => {
             expect(screen.getAllByRole('listitem')).toHaveLength(1);
         });
+    });
+});
+
+describe('WeeklyCalendar loading state', () => {
+    it('announces loading and shows a placeholder schedule instead of the empty message', async () => {
+        setStoredSettings({ calendarLayout: 'grid' });
+
+        const { container } = render(<WeeklyCalendar entries={[]} isLoading emptyMessage="Nothing here" />, {
+            wrapper: Wrapper,
+        });
+
+        expect(await screen.findByRole('status')).toHaveTextContent('Loading schedule…');
+        expect(screen.queryByText('Nothing here')).not.toBeInTheDocument();
+        expect(screen.queryByRole('list')).not.toBeInTheDocument();
+        expect(container.querySelector('.weekly-calendar')).toHaveAttribute('aria-busy', 'true');
+        expect(container.querySelectorAll('.day')).toHaveLength(7);
+        expect(container.querySelectorAll('.day__skeleton-card').length).toBeGreaterThan(0);
+    });
+
+    it('shows the empty message once loading finishes with no entries', async () => {
+        setStoredSettings({ calendarLayout: 'grid' });
+
+        render(<WeeklyCalendar entries={[]} isLoading={false} emptyMessage="Nothing here" />, { wrapper: Wrapper });
+
+        expect(await screen.findByText('Nothing here')).toBeInTheDocument();
+        expect(screen.queryByRole('status')).not.toBeInTheDocument();
+    });
+});
+
+describe("WeeklyCalendar today's column", () => {
+    it('dims entries whose episode already aired today, and only in that column', async () => {
+        setStoredSettings({ calendarLayout: 'grid' });
+        const todayIndex = getTodayIndex('monday');
+        // The mocked airing day is the timestamp itself, so these episodes are long past, not later today
+        const entries = [makeEntry(1, todayIndex), makeEntry(2, (todayIndex + 1) % 7)];
+
+        render(<WeeklyCalendar entries={entries} />, { wrapper: Wrapper });
+
+        const airedToday = (await screen.findByText('Anime 1')).closest('.card');
+        const otherDay = screen.getByText('Anime 2').closest('.card');
+        expect(airedToday).toHaveClass('card--aired');
+        expect(otherDay).not.toHaveClass('card--aired');
     });
 });

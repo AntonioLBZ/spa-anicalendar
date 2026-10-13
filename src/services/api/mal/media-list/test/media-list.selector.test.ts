@@ -5,7 +5,10 @@ import { selectAnimeEntry } from '../media-list.selector';
 import type { MalAnimeListEntry } from '../media-list.types';
 import type { AiringInfo, MediaSeason } from '@/services/models';
 
-type MalAiringLookup = Record<number, { nextAiringEpisode?: AiringInfo; season?: MediaSeason; seasonYear?: number }>;
+type MalAiringLookup = Record<
+    number,
+    { nextAiringEpisode?: AiringInfo; season?: MediaSeason; seasonYear?: number; coverColor?: string }
+>;
 
 function baseNode(overrides: Partial<MalAnimeListEntry['node']> = {}): MalAnimeListEntry['node'] {
     return {
@@ -74,6 +77,16 @@ describe('selectAnimeEntry', () => {
             richLookup,
         );
         expect(finished.nextAiringEpisode).toBeUndefined();
+    });
+
+    it("takes the cover's dominant color from the AniList lookup", () => {
+        const entry = selectAnimeEntry(
+            { node: baseNode({ id: 42, status: 'currently_airing' }), list_status: baseListStatus() },
+            { 42: { coverColor: '#e4a15d' } },
+        );
+
+        expect(entry.coverColor).toBe('#e4a15d');
+        expect(selectAnimeEntry({ node: baseNode(), list_status: baseListStatus() }, NO_AIRING).coverColor).toBeUndefined();
     });
 
     it('omits nextAiringEpisode when currently_airing but AniList has no entry for this MAL id', () => {

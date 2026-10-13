@@ -2,28 +2,47 @@
     background-color: var(--color-bg-overlay);
     inset: 0;
     position: fixed;
+    transition: opacity var(--duration-slow) var(--ease-standard);
     z-index: 100;
 }
 
+.drawer__overlay[data-entering],
+.drawer__overlay[data-exiting] {
+    opacity: 0;
+}
+
+.drawer__overlay[data-exiting] {
+    transition-duration: var(--duration-base);
+    transition-timing-function: var(--ease-exit);
+}
+
+/* The dialog receives focus on open only to trap it; its own outline isn't meaningful */
 .drawer__dialog {
     display: flex;
     flex-direction: column;
     gap: var(--size-100);
     height: 100%;
+    outline: none;
     width: 100%;
 }
 
 .drawer {
     background-color: var(--color-bg-primary);
     block-size: 100%;
-    box-shadow: 0 0 var(--size-100) var(--color-border-elevation-2);
+    box-shadow: var(--shadow-2);
     inline-size: 100%;
     inset-block: 0;
     max-inline-size: var(--size-2000);
     overflow-y: auto;
     padding: var(--size-100);
     position: fixed;
-    transition: transform 0.25s ease;
+    transition: transform var(--duration-slow) var(--ease-enter);
+}
+
+/* Leaving is quicker and accelerates out, so dismissing feels immediate */
+.drawer[data-exiting] {
+    transition-duration: var(--duration-base);
+    transition-timing-function: var(--ease-exit);
 }
 
 .drawer--right {
@@ -44,10 +63,25 @@
     transform: translateX(-100%);
 }
 
+.drawer--bottom {
+    block-size: auto;
+    border-start-end-radius: var(--radius-l);
+    border-start-start-radius: var(--radius-l);
+    inset-block: auto 0;
+    inset-inline: 0;
+    max-block-size: 85dvh;
+    max-inline-size: none;
+}
+
+.drawer--bottom[data-entering],
+.drawer--bottom[data-exiting] {
+    transform: translateY(100%);
+}
+
 .drawer__header {
     align-items: center;
     background-color: var(--color-bg-secondary);
-    border-radius: var(--size-50);
+    border-radius: var(--radius-m);
     color: var(--color-content-primary);
     display: flex;
     justify-content: space-between;
@@ -56,15 +90,9 @@
 
 .drawer__body {
     background-color: var(--color-bg-secondary);
-    border-radius: var(--size-50);
+    border-radius: var(--radius-m);
     display: flex;
     flex-direction: column;
     height: 100%;
     padding: var(--size-100);
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .drawer {
-        transition: none;
-    }
 }

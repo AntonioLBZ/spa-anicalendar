@@ -1,10 +1,14 @@
 .button {
     align-items: center;
     border: none;
-    border-radius: var(--size-border-radius);
+    border-radius: var(--radius-s);
     cursor: pointer;
     display: inline-flex;
     justify-content: center;
+    transition:
+        background-color var(--duration-fast) var(--ease-standard),
+        color var(--duration-fast) var(--ease-standard),
+        transform var(--duration-fast) var(--ease-standard);
 }
 
 .button--size-s {
@@ -31,12 +35,11 @@
 }
 
 .button--primary {
-    --button-hover-bg: var(--color-bg-accent);
-    --button-pressed-bg: var(--color-bg-accent);
+    --button-hover-bg: var(--color-bg-accent-strong);
+    --button-pressed-bg: var(--color-bg-accent-strong);
     --button-hover-color: var(--color-content-on-accent);
 
-    background-color: var(--color-content-bg-primary);
-    box-shadow: 0 0 0 var(--color-border-elevation);
+    background-color: var(--color-bg-accent);
     color: var(--color-content-on-accent);
 }
 
@@ -65,8 +68,10 @@
     color: var(--button-hover-color);
 }
 
-.button[data-pressed] {
+.button[data-pressed],
+.button-link:active {
     background-color: var(--button-pressed-bg);
+    transform: scale(0.97);
 }
 
 .button[data-focus-visible] {

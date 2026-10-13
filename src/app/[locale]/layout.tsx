@@ -7,8 +7,8 @@ import { Suspense, type ReactNode } from 'react';
 
 import { Footer } from '@/features/footer';
 import { Header } from '@/features/header';
-import { BRAND_BACKGROUND } from '@/lib/brand';
-import { inter } from '@/lib/fonts';
+import { THEME_COLORS } from '@/lib/brand';
+import { inter, overpass } from '@/lib/fonts';
 import { routing } from '@/lib/i18n/routing';
 
 import { Providers } from '../providers';
@@ -31,8 +31,12 @@ const generateMetadata = async (props: { params: Promise<{ locale: string }> }):
     };
 };
 
+// Matches the system theme before hydration; `ThemedBody` then follows the theme chosen in settings
 const viewport: Viewport = {
-    themeColor: BRAND_BACKGROUND,
+    themeColor: [
+        { media: '(prefers-color-scheme: dark)', color: THEME_COLORS.dark },
+        { media: '(prefers-color-scheme: light)', color: THEME_COLORS.light },
+    ],
 };
 
 export default async function LocaleLayout(props: { children: ReactNode; params: Promise<{ locale: string }> }) {
@@ -47,7 +51,7 @@ export default async function LocaleLayout(props: { children: ReactNode; params:
 
     return (
         // <body> is rendered inside <Providers> (see ThemedBody in providers.tsx)
-        <html lang={locale} className={inter.variable}>
+        <html lang={locale} className={`${inter.variable} ${overpass.variable}`}>
             <NextIntlClientProvider>
                 <Providers>
                     <Header />

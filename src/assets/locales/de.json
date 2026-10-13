@@ -7,9 +7,11 @@
         "brand": "Anicalendar"
     },
     "home": {
-        "title": "Gib deinen Benutzernamen ein, um deinen wöchentlichen Sendeplan zu sehen.",
-        "subtitle": "Wir nutzen nur deine öffentlichen Daten und ändern nichts an deinem Konto.",
+        "headline": "Deine Anime-Woche auf einen Blick",
+        "intro": "Gib deinen Benutzernamen ein, um deinen wöchentlichen Sendeplan zu sehen.",
+        "privacy": "Wir nutzen nur deine öffentlichen Daten und ändern nichts an deinem Konto.",
         "usernameLabel": "Benutzername",
+        "providerUsernameLabel": "{provider}-Benutzername",
         "clearUsername": "Leeren",
         "errorUserNotFound": "Benutzer nicht gefunden. Prüfe, ob dein Profil öffentlich ist.",
         "errorGeneric": "Etwas ist schiefgelaufen. Bitte versuch es erneut.",
@@ -51,6 +53,14 @@
         "nextSeasonEmptyList": "Keine Animes für die nächste Saison gefunden.",
         "finishedLabel": "Abgeschlossen",
         "noAirDateLabel": "Noch kein Sendetermin"
+    },
+    "hiddenEntriesNotice": {
+        "message": "<b>{summary}</b>: {reasons}.",
+        "summary": "{count, plural, one {# Anime ausgeblendet} other {# Animes ausgeblendet}} durch deine Sichtbarkeitseinstellungen",
+        "content": "{count} durch den Inhaltsfilter {filter}",
+        "manual": "{count} manuell ausgeblendet",
+        "listFilters": "{count} durch die Format- oder Neuerscheinungsfilter",
+        "dismiss": "Hinweis schließen"
     },
     "seasonalFilters": {
         "contentLabel": "Inhalt",
@@ -107,6 +117,7 @@
         "close": "Einstellungen schließen",
         "sections": {
             "theme": "Design",
+            "accent": "Farbschema",
             "layout": "Ansicht",
             "emptyDays": "Leere Tage",
             "weekStart": "Wochenstart",
@@ -116,6 +127,17 @@
             "system": "System",
             "dark": "Dunkel",
             "light": "Hell"
+        },
+        "accent": {
+            "profile": "AniList-Profil",
+            "default": "Ozean",
+            "anilist": "Himmel",
+            "purple": "Glyzinie",
+            "pink": "Sakura",
+            "orange": "Abendrot",
+            "red": "Glut",
+            "green": "Bambus",
+            "gray": "Regen"
         },
         "layout": {
             "auto": "Auto",
@@ -154,6 +176,7 @@
     },
     "weeklyCalendar": {
         "emptyList": "Keine Animes in deiner Watchlist.",
+        "loading": "Sendeplan wird geladen…",
         "sectionHeader": "Wöchentlicher Anime-Sendeplan",
         "noUpcoming": "Keine kommenden Folgen",
         "today": "Heute",
@@ -179,5 +202,8 @@
                 "sunday": "S"
             }
         }
+    },
+    "profileBanner": {
+        "viewProfile": "Profil auf {provider} ansehen"
     }
 }

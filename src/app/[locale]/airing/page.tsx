@@ -13,6 +13,7 @@ export default function SeasonalAiringPage() {
     return (
         <AiringView
             entries={airing.data.entries}
+            isLoading={airing.state.isLoading}
             error={airing.state.error}
             onRetry={airing.actions.retry}
             scope={airing.data.scope}

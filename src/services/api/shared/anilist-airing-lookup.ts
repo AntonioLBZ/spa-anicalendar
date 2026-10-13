@@ -13,13 +13,19 @@ function chunk<T>(items: T[], size: number): T[][] {
     return chunks;
 }
 
-type AiringLookupEntry = { nextAiringEpisode?: AiringInfo; season?: MediaSeason; seasonYear?: number };
+type AiringLookupEntry = {
+    nextAiringEpisode?: AiringInfo;
+    season?: MediaSeason;
+    seasonYear?: number;
+    coverColor?: string;
+};
 type AiringLookupResult = Record<number, AiringLookupEntry>;
 
 interface AiringLookupMedia {
     nextAiringEpisode: AiringInfo | null;
     season: MediaSeason | null;
     seasonYear: number | null;
+    coverImage: { color: string | null } | null;
 }
 
 interface AiringLookupResponse<TMedia extends AiringLookupMedia> {
@@ -61,6 +67,7 @@ async function fetchAiringLookup<TMedia extends AiringLookupMedia>(
                         nextAiringEpisode: media.nextAiringEpisode ?? undefined,
                         season: media.season ?? undefined,
                         seasonYear: media.seasonYear ?? undefined,
+                        coverColor: media.coverImage?.color ?? undefined,
                     };
                 }
             }
@@ -88,6 +95,9 @@ query NextAiringByMalId($idMalIn: [Int], $perPage: Int) {
       }
       season
       seasonYear
+      coverImage {
+        color
+      }
     }
   }
 }
@@ -112,6 +122,9 @@ query NextAiringByAnilistId($idIn: [Int], $perPage: Int) {
       }
       season
       seasonYear
+      coverImage {
+        color
+      }
     }
   }
 }

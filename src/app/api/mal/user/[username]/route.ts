@@ -1,3 +1,4 @@
+import { fetchMalAvatarUrl } from '../../_lib/mal-profile';
 import { fetchMalUpstream, isValidUsername } from '../../_lib/mal-upstream';
 
 export const dynamic = 'force-dynamic';
@@ -9,13 +10,17 @@ async function GET(_request: Request, { params }: { params: Promise<{ username: 
         return Response.json({ error: 'invalid username' }, { status: 400 });
     }
 
+    // Requested alongside the probe so the avatar adds no latency; ignored if the user doesn't exist
+    const avatarUrlPromise = fetchMalAvatarUrl(username);
     const probe = await fetchMalUpstream(`/users/${encodeURIComponent(username)}/animelist?limit=1`);
 
     if (probe.status !== 200) {
         return probe;
     }
 
-    return Response.json({ name: username }, { status: 200 });
+    const avatarUrl = await avatarUrlPromise;
+
+    return Response.json({ name: username, ...(avatarUrl && { avatarUrl }) }, { status: 200 });
 }
 
 export { GET };

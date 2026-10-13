@@ -7,9 +7,11 @@
         "brand": "Anicalendar"
     },
     "home": {
-        "title": "Entre ton pseudo pour voir ton calendrier hebdomadaire de diffusion.",
-        "subtitle": "On utilise uniquement tes données publiques, sans rien modifier sur ton compte.",
+        "headline": "Votre semaine d'anime en un coup d'œil",
+        "intro": "Entre ton pseudo pour voir ton calendrier hebdomadaire de diffusion.",
+        "privacy": "On utilise uniquement tes données publiques, sans rien modifier sur ton compte.",
         "usernameLabel": "Nom d'utilisateur",
+        "providerUsernameLabel": "Nom d'utilisateur {provider}",
         "clearUsername": "Effacer",
         "errorUserNotFound": "Utilisateur introuvable. Vérifie que ton profil est public.",
         "errorGeneric": "Une erreur est survenue. Réessaie.",
@@ -51,6 +53,14 @@
         "nextSeasonEmptyList": "Aucun anime trouvé pour la saison prochaine.",
         "finishedLabel": "Terminés",
         "noAirDateLabel": "Date de diffusion inconnue"
+    },
+    "hiddenEntriesNotice": {
+        "message": "<b>{summary}</b> : {reasons}.",
+        "summary": "{count, plural, one {# anime masqué} other {# animes masqués}} par tes réglages de visibilité",
+        "content": "{count} par le filtre de contenu {filter}",
+        "manual": "{count, plural, one {# masqué} other {# masqués}} manuellement",
+        "listFilters": "{count} par les filtres de format ou de nouveautés",
+        "dismiss": "Fermer l'avis"
     },
     "seasonalFilters": {
         "contentLabel": "Contenu",
@@ -107,6 +117,7 @@
         "close": "Fermer les paramètres",
         "sections": {
             "theme": "Thème",
+            "accent": "Palette de couleurs",
             "layout": "Disposition",
             "emptyDays": "Jours vides",
             "weekStart": "Début de semaine",
@@ -116,6 +127,17 @@
             "system": "Système",
             "dark": "Sombre",
             "light": "Clair"
+        },
+        "accent": {
+            "profile": "Profil AniList",
+            "default": "Océan",
+            "anilist": "Ciel",
+            "purple": "Glycine",
+            "pink": "Sakura",
+            "orange": "Crépuscule",
+            "red": "Braise",
+            "green": "Bambou",
+            "gray": "Pluie"
         },
         "layout": {
             "auto": "Auto",
@@ -154,6 +176,7 @@
     },
     "weeklyCalendar": {
         "emptyList": "Aucun anime dans ta liste en cours.",
+        "loading": "Chargement du calendrier…",
         "sectionHeader": "Calendrier hebdomadaire d'anime",
         "noUpcoming": "Aucun épisode à venir",
         "today": "Aujourd'hui",
@@ -179,5 +202,8 @@
                 "sunday": "D"
             }
         }
+    },
+    "profileBanner": {
+        "viewProfile": "Voir le profil sur {provider}"
     }
 }

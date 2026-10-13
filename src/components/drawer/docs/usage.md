@@ -1,6 +1,6 @@
 # Drawer
 
-Compound component: `DrawerTrigger` (re-exported aria `DialogTrigger`) wraps a trigger element plus `Drawer.Root`, `Drawer.Root` wraps aria `ModalOverlay` + `Modal` + `Dialog`, `Drawer.Header` and `Drawer.Body` are layout wrappers for the dialog content. A right/left edge-pinned, full-height side sheet used for self-contained panels opened from a trigger (e.g. Settings, Seasonal Filters).
+Compound component: `DrawerTrigger` (re-exported aria `DialogTrigger`) wraps a trigger element plus `Drawer.Root`, `Drawer.Root` wraps aria `ModalOverlay` + `Modal` + `Dialog`, `Drawer.Header` and `Drawer.Body` are layout wrappers for the dialog content. An edge-pinned sheet used for self-contained panels opened from a trigger (e.g. Settings, Seasonal Filters): a full-height side sheet for `right`/`left`, or a full-width bottom sheet (rounded top, capped at 85% of the viewport height) for `bottom`.
 
 ## Import
 
@@ -26,3 +26,17 @@ import { Drawer, DrawerTrigger } from '@/components';
     </Drawer.Root>
 </DrawerTrigger>
 ```
+
+## Placement
+
+```tsx
+const layoutMode = useLayoutMode();
+
+<Drawer.Root placement={layoutMode === 'mobile' ? 'bottom' : 'right'}>...</Drawer.Root>
+```
+
+Default: `placement="right"`. Seasonal Filters and Settings switch to `bottom` on phones.
+
+## Motion
+
+The sheet slides in with `--ease-enter` over `--duration-slow` and leaves faster (`--duration-base`, `--ease-exit`); the overlay fades with it. Durations come from the motion tokens, so `prefers-reduced-motion` makes both instant.

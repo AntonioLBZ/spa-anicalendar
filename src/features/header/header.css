@@ -1,6 +1,8 @@
+/* Frosted: content scrolling underneath shows through, blurred */
 .header {
     align-items: center;
-    background-color: var(--color-bg-secondary);
+    backdrop-filter: blur(var(--size-75)) saturate(1.4);
+    background-color: color-mix(in srgb, var(--color-bg-secondary) 82%, transparent);
     color: var(--color-content-primary);
     display: flex;
     justify-content: center;
@@ -8,19 +10,20 @@
     padding-block: 0;
     position: sticky;
     top: 0;
-    transition: transform 0.25s ease;
+    transition:
+        transform var(--duration-slow) var(--ease-standard),
+        box-shadow var(--duration-base) var(--ease-standard);
     width: 100%;
     z-index: 10;
 }
 
-.header--hidden {
-    transform: translateY(-100%);
+.header--scrolled {
+    box-shadow: var(--shadow-2);
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .header {
-        transition: none;
-    }
+.header--hidden {
+    box-shadow: none;
+    transform: translateY(-100%);
 }
 
 .header__content {
@@ -34,66 +37,53 @@
 }
 
 .header__nav {
+    align-items: center;
     color: var(--color-content-primary);
     display: flex;
     flex: 1;
-    gap: var(--size-100);
+    gap: var(--size-50);
     grid-column: 2;
     justify-content: center;
     margin-inline: auto;
     text-decoration: none;
 }
 
+/* Overpass sets capitals above the middle of the line, and the name has no descenders to balance them:
+ * lowered onto the calendar's center */
+.header__brand {
+    translate: 0 0.15em;
+}
+
+.brand-logo {
+    flex-shrink: 0;
+    height: var(--size-175);
+    width: var(--size-175);
+}
+
+.brand-logo__body {
+    fill: var(--color-bg-primary);
+    stroke: var(--color-bg-accent);
+    stroke-width: 2;
+}
+
+.brand-logo__ring {
+    fill: var(--color-bg-accent);
+}
+
+.brand-logo__rule {
+    stroke: var(--color-bg-accent);
+    stroke-width: 1.5;
+}
+
+.brand-logo__letter {
+    fill: var(--color-bg-accent);
+    font-family: var(--font-overpass), sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+}
+
 .header__actions {
     display: flex;
     gap: var(--size-50);
     justify-content: flex-end;
-}
-
-.header__user-link {
-    align-items: center;
-    color: var(--color-content-secondary);
-    display: flex;
-    gap: var(--size-50);
-    margin-inline-end: auto;
-    text-decoration: none;
-}
-
-.header__user-link:hover {
-    color: var(--color-content-primary);
-}
-
-.header__avatar-wrapper {
-    display: inline-flex;
-    position: relative;
-}
-
-.header__avatar {
-    border-radius: 50%;
-    height: var(--avatar-size-s);
-    object-fit: cover;
-    width: var(--avatar-size-s);
-}
-
-.provider-badge {
-    align-items: center;
-    border: 1.5px solid var(--color-bg-secondary);
-    border-radius: 50%;
-    bottom: -2px;
-    color: white;
-    display: flex;
-    font-size: 8px;
-    font-weight: 700;
-    height: 13px;
-    justify-content: center;
-    line-height: 1;
-    position: absolute;
-    right: -2px;
-    width: 13px;
-}
-
-@media (width <= 520px) {
-    .header__username {
-        display: none;
-    }
 }

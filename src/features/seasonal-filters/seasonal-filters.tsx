@@ -16,6 +16,7 @@ import {
 } from '@/components';
 import { useSeasonalFilters, seasonalFiltersStore } from '@/contexts';
 import { useUserContext } from '@/contexts/user-context';
+import { useLayoutMode } from '@/lib/use-layout-mode';
 
 import { CONTENT_FILTER_OPTIONS, FORMAT_OPTIONS, TOP_N_OPTIONS, USER_LIST_OPTIONS } from './seasonal-filters.options';
 
@@ -35,6 +36,7 @@ const SeasonalFiltersTrigger = (props: SeasonalFiltersTriggerProps) => {
     const t = useTranslations('seasonalFilters');
     const { filters, setFilters } = useSeasonalFilters();
     const { user } = useUserContext();
+    const layoutMode = useLayoutMode();
 
     const selectedFormats = filters.formats.length > 0 ? filters.formats : FORMAT_OPTIONS;
 
@@ -64,7 +66,7 @@ const SeasonalFiltersTrigger = (props: SeasonalFiltersTriggerProps) => {
             <Button size="s" variant="ghost" aria-label={t('title')}>
                 <FilterIcon />
             </Button>
-            <Drawer.Root placement="right">
+            <Drawer.Root placement={layoutMode === 'mobile' ? 'bottom' : 'right'}>
                 <Drawer.Header>
                     <span>{t('title')}</span>
                     <Button size="s" variant="ghost" aria-label={t('close')} slot="close">

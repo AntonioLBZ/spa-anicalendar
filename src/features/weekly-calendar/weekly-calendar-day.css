@@ -3,11 +3,13 @@
     flex-direction: column;
     gap: var(--size-25);
     min-width: 0;
+    scroll-margin-top: calc(var(--header-height) + var(--size-50));
 }
 
 .day > * {
     background-color: var(--color-bg-secondary);
-    border-radius: var(--size-37);
+    border-radius: var(--radius-s);
+    box-shadow: var(--shadow-1);
 }
 
 .day__header > * {
@@ -23,6 +25,7 @@
     color: var(--color-content-primary);
     display: flex;
     flex-flow: column nowrap;
+    font-variant-numeric: tabular-nums;
     gap: var(--size-25);
     padding: var(--size-75) var(--size-50) var(--size-25);
 }
@@ -39,11 +42,49 @@
 }
 
 .day__entries {
+    height: 100%;
+}
+
+/* Lays out the day's cards; in rows it's also the scroller, so its fade never touches the column's own surface.
+ * The top padding fits a hovered card's rise (lift plus half its growth, under 8px at the largest card size) */
+.day__track {
     display: flex;
     flex-direction: column;
     gap: var(--size-50);
-    height: 100%;
-    padding: var(--size-37) var(--size-50) var(--size-150);
+    padding: var(--size-62) var(--size-50) var(--size-150);
+}
+
+.day__skeleton-card {
+    animation: skeleton-shimmer 1.6s linear infinite;
+    aspect-ratio: 5 / 7;
+    background: linear-gradient(
+            100deg,
+            var(--color-skeleton) 40%,
+            var(--color-skeleton-shine) 50%,
+            var(--color-skeleton) 60%
+        )
+        var(--color-skeleton);
+    background-size: 300% 100%;
+    border-radius: var(--radius-s);
+    max-width: var(--size-1300);
+    min-width: var(--size-500);
+}
+
+/* Sweeps the shine from left to right across each placeholder */
+@keyframes skeleton-shimmer {
+    from {
+        background-position: 100% 0;
+    }
+
+    to {
+        background-position: 0 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .day__skeleton-card {
+        animation: none;
+    }
 }
 
 .day__empty {
@@ -64,14 +105,31 @@
 }
 
 .day--row .day__entries {
-    flex-direction: row;
     height: auto;
-    overflow-x: auto;
-    padding: var(--size-100) var(--size-150);
     width: 100%;
 }
 
-.day--row .day__entries > * {
+.day--row .day__track {
+    flex-direction: row;
+
+    /* Cards slide out of view through a fade inside the side padding, hinting at more without covering any at rest */
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        rgb(0 0 0 / 100%) var(--size-150),
+        rgb(0 0 0 / 100%) calc(100% - var(--size-150)),
+        transparent
+    );
+    overflow-x: auto;
+    padding: var(--size-100) var(--size-150);
+    scroll-padding-inline: var(--size-150);
+    scroll-snap-type: x proximity;
+    scrollbar-color: var(--color-content-secondary) transparent;
+    scrollbar-width: thin;
+}
+
+.day--row .day__track > * {
     flex: 0 0 auto;
     min-width: var(--size-800);
+    scroll-snap-align: start;
 }

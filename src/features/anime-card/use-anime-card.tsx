@@ -7,6 +7,7 @@ import { useSettingsContext } from '@/contexts/settings-context';
 import { formatCountdown, getLocalAiringTime, getTimeUntilAiring, getWeeksUntilAiring } from '@/lib/airing';
 
 import type { AnimeCardProps } from './anime-card.types';
+import type { CSSProperties } from 'react';
 
 const STATUS_META_MAP: Record<
     string,
@@ -20,6 +21,9 @@ const STATUS_META_MAP: Record<
 };
 const DEFAULT_STATUS_META = STATUS_META_MAP.NOT_YET_RELEASED;
 
+// Beyond this many steps the entrance wave would feel slow, so later cards share the last delay.
+const MAX_ENTER_INDEX = 12;
+
 const useAnimeCard = (props: AnimeCardProps) => {
     const {
         entry,
@@ -28,14 +32,17 @@ const useAnimeCard = (props: AnimeCardProps) => {
         isHidden = false,
         onToggle,
         isNextAiring = false,
+        hasAiredToday = false,
         showProgress = true,
         showWatchStatus = true,
+        enterIndex = 0,
     } = props;
     const { timeFormat } = useSettingsContext();
     const t = useTranslations('animeCard');
     const titleId = `anime-title-${entry.id}`;
     const detailsId = `anime-details-${entry.id}`;
     const [isExpanded, setIsExpanded] = useState(false);
+    const [isImageLoaded, setIsImageLoaded] = useState(false);
     const { hoverProps, isHovered } = useHover({});
 
     // entry.progress means "user's watch count" for a real per-user list
@@ -73,6 +80,8 @@ const useAnimeCard = (props: AnimeCardProps) => {
                 : localTime;
     }
     const countdownText = countdown && formatCountdown(t, countdown);
+    // `minutes` is the countdown's last unit before airing, i.e. less than an hour left
+    const isAiringSoon = isNextAiring && countdown?.unit === 'minutes';
 
     return {
         state: {
@@ -89,8 +98,15 @@ const useAnimeCard = (props: AnimeCardProps) => {
                 'card body-s',
                 isExpanded && 'card--expanded',
                 isHovered && 'card--hovered',
-                isEditMode && 'card--edit-mode'
+                isEditMode && 'card--edit-mode',
+                isImageLoaded && 'card--image-loaded',
+                isAiringSoon && 'card--airing-soon',
+                hasAiredToday && 'card--aired'
             ),
+            cardStyle: {
+                '--card-index': Math.min(enterIndex, MAX_ENTER_INDEX),
+                '--card-cover-color': entry.coverColor,
+            } as CSSProperties,
             selectBadgeClassName: clsx('card__select-badge', !isHidden && 'card__select-badge--checked'),
         },
         copy: {
@@ -108,6 +124,7 @@ const useAnimeCard = (props: AnimeCardProps) => {
         actions: {
             onToggleHidden: () => onToggle?.(),
             onToggleExpanded: () => setIsExpanded((value) => !value),
+            onImageLoad: () => setIsImageLoaded(true),
         },
         ids: {
             titleId,

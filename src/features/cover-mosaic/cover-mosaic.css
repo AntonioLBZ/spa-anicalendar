@@ -1,0 +1,49 @@
+/* Sits behind the hero: tilted, dimmed and fading out towards the content below */
+.cover-mosaic {
+    animation: cover-mosaic-enter var(--duration-slow) var(--ease-standard) both;
+    height: min(75vh, var(--size-4000));
+    inset: 0 0 auto;
+    mask-image: linear-gradient(to bottom, rgb(0 0 0 / 100%) 20%, transparent 95%);
+    overflow: hidden;
+    pointer-events: none;
+    position: absolute;
+    z-index: -1;
+}
+
+.cover-mosaic__grid {
+    display: grid;
+    gap: var(--size-75);
+    grid-template-columns: repeat(auto-fill, minmax(var(--size-800), 1fr));
+    margin-inline: calc(-1 * var(--size-800));
+    opacity: var(--cover-mosaic-opacity, 0.16);
+    transform: rotate(-6deg) translateY(calc(-1 * var(--size-800)));
+}
+
+[data-theme='light'] .cover-mosaic__grid {
+    --cover-mosaic-opacity: 0.22;
+}
+
+.cover-mosaic__tile {
+    aspect-ratio: 5 / 7;
+    border-radius: var(--radius-s);
+    overflow: hidden;
+    position: relative;
+}
+
+.cover-mosaic__image {
+    object-fit: cover;
+}
+
+/* Keeps the headline and form legible over the busiest covers */
+.cover-mosaic::after {
+    background: radial-gradient(ellipse 45% 55% at 50% 40%, var(--color-bg-primary) 20%, transparent 100%);
+    content: '';
+    inset: 0;
+    position: absolute;
+}
+
+@keyframes cover-mosaic-enter {
+    from {
+        opacity: 0;
+    }
+}

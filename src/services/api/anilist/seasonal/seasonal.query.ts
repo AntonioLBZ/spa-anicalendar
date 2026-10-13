@@ -12,6 +12,7 @@ query Seasonal($season: MediaSeason, $seasonYear: Int, $type: MediaType, $format
       coverImage {
         medium
         large
+        color
       }
       chapters
       episodes

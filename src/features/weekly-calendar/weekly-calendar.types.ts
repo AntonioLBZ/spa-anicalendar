@@ -7,6 +7,8 @@ type ResolvedCalendarLayout = Exclude<CalendarLayout, 'auto'>;
 type WeeklyCalendarProps = {
     /** Entries to display. */
     entries: AnimeEntry[];
+    /** Shows a placeholder schedule instead of the entries/empty state while data is loading. */
+    isLoading?: boolean;
     /** Whether edit mode is active. */
     isEditMode?: boolean;
     /** Currently hidden entry ids. */
@@ -54,6 +56,19 @@ type WeeklyCalendarDayProps = {
     showProgress?: boolean;
     /** @default true */
     showWatchStatus?: boolean;
+    /** Position of this day among the visible days; offsets its cards in the entrance wave.
+     * @default 0
+     */
+    enterOffset?: number;
 };
 
-export type { WeeklyCalendarProps, WeeklyCalendarDayProps, ResolvedCalendarLayout };
+type WeeklyCalendarSkeletonProps = {
+    /** Grid or list rendering. */
+    layout: ResolvedCalendarLayout;
+    /** First day of the week. */
+    weekStartDay: WeekStartDay;
+    /** Day-of-week index of today. */
+    todayIndex: number;
+};
+
+export type { WeeklyCalendarProps, WeeklyCalendarDayProps, WeeklyCalendarSkeletonProps, ResolvedCalendarLayout };

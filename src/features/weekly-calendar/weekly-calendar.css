@@ -55,3 +55,12 @@
     padding: var(--size-300) var(--size-100);
     text-align: center;
 }
+
+.weekly-calendar__status {
+    block-size: 1px;
+    clip-path: inset(50%);
+    inline-size: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+}

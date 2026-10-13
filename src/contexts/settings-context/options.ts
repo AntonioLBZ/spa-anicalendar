@@ -1,9 +1,23 @@
-import type { EmptyDaysMode, TimeFormat, WeekStartDay, CalendarLayout } from '@/contexts';
+import type { AccentColor, EmptyDaysMode, TimeFormat, WeekStartDay, CalendarLayout } from '@/contexts';
 import type { Provider } from '@/services';
 
 // Labels for these are rendered via next-intl in settings.tsx (namespace `settings`),
 // keyed by each value — these arrays only define the set/order of choices.
 const EMPTY_DAYS_OPTIONS: EmptyDaysMode[] = ['show', 'hide'];
+
+// `profile` follows the viewed AniList profile; `default` is the original blue; the rest are AniList's
+// profile colors (see `themes.css`).
+const ACCENT_COLOR_OPTIONS: AccentColor[] = [
+    'profile',
+    'default',
+    'anilist',
+    'purple',
+    'pink',
+    'orange',
+    'red',
+    'green',
+    'gray',
+];
 
 const CALENDAR_LAYOUT_OPTIONS: CalendarLayout[] = ['auto', 'grid', 'list'];
 
@@ -17,6 +31,11 @@ const ALL_SOURCE_OPTIONS: { value: Provider; label: string }[] = [
     { value: 'kitsu', label: 'Kitsu' },
 ];
 
+const PROVIDER_LABELS = Object.fromEntries(ALL_SOURCE_OPTIONS.map((o) => [o.value, o.label])) as Record<
+    Provider,
+    string
+>;
+
 // Complete list: anilist,kitsu,myanimelist
 const DEFAULT_ENABLED: Provider[] = ['anilist'];
 const enabledFromEnv = process.env.NEXT_PUBLIC_ENABLED_PROVIDERS?.split(',')
@@ -25,4 +44,12 @@ const enabledFromEnv = process.env.NEXT_PUBLIC_ENABLED_PROVIDERS?.split(',')
 const enabledProviders = new Set<Provider>(enabledFromEnv ?? DEFAULT_ENABLED);
 const SOURCE_OPTIONS = ALL_SOURCE_OPTIONS.filter((o) => enabledProviders.has(o.value));
 
-export { EMPTY_DAYS_OPTIONS, WEEK_START_OPTIONS, TIME_FORMAT_OPTIONS, SOURCE_OPTIONS, CALENDAR_LAYOUT_OPTIONS };
+export {
+    ACCENT_COLOR_OPTIONS,
+    EMPTY_DAYS_OPTIONS,
+    WEEK_START_OPTIONS,
+    TIME_FORMAT_OPTIONS,
+    SOURCE_OPTIONS,
+    PROVIDER_LABELS,
+    CALENDAR_LAYOUT_OPTIONS,
+};

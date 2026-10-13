@@ -14,5 +14,10 @@
 
 .airing-view__disclosure {
     color: var(--color-content-secondary);
-    margin-block-end: var(--size-50);
+    margin-block: var(--size-150) var(--size-50);
+}
+
+/* The disclosure captions the toolbar, so it sits close to it rather than at the toolbar's usual distance */
+.airing-view__disclosure + .calendar-toolbar {
+    margin-block-start: 0;
 }

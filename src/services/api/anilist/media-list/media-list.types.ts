@@ -40,7 +40,7 @@ interface AnilistMediaListEntry {
     id: number;
     status: AnilistMediaListStatus;
     media: {
-        coverImage: { medium: string; large: string };
+        coverImage: { medium: string; large: string; color: string | null };
         chapters: number | null;
         episodes: number | null;
         duration: number | null;
