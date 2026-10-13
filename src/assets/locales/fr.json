@@ -107,7 +107,7 @@
         "close": "Fermer les paramètres",
         "sections": {
             "theme": "Thème",
-            "accent": "Couleur d'accent",
+            "accent": "Palette de couleurs",
             "layout": "Disposition",
             "emptyDays": "Jours vides",
             "weekStart": "Début de semaine",
@@ -119,14 +119,14 @@
             "light": "Clair"
         },
         "accent": {
-            "default": "Par défaut",
-            "anilist": "AniList",
-            "purple": "Violet",
-            "pink": "Rose",
-            "orange": "Orange",
-            "red": "Rouge",
-            "green": "Vert",
-            "gray": "Gris"
+            "default": "Océan",
+            "anilist": "Ciel",
+            "purple": "Glycine",
+            "pink": "Sakura",
+            "orange": "Crépuscule",
+            "red": "Braise",
+            "green": "Bambou",
+            "gray": "Pluie"
         },
         "layout": {
             "auto": "Auto",

@@ -2,7 +2,17 @@
 
 import { useTranslations } from 'next-intl';
 
-import { Button, DismissIcon, Divider, Drawer, DrawerTrigger, GearIcon, Radio, Section } from '@/components';
+import {
+    Button,
+    CheckMarkIcon,
+    DismissIcon,
+    Divider,
+    Drawer,
+    DrawerTrigger,
+    GearIcon,
+    Radio,
+    Section,
+} from '@/components';
 import { useSettingsContext } from '@/contexts/settings-context';
 import {
     ACCENT_COLOR_OPTIONS,
@@ -70,15 +80,21 @@ const Settings = () => {
                         <Section.Title>{t('sections.accent')}</Section.Title>
                         <Radio.Group
                             aria-label={t('sections.accent')}
-                            className="settings__accent-group"
+                            className="settings__scheme-group"
                             value={accentColor}
                             onChange={(v) => setAccentColor(v as AccentColor)}
                         >
                             {ACCENT_COLOR_OPTIONS.map((value) => (
-                                <Radio.Option key={value} value={value} className="settings__accent-option">
-                                    {/* `data-accent` scopes the swatch to its own scheme's fill */}
-                                    <span className="settings__swatch" data-accent={value} aria-hidden="true" />
-                                    {t(`accent.${value}`)}
+                                <Radio.Option key={value} value={value} className="settings__scheme-option">
+                                    {({ isSelected }) => (
+                                        <>
+                                            {/* `data-accent` scopes the swatch to its own scheme's shades */}
+                                            <span className="settings__swatch" data-accent={value} aria-hidden="true">
+                                                {isSelected && <CheckMarkIcon className="settings__swatch-check" />}
+                                            </span>
+                                            {t(`accent.${value}`)}
+                                        </>
+                                    )}
                                 </Radio.Option>
                             ))}
                         </Radio.Group>

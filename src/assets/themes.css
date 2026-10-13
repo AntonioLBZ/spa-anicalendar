@@ -105,57 +105,59 @@
 /** Colors */
 
 /*
- * Accent schemes (Settings → Accent color), applied via `data-accent` on <html>/<body>.
+ * Color schemes (Settings → Color scheme), applied via `data-accent` on <html>/<body>.
  * Each scheme defines its fill plus the per-theme shades the theme blocks below map onto
- * semantic tokens. `default` is the original blue; the rest are AniList's profile colors,
- * adjusted where needed so text on/with them keeps ≥4.5:1 contrast.
+ * semantic tokens. `default` is the original blue; the rest derive from AniList's profile colors.
+ * Shades are tuned to pass both WCAG 2 (≥4.5:1 for text) and APCA: Lc ≥66 for button/option
+ * labels on the fill, ≥72 for pills on the strong shade and for accent text in the light theme,
+ * ≥62 for accent text on dark surfaces and over cover art.
  */
 :root,
 [data-accent='default'] {
-    --accent-fill: rgb(53 119 255);
-    --accent-fill-strong: rgb(37 99 235);
+    --accent-fill: rgb(49 111 237);
+    --accent-fill-strong: rgb(44 100 213);
     --accent-on-fill: rgb(255 255 255);
-    --accent-text-dark: rgb(59 130 246);
-    --accent-text-light: rgb(59 130 246);
+    --accent-text-dark: rgb(152 186 255);
+    --accent-text-light: rgb(40 90 194);
     --accent-focus-dark: rgb(53 119 255);
     --accent-focus-light: rgb(53 119 255);
     --accent-highlight-dark: rgb(0 98 255 / 18.5%);
     --accent-highlight-light: rgb(59 131 246 / 15%);
-    --accent-on-media: rgb(59 130 246);
+    --accent-on-media: rgb(148 183 255);
 }
 
 [data-accent='anilist'] {
-    --accent-fill: rgb(61 180 242);
-    --accent-fill-strong: rgb(58 171 230);
+    --accent-fill: rgb(106 197 245);
+    --accent-fill-strong: rgb(134 208 247);
     --accent-on-fill: rgb(10 22 37);
-    --accent-text-dark: rgb(61 180 242);
-    --accent-text-light: rgb(39 115 155);
+    --accent-text-dark: rgb(100 195 245);
+    --accent-text-light: rgb(35 103 138);
     --accent-focus-dark: rgb(61 180 242);
     --accent-focus-light: rgb(49 146 196);
-    --accent-highlight-dark: rgb(61 180 242 / 15%);
-    --accent-highlight-light: rgb(61 180 242 / 15%);
-    --accent-on-media: rgb(61 180 242);
+    --accent-highlight-dark: rgb(106 197 245 / 15%);
+    --accent-highlight-light: rgb(106 197 245 / 15%);
+    --accent-on-media: rgb(94 193 244);
 }
 
 [data-accent='purple'] {
-    --accent-fill: rgb(192 99 255);
-    --accent-fill-strong: rgb(177 91 235);
-    --accent-on-fill: rgb(10 22 37);
-    --accent-text-dark: rgb(192 99 255);
-    --accent-text-light: rgb(148 76 196);
+    --accent-fill: rgb(159 82 212);
+    --accent-fill-strong: rgb(143 74 191);
+    --accent-on-fill: rgb(255 255 255);
+    --accent-text-dark: rgb(218 163 255);
+    --accent-text-light: rgb(129 66 171);
     --accent-focus-dark: rgb(192 99 255);
     --accent-focus-light: rgb(186 96 247);
-    --accent-highlight-dark: rgb(192 99 255 / 15%);
-    --accent-highlight-light: rgb(192 99 255 / 15%);
-    --accent-on-media: rgb(192 99 255);
+    --accent-highlight-dark: rgb(159 82 212 / 15%);
+    --accent-highlight-light: rgb(159 82 212 / 15%);
+    --accent-on-media: rgb(217 160 255);
 }
 
 [data-accent='pink'] {
     --accent-fill: rgb(252 157 214);
-    --accent-fill-strong: rgb(242 151 205);
+    --accent-fill-strong: rgb(253 174 221);
     --accent-on-fill: rgb(10 22 37);
     --accent-text-dark: rgb(252 157 214);
-    --accent-text-light: rgb(146 91 124);
+    --accent-text-light: rgb(129 80 109);
     --accent-focus-dark: rgb(252 157 214);
     --accent-focus-light: rgb(186 116 158);
     --accent-highlight-dark: rgb(252 157 214 / 15%);
@@ -164,55 +166,55 @@
 }
 
 [data-accent='orange'] {
-    --accent-fill: rgb(239 136 26);
-    --accent-fill-strong: rgb(225 128 24);
+    --accent-fill: rgb(244 172 95);
+    --accent-fill-strong: rgb(246 187 124);
     --accent-on-fill: rgb(10 22 37);
-    --accent-text-dark: rgb(239 136 26);
-    --accent-text-light: rgb(163 92 18);
+    --accent-text-dark: rgb(243 169 90);
+    --accent-text-light: rgb(141 80 15);
     --accent-focus-dark: rgb(239 136 26);
     --accent-focus-light: rgb(203 116 22);
-    --accent-highlight-dark: rgb(239 136 26 / 15%);
-    --accent-highlight-light: rgb(239 136 26 / 15%);
-    --accent-on-media: rgb(239 136 26);
+    --accent-highlight-dark: rgb(244 172 95 / 15%);
+    --accent-highlight-light: rgb(244 172 95 / 15%);
+    --accent-on-media: rgb(243 167 86);
 }
 
 [data-accent='red'] {
     --accent-fill: rgb(223 50 50);
-    --accent-fill-strong: rgb(198 44 44);
+    --accent-fill-strong: rgb(201 45 45);
     --accent-on-fill: rgb(255 255 255);
-    --accent-text-dark: rgb(230 88 88);
-    --accent-text-light: rgb(207 47 47);
+    --accent-text-dark: rgb(242 165 165);
+    --accent-text-light: rgb(178 40 40);
     --accent-focus-dark: rgb(225 51 51);
     --accent-focus-light: rgb(225 51 51);
     --accent-highlight-dark: rgb(223 50 50 / 15%);
     --accent-highlight-light: rgb(223 50 50 / 15%);
-    --accent-on-media: rgb(229 75 75);
+    --accent-on-media: rgb(242 163 163);
 }
 
 [data-accent='green'] {
-    --accent-fill: rgb(76 202 81);
-    --accent-fill-strong: rgb(72 192 77);
+    --accent-fill: rgb(103 210 107);
+    --accent-fill-strong: rgb(129 218 132);
     --accent-on-fill: rgb(10 22 37);
-    --accent-text-dark: rgb(76 202 81);
-    --accent-text-light: rgb(47 125 50);
+    --accent-text-dark: rgb(96 208 100);
+    --accent-text-light: rgb(41 109 44);
     --accent-focus-dark: rgb(76 202 81);
     --accent-focus-light: rgb(59 158 63);
-    --accent-highlight-dark: rgb(76 202 81 / 15%);
-    --accent-highlight-light: rgb(76 202 81 / 15%);
-    --accent-on-media: rgb(76 202 81);
+    --accent-highlight-dark: rgb(103 210 107 / 15%);
+    --accent-highlight-light: rgb(103 210 107 / 15%);
+    --accent-on-media: rgb(89 206 93);
 }
 
 [data-accent='gray'] {
     --accent-fill: rgb(100 119 144);
-    --accent-fill-strong: rgb(88 105 127);
+    --accent-fill-strong: rgb(90 107 130);
     --accent-on-fill: rgb(255 255 255);
-    --accent-text-dark: rgb(120 138 160);
-    --accent-text-light: rgb(93 111 133);
+    --accent-text-dark: rgb(176 186 199);
+    --accent-text-light: rgb(82 98 118);
     --accent-focus-dark: rgb(103 123 148);
     --accent-focus-light: rgb(103 123 148);
     --accent-highlight-dark: rgb(100 119 144 / 15%);
     --accent-highlight-light: rgb(100 119 144 / 15%);
-    --accent-on-media: rgb(114 132 155);
+    --accent-on-media: rgb(174 185 198);
 }
 
 [data-theme='dark'] {

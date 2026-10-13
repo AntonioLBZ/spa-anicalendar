@@ -10,7 +10,7 @@ A mostly client-side app that shows your weekly anime airing schedule. Enter you
 - Browse the current and next season without a username
 - Filters: format, content, new-season only, top N for seasonal views
 - Edit mode to hide entries from the calendar
-- Configurable settings: theme (dark/light/system), accent color (default blue or AniList profile colors), layout (auto/grid/list), empty days display, week start day, time format
+- Configurable settings: theme (dark/light/system), color scheme (original blue or schemes based on AniList profile colors), layout (auto/grid/list), empty days display, week start day, time format
 - Settings, filters and hidden entries persisted to localStorage
 - English, Spanish, French and German localization (`en`/`es`/`fr`/`de`)
 - No user authentication

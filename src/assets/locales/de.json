@@ -107,7 +107,7 @@
         "close": "Einstellungen schließen",
         "sections": {
             "theme": "Design",
-            "accent": "Akzentfarbe",
+            "accent": "Farbschema",
             "layout": "Ansicht",
             "emptyDays": "Leere Tage",
             "weekStart": "Wochenstart",
@@ -119,14 +119,14 @@
             "light": "Hell"
         },
         "accent": {
-            "default": "Standard",
-            "anilist": "AniList",
-            "purple": "Lila",
-            "pink": "Rosa",
-            "orange": "Orange",
-            "red": "Rot",
-            "green": "Grün",
-            "gray": "Grau"
+            "default": "Ozean",
+            "anilist": "Himmel",
+            "purple": "Glyzinie",
+            "pink": "Sakura",
+            "orange": "Abendrot",
+            "red": "Glut",
+            "green": "Bambus",
+            "gray": "Regen"
         },
         "layout": {
             "auto": "Auto",

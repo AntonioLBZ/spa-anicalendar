@@ -107,7 +107,7 @@
         "close": "Close settings",
         "sections": {
             "theme": "Theme",
-            "accent": "Accent color",
+            "accent": "Color scheme",
             "layout": "Layout",
             "emptyDays": "Empty days",
             "weekStart": "Week start",
@@ -119,14 +119,14 @@
             "light": "Light"
         },
         "accent": {
-            "default": "Default",
-            "anilist": "AniList",
-            "purple": "Purple",
-            "pink": "Pink",
-            "orange": "Orange",
-            "red": "Red",
-            "green": "Green",
-            "gray": "Gray"
+            "default": "Ocean",
+            "anilist": "Sky",
+            "purple": "Wisteria",
+            "pink": "Sakura",
+            "orange": "Sunset",
+            "red": "Ember",
+            "green": "Bamboo",
+            "gray": "Rain"
         },
         "layout": {
             "auto": "Auto",
