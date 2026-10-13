@@ -296,7 +296,12 @@ body {
     font-family: var(--font-inter), sans-serif;
 }
 
-/* Theme and color-scheme changes cross-fade (see `lib/view-transition.ts`) */
+/* Theme and color-scheme changes cross-fade (see `lib/view-transition.ts`). The overlay lets clicks through:
+ * otherwise a click mid-fade lands on <html> and dismisses the open drawer. */
+::view-transition {
+    pointer-events: none;
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
     animation-duration: var(--duration-slow);
