@@ -7,6 +7,8 @@ type AiringViewProps = {
     isLoading?: boolean;
     error: unknown;
     onRetry: () => void;
+    /** Entries already removed upstream by the format / "new this season only" filters, reported in the hidden-entries notice. */
+    filteredOutCount?: number;
     /** Entry-visibility storage scope; must be unique per data source. */
     scope: string;
     disclosure?: React.ReactNode;

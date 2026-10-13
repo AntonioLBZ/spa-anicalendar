@@ -52,6 +52,14 @@
         "finishedLabel": "Abgeschlossen",
         "noAirDateLabel": "Noch kein Sendetermin"
     },
+    "hiddenEntriesNotice": {
+        "message": "<b>{summary}</b>: {reasons}.",
+        "summary": "{count, plural, one {# Anime ausgeblendet} other {# Animes ausgeblendet}} durch deine Sichtbarkeitseinstellungen",
+        "content": "{count} durch den Inhaltsfilter {filter}",
+        "manual": "{count} manuell ausgeblendet",
+        "listFilters": "{count} durch die Format- oder Neuerscheinungsfilter",
+        "dismiss": "Hinweis schließen"
+    },
     "seasonalFilters": {
         "contentLabel": "Inhalt",
         "content": {

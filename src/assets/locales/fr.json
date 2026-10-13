@@ -52,6 +52,14 @@
         "finishedLabel": "Terminés",
         "noAirDateLabel": "Date de diffusion inconnue"
     },
+    "hiddenEntriesNotice": {
+        "message": "<b>{summary}</b> : {reasons}.",
+        "summary": "{count, plural, one {# anime masqué} other {# animes masqués}} par tes réglages de visibilité",
+        "content": "{count} par le filtre de contenu {filter}",
+        "manual": "{count, plural, one {# masqué} other {# masqués}} manuellement",
+        "listFilters": "{count} par les filtres de format ou de nouveautés",
+        "dismiss": "Fermer l'avis"
+    },
     "seasonalFilters": {
         "contentLabel": "Contenu",
         "content": {

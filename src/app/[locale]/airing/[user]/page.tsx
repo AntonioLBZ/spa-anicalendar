@@ -23,6 +23,7 @@ export default function AiringPage() {
             isLoading={airing.state.isLoading}
             error={airing.state.error}
             onRetry={airing.actions.retry}
+            filteredOutCount={airing.data.filteredOutCount}
             scope={`${provider}:${userName ?? 'unknown'}`}
             noAiringLabel={t('finishedLabel')}
             showCurrentSeasonLink

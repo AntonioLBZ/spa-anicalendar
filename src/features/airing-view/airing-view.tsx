@@ -5,6 +5,7 @@ import { Button, ErrorState, Link } from '@/components';
 import { useSeasonalFilters } from '@/contexts';
 import { CalendarToolbar } from '@/features/calendar-toolbar';
 import { useEntryVisibility } from '@/features/entry-visibility';
+import { HiddenEntriesNotice } from '@/features/hidden-entries-notice';
 import { filterByContent, filterByHidden, WeeklyCalendar } from '@/features/weekly-calendar';
 import { getCalendarStats } from '@/lib/airing';
 import { Link as NavLink } from '@/lib/i18n/navigation';
@@ -19,6 +20,7 @@ const AiringView = (props: AiringViewProps) => {
         isLoading,
         error,
         onRetry,
+        filteredOutCount = 0,
         scope,
         disclosure,
         emptyMessage,
@@ -73,6 +75,17 @@ const AiringView = (props: AiringViewProps) => {
                     showCurrentSeasonLink={showCurrentSeasonLink}
                     showNextSeasonLink={showNextSeasonLink}
                 />
+                {!isLoading && !visibility.state.isEditMode && (
+                    <HiddenEntriesNotice
+                        scope={scope}
+                        contentFilter={filters.contentFilter}
+                        counts={{
+                            content: entries.length - editableEntries.length,
+                            manual: visibility.data.hiddenCount,
+                            listFilters: filteredOutCount,
+                        }}
+                    />
+                )}
                 <WeeklyCalendar
                     entries={entries}
                     isLoading={isLoading}

@@ -52,6 +52,14 @@
         "finishedLabel": "Finished",
         "noAirDateLabel": "No air date yet"
     },
+    "hiddenEntriesNotice": {
+        "message": "<b>{summary}</b>: {reasons}.",
+        "summary": "{count, plural, one {# anime is hidden} other {# anime are hidden}} by your visibility settings",
+        "content": "{count} by the {filter} content filter",
+        "manual": "{count} hidden manually",
+        "listFilters": "{count} by the format or new-season filters",
+        "dismiss": "Dismiss notice"
+    },
     "seasonalFilters": {
         "contentLabel": "Content",
         "content": {

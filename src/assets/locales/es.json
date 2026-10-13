@@ -52,6 +52,14 @@
         "finishedLabel": "Finalizados",
         "noAirDateLabel": "Sin fecha de emisión"
     },
+    "hiddenEntriesNotice": {
+        "message": "<b>{summary}</b>: {reasons}.",
+        "summary": "{count, plural, one {# anime oculto} other {# animes ocultos}} por tus ajustes de visibilidad",
+        "content": "{count} por el filtro de contenido {filter}",
+        "manual": "{count, plural, one {# ocultado} other {# ocultados}} manualmente",
+        "listFilters": "{count} por los filtros de formato o de estrenos",
+        "dismiss": "Descartar aviso"
+    },
     "seasonalFilters": {
         "contentLabel": "Contenido",
         "content": {

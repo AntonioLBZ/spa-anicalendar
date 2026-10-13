@@ -8,7 +8,10 @@ import { isUserNotFoundError, useMediaList, useUser } from '@/services';
 
 import { buildRequestedStatuses, filterAiringEntries } from './use-airing-data.filters';
 
+import type { AiringFilters } from './use-airing-data.filters';
 import type { Provider } from '@/services/api/api.types';
+
+const NO_LIST_FILTERS: AiringFilters = { formats: [], onlyNewSeason: false };
 
 const useAiringData = (userName: string | null, provider: Provider) => {
     const router = useRouter();
@@ -52,6 +55,13 @@ const useAiringData = (userName: string | null, provider: Provider) => {
         [mediaListQuery.data, filters.onlyNewSeason, filters.formats],
     );
 
+    // Only the difference caused by the user's format / new-season choices; entries that are out of
+    // season regardless of filters aren't "hidden", they just don't belong in this schedule.
+    const filteredOutCount = useMemo(
+        () => filterAiringEntries(mediaListQuery.data ?? [], NO_LIST_FILTERS).length - entries.length,
+        [mediaListQuery.data, entries],
+    );
+
     const retry = () => {
         if (userQuery.error) {
             userQuery.refetch();
@@ -67,6 +77,7 @@ const useAiringData = (userName: string | null, provider: Provider) => {
         },
         data: {
             entries,
+            filteredOutCount,
         },
         actions: {
             retry,

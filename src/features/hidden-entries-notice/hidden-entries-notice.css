@@ -1,0 +1,24 @@
+.hidden-notice {
+    align-items: center;
+    background-color: var(--color-bg-highlight);
+    border-radius: var(--radius-m);
+    color: var(--color-content-primary);
+    display: flex;
+    gap: var(--size-75);
+    margin-block-end: var(--size-50);
+    padding: var(--size-50) var(--size-50) var(--size-50) var(--size-100);
+}
+
+.hidden-notice__icon {
+    color: var(--color-accent);
+    flex-shrink: 0;
+}
+
+.hidden-notice__text {
+    flex: 1;
+    margin: 0;
+}
+
+.hidden-notice__dismiss {
+    flex-shrink: 0;
+}
