@@ -1,7 +1,7 @@
 .button {
     align-items: center;
     border: none;
-    border-radius: var(--size-border-radius);
+    border-radius: var(--radius-s);
     cursor: pointer;
     display: inline-flex;
     justify-content: center;
@@ -31,12 +31,11 @@
 }
 
 .button--primary {
-    --button-hover-bg: var(--color-bg-accent);
-    --button-pressed-bg: var(--color-bg-accent);
+    --button-hover-bg: var(--color-bg-accent-hover);
+    --button-pressed-bg: var(--color-bg-accent-hover);
     --button-hover-color: var(--color-content-on-accent);
 
-    background-color: var(--color-content-bg-primary);
-    box-shadow: 0 0 0 var(--color-border-elevation);
+    background-color: var(--color-bg-accent);
     color: var(--color-content-on-accent);
 }
 

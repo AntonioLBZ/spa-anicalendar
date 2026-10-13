@@ -3,7 +3,7 @@
     cursor: pointer;
     display: flex;
     justify-content: center;
-    transition: color 0.2s ease;
+    transition: color var(--duration-base) var(--ease-standard);
 }
 
 .settings__trigger[data-hovered] {

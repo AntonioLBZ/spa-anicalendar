@@ -16,14 +16,14 @@
 .drawer {
     background-color: var(--color-bg-primary);
     block-size: 100%;
-    box-shadow: 0 0 var(--size-100) var(--color-border-elevation-2);
+    box-shadow: var(--shadow-2);
     inline-size: 100%;
     inset-block: 0;
     max-inline-size: var(--size-2000);
     overflow-y: auto;
     padding: var(--size-100);
     position: fixed;
-    transition: transform 0.25s ease;
+    transition: transform var(--duration-slow) var(--ease-standard);
 }
 
 .drawer--right {
@@ -47,7 +47,7 @@
 .drawer__header {
     align-items: center;
     background-color: var(--color-bg-secondary);
-    border-radius: var(--size-50);
+    border-radius: var(--radius-l);
     color: var(--color-content-primary);
     display: flex;
     justify-content: space-between;
@@ -56,15 +56,9 @@
 
 .drawer__body {
     background-color: var(--color-bg-secondary);
-    border-radius: var(--size-50);
+    border-radius: var(--radius-l);
     display: flex;
     flex-direction: column;
     height: 100%;
     padding: var(--size-100);
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .drawer {
-        transition: none;
-    }
 }

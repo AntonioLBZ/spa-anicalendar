@@ -7,7 +7,8 @@
 
 .day > * {
     background-color: var(--color-bg-secondary);
-    border-radius: var(--size-37);
+    border-radius: var(--radius-l);
+    box-shadow: var(--shadow-1);
 }
 
 .day__header > * {
@@ -49,7 +50,7 @@
 .day__skeleton-card {
     aspect-ratio: 5 / 7;
     background-color: var(--color-bg-primary);
-    border-radius: var(--size-37);
+    border-radius: var(--radius-m);
     max-width: var(--size-1300);
     min-width: var(--size-500);
 }

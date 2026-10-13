@@ -8,19 +8,13 @@
     padding-block: 0;
     position: sticky;
     top: 0;
-    transition: transform 0.25s ease;
+    transition: transform var(--duration-slow) var(--ease-standard);
     width: 100%;
     z-index: 10;
 }
 
 .header--hidden {
     transform: translateY(-100%);
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .header {
-        transition: none;
-    }
 }
 
 .header__content {
@@ -69,7 +63,7 @@
 }
 
 .header__avatar {
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     height: var(--avatar-size-s);
     object-fit: cover;
     width: var(--avatar-size-s);
@@ -78,7 +72,7 @@
 .provider-badge {
     align-items: center;
     border: 1.5px solid var(--color-bg-secondary);
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     bottom: -2px;
     color: white;
     display: flex;
