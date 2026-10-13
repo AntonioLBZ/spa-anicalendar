@@ -296,16 +296,16 @@ body {
     font-family: var(--font-inter), sans-serif;
 }
 
-/* Theme and color-scheme changes cross-fade (see `lib/view-transition.ts`). The overlay lets clicks through:
- * otherwise a click mid-fade lands on <html> and dismisses the open drawer. */
-::view-transition {
-    pointer-events: none;
-}
-
-::view-transition-old(root),
-::view-transition-new(root) {
-    animation-duration: var(--duration-slow);
-    animation-timing-function: var(--ease-standard);
+/* Theme and color-scheme changes fade colors instead of snapping (see `lib/color-transition.ts`). It briefly
+ * stands in for components' own transitions, so it also covers the properties they animate. */
+:root[data-color-transition],
+:root[data-color-transition] *,
+:root[data-color-transition] *::before,
+:root[data-color-transition] *::after {
+    transition-duration: var(--duration-slow);
+    transition-property:
+        background-color, border-color, box-shadow, color, fill, opacity, outline-color, stroke, transform;
+    transition-timing-function: var(--ease-standard);
 }
 
 /* Form controls don't inherit the page font by default */

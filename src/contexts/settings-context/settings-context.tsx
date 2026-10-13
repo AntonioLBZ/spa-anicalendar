@@ -2,9 +2,9 @@
 
 import { useSyncExternalStore, useLayoutEffect, useMemo, useCallback, type ReactNode } from 'react';
 
+import { withColorTransition } from '@/lib/color-transition';
 import { createContext } from '@/lib/context';
 import { createPersistedStore } from '@/lib/create-persisted-store';
-import { withViewTransition } from '@/lib/view-transition';
 
 import { useResolvedTheme } from '../../lib/use-theme';
 
@@ -66,11 +66,11 @@ const SettingsProvider = (props: { children: ReactNode }) => {
 
     const setProvider = useCallback((v: Provider) => settingsStore.set((s) => ({ ...s, provider: v })), []);
     const setTheme = useCallback(
-        (v: ThemeMode) => withViewTransition(() => settingsStore.set((s) => ({ ...s, theme: v }))),
+        (v: ThemeMode) => withColorTransition(() => settingsStore.set((s) => ({ ...s, theme: v }))),
         []
     );
     const setAccentColor = useCallback(
-        (v: AccentColor) => withViewTransition(() => settingsStore.set((s) => ({ ...s, accentColor: v }))),
+        (v: AccentColor) => withColorTransition(() => settingsStore.set((s) => ({ ...s, accentColor: v }))),
         []
     );
     const setEmptyDaysMode = useCallback(
