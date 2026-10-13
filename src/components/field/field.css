@@ -32,17 +32,17 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    transform-origin: left center;
     transition:
-        top var(--duration-fast) var(--ease-standard),
-        font-size var(--duration-fast) var(--ease-standard),
+        transform var(--duration-fast) var(--ease-standard),
         color var(--duration-fast) var(--ease-standard);
 }
 
+/* Floats onto the top border: up by half the input height, scaled 16px → 12px. Transform-only, so no reflow. */
 .field__input[data-focused] + .field__label,
 .field__input:not(:placeholder-shown) + .field__label {
     color: var(--color-accent);
-    font-size: 12px;
-    top: 0;
+    transform: translateY(calc(-50% - var(--size-150))) scale(0.75);
 }
 
 .field__input[data-invalid] {

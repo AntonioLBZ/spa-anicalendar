@@ -56,6 +56,10 @@ type WeeklyCalendarDayProps = {
     showProgress?: boolean;
     /** @default true */
     showWatchStatus?: boolean;
+    /** Position of this day among the visible days; offsets its cards in the entrance wave.
+     * @default 0
+     */
+    enterOffset?: number;
 };
 
 type WeeklyCalendarSkeletonProps = {

@@ -21,6 +21,7 @@ const WeeklyCalendarDay = ({
     nextAiringEntryId = null,
     showProgress = true,
     showWatchStatus = true,
+    enterOffset = 0,
 }: WeeklyCalendarDayProps) => {
     const t = useTranslations('weeklyCalendar');
     const dayId = `day-${dayIndex}`;
@@ -39,10 +40,11 @@ const WeeklyCalendarDay = ({
             </div>
             <div className="day__entries">
                 {!isEmpty ? (
-                    entries.map((entry) => (
+                    entries.map((entry, index) => (
                         <AnimeCard
                             key={entry.id}
                             entry={entry}
+                            enterIndex={enterOffset + index}
                             hideStatus
                             isEditMode={isEditMode}
                             isHidden={hiddenIds.includes(entry.id)}

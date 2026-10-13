@@ -225,6 +225,8 @@
     --color-bg-secondary-hover: rgb(30 44 62);
     --color-bg-overlay: rgb(31 38 49 / 70%);
     --color-bg-highlight: var(--accent-highlight-dark);
+    --color-skeleton: var(--color-bg-primary);
+    --color-skeleton-shine: rgb(30 44 62);
 
     /* Content */
     --color-content-primary: rgb(255 255 255);
@@ -259,6 +261,8 @@
     --color-bg-secondary-hover: rgb(236 243 255);
     --color-bg-overlay: rgb(49 56 64 / 40%);
     --color-bg-highlight: var(--accent-highlight-light);
+    --color-skeleton: var(--color-bg-primary);
+    --color-skeleton-shine: rgb(255 255 255);
 
     /* Content */
     --color-content-primary: rgb(75 93 113);
@@ -288,6 +292,13 @@
 body {
     all: unset;
     font-family: var(--font-inter), sans-serif;
+}
+
+/* Theme and color-scheme changes cross-fade (see `lib/view-transition.ts`) */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: var(--duration-slow);
+    animation-timing-function: var(--ease-standard);
 }
 
 /* Form controls don't inherit the page font by default */

@@ -2,14 +2,27 @@
     background-color: var(--color-bg-overlay);
     inset: 0;
     position: fixed;
+    transition: opacity var(--duration-slow) var(--ease-standard);
     z-index: 100;
 }
 
+.drawer__overlay[data-entering],
+.drawer__overlay[data-exiting] {
+    opacity: 0;
+}
+
+.drawer__overlay[data-exiting] {
+    transition-duration: var(--duration-base);
+    transition-timing-function: var(--ease-exit);
+}
+
+/* The dialog receives focus on open only to trap it; its own outline isn't meaningful */
 .drawer__dialog {
     display: flex;
     flex-direction: column;
     gap: var(--size-100);
     height: 100%;
+    outline: none;
     width: 100%;
 }
 
@@ -23,7 +36,13 @@
     overflow-y: auto;
     padding: var(--size-100);
     position: fixed;
-    transition: transform var(--duration-slow) var(--ease-standard);
+    transition: transform var(--duration-slow) var(--ease-enter);
+}
+
+/* Leaving is quicker and accelerates out, so dismissing feels immediate */
+.drawer[data-exiting] {
+    transition-duration: var(--duration-base);
+    transition-timing-function: var(--ease-exit);
 }
 
 .drawer--right {
@@ -42,6 +61,21 @@
 .drawer--left[data-entering],
 .drawer--left[data-exiting] {
     transform: translateX(-100%);
+}
+
+.drawer--bottom {
+    block-size: auto;
+    border-start-end-radius: var(--radius-l);
+    border-start-start-radius: var(--radius-l);
+    inset-block: auto 0;
+    inset-inline: 0;
+    max-block-size: 85dvh;
+    max-inline-size: none;
+}
+
+.drawer--bottom[data-entering],
+.drawer--bottom[data-exiting] {
+    transform: translateY(100%);
 }
 
 .drawer__header {

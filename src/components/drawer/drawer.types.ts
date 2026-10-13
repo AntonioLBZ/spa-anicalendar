@@ -2,7 +2,10 @@ import type { ModalOverlayProps } from 'react-aria-components';
 
 type DrawerRootProps = Omit<ModalOverlayProps, 'children'> & {
     children: React.ReactNode;
-    placement?: 'right' | 'left';
+    /** Edge the sheet slides in from. `bottom` is a full-width sheet capped at 85% of the viewport height, meant for small screens.
+     * @default 'right'
+     */
+    placement?: 'right' | 'left' | 'bottom';
 };
 
 type DrawerHeaderProps = React.HTMLAttributes<HTMLDivElement> & {

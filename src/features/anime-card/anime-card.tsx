@@ -16,8 +16,14 @@ const AnimeCard = (props: AnimeCardProps) => {
     const { state, copy, actions, ids, hoverProps } = useAnimeCard(props);
 
     return (
-        <div className={state.cardClassName} {...hoverProps}>
-            <Image className="card__image" src={entry.coverImageUrl} alt={entry.title} fill />
+        <div className={state.cardClassName} style={state.cardStyle} {...hoverProps}>
+            <Image
+                className="card__image"
+                src={entry.coverImageUrl}
+                alt={entry.title}
+                fill
+                onLoad={actions.onImageLoad}
+            />
             {state.isNextAiring && <Pill className="card__next-airing">{copy.next}</Pill>}
             {state.isPlanning && (
                 <span className="card__planning-badge" role="img" title={copy.planning} aria-label={copy.planning}>

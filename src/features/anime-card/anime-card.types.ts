@@ -23,6 +23,10 @@ type AnimeCardProps = {
      * @default true
      */
     showWatchStatus?: boolean;
+    /** Position in the calendar's entrance wave; staggers the card's enter animation (capped).
+     * @default 0
+     */
+    enterIndex?: number;
 };
 
 export type { AnimeCardProps };

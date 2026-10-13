@@ -1,7 +1,7 @@
 'use client';
 
 import { QueryClientProvider } from '@tanstack/react-query';
-import { useEffect, type ReactNode } from 'react';
+import { useLayoutEffect, type ReactNode } from 'react';
 
 import { SettingsProvider, UserContextProvider, useSettingsContext } from '@/contexts';
 import { queryClient } from '@/lib/query-client';
@@ -10,7 +10,8 @@ const ThemedBody = (props: { children: ReactNode }) => {
     const { children } = props;
     const { resolvedTheme: theme, accentColor } = useSettingsContext();
 
-    useEffect(() => {
+    // Layout effect so <html> updates in the same commit as <body> (theme changes run inside a View Transition)
+    useLayoutEffect(() => {
         document.documentElement.dataset.theme = theme;
         document.documentElement.dataset.accent = accentColor;
     }, [theme, accentColor]);

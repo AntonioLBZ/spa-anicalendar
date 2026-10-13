@@ -3,6 +3,7 @@
     flex-direction: column;
     gap: var(--size-25);
     min-width: 0;
+    scroll-margin-top: calc(var(--header-height) + var(--size-50));
 }
 
 .day > * {
@@ -48,11 +49,36 @@
 }
 
 .day__skeleton-card {
+    animation: skeleton-shimmer 1.6s linear infinite;
     aspect-ratio: 5 / 7;
-    background-color: var(--color-bg-primary);
+    background: linear-gradient(
+            100deg,
+            var(--color-skeleton) 40%,
+            var(--color-skeleton-shine) 50%,
+            var(--color-skeleton) 60%
+        )
+        var(--color-skeleton);
+    background-size: 300% 100%;
     border-radius: var(--radius-s);
     max-width: var(--size-1300);
     min-width: var(--size-500);
+}
+
+/* Sweeps the shine from left to right across each placeholder */
+@keyframes skeleton-shimmer {
+    from {
+        background-position: 100% 0;
+    }
+
+    to {
+        background-position: 0 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .day__skeleton-card {
+        animation: none;
+    }
 }
 
 .day__empty {
