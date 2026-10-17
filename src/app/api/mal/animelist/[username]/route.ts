@@ -1,4 +1,6 @@
-import { fetchMalUpstream, isValidUsername } from '../../_lib/mal-upstream';
+import { checkBotId } from 'botid/server';
+
+import { accessDeniedResponse, fetchMalUpstream, isValidUsername } from '../../_lib/mal-upstream';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,11 +17,15 @@ async function GET(request: Request, { params }: { params: Promise<{ username: s
         return Response.json({ error: 'invalid username' }, { status: 400 });
     }
 
+    if ((await checkBotId()).isBot) {
+        return accessDeniedResponse();
+    }
+
     const requestedStatus = new URL(request.url).searchParams.get('status');
     const status = requestedStatus !== null && ALLOWED_STATUSES.has(requestedStatus) ? requestedStatus : DEFAULT_STATUS;
 
     return fetchMalUpstream(
-        `/users/${encodeURIComponent(username)}/animelist?status=${status}&sort=list_updated_at&nsfw=true&fields=${ANIMELIST_FIELDS}&limit=1000`,
+        `/users/${encodeURIComponent(username)}/animelist?status=${status}&sort=list_updated_at&nsfw=true&fields=${ANIMELIST_FIELDS}&limit=1000`
     );
 }
 

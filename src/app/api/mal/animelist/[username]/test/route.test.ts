@@ -1,6 +1,9 @@
+import { checkBotId } from 'botid/server';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { GET } from '../route';
+
+vi.mock('botid/server', () => ({ checkBotId: vi.fn() }));
 
 function params(username: string): { params: Promise<{ username: string }> } {
     return { params: Promise.resolve({ username }) };
@@ -15,6 +18,7 @@ describe('GET /api/mal/animelist/[username]', () => {
         fetchMock = vi.fn();
         vi.stubGlobal('fetch', fetchMock);
         vi.spyOn(console, 'error').mockImplementation(() => {});
+        vi.mocked(checkBotId).mockResolvedValue({ isHuman: true, isBot: false, isVerifiedBot: false, bypassed: false });
     });
 
     afterEach(() => {
@@ -27,10 +31,7 @@ describe('GET /api/mal/animelist/[username]', () => {
         const upstreamBody = { data: [{ node: { id: 1, title: 'One Piece' } }] };
         fetchMock.mockResolvedValueOnce(new Response(JSON.stringify(upstreamBody), { status: 200 }));
 
-        const response = await GET(
-            new Request('http://localhost/api/mal/animelist/lanzorzx'),
-            params('lanzorzx'),
-        );
+        const response = await GET(new Request('http://localhost/api/mal/animelist/lanzorzx'), params('lanzorzx'));
 
         expect(response.status).toBe(200);
         await expect(response.json()).resolves.toEqual(upstreamBody);
@@ -49,22 +50,30 @@ describe('GET /api/mal/animelist/[username]', () => {
     });
 
     it('rejects an invalid username with 400', async () => {
-        const response = await GET(
-            new Request('http://localhost/api/mal/animelist/bad name!'),
-            params('bad name!'),
-        );
+        const response = await GET(new Request('http://localhost/api/mal/animelist/bad name!'), params('bad name!'));
 
         expect(response.status).toBe(400);
+        expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('rejects a request BotID flags as a bot with 403 and makes no upstream call', async () => {
+        vi.mocked(checkBotId).mockResolvedValueOnce({
+            isHuman: false,
+            isBot: true,
+            isVerifiedBot: false,
+            bypassed: false,
+        });
+
+        const response = await GET(new Request('http://localhost/api/mal/animelist/lanzorzx'), params('lanzorzx'));
+
+        expect(response.status).toBe(403);
         expect(fetchMock).not.toHaveBeenCalled();
     });
 
     it('returns 500 and makes no upstream call when MAL_CLIENT_ID is unset', async () => {
         process.env.MAL_CLIENT_ID = '';
 
-        const response = await GET(
-            new Request('http://localhost/api/mal/animelist/lanzorzx'),
-            params('lanzorzx'),
-        );
+        const response = await GET(new Request('http://localhost/api/mal/animelist/lanzorzx'), params('lanzorzx'));
 
         expect(response.status).toBe(500);
         expect(fetchMock).not.toHaveBeenCalled();
@@ -76,7 +85,7 @@ describe('GET /api/mal/animelist/[username]', () => {
 
         const response = await GET(
             new Request('http://localhost/api/mal/animelist/__definitely_not_a_real_mal_user_zzz__'),
-            params('__definitely_not_a_real_mal_user_zzz__'),
+            params('__definitely_not_a_real_mal_user_zzz__')
         );
 
         expect(response.status).toBe(404);
@@ -85,14 +94,9 @@ describe('GET /api/mal/animelist/[username]', () => {
     });
 
     it('propagates upstream 429 with Retry-After', async () => {
-        fetchMock.mockResolvedValueOnce(
-            new Response(null, { status: 429, headers: { 'Retry-After': '30' } }),
-        );
+        fetchMock.mockResolvedValueOnce(new Response(null, { status: 429, headers: { 'Retry-After': '30' } }));
 
-        const response = await GET(
-            new Request('http://localhost/api/mal/animelist/lanzorzx'),
-            params('lanzorzx'),
-        );
+        const response = await GET(new Request('http://localhost/api/mal/animelist/lanzorzx'), params('lanzorzx'));
 
         expect(response.status).toBe(429);
         expect(response.headers.get('Retry-After')).toBe('30');
@@ -101,10 +105,7 @@ describe('GET /api/mal/animelist/[username]', () => {
     it('maps upstream 401/403 to 502', async () => {
         fetchMock.mockResolvedValueOnce(new Response(null, { status: 403 }));
 
-        const response = await GET(
-            new Request('http://localhost/api/mal/animelist/lanzorzx'),
-            params('lanzorzx'),
-        );
+        const response = await GET(new Request('http://localhost/api/mal/animelist/lanzorzx'), params('lanzorzx'));
 
         expect(response.status).toBe(502);
         expect(console.error).toHaveBeenCalled();
@@ -113,10 +114,7 @@ describe('GET /api/mal/animelist/[username]', () => {
     it('forwards an allowlisted status param to the MAL upstream URL', async () => {
         fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ data: [] }), { status: 200 }));
 
-        await GET(
-            new Request('http://localhost/api/mal/animelist/lanzorzx?status=plan_to_watch'),
-            params('lanzorzx'),
-        );
+        await GET(new Request('http://localhost/api/mal/animelist/lanzorzx?status=plan_to_watch'), params('lanzorzx'));
 
         const [url] = fetchMock.mock.calls[0];
         expect(url).toContain('status=plan_to_watch');
@@ -125,10 +123,7 @@ describe('GET /api/mal/animelist/[username]', () => {
     it('ignores a non-allowlisted status value and falls back to watching', async () => {
         fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ data: [] }), { status: 200 }));
 
-        await GET(
-            new Request('http://localhost/api/mal/animelist/lanzorzx?status=completed'),
-            params('lanzorzx'),
-        );
+        await GET(new Request('http://localhost/api/mal/animelist/lanzorzx?status=completed'), params('lanzorzx'));
 
         const [url] = fetchMock.mock.calls[0];
         expect(url).toContain('status=watching');
