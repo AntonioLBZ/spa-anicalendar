@@ -1,5 +1,11 @@
 # spa-anicalendar
 
+## 1.3.1
+
+### Patch Changes
+
+- d1e5eb1: fix: MAL proxy botid
+
 ## 1.3.0
 
 ### Minor Changes
