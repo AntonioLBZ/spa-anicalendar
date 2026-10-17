@@ -1,5 +1,7 @@
+import { checkBotId } from 'botid/server';
+
 import { fetchMalAvatarUrl } from '../../_lib/mal-profile';
-import { fetchMalUpstream, isValidUsername } from '../../_lib/mal-upstream';
+import { accessDeniedResponse, fetchMalUpstream, isValidUsername } from '../../_lib/mal-upstream';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,6 +10,10 @@ async function GET(_request: Request, { params }: { params: Promise<{ username: 
 
     if (!isValidUsername(username)) {
         return Response.json({ error: 'invalid username' }, { status: 400 });
+    }
+
+    if ((await checkBotId()).isBot) {
+        return accessDeniedResponse();
     }
 
     // Requested alongside the probe so the avatar adds no latency; ignored if the user doesn't exist

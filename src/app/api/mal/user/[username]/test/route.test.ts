@@ -1,6 +1,9 @@
+import { checkBotId } from 'botid/server';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { GET } from '../route';
+
+vi.mock('botid/server', () => ({ checkBotId: vi.fn() }));
 
 function params(username: string): { params: Promise<{ username: string }> } {
     return { params: Promise.resolve({ username }) };
@@ -11,8 +14,7 @@ const PROFILE_HTML = `<div class="user-profile"><div class="user-image mb8">
     <img class="lazyload" data-src="${AVATAR_URL}"></div></div>`;
 
 const isProfilePage = (url: string) => url.startsWith('https://myanimelist.net/profile/');
-const apiCalls = (fetchMock: ReturnType<typeof vi.fn>) =>
-    fetchMock.mock.calls.filter(([url]) => !isProfilePage(url));
+const apiCalls = (fetchMock: ReturnType<typeof vi.fn>) => fetchMock.mock.calls.filter(([url]) => !isProfilePage(url));
 
 /** Answers the MAL API probe with `api` and the public profile page with `profile`. */
 function mockMal(
@@ -32,6 +34,7 @@ describe('GET /api/mal/user/[username]', () => {
         fetchMock = vi.fn();
         vi.stubGlobal('fetch', fetchMock);
         vi.spyOn(console, 'error').mockImplementation(() => {});
+        vi.mocked(checkBotId).mockResolvedValue({ isHuman: true, isBot: false, isVerifiedBot: false, bypassed: false });
     });
 
     afterEach(() => {
@@ -83,6 +86,20 @@ describe('GET /api/mal/user/[username]', () => {
         expect(fetchMock).not.toHaveBeenCalled();
     });
 
+    it('rejects a request BotID flags as a bot with 403 and makes no upstream call', async () => {
+        vi.mocked(checkBotId).mockResolvedValueOnce({
+            isHuman: false,
+            isBot: true,
+            isVerifiedBot: false,
+            bypassed: false,
+        });
+
+        const response = await GET(new Request('http://localhost/api/mal/user/lanzorzx'), params('lanzorzx'));
+
+        expect(response.status).toBe(403);
+        expect(fetchMock).not.toHaveBeenCalled();
+    });
+
     it('returns 500 and makes no upstream call when MAL_CLIENT_ID is unset', async () => {
         process.env.MAL_CLIENT_ID = '';
 
@@ -98,7 +115,7 @@ describe('GET /api/mal/user/[username]', () => {
 
         const response = await GET(
             new Request('http://localhost/api/mal/user/__definitely_not_a_real_mal_user_zzz__'),
-            params('__definitely_not_a_real_mal_user_zzz__'),
+            params('__definitely_not_a_real_mal_user_zzz__')
         );
 
         expect(response.status).toBe(404);

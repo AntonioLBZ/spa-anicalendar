@@ -1,3 +1,4 @@
+import { withBotId } from 'botid/next/config';
 import createNextIntlPlugin from 'next-intl/plugin';
 
 import type { NextConfig } from 'next';
@@ -9,4 +10,4 @@ const nextConfig: NextConfig = {
     images: { unoptimized: true },
 };
 
-export default withNextIntl(nextConfig);
+export default withNextIntl(withBotId(nextConfig));

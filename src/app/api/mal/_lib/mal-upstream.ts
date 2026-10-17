@@ -10,6 +10,10 @@ function userNotFoundResponse(): Response {
     return Response.json({ error: 'user not found' }, { status: 404 });
 }
 
+function accessDeniedResponse(): Response {
+    return Response.json({ error: 'access denied' }, { status: 403 });
+}
+
 async function fetchMalUpstream(path: string): Promise<Response> {
     const clientId = process.env.MAL_CLIENT_ID;
 
@@ -35,7 +39,7 @@ async function fetchMalUpstream(path: string): Promise<Response> {
         const retryAfter = upstream.headers.get('Retry-After');
         return Response.json(
             { error: 'MAL API rate limit exceeded' },
-            { status: 429, headers: retryAfter ? { 'Retry-After': retryAfter } : undefined },
+            { status: 429, headers: retryAfter ? { 'Retry-After': retryAfter } : undefined }
         );
     }
 
@@ -46,8 +50,8 @@ async function fetchMalUpstream(path: string): Promise<Response> {
 
     return Response.json(
         { error: `MAL API error: ${upstream.status} ${upstream.statusText}` },
-        { status: upstream.status },
+        { status: upstream.status }
     );
 }
 
-export { fetchMalUpstream, isValidUsername, userNotFoundResponse };
+export { accessDeniedResponse, fetchMalUpstream, isValidUsername, userNotFoundResponse };
