@@ -1,7 +1,14 @@
 import { parseEndDate } from '../../shared';
 
 import type { KitsuAnimeResource, KitsuCategory, KitsuLibraryEntry } from './media-list.types';
-import type { AiringInfo, AnimeEntry, MediaFormat, MediaListEntryStatus, MediaSeason, MediaStatus } from '@/services/models';
+import type {
+    AiringInfo,
+    AnimeEntry,
+    MediaFormat,
+    MediaListEntryStatus,
+    MediaSeason,
+    MediaStatus,
+} from '@/services/models';
 
 // Kitsu's status enum has no equivalent to CANCELLED/HIATUS, so those AniList-only values never appear here.
 const STATUS_MAP: Record<string, MediaStatus> = {
@@ -45,12 +52,14 @@ const selectAnimeEntry = (
     { entry, anime, categories, malId }: DenormalizedEntry,
     nextAiringByMalId: Record<number, MalAiringLookupValue> = {},
     nextAiringByAnilistId: Record<number, WrappedAiring> = {},
-    anilistIdByAnimeId: Map<string, number> = new Map(),
+    anilistIdByAnimeId: Map<string, number> = new Map()
 ): AnimeEntry => {
     const isCurrentlyAiring = anime.attributes.status === 'current';
     const malLookup = malId !== undefined ? nextAiringByMalId[malId] : undefined;
     const nextAiringEpisode =
-        isCurrentlyAiring && malLookup !== undefined && isWrappedAiring(malLookup) ? malLookup.nextAiringEpisode : undefined;
+        isCurrentlyAiring && malLookup !== undefined && isWrappedAiring(malLookup)
+            ? malLookup.nextAiringEpisode
+            : undefined;
 
     let season: MediaSeason | undefined;
     let seasonYear: number | undefined;
@@ -98,8 +107,9 @@ const selectAnimeEntries = (
     entries: DenormalizedEntry[],
     nextAiringByMalId: Record<number, MalAiringLookupValue> = {},
     nextAiringByAnilistId: Record<number, WrappedAiring> = {},
-    anilistIdByAnimeId: Map<string, number> = new Map(),
-): AnimeEntry[] => entries.map((entry) => selectAnimeEntry(entry, nextAiringByMalId, nextAiringByAnilistId, anilistIdByAnimeId));
+    anilistIdByAnimeId: Map<string, number> = new Map()
+): AnimeEntry[] =>
+    entries.map((entry) => selectAnimeEntry(entry, nextAiringByMalId, nextAiringByAnilistId, anilistIdByAnimeId));
 
 export { selectAnimeEntries, selectAnimeEntry };
 export type { DenormalizedEntry };

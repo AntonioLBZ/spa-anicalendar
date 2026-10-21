@@ -56,4 +56,14 @@ describe('Link', () => {
         expect(span).toHaveClass('footer__locale-button');
         expect(span).toHaveAttribute('aria-disabled', 'true');
     });
+
+    it('keeps aria-* attributes such as aria-current on the disabled span', () => {
+        render(
+            <Link isDisabled href="/es" aria-current="true">
+                Español
+            </Link>
+        );
+
+        expect(screen.getByText('Español')).toHaveAttribute('aria-current', 'true');
+    });
 });

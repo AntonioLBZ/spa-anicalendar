@@ -29,7 +29,9 @@ const kitsuProvider: ApiProvider = {
     getUserByName,
     getMediaList: async (user, statuses, filters = NO_FILTERS): Promise<AnimeEntry[]> => {
         const results = await Promise.all(
-            statuses.map((status) => (status === 'PLANNING' ? fetchPlanningEntries(user, filters) : getMediaList(user, [status]))),
+            statuses.map((status) =>
+                status === 'PLANNING' ? fetchPlanningEntries(user, filters) : getMediaList(user, [status])
+            )
         );
 
         return results.flat();

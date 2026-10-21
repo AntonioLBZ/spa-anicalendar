@@ -36,7 +36,8 @@ const getCalendarStats = (entries: AnimeEntry[]): CalendarStats => {
         const nextEp = entry.nextAiringEpisode;
         if (!nextEp) continue;
 
-        const pending = entry.progress !== undefined ? nextEp.episode - entry.progress - 1 : 0;
+        const isPlanning = entry.listStatus === 'PLANNING';
+        const pending = entry.progress !== undefined && !isPlanning ? nextEp.episode - entry.progress - 1 : 0;
         if (pending > 0) {
             pendingEpisodes += pending;
             if (entry.duration) pendingMinutes += pending * entry.duration;

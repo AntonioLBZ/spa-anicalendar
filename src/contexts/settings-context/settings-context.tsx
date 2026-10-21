@@ -6,6 +6,7 @@ import { withColorTransition } from '@/lib/color-transition';
 import { createContext } from '@/lib/context';
 import { createPersistedStore } from '@/lib/create-persisted-store';
 
+import { DEFAULT_PROVIDER, isProviderEnabled } from './options';
 import { useResolvedTheme } from '../../lib/use-theme';
 
 import type {
@@ -35,7 +36,7 @@ type SettingsState = {
 };
 
 const DEFAULTS: SettingsState = {
-    provider: 'anilist',
+    provider: DEFAULT_PROVIDER,
     theme: 'system',
     accentColor: 'profile',
     profileAccentColor: null,
@@ -46,9 +47,11 @@ const DEFAULTS: SettingsState = {
     lastUsername: '',
 };
 
+// A saved provider that is no longer in the allowlist (`NEXT_PUBLIC_ENABLED_PROVIDERS`) falls back to the default
 const settingsStore = createPersistedStore<SettingsState>(STORAGE_KEY, DEFAULTS, (defaults, saved) => ({
     ...defaults,
     ...saved,
+    provider: isProviderEnabled(saved.provider) ? saved.provider : defaults.provider,
 }));
 
 const [SettingsContext, useSettingsContext] = createContext<SettingsContextValue>();
@@ -105,9 +108,7 @@ const SettingsProvider = (props: { children: ReactNode }) => {
             setTheme,
             accentColor: settings.accentColor,
             resolvedAccentColor:
-                settings.accentColor === 'profile'
-                    ? (settings.profileAccentColor ?? 'default')
-                    : settings.accentColor,
+                settings.accentColor === 'profile' ? (settings.profileAccentColor ?? 'default') : settings.accentColor,
             setAccentColor,
             profileAccentColor: settings.profileAccentColor,
             setProfileAccentColor,

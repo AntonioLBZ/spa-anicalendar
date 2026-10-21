@@ -26,11 +26,11 @@ import { Divider } from '@/components';
 
 ## Props
 
-| Prop | Type | Default | Notes |
-|---|---|---|---|
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Passed straight to aria `Separator`. |
-| `className` | `string` | — | Merged with the base `divider` class via `clsx`; never replaces it. |
-| ...rest | `SeparatorProps` | — | Anything else is forwarded to the underlying `<hr>`-equivalent element. |
+| Prop          | Type                         | Default        | Notes                                                                   |
+| ------------- | ---------------------------- | -------------- | ----------------------------------------------------------------------- |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Passed straight to aria `Separator`.                                    |
+| `className`   | `string`                     | —              | Merged with the base `divider` class via `clsx`; never replaces it.     |
+| ...rest       | `SeparatorProps`             | —              | Anything else is forwarded to the underlying `<hr>`-equivalent element. |
 
 ## When to use
 

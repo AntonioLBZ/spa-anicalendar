@@ -14,7 +14,7 @@ describe('Field', () => {
                     <Field.Input />
                     <Field.Label>Username</Field.Label>
                 </Field.Control>
-            </Field.Root>,
+            </Field.Root>
         );
 
         expect(screen.getByLabelText('Username')).toBeInTheDocument();
@@ -28,7 +28,7 @@ describe('Field', () => {
                     <Field.Label>Username</Field.Label>
                 </Field.Control>
                 <Field.Error>User not found.</Field.Error>
-            </Field.Root>,
+            </Field.Root>
         );
 
         const input = screen.getByLabelText('Username');
@@ -44,7 +44,7 @@ describe('Field', () => {
                     <Field.Label>Username</Field.Label>
                 </Field.Control>
                 <Field.Error>User not found.</Field.Error>
-            </Field.Root>,
+            </Field.Root>
         );
 
         expect(screen.queryByText('User not found.')).not.toBeInTheDocument();
@@ -64,7 +64,7 @@ describe('Field', () => {
                     <Field.Error>User not found.</Field.Error>
                 </Field.Root>
                 <button type="submit">Go</button>
-            </form>,
+            </form>
         );
 
         await user.click(screen.getByRole('button', { name: 'Go' }));
@@ -84,7 +84,7 @@ describe('Field', () => {
                     <Field.Label>Username</Field.Label>
                     <Field.Clear aria-label="Clear" />
                 </Field.Control>
-            </Field.Root>,
+            </Field.Root>
         );
 
         expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument();
@@ -101,7 +101,7 @@ describe('Field', () => {
                     <Field.Label>Username</Field.Label>
                     <Field.Clear aria-label="Clear" />
                 </Field.Control>
-            </Field.Root>,
+            </Field.Root>
         );
 
         await user.click(screen.getByRole('button', { name: 'Clear' }));
@@ -117,7 +117,7 @@ describe('Field', () => {
                     <Field.Label>Username</Field.Label>
                 </Field.Control>
                 <Field.Helper>Your public AniList username.</Field.Helper>
-            </Field.Root>,
+            </Field.Root>
         );
 
         expect(screen.getByLabelText('Username')).toHaveAccessibleDescription('Your public AniList username.');

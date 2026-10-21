@@ -32,7 +32,7 @@ import { Drawer, DrawerTrigger } from '@/components';
 ```tsx
 const layoutMode = useLayoutMode();
 
-<Drawer.Root placement={layoutMode === 'mobile' ? 'bottom' : 'right'}>...</Drawer.Root>
+<Drawer.Root placement={layoutMode === 'mobile' ? 'bottom' : 'right'}>...</Drawer.Root>;
 ```
 
 Default: `placement="right"`. Seasonal Filters and Settings switch to `bottom` on phones.

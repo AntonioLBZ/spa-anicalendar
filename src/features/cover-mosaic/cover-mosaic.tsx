@@ -28,11 +28,7 @@ const CoverMosaic = (props: CoverMosaicProps) => {
         <div className="cover-mosaic" aria-hidden="true">
             <div className="cover-mosaic__grid">
                 {tiles.map((entry, index) => (
-                    <span
-                        key={index}
-                        className="cover-mosaic__tile"
-                        style={{ backgroundColor: entry.coverColor }}
-                    >
+                    <span key={index} className="cover-mosaic__tile" style={{ backgroundColor: entry.coverColor }}>
                         <Image className="cover-mosaic__image" src={entry.coverImageUrl} alt="" fill />
                     </span>
                 ))}

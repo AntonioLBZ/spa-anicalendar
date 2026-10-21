@@ -1,7 +1,14 @@
 import { parseEndDate } from '../../shared';
 
 import type { MalAnimeListEntry } from './media-list.types';
-import type { AiringInfo, AnimeEntry, MediaFormat, MediaListEntryStatus, MediaSeason, MediaStatus } from '@/services/models';
+import type {
+    AiringInfo,
+    AnimeEntry,
+    MediaFormat,
+    MediaListEntryStatus,
+    MediaSeason,
+    MediaStatus,
+} from '@/services/models';
 
 const STATUS_MAP: Record<string, MediaStatus> = {
     finished_airing: 'FINISHED',

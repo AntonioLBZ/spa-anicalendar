@@ -39,14 +39,14 @@ const getTodayIndex = (weekStartDay: WeekStartDay = 'monday'): number => {
     return jsDay === 0 ? 6 : jsDay - 1;
 };
 
-/** Full weeks ahead `airingAt` falls, based on real elapsed days from today (0 unless more than 7 days away). */
+/** Weeks skipped beyond the regular 7-day slot, based on real elapsed days from today (0 unless more than 7 days away). */
 const getWeeksUntilAiring = (airingAt: number, now: Date = new Date()): number => {
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const airingDate = new Date(airingAt * 1000);
     const airingDay = new Date(airingDate.getFullYear(), airingDate.getMonth(), airingDate.getDate());
 
     const diffDays = Math.round((airingDay.getTime() - today.getTime()) / (24 * 60 * 60 * 1000));
-    return diffDays > 7 ? Math.floor(diffDays / 7) : 0;
+    return Math.max(0, Math.ceil(diffDays / 7) - 1);
 };
 
 /** Whether `airingAt` is on today's local date. An entry in today's column whose next episode isn't has already aired today. */

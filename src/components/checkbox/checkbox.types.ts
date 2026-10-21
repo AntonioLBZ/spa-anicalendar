@@ -1,6 +1,12 @@
-import type { CheckboxGroupProps as AriaCheckboxGroupProps, CheckboxProps as AriaCheckboxProps } from 'react-aria-components';
+import type {
+    CheckboxGroupProps as AriaCheckboxGroupProps,
+    CheckboxProps as AriaCheckboxProps,
+} from 'react-aria-components';
 
-type CheckboxGroupProps<T extends string = string> = Omit<AriaCheckboxGroupProps, 'onChange' | 'value' | 'defaultValue'> & {
+type CheckboxGroupProps<T extends string = string> = Omit<
+    AriaCheckboxGroupProps,
+    'onChange' | 'value' | 'defaultValue'
+> & {
     ref?: React.Ref<HTMLDivElement>;
     value?: T[];
     defaultValue?: T[];

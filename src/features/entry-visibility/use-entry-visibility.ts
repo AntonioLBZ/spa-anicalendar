@@ -5,7 +5,7 @@ import { useHiddenEntries } from '@/lib/use-hidden-entries';
 import type { EntryVisibilityParams } from './entry-visibility.types';
 
 const useEntryVisibility = (params: EntryVisibilityParams) => {
-    const { scope, allIds, editableIds } = params;
+    const { scope, editableIds } = params;
     const { hiddenIds, setHiddenIds } = useHiddenEntries(scope);
     const [isEditMode, setIsEditMode] = useState(false);
     const [draftHiddenIds, setDraftHiddenIds] = useState<number[]>([]);
@@ -18,7 +18,7 @@ const useEntryVisibility = (params: EntryVisibilityParams) => {
     const cancelEditMode = () => setIsEditMode(false);
 
     const saveEditMode = () => {
-        setHiddenIds(draftHiddenIds.filter((id) => allIds.includes(id)));
+        setHiddenIds(draftHiddenIds);
         setIsEditMode(false);
     };
 
@@ -30,7 +30,13 @@ const useEntryVisibility = (params: EntryVisibilityParams) => {
     const hiddenEditableCount = editableIds.filter((id) => currentHiddenIds.includes(id)).length;
     const isAllHidden = editableIds.length > 0 && editableIds.every((id) => currentHiddenIds.includes(id));
 
-    const toggleAll = () => setDraftHiddenIds(isAllHidden ? [] : editableIds);
+    // Only touches the entries on screen: ids hidden while a filter excluded them stay hidden
+    const toggleAll = () =>
+        setDraftHiddenIds((prev) =>
+            isAllHidden
+                ? prev.filter((id) => !editableIds.includes(id))
+                : [...prev, ...editableIds.filter((id) => !prev.includes(id))]
+        );
 
     return {
         state: {

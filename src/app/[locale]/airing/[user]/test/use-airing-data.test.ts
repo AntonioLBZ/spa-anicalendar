@@ -69,7 +69,10 @@ describe('useAiringData exported functions', () => {
                     createEntry({ listStatus: 'WATCHING', format: undefined }),
                 ];
 
-                const filtered = filterAiringEntries(entries, { formats: ['TV'] as MediaFormat[], onlyNewSeason: false });
+                const filtered = filterAiringEntries(entries, {
+                    formats: ['TV'] as MediaFormat[],
+                    onlyNewSeason: false,
+                });
 
                 expect(filtered).toHaveLength(2);
                 expect(filtered.every((e) => e.format === 'TV')).toBe(true);
@@ -82,7 +85,10 @@ describe('useAiringData exported functions', () => {
                     createEntry({ listStatus: 'WATCHING', format: 'MOVIE' }),
                 ];
 
-                const filtered = filterAiringEntries(entries, { formats: ['TV', 'MOVIE'] as MediaFormat[], onlyNewSeason: false });
+                const filtered = filterAiringEntries(entries, {
+                    formats: ['TV', 'MOVIE'] as MediaFormat[],
+                    onlyNewSeason: false,
+                });
 
                 expect(filtered).toHaveLength(2);
                 expect(filtered.every((e) => e.format !== undefined)).toBe(true);
@@ -121,7 +127,12 @@ describe('useAiringData exported functions', () => {
             });
 
             it('keeps a watching-sourced NOT_YET_RELEASED entry regardless of season', () => {
-                const entry = createEntry({ listStatus: 'WATCHING', status: 'NOT_YET_RELEASED', season: 'WINTER', seasonYear: otherSeasonYear });
+                const entry = createEntry({
+                    listStatus: 'WATCHING',
+                    status: 'NOT_YET_RELEASED',
+                    season: 'WINTER',
+                    seasonYear: otherSeasonYear,
+                });
                 const filtered = filterAiringEntries([entry], { formats: [], onlyNewSeason: false });
                 expect(filtered).toContainEqual(entry);
             });
@@ -202,27 +213,52 @@ describe('useAiringData exported functions', () => {
 
         describe('onlyNewSeason per-entry rule (applies to RELEASING entries regardless of origin)', () => {
             it('keeps RELEASING entries with undefined season when onlyNewSeason is true', () => {
-                const entry = createEntry({ listStatus: 'WATCHING', status: 'RELEASING', season: undefined, seasonYear: undefined });
+                const entry = createEntry({
+                    listStatus: 'WATCHING',
+                    status: 'RELEASING',
+                    season: undefined,
+                    seasonYear: undefined,
+                });
                 const filtered = filterAiringEntries([entry], { formats: [], onlyNewSeason: true });
                 expect(filtered).toContainEqual(entry);
             });
 
             it('keeps a RELEASING entry whose season matches the current season when onlyNewSeason is true', () => {
-                const entry = createEntry({ listStatus: 'WATCHING', status: 'RELEASING', season: currentSeason, seasonYear: currentSeasonYear });
+                const entry = createEntry({
+                    listStatus: 'WATCHING',
+                    status: 'RELEASING',
+                    season: currentSeason,
+                    seasonYear: currentSeasonYear,
+                });
                 const filtered = filterAiringEntries([entry], { formats: [], onlyNewSeason: true });
                 expect(filtered).toContainEqual(entry);
             });
 
             it('excludes a RELEASING entry whose season does not match the current season when onlyNewSeason is true', () => {
-                const entry = createEntry({ listStatus: 'WATCHING', status: 'RELEASING', season: 'WINTER', seasonYear: otherSeasonYear });
+                const entry = createEntry({
+                    listStatus: 'WATCHING',
+                    status: 'RELEASING',
+                    season: 'WINTER',
+                    seasonYear: otherSeasonYear,
+                });
                 const filtered = filterAiringEntries([entry], { formats: [], onlyNewSeason: true });
                 expect(filtered).not.toContainEqual(entry);
             });
 
             it('includes all RELEASING entries regardless of season when onlyNewSeason is false', () => {
                 const entries = [
-                    createEntry({ listStatus: 'WATCHING', status: 'RELEASING', season: 'WINTER', seasonYear: otherSeasonYear }),
-                    createEntry({ listStatus: 'WATCHING', status: 'RELEASING', season: undefined, seasonYear: undefined }),
+                    createEntry({
+                        listStatus: 'WATCHING',
+                        status: 'RELEASING',
+                        season: 'WINTER',
+                        seasonYear: otherSeasonYear,
+                    }),
+                    createEntry({
+                        listStatus: 'WATCHING',
+                        status: 'RELEASING',
+                        season: undefined,
+                        seasonYear: undefined,
+                    }),
                 ];
                 const filtered = filterAiringEntries(entries, { formats: [], onlyNewSeason: false });
                 expect(filtered).toHaveLength(2);

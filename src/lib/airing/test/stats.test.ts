@@ -35,7 +35,10 @@ describe('getNextAiringEntryId', () => {
 
     it('ignores entries with no nextAiringEpisode', () => {
         const now = Math.floor(Date.now() / 1000);
-        const entries = [baseEntry({ id: 1 }), baseEntry({ id: 2, nextAiringEpisode: { airingAt: now + 60, episode: 1 } })];
+        const entries = [
+            baseEntry({ id: 1 }),
+            baseEntry({ id: 2, nextAiringEpisode: { airingAt: now + 60, episode: 1 } }),
+        ];
 
         expect(getNextAiringEntryId(entries)).toBe(2);
     });
@@ -87,5 +90,23 @@ describe('getCalendarStats', () => {
 
         expect(stats.pendingEpisodes).toBe(2);
         expect(stats.pendingMinutes).toBe(48);
+    });
+
+    it('does not count planned shows as backlog', () => {
+        const entries = [
+            baseEntry({
+                id: 1,
+                listStatus: 'PLANNING',
+                progress: 0,
+                duration: 24,
+                nextAiringEpisode: { airingAt: Math.floor(Date.now() / 1000) + 3600, episode: 8 },
+            }),
+        ];
+
+        const stats = getCalendarStats(entries);
+
+        expect(stats.pendingEpisodes).toBe(0);
+        expect(stats.pendingMinutes).toBe(0);
+        expect(stats.nextAiringAt).not.toBeNull();
     });
 });

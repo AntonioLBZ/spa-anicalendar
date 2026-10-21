@@ -44,8 +44,8 @@ describe('getMediaList (AniList) pagination', () => {
         fetchMock.mockResolvedValueOnce(
             new Response(
                 JSON.stringify({ data: { Page: { pageInfo: { hasNextPage: false }, mediaList: mediaListPage(10) } } }),
-                { status: 200 },
-            ),
+                { status: 200 }
+            )
         );
 
         const result = await getMediaList({ userId: 1, type: 'ANIME', statusIn: ['CURRENT', 'REPEATING'] });
@@ -54,40 +54,41 @@ describe('getMediaList (AniList) pagination', () => {
         expect(result).toHaveLength(10);
     });
 
-    it('pages through multiple pages when hasNextPage is true, accumulating all entries up to the 2-page safety cap', async () => {
-        fetchMock
-            .mockResolvedValueOnce(
-                new Response(
-                    JSON.stringify({ data: { Page: { pageInfo: { hasNextPage: true }, mediaList: mediaListPage(50, 1) } } }),
-                    { status: 200 },
-                ),
-            )
-            .mockResolvedValueOnce(
-                new Response(
-                    JSON.stringify({ data: { Page: { pageInfo: { hasNextPage: true }, mediaList: mediaListPage(50, 51) } } }),
-                    { status: 200 },
-                ),
+    it('pages through every page while hasNextPage is true, up to the 10-page safety cap', async () => {
+        fetchMock.mockImplementation(async () => {
+            const { variables } = JSON.parse(fetchMock.mock.calls[fetchMock.mock.calls.length - 1][1].body);
+            const firstId = (variables.page - 1) * 50 + 1;
+            return new Response(
+                JSON.stringify({
+                    data: { Page: { pageInfo: { hasNextPage: true }, mediaList: mediaListPage(50, firstId) } },
+                }),
+                { status: 200 }
             );
+        });
 
-        const result = await getMediaList({ userId: 1, type: 'ANIME', statusIn: ['PLANNING'] });
+        const result = await getMediaList({ userId: 1, type: 'ANIME', statusIn: ['CURRENT', 'REPEATING'] });
 
-        expect(fetchMock).toHaveBeenCalledTimes(2);
-        expect(result).toHaveLength(100);
+        expect(fetchMock).toHaveBeenCalledTimes(10);
+        expect(result).toHaveLength(500);
     });
 
     it('sends an incrementing page variable and a fixed perPage on each request', async () => {
         fetchMock
             .mockResolvedValueOnce(
                 new Response(
-                    JSON.stringify({ data: { Page: { pageInfo: { hasNextPage: true }, mediaList: mediaListPage(50, 1) } } }),
-                    { status: 200 },
-                ),
+                    JSON.stringify({
+                        data: { Page: { pageInfo: { hasNextPage: true }, mediaList: mediaListPage(50, 1) } },
+                    }),
+                    { status: 200 }
+                )
             )
             .mockResolvedValueOnce(
                 new Response(
-                    JSON.stringify({ data: { Page: { pageInfo: { hasNextPage: false }, mediaList: mediaListPage(5, 51) } } }),
-                    { status: 200 },
-                ),
+                    JSON.stringify({
+                        data: { Page: { pageInfo: { hasNextPage: false }, mediaList: mediaListPage(5, 51) } },
+                    }),
+                    { status: 200 }
+                )
             );
 
         await getMediaList({ userId: 1, type: 'ANIME', statusIn: ['PLANNING'] });
@@ -105,9 +106,11 @@ describe('getMediaList (AniList) pagination', () => {
         fetchMock.mockImplementation(
             async () =>
                 new Response(
-                    JSON.stringify({ data: { Page: { pageInfo: { hasNextPage: true }, mediaList: mediaListPage(50, 1) } } }),
-                    { status: 200 },
-                ),
+                    JSON.stringify({
+                        data: { Page: { pageInfo: { hasNextPage: true }, mediaList: mediaListPage(50, 1) } },
+                    }),
+                    { status: 200 }
+                )
         );
 
         await getMediaList({ userId: 1, type: 'ANIME', statusIn: ['PLANNING'] });
@@ -117,11 +120,11 @@ describe('getMediaList (AniList) pagination', () => {
 
     it('throws when AniList returns GraphQL errors', async () => {
         fetchMock.mockResolvedValueOnce(
-            new Response(JSON.stringify({ data: null, errors: [{ message: 'Something went wrong' }] }), { status: 200 }),
+            new Response(JSON.stringify({ data: null, errors: [{ message: 'Something went wrong' }] }), { status: 200 })
         );
 
         await expect(getMediaList({ userId: 1, type: 'ANIME', statusIn: ['PLANNING'] })).rejects.toThrow(
-            'Something went wrong',
+            'Something went wrong'
         );
     });
 });
@@ -142,8 +145,8 @@ describe('getCandidateMediaIds (AniList)', () => {
         fetchMock.mockResolvedValueOnce(
             new Response(
                 JSON.stringify({ data: { Page: { pageInfo: { hasNextPage: false }, media: [{ id: 1 }, { id: 2 }] } } }),
-                { status: 200 },
-            ),
+                { status: 200 }
+            )
         );
 
         const result = await getCandidateMediaIds({ season: 'FALL', seasonYear: 2026 });
@@ -161,8 +164,8 @@ describe('getCandidateMediaIds (AniList)', () => {
             async () =>
                 new Response(
                     JSON.stringify({ data: { Page: { pageInfo: { hasNextPage: true }, media: [{ id: 1 }] } } }),
-                    { status: 200 },
-                ),
+                    { status: 200 }
+                )
         );
 
         await getCandidateMediaIds({ status: 'RELEASING' });
@@ -179,7 +182,7 @@ describe('getCandidateMediaIds (AniList)', () => {
             async () =>
                 new Response(JSON.stringify({ data: { Page: { pageInfo: { hasNextPage: false }, media: [] } } }), {
                     status: 200,
-                }),
+                })
         );
 
         await getCandidateMediaIds({ status: 'RELEASING', formats: ['TV', 'MOVIE'] });
@@ -196,7 +199,7 @@ describe('getCandidateMediaIds (AniList)', () => {
 
     it('throws when AniList returns GraphQL errors', async () => {
         fetchMock.mockResolvedValueOnce(
-            new Response(JSON.stringify({ data: null, errors: [{ message: 'Something went wrong' }] }), { status: 200 }),
+            new Response(JSON.stringify({ data: null, errors: [{ message: 'Something went wrong' }] }), { status: 200 })
         );
 
         await expect(getCandidateMediaIds({ status: 'RELEASING' })).rejects.toThrow('Something went wrong');

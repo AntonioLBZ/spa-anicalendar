@@ -33,7 +33,7 @@ const SEASON_TO_KITSU: Record<string, string> = {
 function getExternalIdForAnime(
     anime: KitsuAnimeResource,
     mappingById: Map<string, KitsuMapping>,
-    externalSite: string,
+    externalSite: string
 ): number | undefined {
     const refs = anime.relationships?.mappings?.data ?? [];
 
@@ -52,7 +52,7 @@ interface KitsuPage {
 async function paginateByCursor<TResponse extends KitsuPage>(
     initialUrl: string,
     maxPages: number,
-    fetchPage: (url: string) => Promise<TResponse>,
+    fetchPage: (url: string) => Promise<TResponse>
 ): Promise<TResponse[]> {
     const responses: TResponse[] = [];
     let nextUrl: string | undefined = initialUrl;
@@ -76,7 +76,7 @@ const MAX_PAGES = 40;
 async function getMediaList(
     user: User,
     statuses: MediaListEntryStatus[] = ['WATCHING'],
-    animeIdIn?: number[],
+    animeIdIn?: number[]
 ): Promise<AnimeEntry[]> {
     if (animeIdIn && animeIdIn.length === 0) {
         return [];
@@ -92,13 +92,19 @@ async function getMediaList(
 
     const initialUrl = `/library-entries?filter[user_id]=${user.id}&filter[kind]=anime&filter[status]=${kitsuStatuses}${animeIdFilter}&include=anime,anime.mappings,anime.categories&page[limit]=${PAGE_LIMIT}`;
 
-    const responses = await paginateByCursor(initialUrl, MAX_PAGES, (url) => kitsuFetch<KitsuLibraryEntriesResponse>(url));
+    const responses = await paginateByCursor(initialUrl, MAX_PAGES, (url) =>
+        kitsuFetch<KitsuLibraryEntriesResponse>(url)
+    );
     const data = responses.flatMap((response) => response.data);
     const included = responses.flatMap((response) => response.included ?? []);
 
-    const animeById = new Map(included.filter((r): r is KitsuAnimeResource => r.type === 'anime').map((r) => [r.id, r]));
+    const animeById = new Map(
+        included.filter((r): r is KitsuAnimeResource => r.type === 'anime').map((r) => [r.id, r])
+    );
     const mappingById = new Map(included.filter((r): r is KitsuMapping => r.type === 'mappings').map((r) => [r.id, r]));
-    const categoryById = new Map(included.filter((r): r is KitsuCategory => r.type === 'categories').map((r) => [r.id, r]));
+    const categoryById = new Map(
+        included.filter((r): r is KitsuCategory => r.type === 'categories').map((r) => [r.id, r])
+    );
 
     const denormalized: DenormalizedEntry[] = data.flatMap((entry) => {
         const anime = animeById.get(entry.relationships.anime.data.id);
@@ -124,7 +130,7 @@ async function getMediaList(
         denormalized
             .filter(({ malId }) => malId === undefined)
             .map(({ anime }) => [anime.id, getExternalIdForAnime(anime, mappingById, 'anilist/anime')] as const)
-            .filter((pair): pair is [string, number] => pair[1] !== undefined),
+            .filter((pair): pair is [string, number] => pair[1] !== undefined)
     );
 
     const [nextAiringByMalId, nextAiringByAnilistId] = await Promise.all([
@@ -146,7 +152,8 @@ async function getMediaList(
 
         if (!item.nextAiringEpisode && isCurrentlyAiring) {
             const anilistId = anilistIdByAnimeId.get(denormalized[index].anime.id);
-            const fallbackAiring = anilistId !== undefined ? nextAiringByAnilistId[anilistId]?.nextAiringEpisode : undefined;
+            const fallbackAiring =
+                anilistId !== undefined ? nextAiringByAnilistId[anilistId]?.nextAiringEpisode : undefined;
             if (fallbackAiring) {
                 return { ...item, nextAiringEpisode: fallbackAiring };
             }
@@ -176,7 +183,9 @@ async function getCandidateAnimeIds(params: GetCandidateAnimeIdsParams): Promise
 
     const initialUrl = `/anime?${filters.join('&')}&sort=popularityRank&page[limit]=${PAGE_LIMIT}`;
 
-    const responses = await paginateByCursor(initialUrl, CANDIDATE_MAX_PAGES, (url) => kitsuFetch<KitsuCandidateAnimeResponse>(url));
+    const responses = await paginateByCursor(initialUrl, CANDIDATE_MAX_PAGES, (url) =>
+        kitsuFetch<KitsuCandidateAnimeResponse>(url)
+    );
 
     return responses.flatMap((response) => response.data.map((anime) => Number(anime.id)));
 }

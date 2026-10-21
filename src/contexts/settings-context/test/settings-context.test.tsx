@@ -46,3 +46,21 @@ describe('SettingsProvider color scheme', () => {
         expect(result.current.profileAccentColor).toBe('purple');
     });
 });
+
+describe('SettingsProvider provider', () => {
+    it('falls back to the default when the saved provider is no longer enabled', () => {
+        memoryStorage.setItem('anicalendar-settings', JSON.stringify({ provider: 'myanimelist' }));
+
+        const { result } = renderSettings();
+
+        expect(result.current.provider).toBe('anilist');
+    });
+
+    it('keeps a saved provider that is still enabled', () => {
+        memoryStorage.setItem('anicalendar-settings', JSON.stringify({ provider: 'anilist' }));
+
+        const { result } = renderSettings();
+
+        expect(result.current.provider).toBe('anilist');
+    });
+});

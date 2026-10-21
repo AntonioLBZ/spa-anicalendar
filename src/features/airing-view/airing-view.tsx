@@ -34,14 +34,13 @@ const AiringView = (props: AiringViewProps) => {
     const t = useTranslations('airing');
     const { filters } = useSeasonalFilters();
 
-    const allIds = useMemo(() => entries.map((entry) => entry.id), [entries]);
     const editableEntries = useMemo(
         () => filterByContent(entries, filters.contentFilter),
         [entries, filters.contentFilter]
     );
     const editableIds = useMemo(() => editableEntries.map((entry) => entry.id), [editableEntries]);
 
-    const visibility = useEntryVisibility({ scope, allIds, editableIds });
+    const visibility = useEntryVisibility({ scope, editableIds });
 
     const stats = useMemo(() => {
         const visibleEntries = filterByHidden(editableEntries, visibility.data.hiddenIds);
