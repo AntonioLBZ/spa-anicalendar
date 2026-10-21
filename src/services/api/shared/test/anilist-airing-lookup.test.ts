@@ -37,13 +37,19 @@ describe('getNextAiringByMalIds', () => {
                                     seasonYear: 2024,
                                     coverImage: { color: '#e4a15d' },
                                 },
-                                { idMal: 20, nextAiringEpisode: null, season: null, seasonYear: null, coverImage: { color: null } },
+                                {
+                                    idMal: 20,
+                                    nextAiringEpisode: null,
+                                    season: null,
+                                    seasonYear: null,
+                                    coverImage: { color: null },
+                                },
                             ],
                         },
                     },
                 }),
-                { status: 200 },
-            ),
+                { status: 200 }
+            )
         );
 
         const result = await getNextAiringByMalIds([21, 20]);
@@ -59,24 +65,18 @@ describe('getNextAiringByMalIds', () => {
         });
     });
 
-    it('returns an empty map and logs when AniList responds with GraphQL errors', async () => {
+    it('rejects when AniList responds with GraphQL errors, so no degraded result is cached', async () => {
         fetchMock.mockResolvedValueOnce(
-            new Response(JSON.stringify({ errors: [{ message: 'boom' }] }), { status: 200 }),
+            new Response(JSON.stringify({ errors: [{ message: 'boom' }] }), { status: 200 })
         );
 
-        const result = await getNextAiringByMalIds([21]);
-
-        expect(result).toEqual({});
-        expect(console.error).toHaveBeenCalled();
+        await expect(getNextAiringByMalIds([21])).rejects.toThrow('AniList airing lookup error: boom');
     });
 
-    it('returns an empty map and logs when the request itself fails', async () => {
+    it('rejects when the request itself fails', async () => {
         fetchMock.mockRejectedValueOnce(new Error('network down'));
 
-        const result = await getNextAiringByMalIds([21]);
-
-        expect(result).toEqual({});
-        expect(console.error).toHaveBeenCalled();
+        await expect(getNextAiringByMalIds([21])).rejects.toThrow('network down');
     });
 
     it('chunks ids into batches of 50 when exceeding AniList Page.perPage cap, merging all results', async () => {
@@ -86,18 +86,40 @@ describe('getNextAiringByMalIds', () => {
             .mockResolvedValueOnce(
                 new Response(
                     JSON.stringify({
-                        data: { Page: { media: [{ idMal: 1, nextAiringEpisode: { airingAt: 1000, episode: 1 }, season: 'FALL', seasonYear: 2024 }] } },
+                        data: {
+                            Page: {
+                                media: [
+                                    {
+                                        idMal: 1,
+                                        nextAiringEpisode: { airingAt: 1000, episode: 1 },
+                                        season: 'FALL',
+                                        seasonYear: 2024,
+                                    },
+                                ],
+                            },
+                        },
                     }),
-                    { status: 200 },
-                ),
+                    { status: 200 }
+                )
             )
             .mockResolvedValueOnce(
                 new Response(
                     JSON.stringify({
-                        data: { Page: { media: [{ idMal: 51, nextAiringEpisode: { airingAt: 2000, episode: 5 }, season: 'FALL', seasonYear: 2024 }] } },
+                        data: {
+                            Page: {
+                                media: [
+                                    {
+                                        idMal: 51,
+                                        nextAiringEpisode: { airingAt: 2000, episode: 5 },
+                                        season: 'FALL',
+                                        seasonYear: 2024,
+                                    },
+                                ],
+                            },
+                        },
                     }),
-                    { status: 200 },
-                ),
+                    { status: 200 }
+                )
             );
 
         const result = await getNextAiringByMalIds(manyIds);
@@ -110,7 +132,7 @@ describe('getNextAiringByMalIds', () => {
         expect(Object.keys(result)).toEqual(['1', '51']);
     });
 
-    it('skips a failing chunk but still returns results from the others', async () => {
+    it('rejects when any chunk fails instead of returning a partial lookup', async () => {
         const manyIds = Array.from({ length: 51 }, (_, i) => i + 1);
 
         fetchMock
@@ -118,16 +140,15 @@ describe('getNextAiringByMalIds', () => {
             .mockResolvedValueOnce(
                 new Response(
                     JSON.stringify({
-                        data: { Page: { media: [{ idMal: 51, nextAiringEpisode: null, season: null, seasonYear: null }] } },
+                        data: {
+                            Page: { media: [{ idMal: 51, nextAiringEpisode: null, season: null, seasonYear: null }] },
+                        },
                     }),
-                    { status: 200 },
-                ),
+                    { status: 200 }
+                )
             );
 
-        const result = await getNextAiringByMalIds(manyIds);
-
-        expect(Object.keys(result)).toEqual(['51']);
-        expect(console.error).toHaveBeenCalled();
+        await expect(getNextAiringByMalIds(manyIds)).rejects.toThrow('boom');
     });
 });
 
@@ -159,14 +180,19 @@ describe('getNextAiringByAnilistIds', () => {
                     data: {
                         Page: {
                             media: [
-                                { id: 207141, nextAiringEpisode: { airingAt: 1784215800, episode: 3 }, season: 'SUMMER', seasonYear: 2025 },
+                                {
+                                    id: 207141,
+                                    nextAiringEpisode: { airingAt: 1784215800, episode: 3 },
+                                    season: 'SUMMER',
+                                    seasonYear: 2025,
+                                },
                                 { id: 12345, nextAiringEpisode: null, season: null, seasonYear: null },
                             ],
                         },
                     },
                 }),
-                { status: 200 },
-            ),
+                { status: 200 }
+            )
         );
 
         const result = await getNextAiringByAnilistIds([207141, 12345]);
@@ -177,23 +203,17 @@ describe('getNextAiringByAnilistIds', () => {
         });
     });
 
-    it('returns an empty map and logs when AniList responds with GraphQL errors', async () => {
+    it('rejects when AniList responds with GraphQL errors', async () => {
         fetchMock.mockResolvedValueOnce(
-            new Response(JSON.stringify({ errors: [{ message: 'boom' }] }), { status: 200 }),
+            new Response(JSON.stringify({ errors: [{ message: 'boom' }] }), { status: 200 })
         );
 
-        const result = await getNextAiringByAnilistIds([207141]);
-
-        expect(result).toEqual({});
-        expect(console.error).toHaveBeenCalled();
+        await expect(getNextAiringByAnilistIds([207141])).rejects.toThrow('AniList airing lookup error: boom');
     });
 
-    it('returns an empty map and logs when the request itself fails', async () => {
+    it('rejects when the request itself fails', async () => {
         fetchMock.mockRejectedValueOnce(new Error('network down'));
 
-        const result = await getNextAiringByAnilistIds([207141]);
-
-        expect(result).toEqual({});
-        expect(console.error).toHaveBeenCalled();
+        await expect(getNextAiringByAnilistIds([207141])).rejects.toThrow('network down');
     });
 });

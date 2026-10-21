@@ -23,12 +23,15 @@ const useMediaList = (
     provider: Provider,
     user: User | undefined,
     statuses: MediaListEntryStatus[] = ['WATCHING'],
-    filters?: MediaListFilters,
+    filters?: MediaListFilters
 ) => {
     const api = getProvider(provider);
     const userName = user?.name;
     const statusKey = [...statuses].sort().join(',');
-    const filterKey = `${[...(filters?.formats ?? [])].sort().join(',')}|${filters?.onlyNewSeason ?? false}`;
+    // The filters only narrow PLANNING fetches, so they must not refetch a plain watching list
+    const filterKey = statuses.includes('PLANNING')
+        ? `${[...(filters?.formats ?? [])].sort().join(',')}|${filters?.onlyNewSeason ?? false}`
+        : '';
 
     return useQuery({
         queryKey: ['mediaList', provider, userName, statusKey, filterKey],

@@ -38,11 +38,19 @@ const PROVIDER_LABELS = Object.fromEntries(ALL_SOURCE_OPTIONS.map((o) => [o.valu
 
 // Complete list: anilist,kitsu,myanimelist
 const DEFAULT_ENABLED: Provider[] = ['anilist'];
-const enabledFromEnv = process.env.NEXT_PUBLIC_ENABLED_PROVIDERS?.split(',')
-    .map((s) => s.trim())
-    .filter(Boolean) as Provider[] | undefined;
-const enabledProviders = new Set<Provider>(enabledFromEnv ?? DEFAULT_ENABLED);
+
+/** Providers allowed by `NEXT_PUBLIC_ENABLED_PROVIDERS`; unknown names are ignored and an empty result falls back to the default. */
+const parseEnabledProviders = (raw: string | undefined): Provider[] => {
+    const requested = new Set((raw ?? '').split(',').map((s) => s.trim().toLowerCase()));
+    const enabled = ALL_SOURCE_OPTIONS.map((o) => o.value).filter((value) => requested.has(value));
+    return enabled.length > 0 ? enabled : DEFAULT_ENABLED;
+};
+
+const enabledProviders = new Set<Provider>(parseEnabledProviders(process.env.NEXT_PUBLIC_ENABLED_PROVIDERS));
 const SOURCE_OPTIONS = ALL_SOURCE_OPTIONS.filter((o) => enabledProviders.has(o.value));
+const DEFAULT_PROVIDER = SOURCE_OPTIONS[0].value;
+
+const isProviderEnabled = (provider: unknown): provider is Provider => enabledProviders.has(provider as Provider);
 
 export {
     ACCENT_COLOR_OPTIONS,
@@ -50,6 +58,9 @@ export {
     WEEK_START_OPTIONS,
     TIME_FORMAT_OPTIONS,
     SOURCE_OPTIONS,
+    DEFAULT_PROVIDER,
     PROVIDER_LABELS,
     CALENDAR_LAYOUT_OPTIONS,
+    isProviderEnabled,
+    parseEnabledProviders,
 };

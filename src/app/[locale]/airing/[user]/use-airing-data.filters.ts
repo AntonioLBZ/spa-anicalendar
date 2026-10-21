@@ -2,24 +2,24 @@ import { isFinishedInCurrentSeason, startedInCurrentSeason } from '@/lib/airing'
 
 import type { AnimeEntry, MediaFormat, MediaListEntryStatus } from '@/services/models';
 
-export interface AiringFilters {
+interface AiringFilters {
     formats: MediaFormat[];
     onlyNewSeason: boolean;
 }
 
-export interface UserListFilter {
+interface UserListFilter {
     watching: boolean;
     planning: boolean;
 }
 
-export function buildRequestedStatuses(userList: UserListFilter): MediaListEntryStatus[] {
+function buildRequestedStatuses(userList: UserListFilter): MediaListEntryStatus[] {
     const statuses: MediaListEntryStatus[] = [];
     if (userList.watching) statuses.push('WATCHING');
     if (userList.planning) statuses.push('PLANNING');
     return statuses.length > 0 ? statuses : (['WATCHING'] as const);
 }
 
-export function filterAiringEntries(entries: AnimeEntry[], filters: AiringFilters): AnimeEntry[] {
+function filterAiringEntries(entries: AnimeEntry[], filters: AiringFilters): AnimeEntry[] {
     const hasFormatFilter = filters.formats.length > 0;
 
     return entries.filter((entry) => {
@@ -47,3 +47,6 @@ export function filterAiringEntries(entries: AnimeEntry[], filters: AiringFilter
         return entry.status === 'NOT_YET_RELEASED' && startedInCurrentSeason(entry);
     });
 }
+
+export { buildRequestedStatuses, filterAiringEntries };
+export type { AiringFilters, UserListFilter };

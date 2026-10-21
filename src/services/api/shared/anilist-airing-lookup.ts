@@ -36,48 +36,43 @@ async function fetchAiringLookup<TMedia extends AiringLookupMedia>(
     ids: number[],
     query: string,
     idsVariableName: string,
-    getKey: (media: TMedia) => number | null,
+    getKey: (media: TMedia) => number | null
 ): Promise<AiringLookupResult> {
     if (ids.length === 0) {
         return {};
     }
 
-    try {
-        const responses = await Promise.all(
-            chunk(ids, ANILIST_PAGE_SIZE_CAP).map((idsChunk) =>
-                anilistQuery<AiringLookupResponse<TMedia>, Record<string, unknown>>(query, {
-                    [idsVariableName]: idsChunk,
-                    perPage: idsChunk.length,
-                }),
-            ),
-        );
+    const responses = await Promise.all(
+        chunk(ids, ANILIST_PAGE_SIZE_CAP).map((idsChunk) =>
+            anilistQuery<AiringLookupResponse<TMedia>, Record<string, unknown>>(query, {
+                [idsVariableName]: idsChunk,
+                perPage: idsChunk.length,
+            })
+        )
+    );
 
-        const result: AiringLookupResult = {};
+    const result: AiringLookupResult = {};
 
-        for (const response of responses) {
-            if (response.errors) {
-                console.error(`AniList airing lookup error: ${response.errors[0].message}`);
-                continue;
-            }
-
-            for (const media of response.data.Page.media) {
-                const key = getKey(media);
-                if (key !== null) {
-                    result[key] = {
-                        nextAiringEpisode: media.nextAiringEpisode ?? undefined,
-                        season: media.season ?? undefined,
-                        seasonYear: media.seasonYear ?? undefined,
-                        coverColor: media.coverImage?.color ?? undefined,
-                    };
-                }
-            }
+    for (const response of responses) {
+        // A partial lookup would silently move airing shows to "No upcoming episodes", so fail the whole list
+        if (response.errors) {
+            throw new Error(`AniList airing lookup error: ${response.errors[0].message}`);
         }
 
-        return result;
-    } catch (error) {
-        console.error('AniList airing lookup failed:', error);
-        return {};
+        for (const media of response.data.Page.media) {
+            const key = getKey(media);
+            if (key !== null) {
+                result[key] = {
+                    nextAiringEpisode: media.nextAiringEpisode ?? undefined,
+                    season: media.season ?? undefined,
+                    seasonYear: media.seasonYear ?? undefined,
+                    coverColor: media.coverImage?.color ?? undefined,
+                };
+            }
+        }
     }
+
+    return result;
 }
 
 interface AnilistAiringByMalIdMedia extends AiringLookupMedia {
@@ -104,7 +99,12 @@ query NextAiringByMalId($idMalIn: [Int], $perPage: Int) {
 `;
 
 async function getNextAiringByMalIds(malIds: number[]): Promise<AiringLookupResult> {
-    return fetchAiringLookup<AnilistAiringByMalIdMedia>(malIds, GET_NEXT_AIRING_BY_MAL_ID, 'idMalIn', (media) => media.idMal);
+    return fetchAiringLookup<AnilistAiringByMalIdMedia>(
+        malIds,
+        GET_NEXT_AIRING_BY_MAL_ID,
+        'idMalIn',
+        (media) => media.idMal
+    );
 }
 
 interface AnilistAiringByIdMedia extends AiringLookupMedia {
@@ -136,7 +136,12 @@ query NextAiringByAnilistId($idIn: [Int], $perPage: Int) {
  * lack a MyAnimeList crossreference for newer/niche titles even when an AniList one exists).
  */
 async function getNextAiringByAnilistIds(anilistIds: number[]): Promise<AiringLookupResult> {
-    return fetchAiringLookup<AnilistAiringByIdMedia>(anilistIds, GET_NEXT_AIRING_BY_ANILIST_ID, 'idIn', (media) => media.id);
+    return fetchAiringLookup<AnilistAiringByIdMedia>(
+        anilistIds,
+        GET_NEXT_AIRING_BY_ANILIST_ID,
+        'idIn',
+        (media) => media.id
+    );
 }
 
 export { getNextAiringByMalIds, getNextAiringByAnilistIds };
