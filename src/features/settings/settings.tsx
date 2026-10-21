@@ -94,7 +94,9 @@ const Settings = () => {
                                             {/* `data-accent` scopes the swatch to its own scheme's shades */}
                                             <span
                                                 className="settings__swatch"
-                                                data-accent={value === 'profile' ? (profileAccentColor ?? 'default') : value}
+                                                data-accent={
+                                                    value === 'profile' ? (profileAccentColor ?? 'default') : value
+                                                }
                                                 aria-hidden="true"
                                             >
                                                 {isSelected && <CheckMarkIcon className="settings__swatch-check" />}

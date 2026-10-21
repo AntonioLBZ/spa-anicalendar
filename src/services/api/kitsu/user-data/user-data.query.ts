@@ -6,7 +6,7 @@ import type { User } from '@/services/models';
 
 async function getUserByName(name: string): Promise<User> {
     const response = await kitsuFetch<KitsuUsersResponse>(
-        `/users?filter[name]=${encodeURIComponent(name)}&page[limit]=1`,
+        `/users?filter[name]=${encodeURIComponent(name)}&page[limit]=1`
     );
 
     if (response.data.length === 0) {

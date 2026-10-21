@@ -39,9 +39,7 @@ describe('selectAnimeEntries', () => {
     });
 
     it('leaves seasonYear undefined when AniList returns null', () => {
-        const [entry] = selectAnimeEntries([
-            baseEntry({ media: { ...baseEntry().media, seasonYear: null } }),
-        ]);
+        const [entry] = selectAnimeEntries([baseEntry({ media: { ...baseEntry().media, seasonYear: null } })]);
 
         expect(entry.seasonYear).toBeUndefined();
     });

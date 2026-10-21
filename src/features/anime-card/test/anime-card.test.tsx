@@ -79,6 +79,27 @@ describe('AnimeCard showProgress', () => {
     });
 });
 
+describe('AnimeCard watch status', () => {
+    const airingEntry: AnimeEntry = {
+        ...entry,
+        progress: 0,
+        nextAiringEpisode: { airingAt: Math.floor(Date.now() / 1000) + 3600, episode: 8 },
+    };
+
+    it('shows how many episodes a watched show is behind', () => {
+        render(<AnimeCard entry={{ ...airingEntry, listStatus: 'WATCHING' }} />, { wrapper: Wrapper });
+
+        expect(screen.getByText('7 behind')).toBeInTheDocument();
+    });
+
+    it('does not show a backlog for a planned show', () => {
+        render(<AnimeCard entry={{ ...airingEntry, listStatus: 'PLANNING' }} />, { wrapper: Wrapper });
+
+        expect(screen.queryByText(/behind/)).not.toBeInTheDocument();
+        expect(screen.queryByText(/caught up/i)).not.toBeInTheDocument();
+    });
+});
+
 describe('AnimeCard title visibility', () => {
     it('renders the title outside the hover content when there is no next airing episode', () => {
         const { container } = render(<AnimeCard entry={{ ...entry, nextAiringEpisode: undefined }} />, {
@@ -133,9 +154,12 @@ describe('AnimeCard showWatchStatus', () => {
     });
 
     it('renders "caught up"/"behind" by default (showWatchStatus defaults to true)', () => {
-        render(<AnimeCard entry={{ ...entry, progress: 3, nextAiringEpisode: { airingAt: 1700000000, episode: 4 } }} />, {
-            wrapper: Wrapper,
-        });
+        render(
+            <AnimeCard entry={{ ...entry, progress: 3, nextAiringEpisode: { airingAt: 1700000000, episode: 4 } }} />,
+            {
+                wrapper: Wrapper,
+            }
+        );
 
         expect(screen.getByText('Caught up!')).toBeInTheDocument();
     });

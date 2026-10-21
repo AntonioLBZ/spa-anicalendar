@@ -25,8 +25,10 @@ const Link = (props: LinkProps) => {
     const variantClsx = variant === 'plain' ? linkClsx : buttonClsx;
 
     if (isDisabled) {
+        const ariaProps = Object.fromEntries(Object.entries(rest).filter(([name]) => name.startsWith('aria-')));
+
         return (
-            <span className={variantClsx} style={style} aria-disabled="true">
+            <span {...ariaProps} className={variantClsx} style={style} aria-disabled="true">
                 {children}
             </span>
         );

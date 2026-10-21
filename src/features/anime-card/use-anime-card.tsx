@@ -49,10 +49,12 @@ const useAnimeCard = (props: AnimeCardProps) => {
     const nextEp = entry.nextAiringEpisode;
     const hasProgress = showProgress && entry.progress !== undefined;
     const totalEpisodes = entry.episodes;
-    const pendingCount = showWatchStatus && hasProgress && nextEp ? nextEp.episode - entry.progress! - 1 : -1;
+    const isPlanning = entry.listStatus === 'PLANNING';
+    // A planned show isn't started, so it has no backlog to be behind on
+    const pendingCount =
+        showWatchStatus && hasProgress && nextEp && !isPlanning ? nextEp.episode - entry.progress! - 1 : -1;
     const statusMeta = STATUS_META_MAP[entry.status] ?? DEFAULT_STATUS_META;
     const countdown = nextEp ? getTimeUntilAiring(nextEp.airingAt) : null;
-    const isPlanning = entry.listStatus === 'PLANNING';
 
     let progressText: string | null = null;
     if (hasProgress) {

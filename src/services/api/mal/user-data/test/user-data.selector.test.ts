@@ -13,7 +13,10 @@ describe('selectUser', () => {
     });
 
     it('uses the avatar read from the public profile page, when there is one', () => {
-        const user = selectUser({ name: 'lanzorzx', avatarUrl: 'https://cdn.myanimelist.net/s/common/userimages/a.jpg' });
+        const user = selectUser({
+            name: 'lanzorzx',
+            avatarUrl: 'https://cdn.myanimelist.net/s/common/userimages/a.jpg',
+        });
 
         expect(user.avatarUrl).toBe('https://cdn.myanimelist.net/s/common/userimages/a.jpg');
     });

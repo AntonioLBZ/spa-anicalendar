@@ -38,8 +38,8 @@ const anilistProvider: ApiProvider = {
             statuses.map((status) =>
                 status === 'PLANNING'
                     ? fetchPlanningEntries(user.id, filters)
-                    : getMediaList({ userId: user.id, type: 'ANIME', statusIn: statusInMap[status] }),
-            ),
+                    : getMediaList({ userId: user.id, type: 'ANIME', statusIn: statusInMap[status] })
+            )
         );
 
         return results.flat();

@@ -3,8 +3,6 @@ import { checkBotId } from 'botid/server';
 import { fetchMalAvatarUrl } from '../../_lib/mal-profile';
 import { accessDeniedResponse, fetchMalUpstream, isValidUsername } from '../../_lib/mal-upstream';
 
-export const dynamic = 'force-dynamic';
-
 async function GET(_request: Request, { params }: { params: Promise<{ username: string }> }): Promise<Response> {
     const { username } = await params;
 

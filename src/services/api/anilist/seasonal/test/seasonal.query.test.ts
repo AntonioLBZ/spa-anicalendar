@@ -31,9 +31,7 @@ describe('getSeasonalMedia', () => {
             genres: [],
         }));
 
-        fetchMock.mockResolvedValueOnce(
-            new Response(JSON.stringify({ data: { Page: { media } } }), { status: 200 })
-        );
+        fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ data: { Page: { media } } }), { status: 200 }));
 
         const result = await getSeasonalMedia({ season: 'FALL', seasonYear: 2026 });
 

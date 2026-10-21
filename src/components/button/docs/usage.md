@@ -35,19 +35,21 @@ Default: `size="m"`. Use `m` whenever the button sits next to a `Field` (e.g. a 
 ## Disabled state
 
 ```tsx
-<Button isDisabled onPress={handlePress}>Go</Button>
+<Button isDisabled onPress={handlePress}>
+    Go
+</Button>
 ```
 
 `onPress` never fires while `isDisabled` is set.
 
 ## Props
 
-| Prop | Type | Default | Notes |
-|---|---|---|---|
-| `variant` | `'primary' \| 'ghost'` | `'primary'` | |
-| `size` | `'s' \| 'm'` | `'m'` | Controls a fixed `height`, not padding — see `field.css`'s `.field__input` for why `m` matches it. |
-| `className` | `string` | — | Merged with the base classes via `clsx`. |
-| ...rest | `AriaButtonProps` | — | `onPress`, `isDisabled`, `isPending`, `autoFocus`, etc. — anything react-aria's `Button` supports. |
+| Prop        | Type                   | Default     | Notes                                                                                              |
+| ----------- | ---------------------- | ----------- | -------------------------------------------------------------------------------------------------- |
+| `variant`   | `'primary' \| 'ghost'` | `'primary'` |                                                                                                    |
+| `size`      | `'s' \| 'm'`           | `'m'`       | Controls a fixed `height`, not padding — see `field.css`'s `.field__input` for why `m` matches it. |
+| `className` | `string`               | —           | Merged with the base classes via `clsx`.                                                           |
+| ...rest     | `AriaButtonProps`      | —           | `onPress`, `isDisabled`, `isPending`, `autoFocus`, etc. — anything react-aria's `Button` supports. |
 
 ## Overriding size/variant classes at a call site
 

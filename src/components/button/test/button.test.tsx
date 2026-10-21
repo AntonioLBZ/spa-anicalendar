@@ -15,7 +15,7 @@ describe('Button', () => {
         render(
             <Button variant="ghost" size="s" className="settings__trigger">
                 Go
-            </Button>,
+            </Button>
         );
 
         const button = screen.getByRole('button', { name: 'Go' });

@@ -61,9 +61,11 @@ describe('selectAnimeEntry', () => {
 
     it('maps upcoming and tba to NOT_YET_RELEASED', () => {
         expect(selectAnimeEntry(denormalized({ anime: baseAnime({ status: 'upcoming' }) }), NO_AIRING).status).toBe(
-            'NOT_YET_RELEASED',
+            'NOT_YET_RELEASED'
         );
-        expect(selectAnimeEntry(denormalized({ anime: baseAnime({ status: 'tba' }) }), NO_AIRING).status).toBe('NOT_YET_RELEASED');
+        expect(selectAnimeEntry(denormalized({ anime: baseAnime({ status: 'tba' }) }), NO_AIRING).status).toBe(
+            'NOT_YET_RELEASED'
+        );
     });
 
     it('falls back to NOT_YET_RELEASED for an unknown status without throwing', () => {
@@ -92,7 +94,7 @@ describe('selectAnimeEntry', () => {
             denormalized({ anime: baseAnime({}, '10001') }),
             NO_AIRING,
             { 7: { coverColor: '#1a2b3c' } },
-            new Map([['10001', 7]]),
+            new Map([['10001', 7]])
         );
 
         expect(byMal.coverColor).toBe('#e4a15d');
@@ -102,7 +104,9 @@ describe('selectAnimeEntry', () => {
 
     it('omits nextAiringEpisode when current but there is no resolved MAL id for this anime', () => {
         const anime = baseAnime({ status: 'current' }, '10001');
-        const entry = selectAnimeEntry(denormalized({ anime, malId: undefined }), { 42: { airingAt: 1784124000, episode: 11 } });
+        const entry = selectAnimeEntry(denormalized({ anime, malId: undefined }), {
+            42: { airingAt: 1784124000, episode: 11 },
+        });
 
         expect(entry.nextAiringEpisode).toBeUndefined();
     });
@@ -116,19 +120,29 @@ describe('selectAnimeEntry', () => {
 
     it('omits nextAiringEpisode when status is not current even if the lookup has an entry for the resolved MAL id', () => {
         const anime = baseAnime({ status: 'finished' }, '10001');
-        const entry = selectAnimeEntry(denormalized({ anime, malId: 42 }), { 42: { airingAt: 1784124000, episode: 11 } });
+        const entry = selectAnimeEntry(denormalized({ anime, malId: 42 }), {
+            42: { airingAt: 1784124000, episode: 11 },
+        });
 
         expect(entry.nextAiringEpisode).toBeUndefined();
     });
 
     it('maps ageRating R18 to isAdult true, anything else to false', () => {
-        expect(selectAnimeEntry(denormalized({ anime: baseAnime({ ageRating: 'R18' }) }), NO_AIRING).isAdult).toBe(true);
-        expect(selectAnimeEntry(denormalized({ anime: baseAnime({ ageRating: 'PG' }) }), NO_AIRING).isAdult).toBe(false);
-        expect(selectAnimeEntry(denormalized({ anime: baseAnime({ ageRating: undefined }) }), NO_AIRING).isAdult).toBe(false);
+        expect(selectAnimeEntry(denormalized({ anime: baseAnime({ ageRating: 'R18' }) }), NO_AIRING).isAdult).toBe(
+            true
+        );
+        expect(selectAnimeEntry(denormalized({ anime: baseAnime({ ageRating: 'PG' }) }), NO_AIRING).isAdult).toBe(
+            false
+        );
+        expect(selectAnimeEntry(denormalized({ anime: baseAnime({ ageRating: undefined }) }), NO_AIRING).isAdult).toBe(
+            false
+        );
     });
 
     it('parses endDate variants into PartialDate, null into {}', () => {
-        expect(selectAnimeEntry(denormalized({ anime: baseAnime({ endDate: '2025-12-19' }) }), NO_AIRING).endDate).toEqual({
+        expect(
+            selectAnimeEntry(denormalized({ anime: baseAnime({ endDate: '2025-12-19' }) }), NO_AIRING).endDate
+        ).toEqual({
             year: 2025,
             month: 12,
             day: 19,
@@ -153,7 +167,7 @@ describe('selectAnimeEntry', () => {
     it('maps progress and reconsumeCount to progress/repeat, defaulting repeat to 0', () => {
         const entry = selectAnimeEntry(
             denormalized({ entry: baseEntry({ progress: 7, reconsumeCount: 2 }) }),
-            NO_AIRING,
+            NO_AIRING
         );
 
         expect(entry.progress).toBe(7);
@@ -161,10 +175,7 @@ describe('selectAnimeEntry', () => {
     });
 
     it('maps id from the library entry and mediaId from the anime resource', () => {
-        const entry = selectAnimeEntry(
-            denormalized({ entry: baseEntry(), anime: baseAnime({}, '77') }),
-            NO_AIRING,
-        );
+        const entry = selectAnimeEntry(denormalized({ entry: baseEntry(), anime: baseAnime({}, '77') }), NO_AIRING);
 
         expect(entry.id).toBe(1);
         expect(entry.mediaId).toBe(77);
@@ -174,18 +185,21 @@ describe('selectAnimeEntry', () => {
         expect(
             selectAnimeEntry(
                 denormalized({ anime: baseAnime({ posterImage: { medium: 'med.jpg', large: 'large.jpg' } }) }),
-                NO_AIRING,
-            ).coverImageUrl,
+                NO_AIRING
+            ).coverImageUrl
         ).toBe('large.jpg');
         expect(
-            selectAnimeEntry(denormalized({ anime: baseAnime({ posterImage: { medium: 'med.jpg' } }) }), NO_AIRING).coverImageUrl,
+            selectAnimeEntry(denormalized({ anime: baseAnime({ posterImage: { medium: 'med.jpg' } }) }), NO_AIRING)
+                .coverImageUrl
         ).toBe('med.jpg');
-        expect(selectAnimeEntry(denormalized({ anime: baseAnime({ posterImage: null }) }), NO_AIRING).coverImageUrl).toBe('');
+        expect(
+            selectAnimeEntry(denormalized({ anime: baseAnime({ posterImage: null }) }), NO_AIRING).coverImageUrl
+        ).toBe('');
     });
 
     it('builds siteUrl from the anime slug', () => {
         expect(selectAnimeEntry(denormalized({ anime: baseAnime({ slug: 'my-anime' }) }), NO_AIRING).siteUrl).toBe(
-            'https://kitsu.app/anime/my-anime',
+            'https://kitsu.app/anime/my-anime'
         );
     });
 

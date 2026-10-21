@@ -29,9 +29,9 @@ describe('Footer', () => {
     });
 
     it('links to the same path/query in the other locale', () => {
-        vi.mocked(useSearchParams).mockReturnValue(new URLSearchParams('username=foo') as ReturnType<
-            typeof useSearchParams
-        >);
+        vi.mocked(useSearchParams).mockReturnValue(
+            new URLSearchParams('username=foo') as ReturnType<typeof useSearchParams>
+        );
         render(<Footer />, { wrapper: IntlTestWrapper });
 
         const link = screen.getByRole('link', { name: 'Español' });

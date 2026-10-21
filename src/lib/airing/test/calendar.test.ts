@@ -48,6 +48,16 @@ describe('getWeeksUntilAiring', () => {
         const airingAt = toUnix(new Date(2026, 0, 23, 18, 0, 0));
         expect(getWeeksUntilAiring(airingAt, now)).toBe(2);
     });
+
+    it('counts one skipped week when the same weekday is 14 days away', () => {
+        const airingAt = toUnix(new Date(2026, 0, 21, 18, 0, 0));
+        expect(getWeeksUntilAiring(airingAt, now)).toBe(1);
+    });
+
+    it('counts two skipped weeks when the same weekday is 21 days away', () => {
+        const airingAt = toUnix(new Date(2026, 0, 28, 18, 0, 0));
+        expect(getWeeksUntilAiring(airingAt, now)).toBe(2);
+    });
 });
 
 describe('isAiringToday', () => {
@@ -60,7 +70,7 @@ describe('isAiringToday', () => {
         expect(isAiringToday(toUnix(new Date(2026, 0, 7, 0, 5)), now)).toBe(true);
     });
 
-    it("is false for the same weekday next week, i.e. an episode that already aired today", () => {
+    it('is false for the same weekday next week, i.e. an episode that already aired today', () => {
         expect(isAiringToday(toUnix(new Date(2026, 0, 14, 10, 0)), now)).toBe(false);
     });
 });

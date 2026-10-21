@@ -55,15 +55,19 @@ const useAiringData = (userName: string | null, provider: Provider) => {
     }
 
     const entries = useMemo(
-        () => filterAiringEntries(mediaListQuery.data ?? [], { formats: filters.formats, onlyNewSeason: filters.onlyNewSeason }),
-        [mediaListQuery.data, filters.onlyNewSeason, filters.formats],
+        () =>
+            filterAiringEntries(mediaListQuery.data ?? [], {
+                formats: filters.formats,
+                onlyNewSeason: filters.onlyNewSeason,
+            }),
+        [mediaListQuery.data, filters.onlyNewSeason, filters.formats]
     );
 
     // Only the difference caused by the user's format / new-season choices; entries that are out of
     // season regardless of filters aren't "hidden", they just don't belong in this schedule.
     const filteredOutCount = useMemo(
         () => filterAiringEntries(mediaListQuery.data ?? [], NO_LIST_FILTERS).length - entries.length,
-        [mediaListQuery.data, entries],
+        [mediaListQuery.data, entries]
     );
 
     const retry = () => {
@@ -91,4 +95,3 @@ const useAiringData = (userName: string | null, provider: Provider) => {
 };
 
 export { useAiringData };
-export { buildRequestedStatuses, filterAiringEntries } from './use-airing-data.filters';

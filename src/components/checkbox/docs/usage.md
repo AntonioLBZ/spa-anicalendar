@@ -16,7 +16,7 @@ const [formats, setFormats] = useState<MediaFormat[]>(['TV']);
 <Checkbox.Group aria-label="Format" value={formats} onChange={setFormats}>
     <Checkbox.Option value="TV">TV</Checkbox.Option>
     <Checkbox.Option value="MOVIE">Movie</Checkbox.Option>
-</Checkbox.Group>
+</Checkbox.Group>;
 ```
 
 `onChange` receives the plain array already typed as `T[]` — no `(v) => setFormats(v as MediaFormat[])` cast needed at call sites, same rationale as `Radio` (see its docs).
@@ -35,21 +35,21 @@ const [formats, setFormats] = useState<MediaFormat[]>(['TV']);
 
 **`Checkbox.Group`**
 
-| Prop | Type | Notes |
-|---|---|---|
-| `value` / `defaultValue` | `T[]` (`T extends string`) | Generic over the option value type. |
-| `onChange` | `(value: T[]) => void` | |
-| `aria-label` | `string` | **Required** for accessibility — there's no visible group label in this app's usage; always pass one. |
-| ...rest | `CheckboxGroupProps` (minus `onChange`/`value`/`defaultValue`) | |
+| Prop                     | Type                                                           | Notes                                                                                                 |
+| ------------------------ | -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `value` / `defaultValue` | `T[]` (`T extends string`)                                     | Generic over the option value type.                                                                   |
+| `onChange`               | `(value: T[]) => void`                                         |                                                                                                       |
+| `aria-label`             | `string`                                                       | **Required** for accessibility — there's no visible group label in this app's usage; always pass one. |
+| ...rest                  | `CheckboxGroupProps` (minus `onChange`/`value`/`defaultValue`) |                                                                                                       |
 
 **`Checkbox.Option`**
 
-| Prop | Type | Notes |
-|---|---|---|
-| `value` | `string` | Only needed inside a `Checkbox.Group`; omit for a standalone boolean checkbox. |
-| `isSelected` / `onChange` | `boolean` / `(isSelected: boolean) => void` | Used for the standalone (non-group) case. |
-| `className` | `string` | Merged with the base `checkbox` class. |
-| ...rest | `CheckboxProps` | |
+| Prop                      | Type                                        | Notes                                                                          |
+| ------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------ |
+| `value`                   | `string`                                    | Only needed inside a `Checkbox.Group`; omit for a standalone boolean checkbox. |
+| `isSelected` / `onChange` | `boolean` / `(isSelected: boolean) => void` | Used for the standalone (non-group) case.                                      |
+| `className`               | `string`                                    | Merged with the base `checkbox` class.                                         |
+| ...rest                   | `CheckboxProps`                             |                                                                                |
 
 ## Why the wrapper exists
 

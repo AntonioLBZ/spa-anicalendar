@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 import { Form } from 'react-aria-components';
 
 import {
@@ -37,6 +38,7 @@ const SeasonalFiltersTrigger = (props: SeasonalFiltersTriggerProps) => {
     const { filters, setFilters } = useSeasonalFilters();
     const { user } = useUserContext();
     const layoutMode = useLayoutMode();
+    const [isOpen, setIsOpen] = useState(false);
 
     const selectedFormats = filters.formats.length > 0 ? filters.formats : FORMAT_OPTIONS;
 
@@ -59,10 +61,11 @@ const SeasonalFiltersTrigger = (props: SeasonalFiltersTriggerProps) => {
                 : currentFilters.userList,
             contentFilter: data.get('contentFilter') as ContentFilter,
         });
+        setIsOpen(false);
     };
 
     return (
-        <DrawerTrigger>
+        <DrawerTrigger isOpen={isOpen} onOpenChange={setIsOpen}>
             <Button size="s" variant="ghost" aria-label={t('title')}>
                 <FilterIcon />
             </Button>
@@ -139,13 +142,7 @@ const SeasonalFiltersTrigger = (props: SeasonalFiltersTriggerProps) => {
                                 </Section.Root>
                             </>
                         )}
-                        <Button
-                            type="submit"
-                            variant="primary"
-                            size="m"
-                            className="seasonal-filters__submit"
-                            slot="close"
-                        >
+                        <Button type="submit" variant="primary" size="m" className="seasonal-filters__submit">
                             {t('search')}
                         </Button>
                     </Form>

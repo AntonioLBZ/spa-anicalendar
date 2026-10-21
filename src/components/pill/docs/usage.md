@@ -17,10 +17,10 @@ import { Pill } from '@/components';
 
 ## Props
 
-| Prop | Type | Default | Notes |
-|---|---|---|---|
-| `className` | `string` | — | Merged with the base `pill` class via `clsx`; never replaces it. |
-| ...rest | `React.HTMLAttributes<HTMLDivElement>` | — | Any standard div attribute (e.g. `title`, `aria-label`) is forwarded. |
+| Prop        | Type                                   | Default | Notes                                                                 |
+| ----------- | -------------------------------------- | ------- | --------------------------------------------------------------------- |
+| `className` | `string`                               | —       | Merged with the base `pill` class via `clsx`; never replaces it.      |
+| ...rest     | `React.HTMLAttributes<HTMLDivElement>` | —       | Any standard div attribute (e.g. `title`, `aria-label`) is forwarded. |
 
 ## When to use
 
