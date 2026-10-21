@@ -14,7 +14,7 @@
         "providerUsernameLabel": "Nom d'utilisateur {provider}",
         "clearUsername": "Effacer",
         "errorUserNotFound": "Utilisateur introuvable. Vérifie que ton profil est public.",
-        "errorGeneric": "Une erreur est survenue. Réessaie.",
+        "errorProviderUnavailable": "Impossible de joindre {provider}. Le service est peut-être en panne ou ta connexion est coupée. Réessaie dans quelques minutes.",
         "go": "Rechercher",
         "apiProviderLabel": "Fournisseur d'API",
         "noUsernameLead": "Pas de pseudo ? Découvre ce qui est diffusé cette saison ou la prochaine.",

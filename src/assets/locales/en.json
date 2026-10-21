@@ -14,7 +14,7 @@
         "providerUsernameLabel": "{provider} username",
         "clearUsername": "Clear",
         "errorUserNotFound": "User not found. Please check that your profile is public.",
-        "errorGeneric": "Something went wrong. Please try again.",
+        "errorProviderUnavailable": "We couldn't reach {provider}. It may be down or your connection may be offline. Please try again in a few minutes.",
         "go": "Search",
         "apiProviderLabel": "API provider",
         "noUsernameLead": "No username? Explore what's airing this season or what's coming next season.",
