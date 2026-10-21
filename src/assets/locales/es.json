@@ -14,7 +14,7 @@
         "providerUsernameLabel": "Usuario de {provider}",
         "clearUsername": "Limpiar",
         "errorUserNotFound": "Usuario no encontrado. Comprueba que tu perfil sea público.",
-        "errorGeneric": "Algo salió mal. Inténtalo de nuevo.",
+        "errorProviderUnavailable": "No hemos podido conectar con {provider}. Puede que esté caído o que no tengas conexión. Inténtalo de nuevo en unos minutos.",
         "go": "Buscar",
         "apiProviderLabel": "Proveedor de API",
         "noUsernameLead": "¿No tienes usuario? Explora lo que está en emisión esta temporada o lo que se estrenará en la siguiente.",

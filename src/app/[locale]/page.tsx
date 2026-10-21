@@ -7,7 +7,7 @@ import { Form } from 'react-aria-components';
 
 import { Button, Divider, Field, Link, Radio } from '@/components';
 import { useSettingsContext } from '@/contexts';
-import { SOURCE_OPTIONS } from '@/contexts/settings-context/options';
+import { PROVIDER_LABELS, SOURCE_OPTIONS } from '@/contexts/settings-context/options';
 import { CoverMosaic } from '@/features/cover-mosaic';
 import { Link as NavLink, useRouter } from '@/lib/i18n/navigation';
 import { getProvider, isUserNotFoundError, userQueryKey } from '@/services';
@@ -58,7 +58,13 @@ export default function HomePage() {
             setLastUsername(trimmed);
             router.push(`/airing/${encodeURIComponent(trimmed)}`);
         } catch (error) {
-            setErrorMessage(isUserNotFoundError(error) ? t('errorUserNotFound') : t('errorGeneric'));
+            // Anything but "not found" means the provider couldn't be reached: it's down, blocks CORS during
+            // maintenance, or the connection is offline
+            setErrorMessage(
+                isUserNotFoundError(error)
+                    ? t('errorUserNotFound')
+                    : t('errorProviderUnavailable', { provider: PROVIDER_LABELS[provider] })
+            );
             setIsSubmitting(false);
         }
     };

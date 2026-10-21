@@ -14,7 +14,7 @@
         "providerUsernameLabel": "{provider}-Benutzername",
         "clearUsername": "Leeren",
         "errorUserNotFound": "Benutzer nicht gefunden. Prüfe, ob dein Profil öffentlich ist.",
-        "errorGeneric": "Etwas ist schiefgelaufen. Bitte versuch es erneut.",
+        "errorProviderUnavailable": "{provider} ist nicht erreichbar. Der Dienst ist möglicherweise gestört oder deine Verbindung ist offline. Versuch es in ein paar Minuten erneut.",
         "go": "Suchen",
         "apiProviderLabel": "API-Anbieter",
         "noUsernameLead": "Kein Benutzername? Entdecke, was diese Saison oder nächste Saison läuft.",
