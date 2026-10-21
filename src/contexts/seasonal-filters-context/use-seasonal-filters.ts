@@ -21,8 +21,7 @@ const seasonalFiltersStore = createPersistedStore<SeasonalFiltersState>(
     SEASONAL_FILTERS_DEFAULTS,
     (defaults, saved) => {
         const topN = Number(saved.topN);
-        const validTopN =
-            Number.isInteger(topN) && topN > 0 && topN <= 50 ? topN : defaults.topN;
+        const validTopN = Number.isInteger(topN) && topN > 0 && topN <= 50 ? topN : defaults.topN;
         return { ...defaults, ...saved, topN: validTopN };
     }
 );

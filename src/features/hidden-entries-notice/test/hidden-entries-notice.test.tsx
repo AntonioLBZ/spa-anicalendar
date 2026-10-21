@@ -33,7 +33,9 @@ describe('HiddenEntriesNotice', () => {
 
         expect(screen.getByText(/6 anime are hidden by your visibility settings/)).toBeInTheDocument();
         expect(
-            screen.getByText(/3 by the SFW content filter, 1 hidden manually, and 2 by the format or new-season filters\./)
+            screen.getByText(
+                /3 by the SFW content filter, 1 hidden manually, and 2 by the format or new-season filters\./
+            )
         ).toBeInTheDocument();
     });
 

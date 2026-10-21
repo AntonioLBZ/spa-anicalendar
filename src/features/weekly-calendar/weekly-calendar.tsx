@@ -49,7 +49,8 @@ const groupByAiringDay = (
     for (const day of Object.values(days)) {
         day.sort(
             (a, b) =>
-                getAiringMinuteOfDay(a.nextAiringEpisode!.airingAt) - getAiringMinuteOfDay(b.nextAiringEpisode!.airingAt)
+                getAiringMinuteOfDay(a.nextAiringEpisode!.airingAt) -
+                getAiringMinuteOfDay(b.nextAiringEpisode!.airingAt)
         );
     }
 
@@ -127,7 +128,11 @@ const WeeklyCalendar = (props: WeeklyCalendarProps) => {
                     <span className="weekly-calendar__status" role="status">
                         {t('loading')}
                     </span>
-                    <WeeklyCalendarSkeleton layout={resolvedLayout} weekStartDay={weekStartDay} todayIndex={todayIndex} />
+                    <WeeklyCalendarSkeleton
+                        layout={resolvedLayout}
+                        weekStartDay={weekStartDay}
+                        todayIndex={todayIndex}
+                    />
                 </div>
             </div>
         );

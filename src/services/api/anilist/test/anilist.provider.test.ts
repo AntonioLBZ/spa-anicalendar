@@ -26,13 +26,10 @@ describe('anilistProvider.getMediaList', () => {
         getCandidateMediaIdsMock.mockResolvedValue([]);
     });
 
-
     it('maps WATCHING to CURRENT and REPEATING', async () => {
         await anilistProvider.getMediaList(user, ['WATCHING']);
 
-        expect(getMediaListMock).toHaveBeenCalledWith(
-            expect.objectContaining({ statusIn: ['CURRENT', 'REPEATING'] })
-        );
+        expect(getMediaListMock).toHaveBeenCalledWith(expect.objectContaining({ statusIn: ['CURRENT', 'REPEATING'] }));
     });
 
     it('maps PLANNING to PLANNING', async () => {
@@ -65,13 +62,13 @@ describe('anilistProvider.getMediaList', () => {
         await anilistProvider.getMediaList(user, ['PLANNING'], { formats: ['TV'], onlyNewSeason: false });
 
         expect(getCandidateMediaIdsMock).toHaveBeenCalledWith(
-            expect.objectContaining({ season: expect.anything(), seasonYear: expect.anything(), formats: ['TV'] }),
+            expect.objectContaining({ season: expect.anything(), seasonYear: expect.anything(), formats: ['TV'] })
         );
         expect(getCandidateMediaIdsMock).toHaveBeenCalledWith(
-            expect.objectContaining({ status: 'RELEASING', formats: ['TV'] }),
+            expect.objectContaining({ status: 'RELEASING', formats: ['TV'] })
         );
         expect(getMediaListMock).toHaveBeenCalledWith(
-            expect.objectContaining({ statusIn: ['PLANNING'], mediaIdIn: [1, 2, 3] }),
+            expect.objectContaining({ statusIn: ['PLANNING'], mediaIdIn: [1, 2, 3] })
         );
     });
 
@@ -80,7 +77,7 @@ describe('anilistProvider.getMediaList', () => {
 
         expect(getCandidateMediaIdsMock).toHaveBeenCalledTimes(1);
         expect(getCandidateMediaIdsMock).toHaveBeenCalledWith(
-            expect.objectContaining({ season: expect.anything(), seasonYear: expect.anything() }),
+            expect.objectContaining({ season: expect.anything(), seasonYear: expect.anything() })
         );
     });
 });

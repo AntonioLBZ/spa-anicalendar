@@ -57,9 +57,11 @@ describe('kitsuProvider.getMediaList', () => {
         await kitsuProvider.getMediaList(user, ['PLANNING'], { formats: ['TV'], onlyNewSeason: false });
 
         expect(getCandidateAnimeIdsMock).toHaveBeenCalledWith(
-            expect.objectContaining({ season: expect.anything(), seasonYear: expect.anything(), formats: ['TV'] }),
+            expect.objectContaining({ season: expect.anything(), seasonYear: expect.anything(), formats: ['TV'] })
         );
-        expect(getCandidateAnimeIdsMock).toHaveBeenCalledWith(expect.objectContaining({ status: 'current', formats: ['TV'] }));
+        expect(getCandidateAnimeIdsMock).toHaveBeenCalledWith(
+            expect.objectContaining({ status: 'current', formats: ['TV'] })
+        );
         expect(getMediaListMock).toHaveBeenCalledWith(user, ['PLANNING'], [1, 2, 3]);
     });
 
@@ -68,7 +70,7 @@ describe('kitsuProvider.getMediaList', () => {
 
         expect(getCandidateAnimeIdsMock).toHaveBeenCalledTimes(1);
         expect(getCandidateAnimeIdsMock).toHaveBeenCalledWith(
-            expect.objectContaining({ season: expect.anything(), seasonYear: expect.anything() }),
+            expect.objectContaining({ season: expect.anything(), seasonYear: expect.anything() })
         );
     });
 });

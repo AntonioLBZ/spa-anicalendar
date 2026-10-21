@@ -8,7 +8,7 @@ describe('Radio', () => {
         render(
             <Radio.Group aria-label="Choose" value="a">
                 <Radio.Option value="a">Option A</Radio.Option>
-            </Radio.Group>,
+            </Radio.Group>
         );
 
         expect(screen.getByRole('radiogroup')).toHaveAttribute('data-orientation', 'horizontal');
@@ -20,7 +20,7 @@ describe('Radio', () => {
                 <Radio.Option value="a" className="home__radio-option">
                     Option A
                 </Radio.Option>
-            </Radio.Group>,
+            </Radio.Group>
         );
 
         expect(screen.getByRole('radiogroup')).toHaveClass('radio-option-group', 'home__radio-group');

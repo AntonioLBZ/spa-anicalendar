@@ -24,8 +24,8 @@ describe('Kitsu getMediaList', () => {
                     data: [],
                     included: [],
                 }),
-                { status: 200 },
-            ),
+                { status: 200 }
+            )
         );
 
         const user: User = { id: 1, name: 'testuser', avatarUrl: '', siteUrl: '' };
@@ -42,8 +42,8 @@ describe('Kitsu getMediaList', () => {
                     data: [],
                     included: [],
                 }),
-                { status: 200 },
-            ),
+                { status: 200 }
+            )
         );
 
         const user: User = { id: 1, name: 'testuser', avatarUrl: '', siteUrl: '' };
@@ -60,8 +60,8 @@ describe('Kitsu getMediaList', () => {
                     data: [],
                     included: [],
                 }),
-                { status: 200 },
-            ),
+                { status: 200 }
+            )
         );
 
         const user: User = { id: 1, name: 'testuser', avatarUrl: '', siteUrl: '' };
@@ -78,8 +78,8 @@ describe('Kitsu getMediaList', () => {
                     data: [],
                     included: [],
                 }),
-                { status: 200 },
-            ),
+                { status: 200 }
+            )
         );
 
         const user: User = { id: 1, name: 'testuser', avatarUrl: '', siteUrl: '' };
@@ -119,8 +119,8 @@ describe('Kitsu getMediaList', () => {
                         },
                     ],
                 }),
-                { status: 200 },
-            ),
+                { status: 200 }
+            )
         );
 
         const user: User = { id: 1, name: 'testuser', avatarUrl: '', siteUrl: '' };
@@ -160,8 +160,8 @@ describe('Kitsu getMediaList', () => {
                     data: largeResult,
                     included: animeData,
                 }),
-                { status: 200 },
-            ),
+                { status: 200 }
+            )
         );
 
         const user: User = { id: 1, name: 'testuser', avatarUrl: '', siteUrl: '' };
@@ -202,15 +202,21 @@ describe('Kitsu getMediaList', () => {
         fetchMock
             .mockResolvedValueOnce(
                 new Response(
-                    JSON.stringify({ ...page(20, 1), links: { next: 'https://kitsu.app/api/edge/library-entries?page[offset]=20' } }),
-                    { status: 200 },
-                ),
+                    JSON.stringify({
+                        ...page(20, 1),
+                        links: { next: 'https://kitsu.app/api/edge/library-entries?page[offset]=20' },
+                    }),
+                    { status: 200 }
+                )
             )
             .mockResolvedValueOnce(
                 new Response(
-                    JSON.stringify({ ...page(20, 21), links: { next: 'https://kitsu.app/api/edge/library-entries?page[offset]=40' } }),
-                    { status: 200 },
-                ),
+                    JSON.stringify({
+                        ...page(20, 21),
+                        links: { next: 'https://kitsu.app/api/edge/library-entries?page[offset]=40' },
+                    }),
+                    { status: 200 }
+                )
             )
             .mockResolvedValueOnce(new Response(JSON.stringify(page(5, 41)), { status: 200 }));
 
@@ -240,8 +246,8 @@ describe('Kitsu getMediaList', () => {
                         included: [],
                         links: { next: 'https://kitsu.app/api/edge/library-entries?page[offset]=999' },
                     }),
-                    { status: 200 },
-                ),
+                    { status: 200 }
+                )
         );
 
         const user: User = { id: 1, name: 'testuser', avatarUrl: '', siteUrl: '' };
@@ -284,9 +290,17 @@ describe('getCandidateAnimeIds (Kitsu)', () => {
 
     it('stops after one request when the first page has no next link', async () => {
         fetchMock.mockResolvedValueOnce(
-            new Response(JSON.stringify({ data: [{ type: 'anime', id: '1' }, { type: 'anime', id: '2' }] }), {
-                status: 200,
-            }),
+            new Response(
+                JSON.stringify({
+                    data: [
+                        { type: 'anime', id: '1' },
+                        { type: 'anime', id: '2' },
+                    ],
+                }),
+                {
+                    status: 200,
+                }
+            )
         );
 
         const result = await getCandidateAnimeIds({ season: 'FALL', seasonYear: 2026 });
@@ -309,8 +323,8 @@ describe('getCandidateAnimeIds (Kitsu)', () => {
                         data: [{ type: 'anime', id: '1' }],
                         links: { next: 'https://kitsu.app/api/edge/anime?page[offset]=999' },
                     }),
-                    { status: 200 },
-                ),
+                    { status: 200 }
+                )
         );
 
         await getCandidateAnimeIds({ status: 'current' });
@@ -319,9 +333,7 @@ describe('getCandidateAnimeIds (Kitsu)', () => {
     });
 
     it('sends filter[subtype] mapped from MediaFormat, only when formats are provided', async () => {
-        fetchMock.mockImplementation(
-            async () => new Response(JSON.stringify({ data: [] }), { status: 200 }),
-        );
+        fetchMock.mockImplementation(async () => new Response(JSON.stringify({ data: [] }), { status: 200 }));
 
         await getCandidateAnimeIds({ status: 'current', formats: ['TV', 'MOVIE'] });
 

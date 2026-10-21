@@ -32,6 +32,8 @@ describe('kitsuFetch', () => {
     it('throws a generic Error on other non-OK statuses', async () => {
         fetchMock.mockResolvedValueOnce(new Response(null, { status: 500, statusText: 'Internal Server Error' }));
 
-        await expect(kitsuFetch('/users?filter[name]=someone')).rejects.toThrow('Kitsu API error: 500 Internal Server Error.');
+        await expect(kitsuFetch('/users?filter[name]=someone')).rejects.toThrow(
+            'Kitsu API error: 500 Internal Server Error.'
+        );
     });
 });
