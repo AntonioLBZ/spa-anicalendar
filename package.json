@@ -13,6 +13,7 @@
         "lint:css:fix": "stylelint \"src/**/*.css\" --fix",
         "lint:fix": "eslint . --fix && stylelint \"src/**/*.css\" --fix",
         "format": "prettier --write .",
+        "format:check": "prettier --check .",
         "types:check": "tsc --noEmit",
         "test": "vitest run",
         "test:watch": "vitest",
@@ -34,7 +35,11 @@
         "react-dom": "19.2.0"
     },
     "lint-staged": {
-        "*.{ts,tsx,js,jsx}": "eslint"
+        "*.{ts,tsx,js,jsx}": [
+            "eslint",
+            "prettier --check"
+        ],
+        "*.{mjs,json,css,md,yml,yaml}": "prettier --check"
     },
     "devDependencies": {
         "@changesets/cli": "2.31.1",
