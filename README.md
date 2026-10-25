@@ -1,11 +1,11 @@
 # Anicalendar
 
-A mostly client-side app that shows your weekly anime airing schedule. Enter your username and see your currently watching anime organized by airing day in a weekly calendar.
+A mostly client-side app that shows when your anime airs. Enter your username and it arranges what you're currently watching by airing day in a weekly calendar.
 
 ## Features
 
 - Weekly calendar view of airing anime
-- Multiple API providers: AniList, Kitsu, MyAnimeList
+- Providers: AniList, Kitsu, MyAnimeList (only AniList is enabled by default, see [Environment variables](#environment-variables))
 - Watching and planning lists
 - Browse the current and next season without a username
 - Filters: format, content, new-season only, top N for seasonal views
@@ -15,7 +15,7 @@ A mostly client-side app that shows your weekly anime airing schedule. Enter you
 - English, Spanish, French and German localization (`en`/`es`/`fr`/`de`)
 - No user authentication
 
-## Tech Stack
+## Tech stack
 
 - Next.js 16 (App Router)
 - React 19, TypeScript 5.9
@@ -27,7 +27,7 @@ A mostly client-side app that shows your weekly anime airing schedule. Enter you
 
 Almost all data fetching and rendering happens client-side, but `src/app/api/mal/**` are server route handlers that proxy the MyAnimeList API so its client credential never reaches the browser.
 
-## Getting Started
+## Getting started
 
 ```bash
 pnpm install
@@ -36,7 +36,9 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+`pnpm dev` first tries `vercel env pull .env.local`. Without the Vercel CLI that step is skipped, so create `.env.local` yourself if you need the variables below.
+
 ## Environment variables
 
-- `NEXT_PUBLIC_ENABLED_PROVIDERS` (optional) — comma-separated provider allowlist, e.g. `anilist,myanimelist,kitsu`. Defaults to `anilist`.
-- `MAL_CLIENT_ID` (server-only) — required for the MyAnimeList proxy routes; never exposed.
+- `NEXT_PUBLIC_ENABLED_PROVIDERS` (optional): comma-separated provider allowlist, e.g. `anilist,myanimelist,kitsu`. Defaults to `anilist`.
+- `MAL_CLIENT_ID` (server-only): required for the MyAnimeList proxy routes.
