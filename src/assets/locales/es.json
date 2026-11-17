@@ -205,5 +205,13 @@
     },
     "profileBanner": {
         "viewProfile": "Ver perfil en {provider}"
+    },
+    "domainMove": {
+        "title": "Anicalendar se muda",
+        "message": "Anicalendar tiene una nueva dirección: <domain>{newHost}</domain>. Esta dirección dejará de funcionar pronto, así que usa la nueva a partir de ahora.",
+        "installed": "Tienes la app instalada desde esta dirección. Desinstálala, abre la nueva dirección e instálala de nuevo desde allí: esta versión dejará de funcionar.",
+        "dataNote": "Tus ajustes y animes ocultos se vienen contigo.",
+        "go": "Ir a la nueva dirección",
+        "later": "Más tarde"
     }
 }

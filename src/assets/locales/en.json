@@ -205,5 +205,13 @@
     },
     "profileBanner": {
         "viewProfile": "View profile on {provider}"
+    },
+    "domainMove": {
+        "title": "Anicalendar is moving",
+        "message": "Anicalendar has a new address: <domain>{newHost}</domain>. This address will stop working soon, so please use the new one from now on.",
+        "installed": "You have the app installed from this address. Uninstall it, open the new address and install it again from there: this version will stop working.",
+        "dataNote": "Your settings and hidden anime come with you.",
+        "go": "Go to the new address",
+        "later": "Later"
     }
 }

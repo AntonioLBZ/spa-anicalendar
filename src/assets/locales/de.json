@@ -205,5 +205,13 @@
     },
     "profileBanner": {
         "viewProfile": "Profil auf {provider} ansehen"
+    },
+    "domainMove": {
+        "title": "Anicalendar zieht um",
+        "message": "Anicalendar hat eine neue Adresse: <domain>{newHost}</domain>. Diese Adresse funktioniert bald nicht mehr, bitte nutze ab jetzt die neue.",
+        "installed": "Du hast die App von dieser Adresse installiert. Deinstalliere sie, öffne die neue Adresse und installiere sie dort erneut: Diese Version wird nicht mehr funktionieren.",
+        "dataNote": "Deine Einstellungen und ausgeblendeten Anime kommen mit.",
+        "go": "Zur neuen Adresse",
+        "later": "Später"
     }
 }
