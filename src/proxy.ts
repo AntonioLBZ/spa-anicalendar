@@ -1,8 +1,24 @@
 import createMiddleware from 'next-intl/middleware';
 
 import { routing } from './lib/i18n/routing';
+import { CANONICAL_ORIGIN, isLegacyHost } from './lib/site-migration';
 
-const proxy = createMiddleware(routing);
+import type { NextRequest } from 'next/server';
+
+const intlMiddleware = createMiddleware(routing);
+
+const proxy = (request: NextRequest) => {
+    const response = intlMiddleware(request);
+
+    // Points search engines at the new domain while the old one still serves the app
+    if (isLegacyHost(request.headers.get('host') ?? '')) {
+        const canonical = `<${new URL(request.nextUrl.pathname, CANONICAL_ORIGIN)}>; rel="canonical"`;
+        const link = response.headers.get('link');
+        response.headers.set('link', link ? `${link}, ${canonical}` : canonical);
+    }
+
+    return response;
+};
 
 export default proxy;
 

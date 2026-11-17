@@ -1,0 +1,71 @@
+.domain-move__overlay {
+    align-items: center;
+    background-color: var(--color-bg-overlay);
+    display: flex;
+    inset: 0;
+    justify-content: center;
+    padding: var(--size-100);
+    position: fixed;
+    transition: opacity var(--duration-slow) var(--ease-standard);
+    z-index: 100;
+}
+
+.domain-move__overlay[data-entering],
+.domain-move__overlay[data-exiting] {
+    opacity: 0;
+}
+
+.domain-move__overlay[data-exiting] {
+    transition-duration: var(--duration-base);
+    transition-timing-function: var(--ease-exit);
+}
+
+.domain-move {
+    background-color: var(--color-bg-primary);
+    border-radius: var(--radius-l);
+    box-shadow: var(--shadow-3);
+    color: var(--color-content-primary);
+    max-inline-size: var(--size-2400);
+    padding: var(--size-150);
+    transition: transform var(--duration-slow) var(--ease-enter);
+    width: 100%;
+}
+
+.domain-move[data-entering] {
+    transform: translateY(var(--size-100));
+}
+
+/* The dialog receives focus on open only to trap it; its own outline isn't meaningful */
+.domain-move__dialog {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-75);
+    outline: none;
+}
+
+.domain-move__title {
+    margin: 0;
+}
+
+.domain-move__text {
+    margin: 0;
+}
+
+.domain-move__text--installed {
+    background-color: var(--color-bg-highlight);
+    border-radius: var(--radius-m);
+    padding: var(--size-75);
+}
+
+.domain-move__domain {
+    color: var(--color-accent);
+    overflow-wrap: anywhere;
+}
+
+.domain-move__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--size-50);
+    justify-content: flex-end;
+    margin-block-start: var(--size-50);
+}

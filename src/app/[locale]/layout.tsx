@@ -5,11 +5,13 @@ import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense, type ReactNode } from 'react';
 
+import { DomainMoveDialog } from '@/features/domain-move-dialog';
 import { Footer } from '@/features/footer';
 import { Header } from '@/features/header';
 import { THEME_COLORS } from '@/lib/brand';
 import { inter, overpass } from '@/lib/fonts';
 import { routing } from '@/lib/i18n/routing';
+import { CANONICAL_ORIGIN } from '@/lib/site-migration';
 
 import { Providers } from '../providers';
 
@@ -26,6 +28,7 @@ const generateMetadata = async (props: { params: Promise<{ locale: string }> }):
     const t = await getTranslations({ locale, namespace: 'metadata' });
 
     return {
+        metadataBase: new URL(CANONICAL_ORIGIN),
         title: t('title'),
         description: t('description'),
     };
@@ -59,6 +62,7 @@ export default async function LocaleLayout(props: { children: ReactNode; params:
                     <Suspense fallback={null}>
                         <Footer />
                     </Suspense>
+                    <DomainMoveDialog />
                     <Analytics />
                     <SpeedInsights />
                 </Providers>
